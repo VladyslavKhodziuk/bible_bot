@@ -24,7 +24,7 @@ async def cmd_menu(message: Message):
 # Заглушки для кнопок меню — settings УБРАН отсюда,
 # т.к. теперь обрабатывается в handlers/settings.py
 @router.callback_query(F.data.in_({
-    "read", "search", "topics", "verse_of_day", "random",
+    "search", "topics",
     "bookmarks", "plan", "share", "donate"
 }))
 async def menu_stub(callback: CallbackQuery):

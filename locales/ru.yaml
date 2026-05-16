@@ -47,6 +47,28 @@ settings:
     en: "English"
     es: "Español"
 
+read:
+  choose_testament: "<b>📖 Читать Библию</b>\n\nВыбери раздел:"
+  old_testament: "📜 Ветхий Завет"
+  new_testament: "✝️ Новый Завет"
+  choose_book: "<b>{testament}</b>\n\nВыбери книгу:"
+  choose_chapter: "<b>{book}</b>\n\nВыбери главу:"
+  chapter_header: "<b>{book} {chapter}</b>"
+  verses_range: "стихи {start}–{end}"
+  prev_chapter: "◀️"
+  next_chapter: "▶️"
+  back_to_books: "← К книгам"
+  back_to_chapters: "← К главам"
+  back_to_testaments: "← К разделам"
+  page_indicator: "{current}/{total}"
+
+verse:
+  of_day_title: "📅 <b>Стих дня</b>"
+  random_title: "🎲 <b>Случайный стих</b>"
+  reference: "<b>{book} {chapter}:{verse}</b>"
+  another: "🔄 Ещё один"
+  open_chapter: "📖 Открыть главу"
+
 common:
   back_to_menu: "← В меню"
   back: "← Назад"

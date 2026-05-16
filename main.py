@@ -8,7 +8,7 @@ from aiogram.types import BotCommand
 
 from config import BOT_TOKEN
 from database import init_db
-from handlers import start, menu, settings
+from handlers import start, menu, settings, read, verse
 from services.bible_service import BibleService
 
 logging.basicConfig(
@@ -43,6 +43,8 @@ async def main():
     dp.include_router(start.router)
     dp.include_router(menu.router)
     dp.include_router(settings.router)
+    dp.include_router(read.router)
+    dp.include_router(verse.router)
 
     await set_bot_commands(bot)
     logger.info("Команды бота установлены")

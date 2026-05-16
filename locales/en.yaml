@@ -47,6 +47,28 @@ settings:
     en: "English"
     es: "Español"
 
+read:
+  choose_testament: "<b>📖 Read the Bible</b>\n\nChoose a section:"
+  old_testament: "📜 Old Testament"
+  new_testament: "✝️ New Testament"
+  choose_book: "<b>{testament}</b>\n\nChoose a book:"
+  choose_chapter: "<b>{book}</b>\n\nChoose a chapter:"
+  chapter_header: "<b>{book} {chapter}</b>"
+  verses_range: "verses {start}–{end}"
+  prev_chapter: "◀️"
+  next_chapter: "▶️"
+  back_to_books: "← To books"
+  back_to_chapters: "← To chapters"
+  back_to_testaments: "← To sections"
+  page_indicator: "{current}/{total}"
+
+verse:
+  of_day_title: "📅 <b>Verse of the day</b>"
+  random_title: "🎲 <b>Random verse</b>"
+  reference: "<b>{book} {chapter}:{verse}</b>"
+  another: "🔄 Another one"
+  open_chapter: "📖 Open chapter"
+
 common:
   back_to_menu: "← To menu"
   back: "← Back"
