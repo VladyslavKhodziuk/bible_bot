@@ -1,0 +1,53 @@
+language:
+  choose: "🌍 Выберите язык / Choose language / Elige el idioma"
+  changed: "✅ Idioma cambiado a español"
+
+welcome:
+  text: |
+    ¡La paz sea contigo, {name}! 🕊️
+
+    Soy <b>Bible Way</b>, tu compañero en la lectura de las Sagradas Escrituras.
+
+    Esto es lo que puedo hacer:
+
+    📖 Leer la Biblia en diferentes traducciones
+    🔍 Buscar versículos por palabras y temas
+    💭 Encontrar la Palabra para cualquier situación de la vida
+    ⭐ Guardar tus pasajes favoritos
+    📅 Enviarte un versículo cada mañana
+    📚 Guiarte por un plan de lectura
+    🎨 Crear hermosas tarjetas con versículos para compartir con tus seres queridos
+
+    <i>«Lámpara es a mis pies tu palabra, y lumbrera a mi camino» (Salmo 119:105)</i>
+
+    ¿Listo para comenzar? 👇
+  button: "📖 Abrir el menú"
+
+welcome_back: "🕊️ ¡Bienvenido de nuevo, {name}!"
+
+menu:
+  title: "<b>Menú principal</b>\n\nElige lo que te interesa:"
+  read: "📖 Leer la Biblia"
+  search: "🔍 Buscar por palabra"
+  topics: "💭 Me siento..."
+  verse_of_day: "📅 Versículo del día"
+  random: "🎲 Versículo al azar"
+  bookmarks: "⭐ Mis favoritos"
+  plan: "📚 Plan de lectura"
+  share: "🎨 Compartir"
+  settings: "⚙️ Ajustes"
+  donate: "❤️ Apoyar el proyecto"
+
+settings:
+  title: "<b>⚙️ Ajustes</b>"
+  current_language: "🌐 Idioma: <b>{language}</b>"
+  change_language: "🌐 Cambiar idioma"
+  language_names:
+    ru: "Русский"
+    en: "English"
+    es: "Español"
+
+common:
+  back_to_menu: "← Al menú"
+  back: "← Atrás"
+  in_development: "🔧 En desarrollo. ¡Pronto estará disponible!"

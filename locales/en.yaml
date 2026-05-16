@@ -1,0 +1,53 @@
+language:
+  choose: "🌍 Выберите язык / Choose language / Elige el idioma"
+  changed: "✅ Language changed to English"
+
+welcome:
+  text: |
+    Peace to you, {name}! 🕊️
+
+    I'm <b>Bible Way</b>, your companion in reading the Holy Scripture.
+
+    Here's what I can do:
+
+    📖 Read the Bible in different translations
+    🔍 Search verses by words and topics
+    💭 Find the Word for any life situation
+    ⭐ Save your favorite passages
+    📅 Send you a daily verse every morning
+    📚 Guide you through a reading plan
+    🎨 Create beautiful verse cards to share with loved ones
+
+    <i>"Your word is a lamp for my feet, a light on my path" (Psalm 119:105)</i>
+
+    Ready to begin? 👇
+  button: "📖 Open menu"
+
+welcome_back: "🕊️ Welcome back, {name}!"
+
+menu:
+  title: "<b>Main menu</b>\n\nChoose what interests you:"
+  read: "📖 Read the Bible"
+  search: "🔍 Search by word"
+  topics: "💭 I feel..."
+  verse_of_day: "📅 Verse of the day"
+  random: "🎲 Random verse"
+  bookmarks: "⭐ My bookmarks"
+  plan: "📚 Reading plan"
+  share: "🎨 Share"
+  settings: "⚙️ Settings"
+  donate: "❤️ Support project"
+
+settings:
+  title: "<b>⚙️ Settings</b>"
+  current_language: "🌐 Language: <b>{language}</b>"
+  change_language: "🌐 Change language"
+  language_names:
+    ru: "Русский"
+    en: "English"
+    es: "Español"
+
+common:
+  back_to_menu: "← To menu"
+  back: "← Back"
+  in_development: "🔧 In development. Coming soon!"

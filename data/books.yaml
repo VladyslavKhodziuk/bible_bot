@@ -1,0 +1,339 @@
+# Локализованные названия книг Библии
+# Ключ — abbrev из JSON-файлов Библии
+# testament: ot (Ветхий Завет) или nt (Новый Завет)
+
+# ===== ВЕТХИЙ ЗАВЕТ =====
+
+gn:
+  testament: ot
+  ru: "Бытие"
+  en: "Genesis"
+  es: "Génesis"
+ex:
+  testament: ot
+  ru: "Исход"
+  en: "Exodus"
+  es: "Éxodo"
+lv:
+  testament: ot
+  ru: "Левит"
+  en: "Leviticus"
+  es: "Levítico"
+nm:
+  testament: ot
+  ru: "Числа"
+  en: "Numbers"
+  es: "Números"
+dt:
+  testament: ot
+  ru: "Второзаконие"
+  en: "Deuteronomy"
+  es: "Deuteronomio"
+js:
+  testament: ot
+  ru: "Иисус Навин"
+  en: "Joshua"
+  es: "Josué"
+jud:
+  testament: ot
+  ru: "Судьи"
+  en: "Judges"
+  es: "Jueces"
+rt:
+  testament: ot
+  ru: "Руфь"
+  en: "Ruth"
+  es: "Rut"
+1sm:
+  testament: ot
+  ru: "1 Царств"
+  en: "1 Samuel"
+  es: "1 Samuel"
+2sm:
+  testament: ot
+  ru: "2 Царств"
+  en: "2 Samuel"
+  es: "2 Samuel"
+1kgs:
+  testament: ot
+  ru: "3 Царств"
+  en: "1 Kings"
+  es: "1 Reyes"
+2kgs:
+  testament: ot
+  ru: "4 Царств"
+  en: "2 Kings"
+  es: "2 Reyes"
+1ch:
+  testament: ot
+  ru: "1 Паралипоменон"
+  en: "1 Chronicles"
+  es: "1 Crónicas"
+2ch:
+  testament: ot
+  ru: "2 Паралипоменон"
+  en: "2 Chronicles"
+  es: "2 Crónicas"
+ezr:
+  testament: ot
+  ru: "Ездра"
+  en: "Ezra"
+  es: "Esdras"
+ne:
+  testament: ot
+  ru: "Неемия"
+  en: "Nehemiah"
+  es: "Nehemías"
+et:
+  testament: ot
+  ru: "Есфирь"
+  en: "Esther"
+  es: "Ester"
+job:
+  testament: ot
+  ru: "Иов"
+  en: "Job"
+  es: "Job"
+ps:
+  testament: ot
+  ru: "Псалтирь"
+  en: "Psalms"
+  es: "Salmos"
+prv:
+  testament: ot
+  ru: "Притчи"
+  en: "Proverbs"
+  es: "Proverbios"
+ec:
+  testament: ot
+  ru: "Екклесиаст"
+  en: "Ecclesiastes"
+  es: "Eclesiastés"
+so:
+  testament: ot
+  ru: "Песнь Песней"
+  en: "Song of Solomon"
+  es: "Cantares"
+is:
+  testament: ot
+  ru: "Исаия"
+  en: "Isaiah"
+  es: "Isaías"
+jr:
+  testament: ot
+  ru: "Иеремия"
+  en: "Jeremiah"
+  es: "Jeremías"
+lm:
+  testament: ot
+  ru: "Плач Иеремии"
+  en: "Lamentations"
+  es: "Lamentaciones"
+ez:
+  testament: ot
+  ru: "Иезекииль"
+  en: "Ezekiel"
+  es: "Ezequiel"
+dn:
+  testament: ot
+  ru: "Даниил"
+  en: "Daniel"
+  es: "Daniel"
+ho:
+  testament: ot
+  ru: "Осия"
+  en: "Hosea"
+  es: "Oseas"
+jl:
+  testament: ot
+  ru: "Иоиль"
+  en: "Joel"
+  es: "Joel"
+am:
+  testament: ot
+  ru: "Амос"
+  en: "Amos"
+  es: "Amós"
+ob:
+  testament: ot
+  ru: "Авдий"
+  en: "Obadiah"
+  es: "Abdías"
+jn:
+  testament: ot
+  ru: "Иона"
+  en: "Jonah"
+  es: "Jonás"
+mi:
+  testament: ot
+  ru: "Михей"
+  en: "Micah"
+  es: "Miqueas"
+na:
+  testament: ot
+  ru: "Наум"
+  en: "Nahum"
+  es: "Nahúm"
+hk:
+  testament: ot
+  ru: "Аввакум"
+  en: "Habakkuk"
+  es: "Habacuc"
+zp:
+  testament: ot
+  ru: "Софония"
+  en: "Zephaniah"
+  es: "Sofonías"
+hg:
+  testament: ot
+  ru: "Аггей"
+  en: "Haggai"
+  es: "Hageo"
+zc:
+  testament: ot
+  ru: "Захария"
+  en: "Zechariah"
+  es: "Zacarías"
+ml:
+  testament: ot
+  ru: "Малахия"
+  en: "Malachi"
+  es: "Malaquías"
+
+# ===== НОВЫЙ ЗАВЕТ =====
+
+mt:
+  testament: nt
+  ru: "От Матфея"
+  en: "Matthew"
+  es: "Mateo"
+mk:
+  testament: nt
+  ru: "От Марка"
+  en: "Mark"
+  es: "Marcos"
+lk:
+  testament: nt
+  ru: "От Луки"
+  en: "Luke"
+  es: "Lucas"
+jo:
+  testament: nt
+  ru: "От Иоанна"
+  en: "John"
+  es: "Juan"
+act:
+  testament: nt
+  ru: "Деяния"
+  en: "Acts"
+  es: "Hechos"
+rm:
+  testament: nt
+  ru: "Римлянам"
+  en: "Romans"
+  es: "Romanos"
+1co:
+  testament: nt
+  ru: "1 Коринфянам"
+  en: "1 Corinthians"
+  es: "1 Corintios"
+2co:
+  testament: nt
+  ru: "2 Коринфянам"
+  en: "2 Corinthians"
+  es: "2 Corintios"
+gl:
+  testament: nt
+  ru: "Галатам"
+  en: "Galatians"
+  es: "Gálatas"
+eph:
+  testament: nt
+  ru: "Ефесянам"
+  en: "Ephesians"
+  es: "Efesios"
+ph:
+  testament: nt
+  ru: "Филиппийцам"
+  en: "Philippians"
+  es: "Filipenses"
+cl:
+  testament: nt
+  ru: "Колоссянам"
+  en: "Colossians"
+  es: "Colosenses"
+1ts:
+  testament: nt
+  ru: "1 Фессалоникийцам"
+  en: "1 Thessalonians"
+  es: "1 Tesalonicenses"
+2ts:
+  testament: nt
+  ru: "2 Фессалоникийцам"
+  en: "2 Thessalonians"
+  es: "2 Tesalonicenses"
+1tm:
+  testament: nt
+  ru: "1 Тимофею"
+  en: "1 Timothy"
+  es: "1 Timoteo"
+2tm:
+  testament: nt
+  ru: "2 Тимофею"
+  en: "2 Timothy"
+  es: "2 Timoteo"
+tt:
+  testament: nt
+  ru: "Титу"
+  en: "Titus"
+  es: "Tito"
+phm:
+  testament: nt
+  ru: "Филимону"
+  en: "Philemon"
+  es: "Filemón"
+hb:
+  testament: nt
+  ru: "Евреям"
+  en: "Hebrews"
+  es: "Hebreos"
+jm:
+  testament: nt
+  ru: "Иакова"
+  en: "James"
+  es: "Santiago"
+1pe:
+  testament: nt
+  ru: "1 Петра"
+  en: "1 Peter"
+  es: "1 Pedro"
+2pe:
+  testament: nt
+  ru: "2 Петра"
+  en: "2 Peter"
+  es: "2 Pedro"
+1jo:
+  testament: nt
+  ru: "1 Иоанна"
+  en: "1 John"
+  es: "1 Juan"
+2jo:
+  testament: nt
+  ru: "2 Иоанна"
+  en: "2 John"
+  es: "2 Juan"
+3jo:
+  testament: nt
+  ru: "3 Иоанна"
+  en: "3 John"
+  es: "3 Juan"
+jd:
+  testament: nt
+  ru: "Иуды"
+  en: "Jude"
+  es: "Judas"
+re:
+  testament: nt
+  ru: "Откровение"
+  en: "Revelation"
+  es: "Apocalipsis"
