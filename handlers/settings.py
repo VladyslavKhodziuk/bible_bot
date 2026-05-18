@@ -3,9 +3,39 @@ from aiogram.types import CallbackQuery
 
 from services.user_service import UserService
 from services.i18n import t
-from keyboards.settings import settings_keyboard, language_settings_keyboard
+from keyboards.settings import (
+    settings_keyboard,
+    language_settings_keyboard,
+    translation_settings_keyboard,
+)
 
 router = Router()
+
+
+def _build_settings_text(user, lang: str) -> str:
+    """Текст главного экрана настроек."""
+    from services.bible_service import BibleService
+
+    language_name = t(f"settings.language_names.{lang}", lang)
+
+    lines = [
+        t("settings.title", lang),
+        "",
+        t("settings.current_language", lang, language=language_name),
+    ]
+
+    # Показываем перевод только если есть выбор
+    if len(BibleService.get_translations_for_lang(lang)) > 1:
+        translation_name = t(f"settings.translation_names.{user.translation}", lang)
+        lines.append(t("settings.current_translation", lang, translation=translation_name))
+
+    if user.notifications_enabled:
+        notif_status = t("settings.notifications_on", lang, time=user.notification_time)
+    else:
+        notif_status = t("settings.notifications_off", lang)
+    lines.append(t("settings.notifications", lang, status=notif_status))
+
+    return "\n".join(lines)
 
 
 @router.callback_query(F.data == "settings")
@@ -14,15 +44,8 @@ async def open_settings_from_menu(callback: CallbackQuery):
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
 
-    language_name = t(f"settings.language_names.{lang}", lang)
-
-    text = (
-        f"{t('settings.title', lang)}\n\n"
-        f"{t('settings.current_language', lang, language=language_name)}"
-    )
-
     await callback.message.edit_text(
-        text,
+        _build_settings_text(user, lang),
         reply_markup=settings_keyboard(lang)
     )
     await callback.answer()
@@ -30,9 +53,11 @@ async def open_settings_from_menu(callback: CallbackQuery):
 
 @router.callback_query(F.data == "settings:open")
 async def open_settings(callback: CallbackQuery):
-    """Возврат на экран настроек (например, кнопка 'Назад' из выбора языка)."""
+    """Возврат на экран настроек."""
     await open_settings_from_menu(callback)
 
+
+# ============ Смена языка интерфейса ============
 
 @router.callback_query(F.data == "settings:change_lang")
 async def change_language_screen(callback: CallbackQuery):
@@ -49,24 +74,52 @@ async def change_language_screen(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("changelang:"))
 async def apply_new_language(callback: CallbackQuery):
-    """Применение нового языка из настроек."""
+    """Применение нового языка. Перевод Библии автоматически меняется на язык."""
     new_lang = callback.data.split(":")[1]
-
     await UserService.set_language(callback.from_user.id, new_lang)
 
-    # Подтверждение всплывашкой на новом языке
     await callback.answer(
         t("language.changed", new_lang),
         show_alert=True
     )
 
-    # Возвращаемся в настройки уже на новом языке
-    language_name = t(f"settings.language_names.{new_lang}", new_lang)
-    text = (
-        f"{t('settings.title', new_lang)}\n\n"
-        f"{t('settings.current_language', new_lang, language=language_name)}"
-    )
+    user = await UserService.get(callback.from_user.id)
     await callback.message.edit_text(
-        text,
+        _build_settings_text(user, new_lang),
         reply_markup=settings_keyboard(new_lang)
+    )
+
+
+# ============ Смена перевода Библии (внутри одного языка) ============
+
+@router.callback_query(F.data == "settings:change_translation")
+async def change_translation_screen(callback: CallbackQuery):
+    """Экран выбора перевода Библии."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    await callback.message.edit_text(
+        t("settings.choose_translation", lang),
+        reply_markup=translation_settings_keyboard(lang)
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data.startswith("changetrans:"))
+async def apply_new_translation(callback: CallbackQuery):
+    """Применение нового перевода."""
+    new_translation = callback.data.split(":")[1]
+    await UserService.set_translation(callback.from_user.id, new_translation)
+
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    await callback.answer(
+        t("settings.translation_changed", lang),
+        show_alert=True
+    )
+
+    await callback.message.edit_text(
+        _build_settings_text(user, lang),
+        reply_markup=settings_keyboard(lang)
     )

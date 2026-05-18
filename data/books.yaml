@@ -1,7 +1,3 @@
-# Локализованные названия книг Библии
-# Ключ — abbrev из JSON-файлов Библии
-# testament: ot (Ветхий Завет) или nt (Новый Завет)
-
 # ===== ВЕТХИЙ ЗАВЕТ =====
 
 gn:
@@ -9,196 +5,235 @@ gn:
   ru: "Бытие"
   en: "Genesis"
   es: "Génesis"
+  uk: "Буття"
 ex:
   testament: ot
   ru: "Исход"
   en: "Exodus"
   es: "Éxodo"
+  uk: "Вихід"
 lv:
   testament: ot
   ru: "Левит"
   en: "Leviticus"
   es: "Levítico"
+  uk: "Левит"
 nm:
   testament: ot
   ru: "Числа"
   en: "Numbers"
   es: "Números"
+  uk: "Числа"
 dt:
   testament: ot
   ru: "Второзаконие"
   en: "Deuteronomy"
   es: "Deuteronomio"
+  uk: "Повторення Закону"
 js:
   testament: ot
   ru: "Иисус Навин"
   en: "Joshua"
   es: "Josué"
+  uk: "Ісус Навин"
 jud:
   testament: ot
   ru: "Судьи"
   en: "Judges"
   es: "Jueces"
+  uk: "Книга Суддів"
 rt:
   testament: ot
   ru: "Руфь"
   en: "Ruth"
   es: "Rut"
+  uk: "Рут"
 1sm:
   testament: ot
   ru: "1 Царств"
   en: "1 Samuel"
   es: "1 Samuel"
+  uk: "1 Самуїлова"
 2sm:
   testament: ot
   ru: "2 Царств"
   en: "2 Samuel"
   es: "2 Samuel"
+  uk: "2 Самуїлова"
 1kgs:
   testament: ot
   ru: "3 Царств"
   en: "1 Kings"
   es: "1 Reyes"
+  uk: "1 Царів"
 2kgs:
   testament: ot
   ru: "4 Царств"
   en: "2 Kings"
   es: "2 Reyes"
+  uk: "2 Царів"
 1ch:
   testament: ot
   ru: "1 Паралипоменон"
   en: "1 Chronicles"
   es: "1 Crónicas"
+  uk: "1 Хронік"
 2ch:
   testament: ot
   ru: "2 Паралипоменон"
   en: "2 Chronicles"
   es: "2 Crónicas"
+  uk: "2 Хронік"
 ezr:
   testament: ot
   ru: "Ездра"
   en: "Ezra"
   es: "Esdras"
+  uk: "Ездра"
 ne:
   testament: ot
   ru: "Неемия"
   en: "Nehemiah"
   es: "Nehemías"
+  uk: "Неемія"
 et:
   testament: ot
   ru: "Есфирь"
   en: "Esther"
   es: "Ester"
+  uk: "Естер"
 job:
   testament: ot
   ru: "Иов"
   en: "Job"
   es: "Job"
+  uk: "Йов"
 ps:
   testament: ot
   ru: "Псалтирь"
   en: "Psalms"
   es: "Salmos"
+  uk: "Псалми"
 prv:
   testament: ot
   ru: "Притчи"
   en: "Proverbs"
   es: "Proverbios"
+  uk: "Приповісті"
 ec:
   testament: ot
   ru: "Екклесиаст"
   en: "Ecclesiastes"
   es: "Eclesiastés"
+  uk: "Екклезіяст"
 so:
   testament: ot
   ru: "Песнь Песней"
   en: "Song of Solomon"
   es: "Cantares"
+  uk: "Пісня над піснями"
 is:
   testament: ot
   ru: "Исаия"
   en: "Isaiah"
   es: "Isaías"
+  uk: "Ісая"
 jr:
   testament: ot
   ru: "Иеремия"
   en: "Jeremiah"
   es: "Jeremías"
+  uk: "Єремія"
 lm:
   testament: ot
   ru: "Плач Иеремии"
   en: "Lamentations"
   es: "Lamentaciones"
+  uk: "Плач Єремії"
 ez:
   testament: ot
   ru: "Иезекииль"
   en: "Ezekiel"
   es: "Ezequiel"
+  uk: "Єзекіїль"
 dn:
   testament: ot
   ru: "Даниил"
   en: "Daniel"
   es: "Daniel"
+  uk: "Даниїл"
 ho:
   testament: ot
   ru: "Осия"
   en: "Hosea"
   es: "Oseas"
+  uk: "Осія"
 jl:
   testament: ot
   ru: "Иоиль"
   en: "Joel"
   es: "Joel"
+  uk: "Йоіл"
 am:
   testament: ot
   ru: "Амос"
   en: "Amos"
   es: "Amós"
+  uk: "Амос"
 ob:
   testament: ot
   ru: "Авдий"
   en: "Obadiah"
   es: "Abdías"
+  uk: "Овдій"
 jn:
   testament: ot
   ru: "Иона"
   en: "Jonah"
   es: "Jonás"
+  uk: "Йона"
 mi:
   testament: ot
   ru: "Михей"
   en: "Micah"
   es: "Miqueas"
+  uk: "Михей"
 na:
   testament: ot
   ru: "Наум"
   en: "Nahum"
   es: "Nahúm"
+  uk: "Наум"
 hk:
   testament: ot
   ru: "Аввакум"
   en: "Habakkuk"
   es: "Habacuc"
+  uk: "Авакум"
 zp:
   testament: ot
   ru: "Софония"
   en: "Zephaniah"
   es: "Sofonías"
+  uk: "Софонія"
 hg:
   testament: ot
   ru: "Аггей"
   en: "Haggai"
   es: "Hageo"
+  uk: "Огій"
 zc:
   testament: ot
   ru: "Захария"
   en: "Zechariah"
   es: "Zacarías"
+  uk: "Захарія"
 ml:
   testament: ot
   ru: "Малахия"
   en: "Malachi"
   es: "Malaquías"
+  uk: "Малахії"
 
 # ===== НОВЫЙ ЗАВЕТ =====
 
@@ -207,133 +242,160 @@ mt:
   ru: "От Матфея"
   en: "Matthew"
   es: "Mateo"
+  uk: "Від Матвія"
 mk:
   testament: nt
   ru: "От Марка"
   en: "Mark"
   es: "Marcos"
+  uk: "Від Марка"
 lk:
   testament: nt
   ru: "От Луки"
   en: "Luke"
   es: "Lucas"
+  uk: "Від Луки"
 jo:
   testament: nt
   ru: "От Иоанна"
   en: "John"
   es: "Juan"
+  uk: "Від Івана"
 act:
   testament: nt
   ru: "Деяния"
   en: "Acts"
   es: "Hechos"
+  uk: "Дії"
 rm:
   testament: nt
   ru: "Римлянам"
   en: "Romans"
   es: "Romanos"
+  uk: "До римлян"
 1co:
   testament: nt
   ru: "1 Коринфянам"
   en: "1 Corinthians"
   es: "1 Corintios"
+  uk: "1 до коринтян"
 2co:
   testament: nt
   ru: "2 Коринфянам"
   en: "2 Corinthians"
   es: "2 Corintios"
+  uk: "2 до коринтян"
 gl:
   testament: nt
   ru: "Галатам"
   en: "Galatians"
   es: "Gálatas"
+  uk: "До галатів"
 eph:
   testament: nt
   ru: "Ефесянам"
   en: "Ephesians"
   es: "Efesios"
+  uk: "До ефесян"
 ph:
   testament: nt
   ru: "Филиппийцам"
   en: "Philippians"
   es: "Filipenses"
+  uk: "До филип'ян"
 cl:
   testament: nt
   ru: "Колоссянам"
   en: "Colossians"
   es: "Colosenses"
+  uk: "До колосян"
 1ts:
   testament: nt
   ru: "1 Фессалоникийцам"
   en: "1 Thessalonians"
   es: "1 Tesalonicenses"
+  uk: "1 до солунян"
 2ts:
   testament: nt
   ru: "2 Фессалоникийцам"
   en: "2 Thessalonians"
   es: "2 Tesalonicenses"
+  uk: "2 до солунян"
 1tm:
   testament: nt
   ru: "1 Тимофею"
   en: "1 Timothy"
   es: "1 Timoteo"
+  uk: "1 Тимофію"
 2tm:
   testament: nt
   ru: "2 Тимофею"
   en: "2 Timothy"
   es: "2 Timoteo"
+  uk: "2 Тимофію"
 tt:
   testament: nt
   ru: "Титу"
   en: "Titus"
   es: "Tito"
+  uk: "До Тита"
 phm:
   testament: nt
   ru: "Филимону"
   en: "Philemon"
   es: "Filemón"
+  uk: "До Филимона"
 hb:
   testament: nt
   ru: "Евреям"
   en: "Hebrews"
   es: "Hebreos"
+  uk: "До євреїв"
 jm:
   testament: nt
   ru: "Иакова"
   en: "James"
   es: "Santiago"
+  uk: "Якова"
 1pe:
   testament: nt
   ru: "1 Петра"
   en: "1 Peter"
   es: "1 Pedro"
+  uk: "1 Петра"
 2pe:
   testament: nt
   ru: "2 Петра"
   en: "2 Peter"
   es: "2 Pedro"
+  uk: "2 Петра"
 1jo:
   testament: nt
   ru: "1 Иоанна"
   en: "1 John"
   es: "1 Juan"
+  uk: "1 Івана"
 2jo:
   testament: nt
   ru: "2 Иоанна"
   en: "2 John"
   es: "2 Juan"
+  uk: "2 Івана"
 3jo:
   testament: nt
   ru: "3 Иоанна"
   en: "3 John"
   es: "3 Juan"
+  uk: "3 Івана"
 jd:
   testament: nt
   ru: "Иуды"
   en: "Jude"
   es: "Judas"
+  uk: "Юди"
 re:
   testament: nt
   ru: "Откровение"
   en: "Revelation"
   es: "Apocalipsis"
+  uk: "Об'явлення"

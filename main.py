@@ -8,8 +8,10 @@ from aiogram.types import BotCommand
 
 from config import BOT_TOKEN
 from database import init_db
-from handlers import start, menu, settings, read, verse
+from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications
+from services.schelduler import start_scheduler
 from services.bible_service import BibleService
+from services.topic_service import TopicService
 
 logging.basicConfig(
     level=logging.INFO,
@@ -32,6 +34,7 @@ async def main():
     logger.info("База данных готова")
 
     BibleService.load()
+    TopicService.load()
 
     bot = Bot(
         token=BOT_TOKEN,
@@ -45,9 +48,14 @@ async def main():
     dp.include_router(settings.router)
     dp.include_router(read.router)
     dp.include_router(verse.router)
+    dp.include_router(topics.router)
+    dp.include_router(bookmarks.router)
+    dp.include_router(notifications.router)
 
     await set_bot_commands(bot)
     logger.info("Команды бота установлены")
+
+    start_scheduler(bot)
 
     logger.info("Бот запускается...")
     await dp.start_polling(bot)

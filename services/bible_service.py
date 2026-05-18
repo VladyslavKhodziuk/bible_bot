@@ -14,9 +14,13 @@ BOOKS_FILE = DATA_DIR / "books.yaml"
 
 # Поддерживаемые переводы: код → имя файла
 TRANSLATIONS = {
-    "ru_synodal": "ru_synodal.json",
-    "en_kjv": "en_kjv.json",
-    "es_rvr": "es_rvr.json",
+    "ru_synodal":   {"file": "ru_synodal.json",   "lang": "ru"},
+    "en_kjv":       {"file": "en_kjv.json",       "lang": "en"},
+    "en_asv":       {"file": "en_asv.json",       "lang": "en"},
+    "en_web":       {"file": "en_web.json",       "lang": "en"},
+    "es_rvr":       {"file": "es_rvr.json",       "lang": "es"},
+    "es_sagradas":  {"file": "es_sagradas.json",  "lang": "es"},
+    "uk_ogienko":   {"file": "uk_ogienko.json", "lang": "uk"},
 }
 
 # Какой перевод по умолчанию для какого языка
@@ -24,6 +28,7 @@ DEFAULT_TRANSLATION_FOR_LANG = {
     "ru": "ru_synodal",
     "en": "en_kjv",
     "es": "es_rvr",
+    "uk": "uk_ogienko",
 }
 
 
@@ -52,8 +57,8 @@ class BibleService:
         cls._book_order = list(cls._books_meta.keys())
         logger.info(f"  Метаданные: {len(cls._book_order)} книг")
 
-        for code, filename in TRANSLATIONS.items():
-            path = BIBLES_DIR / filename
+        for code, meta in TRANSLATIONS.items():
+            path = BIBLES_DIR / meta["file"]
             if not path.exists():
                 logger.warning(f"  Файл не найден: {path}")
                 continue
@@ -122,8 +127,19 @@ class BibleService:
 
     @classmethod
     def get_translation_for_lang(cls, lang: str) -> str:
-        """Перевод по умолчанию для языка интерфейса."""
-        return DEFAULT_TRANSLATION_FOR_LANG.get(lang, "en_kjv")
+        """Перевод по умолчанию для языка интерфейса.
+
+        Если явно задан в DEFAULT_TRANSLATION_FOR_LANG — берём его.
+        Иначе — первый доступный перевод этого языка.
+        """
+        if lang in DEFAULT_TRANSLATION_FOR_LANG:
+            return DEFAULT_TRANSLATION_FOR_LANG[lang]
+        # Fallback: первый перевод этого языка
+        translations = cls.get_translations_for_lang(lang)
+        if translations:
+            return translations[0]
+        # Последний fallback
+        return "en_kjv"
 
     @classmethod
     def _get_book_data(cls, abbrev: str, translation: str) -> dict | None:
@@ -235,3 +251,8 @@ class BibleService:
         pages.append((current_start, len(verses)))
 
         return pages
+
+    @classmethod
+    def get_translations_for_lang(cls, lang: str) -> list[str]:
+        """Возвращает коды переводов, доступных на указанном языке."""
+        return [code for code, meta in TRANSLATIONS.items() if meta["lang"] == lang]

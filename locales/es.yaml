@@ -41,11 +41,28 @@ menu:
 settings:
   title: "<b>⚙️ Ajustes</b>"
   current_language: "🌐 Idioma: <b>{language}</b>"
+  current_translation: "📖 Traducción: <b>{translation}</b>"
   change_language: "🌐 Cambiar idioma"
+  change_translation: "📖 Cambiar traducción de la Biblia"
+  choose_translation: "<b>📖 Elige la traducción de la Biblia:</b>"
+  translation_changed: "✅ Traducción cambiada"
+  notifications: "🔔 Notificaciones: <b>{status}</b>"
+  notifications_on: "activadas, {time}"
+  notifications_off: "desactivadas"
+  change_notifications: "🔔 Ajustes de notificaciones"
   language_names:
     ru: "Русский"
     en: "English"
     es: "Español"
+    uk: "Українська"
+  translation_names:
+    ru_synodal: "Sinodal"
+    en_kjv: "King James Version (KJV)"
+    en_asv: "American Standard Version (ASV)"
+    en_web: "World English Bible (WEB)"
+    es_rvr: "Reina-Valera 1960"
+    es_sagradas: "Sagradas Escrituras 1569"
+    uk_ogienko: "Огієнко"
 
 read:
   choose_testament: "<b>📖 Leer la Biblia</b>\n\nElige una sección:"
@@ -68,6 +85,34 @@ verse:
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Otro"
   open_chapter: "📖 Abrir capítulo"
+
+topics:
+  title: "<b>💭 ¿Cómo te sientes ahora?</b>\n\nElige, y te buscaré palabras de la Escritura:"
+  reference: "<b>{book} {chapter}:{verse}</b>"
+  back_to_topics: "← A los temas"
+
+bookmarks:
+  empty: "<b>⭐ Mis favoritos</b>\n\nAún no tienes favoritos.\n\nCuando leas un versículo que te conmueva — toca <b>⭐ Guardar</b>, y se guardará aquí."
+  title: "<b>⭐ Mis favoritos</b>\n\nTotal: {count}"
+  added: "⭐ Guardado en favoritos"
+  removed: "💔 Eliminado de favoritos"
+  add_button: "⭐ Guardar"
+  remove_button: "💔 Quitar de favoritos"
+  open_chapter: "📖 Abrir capítulo"
+  delete: "🗑 Eliminar"
+
+notifications:
+  title: "<b>🔔 Notificaciones</b>\n\n{status}\n\n📅 El versículo del día llegará cada día a la hora que elijas."
+  status_enabled: "✅ Notificaciones activadas\n🕐 Hora: <b>{time}</b>"
+  status_disabled: "❌ Notificaciones desactivadas"
+  enable: "🔔 Activar notificaciones"
+  disable: "🔕 Desactivar notificaciones"
+  change_time: "🕐 Cambiar hora"
+  choose_time: "<b>🕐 Elige una hora</b>\n\n¿A qué hora te envío el versículo del día?"
+  time_changed: "✅ Hora cambiada a {time}"
+  enabled_message: "✅ Notificaciones activadas"
+  disabled_message: "🔕 Notificaciones desactivadas"
+  daily_greeting: "🌅 <b>¡Buenos días!</b>\n\nAquí está tu versículo de hoy:"
 
 common:
   back_to_menu: "← Al menú"

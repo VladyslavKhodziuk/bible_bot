@@ -9,5 +9,5 @@ if not BOT_TOKEN:
 
 DATABASE_URL = "sqlite+aiosqlite:///bot.db"
 
-DEFAULT_LANG = "ru"
-SUPPORTED_LANGS = ["ru", "en", "es"]
+DEFAULT_LANG = "uk"
+SUPPORTED_LANGS = ["es", "en", "uk", "ru"]

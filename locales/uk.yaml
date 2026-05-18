@@ -1,0 +1,120 @@
+language:
+  choose: "🌍 Виберіть мову / Выберите язык / Choose language / Elige el idioma"
+  changed: "✅ Мову змінено на українську"
+
+welcome:
+  text: |
+    Мир тобі, {name}! 🕊️
+
+    Я — <b>Bible Way</b>, твій помічник у читанні Святого Письма.
+
+    Ось що я вмію:
+
+    📖 Читати Біблію різними перекладами
+    🔍 Шукати вірші за словами й темами
+    💭 Підбирати Слово для будь-якої життєвої ситуації
+    ⭐ Зберігати улюблені місця
+    📅 Надсилати вірш дня щоранку
+    📚 Вести за планом читання
+    🎨 Створювати красиві картки з віршами, щоб ділитися з близькими
+
+    <i>«Слово Твоє — то світильник для моєї ноги, то світло для стежки моєї» (Псалом 118:105)</i>
+
+    Готовий розпочати? 👇
+  button: "📖 Відкрити меню"
+
+welcome_back: "🕊️ З поверненням, {name}!"
+
+menu:
+  title: "<b>Головне меню</b>\n\nОбери, що тебе цікавить:"
+  read: "📖 Читати Біблію"
+  search: "🔍 Пошук за словом"
+  topics: "💭 Мені зараз..."
+  verse_of_day: "📅 Вірш дня"
+  random: "🎲 Випадковий вірш"
+  bookmarks: "⭐ Мої закладки"
+  plan: "📚 План читання"
+  share: "🎨 Поділитися"
+  settings: "⚙️ Налаштування"
+  donate: "❤️ Підтримати проєкт"
+
+read:
+  choose_testament: "<b>📖 Читати Біблію</b>\n\nОбери розділ:"
+  old_testament: "📜 Старий Заповіт"
+  new_testament: "✝️ Новий Заповіт"
+  choose_book: "<b>{testament}</b>\n\nОбери книгу:"
+  choose_chapter: "<b>{book}</b>\n\nОбери розділ:"
+  chapter_header: "<b>{book} {chapter}</b>"
+  prev_chapter: "◀️"
+  next_chapter: "▶️"
+  back_to_books: "← До книг"
+  back_to_chapters: "← До розділів"
+  back_to_testaments: "← До завітів"
+  page_indicator: "{current}/{total}"
+  verses_range: "вірші {start}–{end}"
+
+verse:
+  of_day_title: "📅 <b>Вірш дня</b>"
+  random_title: "🎲 <b>Випадковий вірш</b>"
+  reference: "<b>{book} {chapter}:{verse}</b>"
+  another: "🔄 Ще один"
+  open_chapter: "📖 Відкрити розділ"
+
+topics:
+  title: "<b>💭 Як ти зараз почуваєшся?</b>\n\nОбери, і я підберу для тебе слова зі Святого Письма:"
+  reference: "<b>{book} {chapter}:{verse}</b>"
+  back_to_topics: "← До тем"
+
+bookmarks:
+  empty: "<b>⭐ Мої закладки</b>\n\nУ тебе ще немає закладок.\n\nКоли читаєш вірш, що тебе зворушив — натисни кнопку <b>⭐ До закладок</b>, і він збережеться тут."
+  title: "<b>⭐ Мої закладки</b>\n\nВсього: {count}"
+  added: "⭐ Збережено до закладок"
+  removed: "💔 Видалено із закладок"
+  add_button: "⭐ До закладок"
+  remove_button: "💔 Прибрати із закладок"
+  open_chapter: "📖 Відкрити розділ"
+  delete: "🗑 Видалити"
+
+settings:
+  title: "<b>⚙️ Налаштування</b>"
+  current_language: "🌐 Мова: <b>{language}</b>"
+  current_translation: "📖 Переклад: <b>{translation}</b>"
+  change_language: "🌐 Змінити мову"
+  change_translation: "📖 Змінити переклад Біблії"
+  choose_translation: "<b>📖 Обери переклад Біблії:</b>"
+  translation_changed: "✅ Переклад змінено"
+  notifications: "🔔 Сповіщення: <b>{status}</b>"
+  notifications_on: "увімк., {time}"
+  notifications_off: "вимк."
+  change_notifications: "🔔 Налаштування сповіщень"
+  language_names:
+    ru: "Русский"
+    en: "English"
+    es: "Español"
+    uk: "Українська"
+  translation_names:
+    ru_synodal: "Синодальний"
+    en_kjv: "King James Version (KJV)"
+    en_asv: "American Standard Version (ASV)"
+    en_web: "World English Bible (WEB)"
+    es_rvr: "Reina-Valera 1960"
+    es_sagradas: "Sagradas Escrituras 1569"
+    uk_ogienko: "Огієнко"
+
+notifications:
+  title: "<b>🔔 Сповіщення</b>\n\n{status}\n\n📅 Вірш дня надходитиме щодня в обраний час."
+  status_enabled: "✅ Сповіщення увімкнено\n🕐 Час: <b>{time}</b>"
+  status_disabled: "❌ Сповіщення вимкнено"
+  enable: "🔔 Увімкнути сповіщення"
+  disable: "🔕 Вимкнути сповіщення"
+  change_time: "🕐 Змінити час"
+  choose_time: "<b>🕐 Обери час</b>\n\nКоли надсилати вірш дня?"
+  time_changed: "✅ Час змінено на {time}"
+  enabled_message: "✅ Сповіщення увімкнено"
+  disabled_message: "🔕 Сповіщення вимкнено"
+  daily_greeting: "🌅 <b>Доброго ранку!</b>\n\nОсь твій вірш на сьогодні:"
+
+common:
+  back_to_menu: "← До меню"
+  back: "← Назад"
+  in_development: "🔧 У розробці. Скоро буде!"

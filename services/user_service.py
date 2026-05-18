@@ -43,8 +43,7 @@ class UserService:
     async def set_language(tg_id: int, lang: str) -> None:
         """Сменить язык пользователя.
 
-        Также автоматически меняет перевод Библии на соответствующий языку,
-        если у юзера сейчас стоит дефолтный перевод предыдущего языка.
+        Перевод Библии автоматически переключается на соответствующий языку.
         """
         new_translation = BibleService.get_translation_for_lang(lang)
         async with async_session() as session:
@@ -53,12 +52,8 @@ class UserService:
             )
             user = result.scalar_one_or_none()
             if user:
-                # Меняем перевод только если у юзера сейчас "стандартный"
-                # перевод его текущего языка (значит, он не выбирал свой)
-                current_default = BibleService.get_translation_for_lang(user.lang)
-                if user.translation == current_default:
-                    user.translation = new_translation
                 user.lang = lang
+                user.translation = new_translation  # всегда меняем
                 await session.commit()
 
     @staticmethod
@@ -75,3 +70,38 @@ class UserService:
             if user:
                 user.translation = translation
                 await session.commit()
+
+    @staticmethod
+    async def set_notifications(
+            tg_id: int,
+            enabled: bool | None = None,
+            time: str | None = None,
+    ) -> None:
+        """Включить/выключить уведомления и/или изменить время."""
+        async with async_session() as session:
+            result = await session.execute(
+                select(User).where(User.tg_id == tg_id)
+            )
+            user = result.scalar_one_or_none()
+            if not user:
+                return
+            if enabled is not None:
+                user.notifications_enabled = enabled
+            if time is not None:
+                user.notification_time = time
+            await session.commit()
+
+    @staticmethod
+    async def get_users_for_notification(time_str: str) -> list[User]:
+        """Получить всех юзеров, которым сейчас нужно отправить уведомление.
+
+        time_str: текущее время в формате 'HH:MM'.
+        """
+        async with async_session() as session:
+            result = await session.execute(
+                select(User).where(
+                    User.notifications_enabled == True,
+                    User.notification_time == time_str,
+                )
+            )
+            return list(result.scalars().all())

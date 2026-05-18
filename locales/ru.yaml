@@ -41,12 +41,28 @@ menu:
 settings:
   title: "<b>⚙️ Настройки</b>"
   current_language: "🌐 Язык: <b>{language}</b>"
+  current_translation: "📖 Перевод: <b>{translation}</b>"
   change_language: "🌐 Изменить язык"
+  change_translation: "📖 Изменить перевод Библии"
+  choose_translation: "<b>📖 Выбери перевод Библии:</b>"
+  translation_changed: "✅ Перевод изменён"
+  notifications: "🔔 Уведомления: <b>{status}</b>"
+  notifications_on: "вкл, {time}"
+  notifications_off: "выкл"
+  change_notifications: "🔔 Настройки уведомлений"
   language_names:
     ru: "Русский"
     en: "English"
     es: "Español"
-
+    uk: "Українська"
+  translation_names:
+    ru_synodal: "Синодальный"
+    en_kjv: "King James Version"
+    en_asv: "American Standard Version"
+    en_web: "World English Bible"
+    es_rvr: "Reina-Valera 1960"
+    es_sagradas: "Sagradas Escrituras 1569"
+    uk_ogienko: "Огієнко"
 read:
   choose_testament: "<b>📖 Читать Библию</b>\n\nВыбери раздел:"
   old_testament: "📜 Ветхий Завет"
@@ -68,6 +84,34 @@ verse:
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Ещё один"
   open_chapter: "📖 Открыть главу"
+
+topics:
+  title: "<b>💭 Как ты сейчас себя чувствуешь?</b>\n\nВыбери, и я подберу для тебя слова из Писания:"
+  reference: "<b>{book} {chapter}:{verse}</b>"
+  back_to_topics: "← К темам"
+
+bookmarks:
+  empty: "<b>⭐ Мои закладки</b>\n\nУ тебя пока нет закладок.\n\nКогда читаешь стих, который тебя коснулся — нажми на кнопку <b>⭐ В закладки</b>, и он сохранится здесь."
+  title: "<b>⭐ Мои закладки</b>\n\nВсего: {count}"
+  added: "⭐ Сохранено в закладки"
+  removed: "💔 Удалено из закладок"
+  add_button: "⭐ В закладки"
+  remove_button: "💔 Убрать из закладок"
+  open_chapter: "📖 Открыть главу"
+  delete: "🗑 Удалить"
+
+notifications:
+  title: "<b>🔔 Уведомления</b>\n\n{status}\n\n📅 Стих дня будет приходить каждый день в выбранное время."
+  status_enabled: "✅ Уведомления включены\n🕐 Время: <b>{time}</b>"
+  status_disabled: "❌ Уведомления выключены"
+  enable: "🔔 Включить уведомления"
+  disable: "🔕 Выключить уведомления"
+  change_time: "🕐 Изменить время"
+  choose_time: "<b>🕐 Выбери время</b>\n\nВ какое время присылать стих дня?"
+  time_changed: "✅ Время изменено на {time}"
+  enabled_message: "✅ Уведомления включены"
+  disabled_message: "🔕 Уведомления выключены"
+  daily_greeting: "🌅 <b>Доброе утро!</b>\n\nВот твой стих на сегодня:"
 
 common:
   back_to_menu: "← В меню"

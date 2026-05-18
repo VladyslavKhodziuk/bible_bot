@@ -1,0 +1,232 @@
+# Подборки стихов по жизненным ситуациям
+# Каждая тема имеет: emoji, локализованное название, вступление, и список стихов
+# Стихи указываются как abbrev:chapter:verse
+
+anxiety:
+  emoji: "😰"
+  names:
+    ru: "Тревога"
+    en: "Anxiety"
+    es: "Ansiedad"
+    uk: "Тривога"
+  intro:
+    ru: "Бог знает твою тревогу. Вот что Он говорит тебе сегодня:"
+    en: "God knows your anxiety. Here's what He tells you today:"
+    es: "Dios conoce tu ansiedad. Esto es lo que Él te dice hoy:"
+    uk: "Бог знає твою тривогу. Ось що Він каже тобі сьогодні:"
+  verses:
+    - "ph:4:6"
+    - "ph:4:7"
+    - "mt:6:25"
+    - "mt:6:26"
+    - "1pe:5:7"
+    - "ps:55:22"
+
+sadness:
+  emoji: "😢"
+  names:
+    ru: "Грусть"
+    en: "Sadness"
+    es: "Tristeza"
+    uk: "Сум"
+  intro:
+    ru: "Бог близок к сокрушённым сердцем. Прими Его утешение:"
+    en: "The Lord is close to the broken-hearted. Receive His comfort:"
+    es: "El Señor está cerca de los quebrantados de corazón. Recibe Su consuelo:"
+    uk: "Господь близький до скрушених серцем. Прийми Його розраду:"
+  verses:
+    - "ps:34:18"
+    - "mt:5:4"
+    - "2co:1:3"
+    - "2co:1:4"
+    - "re:21:4"
+
+fear:
+  emoji: "😨"
+  names:
+    ru: "Страх"
+    en: "Fear"
+    es: "Miedo"
+    uk: "Страх"
+  intro:
+    ru: "Не бойся — это самая частая заповедь в Библии. Бог с тобой:"
+    en: "Do not fear — the most repeated command in the Bible. God is with you:"
+    es: "No temas — el mandamiento más repetido en la Biblia. Dios está contigo:"
+    uk: "Не бійся — це найчастіша заповідь у Біблії. Бог із тобою:"
+  verses:
+    - "is:41:10"
+    - "2tm:1:7"
+    - "ps:23:4"
+    - "jo:14:27"
+    - "dt:31:6"
+
+loneliness:
+  emoji: "😔"
+  names:
+    ru: "Одиночество"
+    en: "Loneliness"
+    es: "Soledad"
+    uk: "Самотність"
+  intro:
+    ru: "Ты не один. Господь никогда не оставит и не покинет тебя:"
+    en: "You are not alone. The Lord will never leave you nor forsake you:"
+    es: "No estás solo. El Señor nunca te dejará ni te desamparará:"
+    uk: "Ти не самотній. Господь ніколи не залишить і не покине тебе:"
+  verses:
+    - "hb:13:5"
+    - "mt:28:20"
+    - "ps:139:7"
+    - "ps:139:8"
+    - "is:43:2"
+
+gratitude:
+  emoji: "🙏"
+  names:
+    ru: "Благодарность"
+    en: "Gratitude"
+    es: "Gratitud"
+    uk: "Подяка"
+  intro:
+    ru: "Благодарное сердце — путь к радости. Слово вдохновляет:"
+    en: "A thankful heart is the path to joy. Be inspired by the Word:"
+    es: "Un corazón agradecido es el camino al gozo. Sé inspirado por la Palabra:"
+    uk: "Вдячне серце — шлях до радості. Слово надихає:"
+  verses:
+    - "1ts:5:18"
+    - "ps:107:1"
+    - "ph:4:4"
+    - "cl:3:17"
+    - "ps:100:4"
+
+loss:
+  emoji: "💔"
+  names:
+    ru: "Потеря"
+    en: "Loss"
+    es: "Pérdida"
+    uk: "Втрата"
+  intro:
+    ru: "Бог собирает слёзы Своих детей. Ты не одинок в горе:"
+    en: "God collects the tears of His children. You are not alone in grief:"
+    es: "Dios recoge las lágrimas de Sus hijos. No estás solo en el dolor:"
+    uk: "Бог збирає сльози Своїх дітей. Ти не самотній у горі:"
+  verses:
+    - "ps:56:8"
+    - "re:21:4"
+    - "1ts:4:13"
+    - "1ts:4:14"
+    - "jo:11:25"
+
+doubt:
+  emoji: "❓"
+  names:
+    ru: "Сомнения"
+    en: "Doubt"
+    es: "Duda"
+    uk: "Сумнів"
+  intro:
+    ru: "Сомнения — это место, где может родиться более глубокая вера:"
+    en: "Doubt can be the place where deeper faith is born:"
+    es: "La duda puede ser el lugar donde nace una fe más profunda:"
+    uk: "Сумнів — це місце, де може народитися глибша віра:"
+  verses:
+    - "mk:9:24"
+    - "jm:1:5"
+    - "jm:1:6"
+    - "hb:11:1"
+    - "jo:20:29"
+
+anger:
+  emoji: "😡"
+  names:
+    ru: "Гнев"
+    en: "Anger"
+    es: "Ira"
+    uk: "Гнів"
+  intro:
+    ru: "Гнев — естественное чувство, но не позволяй ему править тобой:"
+    en: "Anger is natural, but don't let it rule you:"
+    es: "La ira es natural, pero no permitas que te domine:"
+    uk: "Гнів — природне почуття, але не давай йому панувати над тобою:"
+  verses:
+    - "eph:4:26"
+    - "eph:4:27"
+    - "prv:15:1"
+    - "jm:1:19"
+    - "jm:1:20"
+
+forgiveness:
+  emoji: "🕊️"
+  names:
+    ru: "Прощение"
+    en: "Forgiveness"
+    es: "Perdón"
+    uk: "Прощення"
+  intro:
+    ru: "Прощение — освобождение для нас самих. Так учил Христос:"
+    en: "Forgiveness frees us. So Christ taught:"
+    es: "El perdón nos libera. Así enseñó Cristo:"
+    uk: "Прощення — це звільнення для нас самих. Так навчав Христос:"
+  verses:
+    - "mt:6:14"
+    - "mt:6:15"
+    - "cl:3:13"
+    - "eph:4:32"
+    - "lk:23:34"
+
+hope:
+  emoji: "🌅"
+  names:
+    ru: "Надежда"
+    en: "Hope"
+    es: "Esperanza"
+    uk: "Надія"
+  intro:
+    ru: "У Бога есть план для тебя. Его обещания твёрдые:"
+    en: "God has a plan for you. His promises are firm:"
+    es: "Dios tiene un plan para ti. Sus promesas son firmes:"
+    uk: "У Бога є план для тебе. Його обіцянки тверді:"
+  verses:
+    - "jr:29:11"
+    - "rm:15:13"
+    - "rm:8:28"
+    - "lm:3:22"
+    - "lm:3:23"
+
+strength:
+  emoji: "💪"
+  names:
+    ru: "Слабость"
+    en: "Weakness"
+    es: "Debilidad"
+    uk: "Слабкість"
+  intro:
+    ru: "Когда ты слаб — тогда силён, ибо сила Божья совершается в немощи:"
+    en: "When you are weak, then you are strong, for God's power is made perfect in weakness:"
+    es: "Cuando eres débil, entonces eres fuerte, porque el poder de Dios se perfecciona en la debilidad:"
+    uk: "Коли ти слабкий — тоді сильний, бо сила Божа в немочі виявляється:"
+  verses:
+    - "ph:4:13"
+    - "2co:12:9"
+    - "is:40:31"
+    - "ps:46:1"
+    - "ne:8:10"
+
+love:
+  emoji: "❤️"
+  names:
+    ru: "Любовь Божья"
+    en: "God's Love"
+    es: "Amor de Dios"
+    uk: "Божа любов"
+  intro:
+    ru: "Ничто не может отлучить тебя от любви Божьей во Христе Иисусе:"
+    en: "Nothing can separate you from God's love in Christ Jesus:"
+    es: "Nada puede separarte del amor de Dios en Cristo Jesús:"
+    uk: "Ніщо не може відлучити тебе від Божої любові у Христі Ісусі:"
+  verses:
+    - "jo:3:16"
+    - "rm:8:38"
+    - "rm:8:39"
+    - "1jo:4:9"
+    - "1jo:4:10"
