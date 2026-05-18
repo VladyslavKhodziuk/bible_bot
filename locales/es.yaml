@@ -37,6 +37,59 @@ menu:
   cabinet: "👤 Mi cuenta"
   donate: "❤️ Apoyar el proyecto"
 
+search:
+  prompt: |
+    🔍 <b>Buscar por palabra</b>
+
+    Escribe una palabra o frase que quieras encontrar en la Biblia.
+
+    Por ejemplo: <i>amor, no temas, pastor</i>
+
+  too_short: "⚠️ Introduce al menos 2 letras para buscar."
+  too_long: "⚠️ La consulta es demasiado larga. Prueba con una más corta."
+  wrong_alphabet: |
+    ⚠️ Parece que buscas "{query}".
+
+    Pero tu traducción de la Biblia es <b>{translation}</b>.
+
+    Esta traducción no contiene palabras en ese alfabeto. Prueba una palabra en el idioma correcto.
+
+  choose_scope: |
+    🔍 Búsqueda de <i>«{query}»</i>
+
+    Total encontrado: <b>{total} versículos</b>
+
+    ¿Dónde buscar?
+  scope_all: "📖 Toda la Biblia · {count}"
+  scope_ot: "📜 Antiguo Testamento · {count}"
+  scope_nt: "✝️ Nuevo Testamento · {count}"
+
+  results_title_all: "🔍 <i>«{query}»</i> — toda la Biblia"
+  results_title_ot: "🔍 <i>«{query}»</i> — Antiguo Testamento"
+  results_title_nt: "🔍 <i>«{query}»</i> — Nuevo Testamento"
+  found_limited: "<i>(mostrando los primeros {limit})</i>"
+
+  detail_title: "🔍 Resultado de la búsqueda"
+
+  no_results: |
+    😔 No se encontró nada para "<i>{query}</i>".
+
+    Prueba otra palabra o frase.
+
+    Funcionan bien:
+    • amor
+    • fe
+    • pastor
+    • no temas
+    • perdón
+
+  result_header: "<b>{book} {chapter}:{verse}</b>"
+  new_search: "🔍 Nueva búsqueda"
+  change_scope: "🔄 Cambiar sección"
+  try_anyway: "🔍 Buscar de todos modos"
+  back_to_results: "🔍 Volver a resultados"
+  cancel: "← Cancelar"
+
 cabinet:
   title: "<b>👤 Mi Cuenta</b>"
   greeting: "¡Hola, {name}!"

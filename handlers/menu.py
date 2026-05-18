@@ -3,7 +3,6 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 
 from services.user_service import UserService
-from services.streak_service import StreakService
 from services.streak_display import format_streak_indicator
 from services.i18n import t
 from keyboards.menu import main_menu_keyboard
@@ -36,7 +35,6 @@ async def cmd_menu(message: Message):
 # Заглушки для кнопок меню — settings УБРАН отсюда,
 # т.к. теперь обрабатывается в handlers/settings.py
 @router.callback_query(F.data.in_({
-    "search",
     "plan", "share", "donate"
 }))
 async def menu_stub(callback: CallbackQuery):

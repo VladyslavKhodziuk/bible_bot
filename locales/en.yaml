@@ -37,6 +37,59 @@ menu:
   cabinet: "👤 My account"
   donate: "❤️ Support project"
 
+search:
+  prompt: |
+    🔍 <b>Search by word</b>
+
+    Write a word or phrase you want to find in the Bible.
+
+    For example: <i>love, fear not, shepherd</i>
+
+  too_short: "⚠️ Enter at least 2 letters to search."
+  too_long: "⚠️ Query is too long. Try a shorter one."
+  wrong_alphabet: |
+    ⚠️ It seems you're searching for "{query}".
+
+    But your Bible translation is <b>{translation}</b>.
+
+    This translation doesn't contain words in this alphabet. Try a word in the right language.
+
+  choose_scope: |
+    🔍 Search for <i>«{query}»</i>
+
+    Total found: <b>{total} verses</b>
+
+    Where to search?
+  scope_all: "📖 Whole Bible · {count}"
+  scope_ot: "📜 Old Testament · {count}"
+  scope_nt: "✝️ New Testament · {count}"
+
+  results_title_all: "🔍 <i>«{query}»</i> — whole Bible"
+  results_title_ot: "🔍 <i>«{query}»</i> — Old Testament"
+  results_title_nt: "🔍 <i>«{query}»</i> — New Testament"
+  found_limited: "<i>(showing first {limit})</i>"
+
+  detail_title: "🔍 Search result"
+
+  no_results: |
+    😔 Nothing found for "<i>{query}</i>".
+
+    Try a different word or phrase.
+
+    These work well:
+    • love
+    • faith
+    • shepherd
+    • fear not
+    • forgiveness
+
+  result_header: "<b>{book} {chapter}:{verse}</b>"
+  new_search: "🔍 New search"
+  change_scope: "🔄 Change scope"
+  try_anyway: "🔍 Search anyway"
+  back_to_results: "🔍 Back to results"
+  cancel: "← Cancel"
+
 cabinet:
   title: "<b>👤 My Account</b>"
   greeting: "Hello, {name}!"

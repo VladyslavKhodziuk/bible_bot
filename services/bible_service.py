@@ -256,3 +256,133 @@ class BibleService:
     def get_translations_for_lang(cls, lang: str) -> list[str]:
         """Возвращает коды переводов, доступных на указанном языке."""
         return [code for code, meta in TRANSLATIONS.items() if meta["lang"] == lang]
+
+
+    @classmethod
+    def search(
+            cls,
+            query: str,
+            translation: str,
+            max_results: int = 200,
+    ) -> list[dict]:
+        """
+        Поиск стихов по тексту в указанном переводе.
+
+        query: строка для поиска (регистронезависимо)
+        translation: код перевода (например, ru_synodal)
+        max_results: ограничение для защиты от слишком частых слов ("и", "на")
+
+        Возвращает список стихов:
+            [{"abbrev": "gn", "chapter": 1, "verse": 1, "text": "..."}]
+        """
+        # Нормализуем запрос
+        query_clean = query.strip().lower()
+        if len(query_clean) < 2:
+            return []
+
+        bible = cls._bibles.get(translation)
+        if not bible:
+            return []
+
+        results = []
+        for book_idx, book in enumerate(bible):
+            abbrev = cls._book_order[book_idx]
+            for chapter_idx, chapter_verses in enumerate(book["chapters"]):
+                for verse_idx, text in enumerate(chapter_verses):
+                    if query_clean in text.lower():
+                        results.append({
+                            "abbrev": abbrev,
+                            "chapter": chapter_idx + 1,
+                            "verse": verse_idx + 1,
+                            "text": text,
+                        })
+                        # Защита: если слово очень частое — не сканируем всю Библию
+                        if len(results) >= max_results:
+                            return results
+        return results
+
+    @classmethod
+    def highlight(cls, text: str, query: str) -> str:
+        """
+        Подсветить найденный фрагмент в тексте через <b>...</b>.
+        Регистронезависимо, но сохраняет оригинальный регистр в тексте.
+        """
+        if not query:
+            return text
+
+        query_clean = query.strip()
+        if len(query_clean) < 2:
+            return text
+
+        # Регистронезависимый поиск, но подставляем оригинальный фрагмент текста
+        text_lower = text.lower()
+        query_lower = query_clean.lower()
+
+        result = []
+        i = 0
+        while i < len(text):
+            idx = text_lower.find(query_lower, i)
+            if idx == -1:
+                result.append(text[i:])
+                break
+            result.append(text[i:idx])
+            result.append(f"<b>{text[idx:idx + len(query_lower)]}</b>")
+            i = idx + len(query_lower)
+        return "".join(result)
+
+
+    @classmethod
+    def filter_by_testament(cls, results: list[dict], testament: str | None) -> list[dict]:
+        """
+        Фильтрует список стихов по завету.
+        testament: 'ot', 'nt' или None (вся Библия)
+        """
+        if testament is None:
+            return results
+        filtered = []
+        for r in results:
+            meta = cls._books_meta.get(r["abbrev"])
+            if meta and meta.get("testament") == testament:
+                filtered.append(r)
+        return filtered
+
+
+# Маппинг переводов → ожидаемый алфавит
+TRANSLATION_ALPHABETS = {
+    "ru_synodal":  "cyrillic",
+    "uk_ogienko":  "cyrillic",
+    "en_kjv":      "latin",
+    "en_asv":      "latin",
+    "en_web":      "latin",
+    "es_rvr":      "latin",
+    "es_sagradas": "latin",
+}
+
+
+def detect_alphabet(text: str) -> str:
+    """Определить, какой алфавит преобладает в тексте.
+
+    Возвращает: 'cyrillic', 'latin', 'mixed', 'other'
+    """
+    cyrillic = sum(1 for c in text if '\u0400' <= c <= '\u04FF')
+    latin = sum(1 for c in text if c.isalpha() and ord(c) < 128)
+
+    if cyrillic > latin * 2:
+        return "cyrillic"
+    if latin > cyrillic * 2:
+        return "latin"
+    if cyrillic > 0 and latin > 0:
+        return "mixed"
+    return "other"
+
+
+def alphabet_matches_translation(query: str, translation: str) -> bool:
+    """Проверяет, соответствует ли алфавит запроса алфавиту перевода."""
+    query_alphabet = detect_alphabet(query)
+    if query_alphabet == "other":
+        # Только цифры/символы — пропускаем (хотя по факту поиск ничего не найдёт)
+        return True
+    expected = TRANSLATION_ALPHABETS.get(translation, "latin")
+    if query_alphabet == "mixed":
+        return True  # юзер может искать смешанное, разрешаем
+    return query_alphabet == expected
