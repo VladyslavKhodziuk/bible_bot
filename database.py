@@ -21,9 +21,7 @@ async_session = async_sessionmaker(
 
 
 async def init_db():
-    """Создаёт все таблицы в БД при старте бота."""
-    # Импортируем модели здесь, чтобы они зарегистрировались в Base.metadata
-    from models import User  # noqa: F401
+    from models import User, Bookmark, Feedback  # noqa: F401
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

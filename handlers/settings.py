@@ -24,16 +24,21 @@ def _build_settings_text(user, lang: str) -> str:
         t("settings.current_language", lang, language=language_name),
     ]
 
-    # Показываем перевод только если есть выбор
+    # Перевод — только если есть выбор
     if len(BibleService.get_translations_for_lang(lang)) > 1:
         translation_name = t(f"settings.translation_names.{user.translation}", lang)
         lines.append(t("settings.current_translation", lang, translation=translation_name))
 
+    # Уведомления
     if user.notifications_enabled:
         notif_status = t("settings.notifications_on", lang, time=user.notification_time)
     else:
         notif_status = t("settings.notifications_off", lang)
     lines.append(t("settings.notifications", lang, status=notif_status))
+
+    # Разделитель + подсказка о фидбеке
+    lines.append("")
+    lines.append(t("settings.feedback_section", lang))
 
     return "\n".join(lines)
 

@@ -32,11 +32,24 @@ menu:
   topics: "💭 I feel..."
   verse_of_day: "📅 Verse of the day"
   random: "🎲 Random verse"
-  bookmarks: "⭐ My bookmarks"
   plan: "📚 Reading plan"
   share: "🎨 Share"
-  settings: "⚙️ Settings"
+  cabinet: "👤 My account"
   donate: "❤️ Support project"
+
+cabinet:
+  title: "<b>👤 My Account</b>"
+  greeting: "Hello, {name}!"
+  streak_current: "🔥 Streak: <b>{days} days</b>"
+  streak_current_single: "🔥 Streak: <b>1 day</b>"
+  streak_none: "🔥 Streak not started yet"
+  streak_longest: "🏆 Best streak: <b>{days} days</b>"
+  freezes: "🛡 Freezes: <b>{count} / {max}</b>"
+  bookmarks_count: "⭐ Bookmarks: <b>{count}</b>"
+  days_in_bot: "📅 With us for: <b>{days} days</b>"
+  bookmarks_button: "⭐ My bookmarks"
+  settings_button: "⚙️ Settings"
+  back_to_cabinet: "← To my account"
 
 settings:
   title: "<b>⚙️ Settings</b>"
@@ -50,6 +63,7 @@ settings:
   notifications_on: "on, {time}"
   notifications_off: "off"
   change_notifications: "🔔 Notification settings"
+  feedback_section: "💬 Help make the bot better:"
   language_names:
     ru: "Русский"
     en: "English"
@@ -113,7 +127,90 @@ notifications:
   disabled_message: "🔕 Notifications disabled"
   daily_greeting: "🌅 <b>Good morning!</b>\n\nHere's your verse for today:"
 
+streak:
+  indicator: "🔥 {days} days in a row"
+  indicator_single: "🔥 1 day with the Word"
+  none: ""
+  onboarding: |
+    🔥 <b>Your streak has begun!</b>
+
+    Every day you read the verse of the day or open a chapter of the Bible — counts as a day. This is how a habit of returning to Scripture forms.
+
+    🛡 You have <b>2 freezes</b> — they will protect your streak if you miss a day. Protection activates automatically. Freezes are replenished as your streak grows.
+
+    Don't give up, I'm with you 🙏
+  onboarding_button: "Got it 🙌"
+  freeze_used: |
+    🛡 <b>Good morning, {name}!</b>
+
+    You missed yesterday — I used one freeze to preserve your streak.
+    🔥 Streak: <b>{streak} days</b>
+    🛡 Freezes left: <b>{freezes}</b>
+
+    Don't lose the rhythm — the Word is waiting for you.
+  encouragement: |
+    🕊 <b>Hi, {name}.</b>
+
+    I noticed you've been away for a while. That's normal — life is full of circumstances.
+
+    God doesn't count days. He simply rejoices over every return.
+
+    Shall we start again? 🙏
+  milestones:
+    "3": "🎉 Three days in a row with the Word! A habit is forming."
+    "7": "🔥 A whole week! This is becoming a rhythm of life."
+    "14": "✨ Two weeks! The Word is becoming your bread."
+    "30": "🏆 A whole month! This is no coincidence."
+    "50": "💎 Fifty days! Remarkable consistency."
+    "100": "👑 ONE HUNDRED DAYS! Incredible. God sees your heart."
+    "200": "🌟 Two hundred days! You're an inspiration to others."
+    "365": "🕊️ A YEAR WITH THE WORD! This is now a way of life."
+
 common:
   back_to_menu: "← To menu"
   back: "← Back"
   in_development: "🔧 In development. Coming soon!"
+
+feedback:
+  cabinet_idea: "💡 Suggest an idea"
+  cabinet_bug: "🐞 Report a problem"
+  cabinet_review: "😊 Leave a review"
+
+  idea_prompt: |
+    💡 <b>Suggest an idea</b>
+
+    Write your idea in one message — what would you like to improve or add to the bot?
+
+    I'll pass it to the project author.
+  idea_thanks: |
+    🙏 <b>Thank you!</b>
+
+    Your idea has been received. The author will definitely read it.
+
+  bug_prompt: |
+    🐞 <b>Report a problem</b>
+
+    Describe what doesn't work or works strangely. Tell as much as you can — what you did, what you expected, what happened.
+  bug_thanks: |
+    🙏 <b>Thank you!</b>
+
+    Problem report received. I'll try to fix it as soon as possible.
+
+  review_prompt: |
+    😊 <b>Leave a review</b>
+
+    Tell in one or two messages what you like about the bot or what has touched you.
+
+    Your review is real support for the project 🙏
+  review_thanks: |
+    ❤️ <b>Thank you for your review!</b>
+
+    This means a lot to the project.
+
+    If you want — you can support the project so it grows and helps even more people:
+
+  cancel: "← Cancel"
+  cancelled: "Cancelled"
+  too_short: "Your message is too short. Please write a bit more detail."
+  support_button: "❤️ Support project"
+  later_button: "Later"

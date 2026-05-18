@@ -9,46 +9,55 @@ BOOKMARKS_PER_PAGE = 5
 
 
 def bookmarks_list_keyboard(
-    bookmarks: list[Bookmark],
-    page: int,
-    total: int,
-    lang: str,
+        bookmarks: list[Bookmark],
+        page: int,
+        total: int,
+        lang: str,
 ) -> InlineKeyboardMarkup:
-    """Клавиатура списка закладок с пагинацией."""
-    builder = InlineKeyboardBuilder()
+    """Клавиатура списка закладок с пагинацией.
 
-    # Кнопки закладок: текст вида "Бытие 1:1"
+    Работает и для пустого списка — кнопки возврата всегда добавляются.
+    """
+    builder = InlineKeyboardBuilder()
+    rows = []
+
+    # Кнопки самих закладок (по одной в ряд)
     for bm in bookmarks:
         book_name = BibleService.get_book_name(bm.abbrev, lang)
         label = f"📖 {book_name} {bm.chapter}:{bm.verse}"
         builder.button(text=label, callback_data=f"bm:view:{bm.id}")
+        rows.append(1)
 
-    # Пагинация
-    total_pages = (total + BOOKMARKS_PER_PAGE - 1) // BOOKMARKS_PER_PAGE
-    nav_count = 0
-    if page > 0:
-        builder.button(text="◀️", callback_data=f"bm:list:{page - 1}")
-        nav_count += 1
-    if total_pages > 1:
-        builder.button(text=f"{page + 1}/{total_pages}", callback_data="noop")
-        nav_count += 1
-    if page < total_pages - 1:
-        builder.button(text="▶️", callback_data=f"bm:list:{page + 1}")
-        nav_count += 1
+    # Пагинация — только если есть закладки и больше одной страницы
+    if total > 0:
+        total_pages = (total + BOOKMARKS_PER_PAGE - 1) // BOOKMARKS_PER_PAGE
+        nav_count = 0
+        if page > 0:
+            builder.button(text="◀️", callback_data=f"bm:list:{page - 1}")
+            nav_count += 1
+        if total_pages > 1:
+            builder.button(text=f"{page + 1}/{total_pages}", callback_data="noop")
+            nav_count += 1
+        if page < total_pages - 1:
+            builder.button(text="▶️", callback_data=f"bm:list:{page + 1}")
+            nav_count += 1
+        if nav_count > 0:
+            rows.append(nav_count)
 
-    # Возврат в меню
+    # Возврат — всегда. И когда список пустой, и когда полный.
+    builder.button(
+        text=t("cabinet.back_to_cabinet", lang),
+        callback_data="cabinet"
+    )
+    rows.append(1)
+
     builder.button(
         text=t("common.back_to_menu", lang),
         callback_data="open_menu"
     )
-
-    # Раскладка: каждая закладка по одной в ряд, потом ряд навигации, потом меню
-    rows = [1] * len(bookmarks)
-    if nav_count > 0:
-        rows.append(nav_count)
     rows.append(1)
-    builder.adjust(*rows)
 
+    builder.adjust(*rows)
     return builder.as_markup()
 
 

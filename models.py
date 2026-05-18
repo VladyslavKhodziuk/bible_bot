@@ -44,3 +44,21 @@ class Bookmark(Base):
 
     def __repr__(self) -> str:
         return f"<Bookmark user={self.user_id} ref={self.abbrev} {self.chapter}:{self.verse}>"
+
+
+class Feedback(Base):
+    """Обратная связь от пользователей: идеи, баги, отзывы."""
+    __tablename__ = "feedback"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, index=True)  # tg_id юзера
+    username: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    first_name: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    lang: Mapped[str] = mapped_column(String(5))
+    kind: Mapped[str] = mapped_column(String(20))  # idea / bug / review
+    rating: Mapped[int | None] = mapped_column(Integer, nullable=True)  # для review
+    text: Mapped[str] = mapped_column(String(2000))
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<Feedback {self.kind} from {self.user_id}>"

@@ -10,4 +10,7 @@ if not BOT_TOKEN:
 DATABASE_URL = "sqlite+aiosqlite:///bot.db"
 
 DEFAULT_LANG = "uk"
-SUPPORTED_LANGS = ["es", "en", "uk", "ru"]
+SUPPORTED_LANGS = ["ru", "en", "es", "uk"]
+
+# ID администраторов — получают уведомления о фидбеке
+ADMIN_IDS = [1778315709]  # твой Telegram ID

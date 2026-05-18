@@ -8,7 +8,7 @@ from aiogram.types import BotCommand
 
 from config import BOT_TOKEN
 from database import init_db
-from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications
+from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications, cabinet, feedback
 from services.schelduler import start_scheduler
 from services.bible_service import BibleService
 from services.topic_service import TopicService
@@ -43,6 +43,7 @@ async def main():
     dp = Dispatcher()
 
     # Подключаем роутеры
+    dp.include_router(feedback.router)
     dp.include_router(start.router)
     dp.include_router(menu.router)
     dp.include_router(settings.router)
@@ -51,6 +52,7 @@ async def main():
     dp.include_router(topics.router)
     dp.include_router(bookmarks.router)
     dp.include_router(notifications.router)
+    dp.include_router(cabinet.router)
 
     await set_bot_commands(bot)
     logger.info("Команды бота установлены")

@@ -39,10 +39,16 @@ async def send_daily_verses(bot: Bot) -> None:
 
 
 async def _send_verse_to_user(bot: Bot, user) -> None:
-    """Отправить стих дня конкретному юзеру."""
+    """Отправить стих дня конкретному юзеру. Засчитывает день серии."""
+    from services.streak_service import StreakService
+    from services.streak_display import format_streak_indicator, get_milestone_message
+
     verse = BibleService.get_verse_of_day(user.translation)
     if not verse:
         return
+
+    # Засчитываем день серии
+    streak_result = await StreakService.touch(user.tg_id)
 
     book_name = BibleService.get_book_name(verse["abbrev"], user.lang)
     reference = t(
@@ -53,10 +59,43 @@ async def _send_verse_to_user(bot: Bot, user) -> None:
         verse=verse["verse"],
     )
 
-    greeting = t("notifications.daily_greeting", user.lang)
-    text = f"{greeting}\n\n{reference}\n\n<i>{verse['text']}</i>"
+    # === Особые случаи: ободрение или заморозка ===
+    name = user.first_name or "друг"
 
-    # Клавиатура: открыть главу + меню
+    if streak_result.returned_after_loss:
+        # Серия сгорела недавно, юзер вернулся — отправляем ободрение
+        await bot.send_message(
+            chat_id=user.tg_id,
+            text=t("streak.encouragement", user.lang, name=name),
+            parse_mode="HTML",
+        )
+    elif streak_result.freeze_used:
+        # Сработала заморозка — отправляем уведомление об этом
+        await bot.send_message(
+            chat_id=user.tg_id,
+            text=t(
+                "streak.freeze_used",
+                user.lang,
+                name=name,
+                streak=streak_result.current_streak,
+                freezes=streak_result.freezes_available,
+            ),
+            parse_mode="HTML",
+        )
+
+    # === Основное сообщение со стихом дня ===
+    greeting = t("notifications.daily_greeting", user.lang)
+    streak_line = format_streak_indicator(streak_result.current_streak, user.lang)
+
+    parts = [greeting]
+    if streak_line:
+        parts.append(streak_line)
+    parts.append("")
+    parts.append(reference)
+    parts.append("")
+    parts.append(f"<i>{verse['text']}</i>")
+    text = "\n".join(parts)
+
     from aiogram.utils.keyboard import InlineKeyboardBuilder
     builder = InlineKeyboardBuilder()
     builder.button(
@@ -75,6 +114,16 @@ async def _send_verse_to_user(bot: Bot, user) -> None:
         reply_markup=builder.as_markup(),
         parse_mode="HTML",
     )
+
+    # === Поздравление с милстоуном ===
+    if streak_result.milestone_reached:
+        msg = get_milestone_message(streak_result.milestone_reached, user.lang)
+        if msg:
+            await bot.send_message(
+                chat_id=user.tg_id,
+                text=msg,
+                parse_mode="HTML",
+            )
 
 
 def start_scheduler(bot: Bot) -> None:

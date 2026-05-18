@@ -8,12 +8,14 @@ from services.bible_service import BibleService
 def settings_keyboard(lang: str) -> InlineKeyboardMarkup:
     """Главный экран настроек."""
     builder = InlineKeyboardBuilder()
+
+    # === Настройки бота ===
     builder.button(
         text=t("settings.change_language", lang),
         callback_data="settings:change_lang"
     )
 
-    # Показываем кнопку выбора перевода только если их больше одного на языке
+    # Кнопка выбора перевода — только если на языке больше одного перевода
     if len(BibleService.get_translations_for_lang(lang)) > 1:
         builder.button(
             text=t("settings.change_translation", lang),
@@ -24,10 +26,27 @@ def settings_keyboard(lang: str) -> InlineKeyboardMarkup:
         text=t("settings.change_notifications", lang),
         callback_data="notif:open"
     )
+
+    # === Обратная связь (переместили из ЛК) ===
+    builder.button(
+        text=t("feedback.cabinet_idea", lang),
+        callback_data="fb:start:idea"
+    )
+    builder.button(
+        text=t("feedback.cabinet_bug", lang),
+        callback_data="fb:start:bug"
+    )
+
+    # === Возврат ===
+    builder.button(
+        text=t("cabinet.back_to_cabinet", lang),
+        callback_data="cabinet"
+    )
     builder.button(
         text=t("common.back_to_menu", lang),
         callback_data="open_menu"
     )
+
     builder.adjust(1)
     return builder.as_markup()
 

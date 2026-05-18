@@ -3,6 +3,7 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery
 
 from services.user_service import UserService
+from services.streak_display import format_streak_indicator
 from services.i18n import t
 from keyboards.language import language_keyboard
 from keyboards.menu import welcome_keyboard, main_menu_keyboard
@@ -67,12 +68,18 @@ async def set_language(callback: CallbackQuery):
 
 @router.callback_query(F.data == "open_menu")
 async def open_menu(callback: CallbackQuery):
-    """Переход из приветствия в главное меню."""
+    """Переход из приветствия или другого экрана в главное меню."""
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
 
+    base = t("menu.title", lang)
+    if user and user.current_streak > 0:
+        streak_line = format_streak_indicator(user.current_streak, lang)
+        if streak_line:
+            base = f"{base}\n\n{streak_line}"
+
     await callback.message.edit_text(
-        t("menu.title", lang),
+        base,
         reply_markup=main_menu_keyboard(lang)
     )
     await callback.answer()

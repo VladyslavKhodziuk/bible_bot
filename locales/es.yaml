@@ -32,11 +32,24 @@ menu:
   topics: "💭 Me siento..."
   verse_of_day: "📅 Versículo del día"
   random: "🎲 Versículo al azar"
-  bookmarks: "⭐ Mis favoritos"
   plan: "📚 Plan de lectura"
   share: "🎨 Compartir"
-  settings: "⚙️ Ajustes"
+  cabinet: "👤 Mi cuenta"
   donate: "❤️ Apoyar el proyecto"
+
+cabinet:
+  title: "<b>👤 Mi Cuenta</b>"
+  greeting: "¡Hola, {name}!"
+  streak_current: "🔥 Racha: <b>{days} días</b>"
+  streak_current_single: "🔥 Racha: <b>1 día</b>"
+  streak_none: "🔥 La racha aún no ha comenzado"
+  streak_longest: "🏆 Mejor racha: <b>{days} días</b>"
+  freezes: "🛡 Protecciones: <b>{count} / {max}</b>"
+  bookmarks_count: "⭐ Favoritos: <b>{count}</b>"
+  days_in_bot: "📅 Con nosotros: <b>{days} días</b>"
+  bookmarks_button: "⭐ Mis favoritos"
+  settings_button: "⚙️ Ajustes"
+  back_to_cabinet: "← A mi cuenta"
 
 settings:
   title: "<b>⚙️ Ajustes</b>"
@@ -50,6 +63,7 @@ settings:
   notifications_on: "activadas, {time}"
   notifications_off: "desactivadas"
   change_notifications: "🔔 Ajustes de notificaciones"
+  feedback_section: "💬 Ayuda a mejorar el bot:"
   language_names:
     ru: "Русский"
     en: "English"
@@ -114,7 +128,90 @@ notifications:
   disabled_message: "🔕 Notificaciones desactivadas"
   daily_greeting: "🌅 <b>¡Buenos días!</b>\n\nAquí está tu versículo de hoy:"
 
+streak:
+  indicator: "🔥 {days} días seguidos"
+  indicator_single: "🔥 1 día con la Palabra"
+  none: ""
+  onboarding: |
+    🔥 <b>¡Tu racha ha comenzado!</b>
+
+    Cada día que lees el versículo del día o abres un capítulo de la Biblia — cuenta como un día. Así se forma el hábito de volver a la Escritura cada día.
+
+    🛡 Tienes <b>2 protecciones</b> — te cuidarán la racha si pierdes un día. La protección se activa automáticamente. Las protecciones se renuevan a medida que crece tu racha.
+
+    No te rindas, estoy contigo 🙏
+  onboarding_button: "Entendido 🙌"
+  freeze_used: |
+    🛡 <b>¡Buenos días, {name}!</b>
+
+    Ayer perdiste un día — usé una protección para conservar tu racha.
+    🔥 Racha: <b>{streak} días</b>
+    🛡 Protecciones restantes: <b>{freezes}</b>
+
+    No pierdas el ritmo — la Palabra te espera.
+  encouragement: |
+    🕊 <b>Hola, {name}.</b>
+
+    Noté que no nos vimos por un tiempo. Es normal — la vida está llena de circunstancias.
+
+    Dios no cuenta los días. Simplemente se alegra de cada regreso.
+
+    ¿Volvemos a empezar? 🙏
+  milestones:
+    "3": "🎉 ¡Tres días seguidos con la Palabra! Se está formando un hábito."
+    "7": "🔥 ¡Una semana entera! Esto se está volviendo un ritmo de vida."
+    "14": "✨ ¡Dos semanas! La Palabra se está volviendo tu pan."
+    "30": "🏆 ¡Un mes entero! Esto no es coincidencia."
+    "50": "💎 ¡Cincuenta días! Constancia notable."
+    "100": "👑 ¡CIEN DÍAS! Increíble. Dios ve tu corazón."
+    "200": "🌟 ¡Doscientos días! Eres inspiración para otros."
+    "365": "🕊️ ¡UN AÑO CON LA PALABRA! Esto ya es un estilo de vida."
+
 common:
   back_to_menu: "← Al menú"
   back: "← Atrás"
   in_development: "🔧 En desarrollo. ¡Pronto estará disponible!"
+
+feedback:
+  cabinet_idea: "💡 Sugerir una idea"
+  cabinet_bug: "🐞 Reportar un problema"
+  cabinet_review: "😊 Dejar una reseña"
+
+  idea_prompt: |
+    💡 <b>Sugerir una idea</b>
+
+    Escribe tu idea en un mensaje — ¿qué te gustaría mejorar o añadir al bot?
+
+    La transmitiré al autor del proyecto.
+  idea_thanks: |
+    🙏 <b>¡Gracias!</b>
+
+    Tu idea ha sido recibida. El autor seguramente la leerá.
+
+  bug_prompt: |
+    🐞 <b>Reportar un problema</b>
+
+    Describe qué no funciona o funciona de forma extraña. Cuenta lo más detalladamente posible — qué hacías, qué esperabas, qué pasó.
+  bug_thanks: |
+    🙏 <b>¡Gracias!</b>
+
+    Reporte recibido. Trataré de arreglarlo lo antes posible.
+
+  review_prompt: |
+    😊 <b>Dejar una reseña</b>
+
+    Cuenta en uno o dos mensajes qué te gusta del bot o qué te ha tocado.
+
+    Tu reseña es un verdadero apoyo para el proyecto 🙏
+  review_thanks: |
+    ❤️ <b>¡Gracias por tu reseña!</b>
+
+    Esto significa mucho para el proyecto.
+
+    Si quieres — puedes apoyar el proyecto para que crezca y ayude a más personas:
+
+  cancel: "← Cancelar"
+  cancelled: "Cancelado"
+  too_short: "Tu mensaje es demasiado corto. Por favor escribe un poco más de detalle."
+  support_button: "❤️ Apoyar el proyecto"
+  later_button: "Más tarde"
