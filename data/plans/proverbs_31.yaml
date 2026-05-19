@@ -1,0 +1,108 @@
+id: proverbs_31
+emoji: "🌅"
+duration_days: 31
+names:
+  ru: "Притчи мудрости"
+  en: "Wisdom of Proverbs"
+  es: "Sabiduría de Proverbios"
+  uk: "Притчі мудрості"
+descriptions:
+  ru: "Читать одну главу Притчей в день — ровно 31 день, по числу глав. Тысячелетняя мудрость для повседневной жизни."
+  en: "Read one chapter of Proverbs each day — exactly 31 days, matching the chapter count. Millennia-old wisdom for daily life."
+  es: "Leer un capítulo de Proverbios al día — exactamente 31 días, coincidiendo con los capítulos. Sabiduría milenaria para la vida diaria."
+  uk: "Читати один розділ Приповістей на день — рівно 31 день, за числом розділів. Тисячолітня мудрість для повсякденного життя."
+schedule:
+
+  - day: 1
+    readings:
+      - { abbrev: "prv", chapter: 1 }
+  - day: 2
+    readings:
+      - { abbrev: "prv", chapter: 2 }
+  - day: 3
+    readings:
+      - { abbrev: "prv", chapter: 3 }
+  - day: 4
+    readings:
+      - { abbrev: "prv", chapter: 4 }
+  - day: 5
+    readings:
+      - { abbrev: "prv", chapter: 5 }
+  - day: 6
+    readings:
+      - { abbrev: "prv", chapter: 6 }
+  - day: 7
+    readings:
+      - { abbrev: "prv", chapter: 7 }
+  - day: 8
+    readings:
+      - { abbrev: "prv", chapter: 8 }
+  - day: 9
+    readings:
+      - { abbrev: "prv", chapter: 9 }
+  - day: 10
+    readings:
+      - { abbrev: "prv", chapter: 10 }
+  - day: 11
+    readings:
+      - { abbrev: "prv", chapter: 11 }
+  - day: 12
+    readings:
+      - { abbrev: "prv", chapter: 12 }
+  - day: 13
+    readings:
+      - { abbrev: "prv", chapter: 13 }
+  - day: 14
+    readings:
+      - { abbrev: "prv", chapter: 14 }
+  - day: 15
+    readings:
+      - { abbrev: "prv", chapter: 15 }
+  - day: 16
+    readings:
+      - { abbrev: "prv", chapter: 16 }
+  - day: 17
+    readings:
+      - { abbrev: "prv", chapter: 17 }
+  - day: 18
+    readings:
+      - { abbrev: "prv", chapter: 18 }
+  - day: 19
+    readings:
+      - { abbrev: "prv", chapter: 19 }
+  - day: 20
+    readings:
+      - { abbrev: "prv", chapter: 20 }
+  - day: 21
+    readings:
+      - { abbrev: "prv", chapter: 21 }
+  - day: 22
+    readings:
+      - { abbrev: "prv", chapter: 22 }
+  - day: 23
+    readings:
+      - { abbrev: "prv", chapter: 23 }
+  - day: 24
+    readings:
+      - { abbrev: "prv", chapter: 24 }
+  - day: 25
+    readings:
+      - { abbrev: "prv", chapter: 25 }
+  - day: 26
+    readings:
+      - { abbrev: "prv", chapter: 26 }
+  - day: 27
+    readings:
+      - { abbrev: "prv", chapter: 27 }
+  - day: 28
+    readings:
+      - { abbrev: "prv", chapter: 28 }
+  - day: 29
+    readings:
+      - { abbrev: "prv", chapter: 29 }
+  - day: 30
+    readings:
+      - { abbrev: "prv", chapter: 30 }
+  - day: 31
+    readings:
+      - { abbrev: "prv", chapter: 31 }

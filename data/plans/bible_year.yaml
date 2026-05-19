@@ -1,0 +1,1934 @@
+id: bible_year
+emoji: "📚"
+duration_days: 365
+names:
+  ru: "Библия за год"
+  en: "Bible in a year"
+  es: "Biblia en un año"
+  uk: "Біблія за рік"
+descriptions:
+  ru: "Прочитать всю Библию за год. По 3-4 главы в день, последовательно от Бытия до Откровения. Серьёзная цель для тех, кто хочет знать всё Писание."
+  en: "Read the entire Bible in a year. 3-4 chapters per day, sequentially from Genesis to Revelation. A serious goal for those who want to know the whole Scripture."
+  es: "Leer toda la Biblia en un año. 3-4 capítulos al día, secuencialmente desde Génesis hasta Apocalipsis. Una meta seria para quienes quieren conocer toda la Escritura."
+  uk: "Прочитати всю Біблію за рік. По 3-4 розділи на день, послідовно від Буття до Об'явлення. Серйозна мета для тих, хто хоче знати все Письмо."
+schedule:
+
+  - day: 1
+    readings:
+      - { abbrev: "gn", chapter: 1 }
+      - { abbrev: "gn", chapter: 2 }
+      - { abbrev: "gn", chapter: 3 }
+  - day: 2
+    readings:
+      - { abbrev: "gn", chapter: 4 }
+      - { abbrev: "gn", chapter: 5 }
+      - { abbrev: "gn", chapter: 6 }
+      - { abbrev: "gn", chapter: 7 }
+  - day: 3
+    readings:
+      - { abbrev: "gn", chapter: 8 }
+      - { abbrev: "gn", chapter: 9 }
+      - { abbrev: "gn", chapter: 10 }
+  - day: 4
+    readings:
+      - { abbrev: "gn", chapter: 11 }
+      - { abbrev: "gn", chapter: 12 }
+      - { abbrev: "gn", chapter: 13 }
+  - day: 5
+    readings:
+      - { abbrev: "gn", chapter: 14 }
+      - { abbrev: "gn", chapter: 15 }
+      - { abbrev: "gn", chapter: 16 }
+  - day: 6
+    readings:
+      - { abbrev: "gn", chapter: 17 }
+      - { abbrev: "gn", chapter: 18 }
+      - { abbrev: "gn", chapter: 19 }
+      - { abbrev: "gn", chapter: 20 }
+  - day: 7
+    readings:
+      - { abbrev: "gn", chapter: 21 }
+      - { abbrev: "gn", chapter: 22 }
+      - { abbrev: "gn", chapter: 23 }
+  - day: 8
+    readings:
+      - { abbrev: "gn", chapter: 24 }
+      - { abbrev: "gn", chapter: 25 }
+      - { abbrev: "gn", chapter: 26 }
+  - day: 9
+    readings:
+      - { abbrev: "gn", chapter: 27 }
+      - { abbrev: "gn", chapter: 28 }
+      - { abbrev: "gn", chapter: 29 }
+  - day: 10
+    readings:
+      - { abbrev: "gn", chapter: 30 }
+      - { abbrev: "gn", chapter: 31 }
+      - { abbrev: "gn", chapter: 32 }
+      - { abbrev: "gn", chapter: 33 }
+  - day: 11
+    readings:
+      - { abbrev: "gn", chapter: 34 }
+      - { abbrev: "gn", chapter: 35 }
+      - { abbrev: "gn", chapter: 36 }
+  - day: 12
+    readings:
+      - { abbrev: "gn", chapter: 37 }
+      - { abbrev: "gn", chapter: 38 }
+      - { abbrev: "gn", chapter: 39 }
+  - day: 13
+    readings:
+      - { abbrev: "gn", chapter: 40 }
+      - { abbrev: "gn", chapter: 41 }
+      - { abbrev: "gn", chapter: 42 }
+  - day: 14
+    readings:
+      - { abbrev: "gn", chapter: 43 }
+      - { abbrev: "gn", chapter: 44 }
+      - { abbrev: "gn", chapter: 45 }
+      - { abbrev: "gn", chapter: 46 }
+  - day: 15
+    readings:
+      - { abbrev: "gn", chapter: 47 }
+      - { abbrev: "gn", chapter: 48 }
+      - { abbrev: "gn", chapter: 49 }
+  - day: 16
+    readings:
+      - { abbrev: "gn", chapter: 50 }
+      - { abbrev: "ex", chapter: 1 }
+      - { abbrev: "ex", chapter: 2 }
+  - day: 17
+    readings:
+      - { abbrev: "ex", chapter: 3 }
+      - { abbrev: "ex", chapter: 4 }
+      - { abbrev: "ex", chapter: 5 }
+  - day: 18
+    readings:
+      - { abbrev: "ex", chapter: 6 }
+      - { abbrev: "ex", chapter: 7 }
+      - { abbrev: "ex", chapter: 8 }
+      - { abbrev: "ex", chapter: 9 }
+  - day: 19
+    readings:
+      - { abbrev: "ex", chapter: 10 }
+      - { abbrev: "ex", chapter: 11 }
+      - { abbrev: "ex", chapter: 12 }
+  - day: 20
+    readings:
+      - { abbrev: "ex", chapter: 13 }
+      - { abbrev: "ex", chapter: 14 }
+      - { abbrev: "ex", chapter: 15 }
+  - day: 21
+    readings:
+      - { abbrev: "ex", chapter: 16 }
+      - { abbrev: "ex", chapter: 17 }
+      - { abbrev: "ex", chapter: 18 }
+  - day: 22
+    readings:
+      - { abbrev: "ex", chapter: 19 }
+      - { abbrev: "ex", chapter: 20 }
+      - { abbrev: "ex", chapter: 21 }
+      - { abbrev: "ex", chapter: 22 }
+  - day: 23
+    readings:
+      - { abbrev: "ex", chapter: 23 }
+      - { abbrev: "ex", chapter: 24 }
+      - { abbrev: "ex", chapter: 25 }
+  - day: 24
+    readings:
+      - { abbrev: "ex", chapter: 26 }
+      - { abbrev: "ex", chapter: 27 }
+      - { abbrev: "ex", chapter: 28 }
+  - day: 25
+    readings:
+      - { abbrev: "ex", chapter: 29 }
+      - { abbrev: "ex", chapter: 30 }
+      - { abbrev: "ex", chapter: 31 }
+  - day: 26
+    readings:
+      - { abbrev: "ex", chapter: 32 }
+      - { abbrev: "ex", chapter: 33 }
+      - { abbrev: "ex", chapter: 34 }
+      - { abbrev: "ex", chapter: 35 }
+  - day: 27
+    readings:
+      - { abbrev: "ex", chapter: 36 }
+      - { abbrev: "ex", chapter: 37 }
+      - { abbrev: "ex", chapter: 38 }
+  - day: 28
+    readings:
+      - { abbrev: "ex", chapter: 39 }
+      - { abbrev: "ex", chapter: 40 }
+      - { abbrev: "lv", chapter: 1 }
+  - day: 29
+    readings:
+      - { abbrev: "lv", chapter: 2 }
+      - { abbrev: "lv", chapter: 3 }
+      - { abbrev: "lv", chapter: 4 }
+  - day: 30
+    readings:
+      - { abbrev: "lv", chapter: 5 }
+      - { abbrev: "lv", chapter: 6 }
+      - { abbrev: "lv", chapter: 7 }
+      - { abbrev: "lv", chapter: 8 }
+  - day: 31
+    readings:
+      - { abbrev: "lv", chapter: 9 }
+      - { abbrev: "lv", chapter: 10 }
+      - { abbrev: "lv", chapter: 11 }
+  - day: 32
+    readings:
+      - { abbrev: "lv", chapter: 12 }
+      - { abbrev: "lv", chapter: 13 }
+      - { abbrev: "lv", chapter: 14 }
+  - day: 33
+    readings:
+      - { abbrev: "lv", chapter: 15 }
+      - { abbrev: "lv", chapter: 16 }
+      - { abbrev: "lv", chapter: 17 }
+  - day: 34
+    readings:
+      - { abbrev: "lv", chapter: 18 }
+      - { abbrev: "lv", chapter: 19 }
+      - { abbrev: "lv", chapter: 20 }
+      - { abbrev: "lv", chapter: 21 }
+  - day: 35
+    readings:
+      - { abbrev: "lv", chapter: 22 }
+      - { abbrev: "lv", chapter: 23 }
+      - { abbrev: "lv", chapter: 24 }
+  - day: 36
+    readings:
+      - { abbrev: "lv", chapter: 25 }
+      - { abbrev: "lv", chapter: 26 }
+      - { abbrev: "lv", chapter: 27 }
+  - day: 37
+    readings:
+      - { abbrev: "nm", chapter: 1 }
+      - { abbrev: "nm", chapter: 2 }
+      - { abbrev: "nm", chapter: 3 }
+      - { abbrev: "nm", chapter: 4 }
+  - day: 38
+    readings:
+      - { abbrev: "nm", chapter: 5 }
+      - { abbrev: "nm", chapter: 6 }
+      - { abbrev: "nm", chapter: 7 }
+  - day: 39
+    readings:
+      - { abbrev: "nm", chapter: 8 }
+      - { abbrev: "nm", chapter: 9 }
+      - { abbrev: "nm", chapter: 10 }
+  - day: 40
+    readings:
+      - { abbrev: "nm", chapter: 11 }
+      - { abbrev: "nm", chapter: 12 }
+      - { abbrev: "nm", chapter: 13 }
+  - day: 41
+    readings:
+      - { abbrev: "nm", chapter: 14 }
+      - { abbrev: "nm", chapter: 15 }
+      - { abbrev: "nm", chapter: 16 }
+      - { abbrev: "nm", chapter: 17 }
+  - day: 42
+    readings:
+      - { abbrev: "nm", chapter: 18 }
+      - { abbrev: "nm", chapter: 19 }
+      - { abbrev: "nm", chapter: 20 }
+  - day: 43
+    readings:
+      - { abbrev: "nm", chapter: 21 }
+      - { abbrev: "nm", chapter: 22 }
+      - { abbrev: "nm", chapter: 23 }
+  - day: 44
+    readings:
+      - { abbrev: "nm", chapter: 24 }
+      - { abbrev: "nm", chapter: 25 }
+      - { abbrev: "nm", chapter: 26 }
+  - day: 45
+    readings:
+      - { abbrev: "nm", chapter: 27 }
+      - { abbrev: "nm", chapter: 28 }
+      - { abbrev: "nm", chapter: 29 }
+      - { abbrev: "nm", chapter: 30 }
+  - day: 46
+    readings:
+      - { abbrev: "nm", chapter: 31 }
+      - { abbrev: "nm", chapter: 32 }
+      - { abbrev: "nm", chapter: 33 }
+  - day: 47
+    readings:
+      - { abbrev: "nm", chapter: 34 }
+      - { abbrev: "nm", chapter: 35 }
+      - { abbrev: "nm", chapter: 36 }
+  - day: 48
+    readings:
+      - { abbrev: "dt", chapter: 1 }
+      - { abbrev: "dt", chapter: 2 }
+      - { abbrev: "dt", chapter: 3 }
+  - day: 49
+    readings:
+      - { abbrev: "dt", chapter: 4 }
+      - { abbrev: "dt", chapter: 5 }
+      - { abbrev: "dt", chapter: 6 }
+      - { abbrev: "dt", chapter: 7 }
+  - day: 50
+    readings:
+      - { abbrev: "dt", chapter: 8 }
+      - { abbrev: "dt", chapter: 9 }
+      - { abbrev: "dt", chapter: 10 }
+  - day: 51
+    readings:
+      - { abbrev: "dt", chapter: 11 }
+      - { abbrev: "dt", chapter: 12 }
+      - { abbrev: "dt", chapter: 13 }
+  - day: 52
+    readings:
+      - { abbrev: "dt", chapter: 14 }
+      - { abbrev: "dt", chapter: 15 }
+      - { abbrev: "dt", chapter: 16 }
+  - day: 53
+    readings:
+      - { abbrev: "dt", chapter: 17 }
+      - { abbrev: "dt", chapter: 18 }
+      - { abbrev: "dt", chapter: 19 }
+      - { abbrev: "dt", chapter: 20 }
+  - day: 54
+    readings:
+      - { abbrev: "dt", chapter: 21 }
+      - { abbrev: "dt", chapter: 22 }
+      - { abbrev: "dt", chapter: 23 }
+  - day: 55
+    readings:
+      - { abbrev: "dt", chapter: 24 }
+      - { abbrev: "dt", chapter: 25 }
+      - { abbrev: "dt", chapter: 26 }
+  - day: 56
+    readings:
+      - { abbrev: "dt", chapter: 27 }
+      - { abbrev: "dt", chapter: 28 }
+      - { abbrev: "dt", chapter: 29 }
+  - day: 57
+    readings:
+      - { abbrev: "dt", chapter: 30 }
+      - { abbrev: "dt", chapter: 31 }
+      - { abbrev: "dt", chapter: 32 }
+      - { abbrev: "dt", chapter: 33 }
+  - day: 58
+    readings:
+      - { abbrev: "dt", chapter: 34 }
+      - { abbrev: "js", chapter: 1 }
+      - { abbrev: "js", chapter: 2 }
+  - day: 59
+    readings:
+      - { abbrev: "js", chapter: 3 }
+      - { abbrev: "js", chapter: 4 }
+      - { abbrev: "js", chapter: 5 }
+  - day: 60
+    readings:
+      - { abbrev: "js", chapter: 6 }
+      - { abbrev: "js", chapter: 7 }
+      - { abbrev: "js", chapter: 8 }
+  - day: 61
+    readings:
+      - { abbrev: "js", chapter: 9 }
+      - { abbrev: "js", chapter: 10 }
+      - { abbrev: "js", chapter: 11 }
+      - { abbrev: "js", chapter: 12 }
+  - day: 62
+    readings:
+      - { abbrev: "js", chapter: 13 }
+      - { abbrev: "js", chapter: 14 }
+      - { abbrev: "js", chapter: 15 }
+  - day: 63
+    readings:
+      - { abbrev: "js", chapter: 16 }
+      - { abbrev: "js", chapter: 17 }
+      - { abbrev: "js", chapter: 18 }
+  - day: 64
+    readings:
+      - { abbrev: "js", chapter: 19 }
+      - { abbrev: "js", chapter: 20 }
+      - { abbrev: "js", chapter: 21 }
+  - day: 65
+    readings:
+      - { abbrev: "js", chapter: 22 }
+      - { abbrev: "js", chapter: 23 }
+      - { abbrev: "js", chapter: 24 }
+      - { abbrev: "jud", chapter: 1 }
+  - day: 66
+    readings:
+      - { abbrev: "jud", chapter: 2 }
+      - { abbrev: "jud", chapter: 3 }
+      - { abbrev: "jud", chapter: 4 }
+  - day: 67
+    readings:
+      - { abbrev: "jud", chapter: 5 }
+      - { abbrev: "jud", chapter: 6 }
+      - { abbrev: "jud", chapter: 7 }
+  - day: 68
+    readings:
+      - { abbrev: "jud", chapter: 8 }
+      - { abbrev: "jud", chapter: 9 }
+      - { abbrev: "jud", chapter: 10 }
+      - { abbrev: "jud", chapter: 11 }
+  - day: 69
+    readings:
+      - { abbrev: "jud", chapter: 12 }
+      - { abbrev: "jud", chapter: 13 }
+      - { abbrev: "jud", chapter: 14 }
+  - day: 70
+    readings:
+      - { abbrev: "jud", chapter: 15 }
+      - { abbrev: "jud", chapter: 16 }
+      - { abbrev: "jud", chapter: 17 }
+  - day: 71
+    readings:
+      - { abbrev: "jud", chapter: 18 }
+      - { abbrev: "jud", chapter: 19 }
+      - { abbrev: "jud", chapter: 20 }
+  - day: 72
+    readings:
+      - { abbrev: "jud", chapter: 21 }
+      - { abbrev: "rt", chapter: 1 }
+      - { abbrev: "rt", chapter: 2 }
+      - { abbrev: "rt", chapter: 3 }
+  - day: 73
+    readings:
+      - { abbrev: "rt", chapter: 4 }
+      - { abbrev: "1sm", chapter: 1 }
+      - { abbrev: "1sm", chapter: 2 }
+  - day: 74
+    readings:
+      - { abbrev: "1sm", chapter: 3 }
+      - { abbrev: "1sm", chapter: 4 }
+      - { abbrev: "1sm", chapter: 5 }
+  - day: 75
+    readings:
+      - { abbrev: "1sm", chapter: 6 }
+      - { abbrev: "1sm", chapter: 7 }
+      - { abbrev: "1sm", chapter: 8 }
+  - day: 76
+    readings:
+      - { abbrev: "1sm", chapter: 9 }
+      - { abbrev: "1sm", chapter: 10 }
+      - { abbrev: "1sm", chapter: 11 }
+      - { abbrev: "1sm", chapter: 12 }
+  - day: 77
+    readings:
+      - { abbrev: "1sm", chapter: 13 }
+      - { abbrev: "1sm", chapter: 14 }
+      - { abbrev: "1sm", chapter: 15 }
+  - day: 78
+    readings:
+      - { abbrev: "1sm", chapter: 16 }
+      - { abbrev: "1sm", chapter: 17 }
+      - { abbrev: "1sm", chapter: 18 }
+  - day: 79
+    readings:
+      - { abbrev: "1sm", chapter: 19 }
+      - { abbrev: "1sm", chapter: 20 }
+      - { abbrev: "1sm", chapter: 21 }
+  - day: 80
+    readings:
+      - { abbrev: "1sm", chapter: 22 }
+      - { abbrev: "1sm", chapter: 23 }
+      - { abbrev: "1sm", chapter: 24 }
+      - { abbrev: "1sm", chapter: 25 }
+  - day: 81
+    readings:
+      - { abbrev: "1sm", chapter: 26 }
+      - { abbrev: "1sm", chapter: 27 }
+      - { abbrev: "1sm", chapter: 28 }
+  - day: 82
+    readings:
+      - { abbrev: "1sm", chapter: 29 }
+      - { abbrev: "1sm", chapter: 30 }
+      - { abbrev: "1sm", chapter: 31 }
+  - day: 83
+    readings:
+      - { abbrev: "2sm", chapter: 1 }
+      - { abbrev: "2sm", chapter: 2 }
+      - { abbrev: "2sm", chapter: 3 }
+  - day: 84
+    readings:
+      - { abbrev: "2sm", chapter: 4 }
+      - { abbrev: "2sm", chapter: 5 }
+      - { abbrev: "2sm", chapter: 6 }
+      - { abbrev: "2sm", chapter: 7 }
+  - day: 85
+    readings:
+      - { abbrev: "2sm", chapter: 8 }
+      - { abbrev: "2sm", chapter: 9 }
+      - { abbrev: "2sm", chapter: 10 }
+  - day: 86
+    readings:
+      - { abbrev: "2sm", chapter: 11 }
+      - { abbrev: "2sm", chapter: 12 }
+      - { abbrev: "2sm", chapter: 13 }
+  - day: 87
+    readings:
+      - { abbrev: "2sm", chapter: 14 }
+      - { abbrev: "2sm", chapter: 15 }
+      - { abbrev: "2sm", chapter: 16 }
+  - day: 88
+    readings:
+      - { abbrev: "2sm", chapter: 17 }
+      - { abbrev: "2sm", chapter: 18 }
+      - { abbrev: "2sm", chapter: 19 }
+      - { abbrev: "2sm", chapter: 20 }
+  - day: 89
+    readings:
+      - { abbrev: "2sm", chapter: 21 }
+      - { abbrev: "2sm", chapter: 22 }
+      - { abbrev: "2sm", chapter: 23 }
+  - day: 90
+    readings:
+      - { abbrev: "2sm", chapter: 24 }
+      - { abbrev: "1kgs", chapter: 1 }
+      - { abbrev: "1kgs", chapter: 2 }
+  - day: 91
+    readings:
+      - { abbrev: "1kgs", chapter: 3 }
+      - { abbrev: "1kgs", chapter: 4 }
+      - { abbrev: "1kgs", chapter: 5 }
+  - day: 92
+    readings:
+      - { abbrev: "1kgs", chapter: 6 }
+      - { abbrev: "1kgs", chapter: 7 }
+      - { abbrev: "1kgs", chapter: 8 }
+      - { abbrev: "1kgs", chapter: 9 }
+  - day: 93
+    readings:
+      - { abbrev: "1kgs", chapter: 10 }
+      - { abbrev: "1kgs", chapter: 11 }
+      - { abbrev: "1kgs", chapter: 12 }
+  - day: 94
+    readings:
+      - { abbrev: "1kgs", chapter: 13 }
+      - { abbrev: "1kgs", chapter: 14 }
+      - { abbrev: "1kgs", chapter: 15 }
+  - day: 95
+    readings:
+      - { abbrev: "1kgs", chapter: 16 }
+      - { abbrev: "1kgs", chapter: 17 }
+      - { abbrev: "1kgs", chapter: 18 }
+  - day: 96
+    readings:
+      - { abbrev: "1kgs", chapter: 19 }
+      - { abbrev: "1kgs", chapter: 20 }
+      - { abbrev: "1kgs", chapter: 21 }
+      - { abbrev: "1kgs", chapter: 22 }
+  - day: 97
+    readings:
+      - { abbrev: "2kgs", chapter: 1 }
+      - { abbrev: "2kgs", chapter: 2 }
+      - { abbrev: "2kgs", chapter: 3 }
+  - day: 98
+    readings:
+      - { abbrev: "2kgs", chapter: 4 }
+      - { abbrev: "2kgs", chapter: 5 }
+      - { abbrev: "2kgs", chapter: 6 }
+  - day: 99
+    readings:
+      - { abbrev: "2kgs", chapter: 7 }
+      - { abbrev: "2kgs", chapter: 8 }
+      - { abbrev: "2kgs", chapter: 9 }
+  - day: 100
+    readings:
+      - { abbrev: "2kgs", chapter: 10 }
+      - { abbrev: "2kgs", chapter: 11 }
+      - { abbrev: "2kgs", chapter: 12 }
+      - { abbrev: "2kgs", chapter: 13 }
+  - day: 101
+    readings:
+      - { abbrev: "2kgs", chapter: 14 }
+      - { abbrev: "2kgs", chapter: 15 }
+      - { abbrev: "2kgs", chapter: 16 }
+  - day: 102
+    readings:
+      - { abbrev: "2kgs", chapter: 17 }
+      - { abbrev: "2kgs", chapter: 18 }
+      - { abbrev: "2kgs", chapter: 19 }
+  - day: 103
+    readings:
+      - { abbrev: "2kgs", chapter: 20 }
+      - { abbrev: "2kgs", chapter: 21 }
+      - { abbrev: "2kgs", chapter: 22 }
+      - { abbrev: "2kgs", chapter: 23 }
+  - day: 104
+    readings:
+      - { abbrev: "2kgs", chapter: 24 }
+      - { abbrev: "2kgs", chapter: 25 }
+      - { abbrev: "1ch", chapter: 1 }
+  - day: 105
+    readings:
+      - { abbrev: "1ch", chapter: 2 }
+      - { abbrev: "1ch", chapter: 3 }
+      - { abbrev: "1ch", chapter: 4 }
+  - day: 106
+    readings:
+      - { abbrev: "1ch", chapter: 5 }
+      - { abbrev: "1ch", chapter: 6 }
+      - { abbrev: "1ch", chapter: 7 }
+  - day: 107
+    readings:
+      - { abbrev: "1ch", chapter: 8 }
+      - { abbrev: "1ch", chapter: 9 }
+      - { abbrev: "1ch", chapter: 10 }
+      - { abbrev: "1ch", chapter: 11 }
+  - day: 108
+    readings:
+      - { abbrev: "1ch", chapter: 12 }
+      - { abbrev: "1ch", chapter: 13 }
+      - { abbrev: "1ch", chapter: 14 }
+  - day: 109
+    readings:
+      - { abbrev: "1ch", chapter: 15 }
+      - { abbrev: "1ch", chapter: 16 }
+      - { abbrev: "1ch", chapter: 17 }
+  - day: 110
+    readings:
+      - { abbrev: "1ch", chapter: 18 }
+      - { abbrev: "1ch", chapter: 19 }
+      - { abbrev: "1ch", chapter: 20 }
+  - day: 111
+    readings:
+      - { abbrev: "1ch", chapter: 21 }
+      - { abbrev: "1ch", chapter: 22 }
+      - { abbrev: "1ch", chapter: 23 }
+      - { abbrev: "1ch", chapter: 24 }
+  - day: 112
+    readings:
+      - { abbrev: "1ch", chapter: 25 }
+      - { abbrev: "1ch", chapter: 26 }
+      - { abbrev: "1ch", chapter: 27 }
+  - day: 113
+    readings:
+      - { abbrev: "1ch", chapter: 28 }
+      - { abbrev: "1ch", chapter: 29 }
+      - { abbrev: "2ch", chapter: 1 }
+  - day: 114
+    readings:
+      - { abbrev: "2ch", chapter: 2 }
+      - { abbrev: "2ch", chapter: 3 }
+      - { abbrev: "2ch", chapter: 4 }
+  - day: 115
+    readings:
+      - { abbrev: "2ch", chapter: 5 }
+      - { abbrev: "2ch", chapter: 6 }
+      - { abbrev: "2ch", chapter: 7 }
+      - { abbrev: "2ch", chapter: 8 }
+  - day: 116
+    readings:
+      - { abbrev: "2ch", chapter: 9 }
+      - { abbrev: "2ch", chapter: 10 }
+      - { abbrev: "2ch", chapter: 11 }
+  - day: 117
+    readings:
+      - { abbrev: "2ch", chapter: 12 }
+      - { abbrev: "2ch", chapter: 13 }
+      - { abbrev: "2ch", chapter: 14 }
+  - day: 118
+    readings:
+      - { abbrev: "2ch", chapter: 15 }
+      - { abbrev: "2ch", chapter: 16 }
+      - { abbrev: "2ch", chapter: 17 }
+  - day: 119
+    readings:
+      - { abbrev: "2ch", chapter: 18 }
+      - { abbrev: "2ch", chapter: 19 }
+      - { abbrev: "2ch", chapter: 20 }
+      - { abbrev: "2ch", chapter: 21 }
+  - day: 120
+    readings:
+      - { abbrev: "2ch", chapter: 22 }
+      - { abbrev: "2ch", chapter: 23 }
+      - { abbrev: "2ch", chapter: 24 }
+  - day: 121
+    readings:
+      - { abbrev: "2ch", chapter: 25 }
+      - { abbrev: "2ch", chapter: 26 }
+      - { abbrev: "2ch", chapter: 27 }
+  - day: 122
+    readings:
+      - { abbrev: "2ch", chapter: 28 }
+      - { abbrev: "2ch", chapter: 29 }
+      - { abbrev: "2ch", chapter: 30 }
+  - day: 123
+    readings:
+      - { abbrev: "2ch", chapter: 31 }
+      - { abbrev: "2ch", chapter: 32 }
+      - { abbrev: "2ch", chapter: 33 }
+      - { abbrev: "2ch", chapter: 34 }
+  - day: 124
+    readings:
+      - { abbrev: "2ch", chapter: 35 }
+      - { abbrev: "2ch", chapter: 36 }
+      - { abbrev: "ezr", chapter: 1 }
+  - day: 125
+    readings:
+      - { abbrev: "ezr", chapter: 2 }
+      - { abbrev: "ezr", chapter: 3 }
+      - { abbrev: "ezr", chapter: 4 }
+  - day: 126
+    readings:
+      - { abbrev: "ezr", chapter: 5 }
+      - { abbrev: "ezr", chapter: 6 }
+      - { abbrev: "ezr", chapter: 7 }
+  - day: 127
+    readings:
+      - { abbrev: "ezr", chapter: 8 }
+      - { abbrev: "ezr", chapter: 9 }
+      - { abbrev: "ezr", chapter: 10 }
+      - { abbrev: "ne", chapter: 1 }
+  - day: 128
+    readings:
+      - { abbrev: "ne", chapter: 2 }
+      - { abbrev: "ne", chapter: 3 }
+      - { abbrev: "ne", chapter: 4 }
+  - day: 129
+    readings:
+      - { abbrev: "ne", chapter: 5 }
+      - { abbrev: "ne", chapter: 6 }
+      - { abbrev: "ne", chapter: 7 }
+  - day: 130
+    readings:
+      - { abbrev: "ne", chapter: 8 }
+      - { abbrev: "ne", chapter: 9 }
+      - { abbrev: "ne", chapter: 10 }
+  - day: 131
+    readings:
+      - { abbrev: "ne", chapter: 11 }
+      - { abbrev: "ne", chapter: 12 }
+      - { abbrev: "ne", chapter: 13 }
+      - { abbrev: "et", chapter: 1 }
+  - day: 132
+    readings:
+      - { abbrev: "et", chapter: 2 }
+      - { abbrev: "et", chapter: 3 }
+      - { abbrev: "et", chapter: 4 }
+  - day: 133
+    readings:
+      - { abbrev: "et", chapter: 5 }
+      - { abbrev: "et", chapter: 6 }
+      - { abbrev: "et", chapter: 7 }
+  - day: 134
+    readings:
+      - { abbrev: "et", chapter: 8 }
+      - { abbrev: "et", chapter: 9 }
+      - { abbrev: "et", chapter: 10 }
+      - { abbrev: "job", chapter: 1 }
+  - day: 135
+    readings:
+      - { abbrev: "job", chapter: 2 }
+      - { abbrev: "job", chapter: 3 }
+      - { abbrev: "job", chapter: 4 }
+  - day: 136
+    readings:
+      - { abbrev: "job", chapter: 5 }
+      - { abbrev: "job", chapter: 6 }
+      - { abbrev: "job", chapter: 7 }
+  - day: 137
+    readings:
+      - { abbrev: "job", chapter: 8 }
+      - { abbrev: "job", chapter: 9 }
+      - { abbrev: "job", chapter: 10 }
+  - day: 138
+    readings:
+      - { abbrev: "job", chapter: 11 }
+      - { abbrev: "job", chapter: 12 }
+      - { abbrev: "job", chapter: 13 }
+      - { abbrev: "job", chapter: 14 }
+  - day: 139
+    readings:
+      - { abbrev: "job", chapter: 15 }
+      - { abbrev: "job", chapter: 16 }
+      - { abbrev: "job", chapter: 17 }
+  - day: 140
+    readings:
+      - { abbrev: "job", chapter: 18 }
+      - { abbrev: "job", chapter: 19 }
+      - { abbrev: "job", chapter: 20 }
+  - day: 141
+    readings:
+      - { abbrev: "job", chapter: 21 }
+      - { abbrev: "job", chapter: 22 }
+      - { abbrev: "job", chapter: 23 }
+  - day: 142
+    readings:
+      - { abbrev: "job", chapter: 24 }
+      - { abbrev: "job", chapter: 25 }
+      - { abbrev: "job", chapter: 26 }
+      - { abbrev: "job", chapter: 27 }
+  - day: 143
+    readings:
+      - { abbrev: "job", chapter: 28 }
+      - { abbrev: "job", chapter: 29 }
+      - { abbrev: "job", chapter: 30 }
+  - day: 144
+    readings:
+      - { abbrev: "job", chapter: 31 }
+      - { abbrev: "job", chapter: 32 }
+      - { abbrev: "job", chapter: 33 }
+  - day: 145
+    readings:
+      - { abbrev: "job", chapter: 34 }
+      - { abbrev: "job", chapter: 35 }
+      - { abbrev: "job", chapter: 36 }
+  - day: 146
+    readings:
+      - { abbrev: "job", chapter: 37 }
+      - { abbrev: "job", chapter: 38 }
+      - { abbrev: "job", chapter: 39 }
+      - { abbrev: "job", chapter: 40 }
+  - day: 147
+    readings:
+      - { abbrev: "job", chapter: 41 }
+      - { abbrev: "job", chapter: 42 }
+      - { abbrev: "ps", chapter: 1 }
+  - day: 148
+    readings:
+      - { abbrev: "ps", chapter: 2 }
+      - { abbrev: "ps", chapter: 3 }
+      - { abbrev: "ps", chapter: 4 }
+  - day: 149
+    readings:
+      - { abbrev: "ps", chapter: 5 }
+      - { abbrev: "ps", chapter: 6 }
+      - { abbrev: "ps", chapter: 7 }
+  - day: 150
+    readings:
+      - { abbrev: "ps", chapter: 8 }
+      - { abbrev: "ps", chapter: 9 }
+      - { abbrev: "ps", chapter: 10 }
+      - { abbrev: "ps", chapter: 11 }
+  - day: 151
+    readings:
+      - { abbrev: "ps", chapter: 12 }
+      - { abbrev: "ps", chapter: 13 }
+      - { abbrev: "ps", chapter: 14 }
+  - day: 152
+    readings:
+      - { abbrev: "ps", chapter: 15 }
+      - { abbrev: "ps", chapter: 16 }
+      - { abbrev: "ps", chapter: 17 }
+  - day: 153
+    readings:
+      - { abbrev: "ps", chapter: 18 }
+      - { abbrev: "ps", chapter: 19 }
+      - { abbrev: "ps", chapter: 20 }
+  - day: 154
+    readings:
+      - { abbrev: "ps", chapter: 21 }
+      - { abbrev: "ps", chapter: 22 }
+      - { abbrev: "ps", chapter: 23 }
+      - { abbrev: "ps", chapter: 24 }
+  - day: 155
+    readings:
+      - { abbrev: "ps", chapter: 25 }
+      - { abbrev: "ps", chapter: 26 }
+      - { abbrev: "ps", chapter: 27 }
+  - day: 156
+    readings:
+      - { abbrev: "ps", chapter: 28 }
+      - { abbrev: "ps", chapter: 29 }
+      - { abbrev: "ps", chapter: 30 }
+  - day: 157
+    readings:
+      - { abbrev: "ps", chapter: 31 }
+      - { abbrev: "ps", chapter: 32 }
+      - { abbrev: "ps", chapter: 33 }
+  - day: 158
+    readings:
+      - { abbrev: "ps", chapter: 34 }
+      - { abbrev: "ps", chapter: 35 }
+      - { abbrev: "ps", chapter: 36 }
+      - { abbrev: "ps", chapter: 37 }
+  - day: 159
+    readings:
+      - { abbrev: "ps", chapter: 38 }
+      - { abbrev: "ps", chapter: 39 }
+      - { abbrev: "ps", chapter: 40 }
+  - day: 160
+    readings:
+      - { abbrev: "ps", chapter: 41 }
+      - { abbrev: "ps", chapter: 42 }
+      - { abbrev: "ps", chapter: 43 }
+  - day: 161
+    readings:
+      - { abbrev: "ps", chapter: 44 }
+      - { abbrev: "ps", chapter: 45 }
+      - { abbrev: "ps", chapter: 46 }
+  - day: 162
+    readings:
+      - { abbrev: "ps", chapter: 47 }
+      - { abbrev: "ps", chapter: 48 }
+      - { abbrev: "ps", chapter: 49 }
+      - { abbrev: "ps", chapter: 50 }
+  - day: 163
+    readings:
+      - { abbrev: "ps", chapter: 51 }
+      - { abbrev: "ps", chapter: 52 }
+      - { abbrev: "ps", chapter: 53 }
+  - day: 164
+    readings:
+      - { abbrev: "ps", chapter: 54 }
+      - { abbrev: "ps", chapter: 55 }
+      - { abbrev: "ps", chapter: 56 }
+  - day: 165
+    readings:
+      - { abbrev: "ps", chapter: 57 }
+      - { abbrev: "ps", chapter: 58 }
+      - { abbrev: "ps", chapter: 59 }
+  - day: 166
+    readings:
+      - { abbrev: "ps", chapter: 60 }
+      - { abbrev: "ps", chapter: 61 }
+      - { abbrev: "ps", chapter: 62 }
+      - { abbrev: "ps", chapter: 63 }
+  - day: 167
+    readings:
+      - { abbrev: "ps", chapter: 64 }
+      - { abbrev: "ps", chapter: 65 }
+      - { abbrev: "ps", chapter: 66 }
+  - day: 168
+    readings:
+      - { abbrev: "ps", chapter: 67 }
+      - { abbrev: "ps", chapter: 68 }
+      - { abbrev: "ps", chapter: 69 }
+  - day: 169
+    readings:
+      - { abbrev: "ps", chapter: 70 }
+      - { abbrev: "ps", chapter: 71 }
+      - { abbrev: "ps", chapter: 72 }
+      - { abbrev: "ps", chapter: 73 }
+  - day: 170
+    readings:
+      - { abbrev: "ps", chapter: 74 }
+      - { abbrev: "ps", chapter: 75 }
+      - { abbrev: "ps", chapter: 76 }
+  - day: 171
+    readings:
+      - { abbrev: "ps", chapter: 77 }
+      - { abbrev: "ps", chapter: 78 }
+      - { abbrev: "ps", chapter: 79 }
+  - day: 172
+    readings:
+      - { abbrev: "ps", chapter: 80 }
+      - { abbrev: "ps", chapter: 81 }
+      - { abbrev: "ps", chapter: 82 }
+  - day: 173
+    readings:
+      - { abbrev: "ps", chapter: 83 }
+      - { abbrev: "ps", chapter: 84 }
+      - { abbrev: "ps", chapter: 85 }
+      - { abbrev: "ps", chapter: 86 }
+  - day: 174
+    readings:
+      - { abbrev: "ps", chapter: 87 }
+      - { abbrev: "ps", chapter: 88 }
+      - { abbrev: "ps", chapter: 89 }
+  - day: 175
+    readings:
+      - { abbrev: "ps", chapter: 90 }
+      - { abbrev: "ps", chapter: 91 }
+      - { abbrev: "ps", chapter: 92 }
+  - day: 176
+    readings:
+      - { abbrev: "ps", chapter: 93 }
+      - { abbrev: "ps", chapter: 94 }
+      - { abbrev: "ps", chapter: 95 }
+  - day: 177
+    readings:
+      - { abbrev: "ps", chapter: 96 }
+      - { abbrev: "ps", chapter: 97 }
+      - { abbrev: "ps", chapter: 98 }
+      - { abbrev: "ps", chapter: 99 }
+  - day: 178
+    readings:
+      - { abbrev: "ps", chapter: 100 }
+      - { abbrev: "ps", chapter: 101 }
+      - { abbrev: "ps", chapter: 102 }
+  - day: 179
+    readings:
+      - { abbrev: "ps", chapter: 103 }
+      - { abbrev: "ps", chapter: 104 }
+      - { abbrev: "ps", chapter: 105 }
+  - day: 180
+    readings:
+      - { abbrev: "ps", chapter: 106 }
+      - { abbrev: "ps", chapter: 107 }
+      - { abbrev: "ps", chapter: 108 }
+  - day: 181
+    readings:
+      - { abbrev: "ps", chapter: 109 }
+      - { abbrev: "ps", chapter: 110 }
+      - { abbrev: "ps", chapter: 111 }
+      - { abbrev: "ps", chapter: 112 }
+  - day: 182
+    readings:
+      - { abbrev: "ps", chapter: 113 }
+      - { abbrev: "ps", chapter: 114 }
+      - { abbrev: "ps", chapter: 115 }
+  - day: 183
+    readings:
+      - { abbrev: "ps", chapter: 116 }
+      - { abbrev: "ps", chapter: 117 }
+      - { abbrev: "ps", chapter: 118 }
+  - day: 184
+    readings:
+      - { abbrev: "ps", chapter: 119 }
+      - { abbrev: "ps", chapter: 120 }
+      - { abbrev: "ps", chapter: 121 }
+  - day: 185
+    readings:
+      - { abbrev: "ps", chapter: 122 }
+      - { abbrev: "ps", chapter: 123 }
+      - { abbrev: "ps", chapter: 124 }
+      - { abbrev: "ps", chapter: 125 }
+  - day: 186
+    readings:
+      - { abbrev: "ps", chapter: 126 }
+      - { abbrev: "ps", chapter: 127 }
+      - { abbrev: "ps", chapter: 128 }
+  - day: 187
+    readings:
+      - { abbrev: "ps", chapter: 129 }
+      - { abbrev: "ps", chapter: 130 }
+      - { abbrev: "ps", chapter: 131 }
+  - day: 188
+    readings:
+      - { abbrev: "ps", chapter: 132 }
+      - { abbrev: "ps", chapter: 133 }
+      - { abbrev: "ps", chapter: 134 }
+  - day: 189
+    readings:
+      - { abbrev: "ps", chapter: 135 }
+      - { abbrev: "ps", chapter: 136 }
+      - { abbrev: "ps", chapter: 137 }
+      - { abbrev: "ps", chapter: 138 }
+  - day: 190
+    readings:
+      - { abbrev: "ps", chapter: 139 }
+      - { abbrev: "ps", chapter: 140 }
+      - { abbrev: "ps", chapter: 141 }
+  - day: 191
+    readings:
+      - { abbrev: "ps", chapter: 142 }
+      - { abbrev: "ps", chapter: 143 }
+      - { abbrev: "ps", chapter: 144 }
+  - day: 192
+    readings:
+      - { abbrev: "ps", chapter: 145 }
+      - { abbrev: "ps", chapter: 146 }
+      - { abbrev: "ps", chapter: 147 }
+  - day: 193
+    readings:
+      - { abbrev: "ps", chapter: 148 }
+      - { abbrev: "ps", chapter: 149 }
+      - { abbrev: "ps", chapter: 150 }
+      - { abbrev: "prv", chapter: 1 }
+  - day: 194
+    readings:
+      - { abbrev: "prv", chapter: 2 }
+      - { abbrev: "prv", chapter: 3 }
+      - { abbrev: "prv", chapter: 4 }
+  - day: 195
+    readings:
+      - { abbrev: "prv", chapter: 5 }
+      - { abbrev: "prv", chapter: 6 }
+      - { abbrev: "prv", chapter: 7 }
+  - day: 196
+    readings:
+      - { abbrev: "prv", chapter: 8 }
+      - { abbrev: "prv", chapter: 9 }
+      - { abbrev: "prv", chapter: 10 }
+  - day: 197
+    readings:
+      - { abbrev: "prv", chapter: 11 }
+      - { abbrev: "prv", chapter: 12 }
+      - { abbrev: "prv", chapter: 13 }
+      - { abbrev: "prv", chapter: 14 }
+  - day: 198
+    readings:
+      - { abbrev: "prv", chapter: 15 }
+      - { abbrev: "prv", chapter: 16 }
+      - { abbrev: "prv", chapter: 17 }
+  - day: 199
+    readings:
+      - { abbrev: "prv", chapter: 18 }
+      - { abbrev: "prv", chapter: 19 }
+      - { abbrev: "prv", chapter: 20 }
+  - day: 200
+    readings:
+      - { abbrev: "prv", chapter: 21 }
+      - { abbrev: "prv", chapter: 22 }
+      - { abbrev: "prv", chapter: 23 }
+      - { abbrev: "prv", chapter: 24 }
+  - day: 201
+    readings:
+      - { abbrev: "prv", chapter: 25 }
+      - { abbrev: "prv", chapter: 26 }
+      - { abbrev: "prv", chapter: 27 }
+  - day: 202
+    readings:
+      - { abbrev: "prv", chapter: 28 }
+      - { abbrev: "prv", chapter: 29 }
+      - { abbrev: "prv", chapter: 30 }
+  - day: 203
+    readings:
+      - { abbrev: "prv", chapter: 31 }
+      - { abbrev: "ec", chapter: 1 }
+      - { abbrev: "ec", chapter: 2 }
+  - day: 204
+    readings:
+      - { abbrev: "ec", chapter: 3 }
+      - { abbrev: "ec", chapter: 4 }
+      - { abbrev: "ec", chapter: 5 }
+      - { abbrev: "ec", chapter: 6 }
+  - day: 205
+    readings:
+      - { abbrev: "ec", chapter: 7 }
+      - { abbrev: "ec", chapter: 8 }
+      - { abbrev: "ec", chapter: 9 }
+  - day: 206
+    readings:
+      - { abbrev: "ec", chapter: 10 }
+      - { abbrev: "ec", chapter: 11 }
+      - { abbrev: "ec", chapter: 12 }
+  - day: 207
+    readings:
+      - { abbrev: "so", chapter: 1 }
+      - { abbrev: "so", chapter: 2 }
+      - { abbrev: "so", chapter: 3 }
+  - day: 208
+    readings:
+      - { abbrev: "so", chapter: 4 }
+      - { abbrev: "so", chapter: 5 }
+      - { abbrev: "so", chapter: 6 }
+      - { abbrev: "so", chapter: 7 }
+  - day: 209
+    readings:
+      - { abbrev: "so", chapter: 8 }
+      - { abbrev: "is", chapter: 1 }
+      - { abbrev: "is", chapter: 2 }
+  - day: 210
+    readings:
+      - { abbrev: "is", chapter: 3 }
+      - { abbrev: "is", chapter: 4 }
+      - { abbrev: "is", chapter: 5 }
+  - day: 211
+    readings:
+      - { abbrev: "is", chapter: 6 }
+      - { abbrev: "is", chapter: 7 }
+      - { abbrev: "is", chapter: 8 }
+  - day: 212
+    readings:
+      - { abbrev: "is", chapter: 9 }
+      - { abbrev: "is", chapter: 10 }
+      - { abbrev: "is", chapter: 11 }
+      - { abbrev: "is", chapter: 12 }
+  - day: 213
+    readings:
+      - { abbrev: "is", chapter: 13 }
+      - { abbrev: "is", chapter: 14 }
+      - { abbrev: "is", chapter: 15 }
+  - day: 214
+    readings:
+      - { abbrev: "is", chapter: 16 }
+      - { abbrev: "is", chapter: 17 }
+      - { abbrev: "is", chapter: 18 }
+  - day: 215
+    readings:
+      - { abbrev: "is", chapter: 19 }
+      - { abbrev: "is", chapter: 20 }
+      - { abbrev: "is", chapter: 21 }
+  - day: 216
+    readings:
+      - { abbrev: "is", chapter: 22 }
+      - { abbrev: "is", chapter: 23 }
+      - { abbrev: "is", chapter: 24 }
+      - { abbrev: "is", chapter: 25 }
+  - day: 217
+    readings:
+      - { abbrev: "is", chapter: 26 }
+      - { abbrev: "is", chapter: 27 }
+      - { abbrev: "is", chapter: 28 }
+  - day: 218
+    readings:
+      - { abbrev: "is", chapter: 29 }
+      - { abbrev: "is", chapter: 30 }
+      - { abbrev: "is", chapter: 31 }
+  - day: 219
+    readings:
+      - { abbrev: "is", chapter: 32 }
+      - { abbrev: "is", chapter: 33 }
+      - { abbrev: "is", chapter: 34 }
+  - day: 220
+    readings:
+      - { abbrev: "is", chapter: 35 }
+      - { abbrev: "is", chapter: 36 }
+      - { abbrev: "is", chapter: 37 }
+      - { abbrev: "is", chapter: 38 }
+  - day: 221
+    readings:
+      - { abbrev: "is", chapter: 39 }
+      - { abbrev: "is", chapter: 40 }
+      - { abbrev: "is", chapter: 41 }
+  - day: 222
+    readings:
+      - { abbrev: "is", chapter: 42 }
+      - { abbrev: "is", chapter: 43 }
+      - { abbrev: "is", chapter: 44 }
+  - day: 223
+    readings:
+      - { abbrev: "is", chapter: 45 }
+      - { abbrev: "is", chapter: 46 }
+      - { abbrev: "is", chapter: 47 }
+  - day: 224
+    readings:
+      - { abbrev: "is", chapter: 48 }
+      - { abbrev: "is", chapter: 49 }
+      - { abbrev: "is", chapter: 50 }
+      - { abbrev: "is", chapter: 51 }
+  - day: 225
+    readings:
+      - { abbrev: "is", chapter: 52 }
+      - { abbrev: "is", chapter: 53 }
+      - { abbrev: "is", chapter: 54 }
+  - day: 226
+    readings:
+      - { abbrev: "is", chapter: 55 }
+      - { abbrev: "is", chapter: 56 }
+      - { abbrev: "is", chapter: 57 }
+  - day: 227
+    readings:
+      - { abbrev: "is", chapter: 58 }
+      - { abbrev: "is", chapter: 59 }
+      - { abbrev: "is", chapter: 60 }
+  - day: 228
+    readings:
+      - { abbrev: "is", chapter: 61 }
+      - { abbrev: "is", chapter: 62 }
+      - { abbrev: "is", chapter: 63 }
+      - { abbrev: "is", chapter: 64 }
+  - day: 229
+    readings:
+      - { abbrev: "is", chapter: 65 }
+      - { abbrev: "is", chapter: 66 }
+      - { abbrev: "jr", chapter: 1 }
+  - day: 230
+    readings:
+      - { abbrev: "jr", chapter: 2 }
+      - { abbrev: "jr", chapter: 3 }
+      - { abbrev: "jr", chapter: 4 }
+  - day: 231
+    readings:
+      - { abbrev: "jr", chapter: 5 }
+      - { abbrev: "jr", chapter: 6 }
+      - { abbrev: "jr", chapter: 7 }
+  - day: 232
+    readings:
+      - { abbrev: "jr", chapter: 8 }
+      - { abbrev: "jr", chapter: 9 }
+      - { abbrev: "jr", chapter: 10 }
+      - { abbrev: "jr", chapter: 11 }
+  - day: 233
+    readings:
+      - { abbrev: "jr", chapter: 12 }
+      - { abbrev: "jr", chapter: 13 }
+      - { abbrev: "jr", chapter: 14 }
+  - day: 234
+    readings:
+      - { abbrev: "jr", chapter: 15 }
+      - { abbrev: "jr", chapter: 16 }
+      - { abbrev: "jr", chapter: 17 }
+  - day: 235
+    readings:
+      - { abbrev: "jr", chapter: 18 }
+      - { abbrev: "jr", chapter: 19 }
+      - { abbrev: "jr", chapter: 20 }
+      - { abbrev: "jr", chapter: 21 }
+  - day: 236
+    readings:
+      - { abbrev: "jr", chapter: 22 }
+      - { abbrev: "jr", chapter: 23 }
+      - { abbrev: "jr", chapter: 24 }
+  - day: 237
+    readings:
+      - { abbrev: "jr", chapter: 25 }
+      - { abbrev: "jr", chapter: 26 }
+      - { abbrev: "jr", chapter: 27 }
+  - day: 238
+    readings:
+      - { abbrev: "jr", chapter: 28 }
+      - { abbrev: "jr", chapter: 29 }
+      - { abbrev: "jr", chapter: 30 }
+  - day: 239
+    readings:
+      - { abbrev: "jr", chapter: 31 }
+      - { abbrev: "jr", chapter: 32 }
+      - { abbrev: "jr", chapter: 33 }
+      - { abbrev: "jr", chapter: 34 }
+  - day: 240
+    readings:
+      - { abbrev: "jr", chapter: 35 }
+      - { abbrev: "jr", chapter: 36 }
+      - { abbrev: "jr", chapter: 37 }
+  - day: 241
+    readings:
+      - { abbrev: "jr", chapter: 38 }
+      - { abbrev: "jr", chapter: 39 }
+      - { abbrev: "jr", chapter: 40 }
+  - day: 242
+    readings:
+      - { abbrev: "jr", chapter: 41 }
+      - { abbrev: "jr", chapter: 42 }
+      - { abbrev: "jr", chapter: 43 }
+  - day: 243
+    readings:
+      - { abbrev: "jr", chapter: 44 }
+      - { abbrev: "jr", chapter: 45 }
+      - { abbrev: "jr", chapter: 46 }
+      - { abbrev: "jr", chapter: 47 }
+  - day: 244
+    readings:
+      - { abbrev: "jr", chapter: 48 }
+      - { abbrev: "jr", chapter: 49 }
+      - { abbrev: "jr", chapter: 50 }
+  - day: 245
+    readings:
+      - { abbrev: "jr", chapter: 51 }
+      - { abbrev: "jr", chapter: 52 }
+      - { abbrev: "lm", chapter: 1 }
+  - day: 246
+    readings:
+      - { abbrev: "lm", chapter: 2 }
+      - { abbrev: "lm", chapter: 3 }
+      - { abbrev: "lm", chapter: 4 }
+  - day: 247
+    readings:
+      - { abbrev: "lm", chapter: 5 }
+      - { abbrev: "ez", chapter: 1 }
+      - { abbrev: "ez", chapter: 2 }
+      - { abbrev: "ez", chapter: 3 }
+  - day: 248
+    readings:
+      - { abbrev: "ez", chapter: 4 }
+      - { abbrev: "ez", chapter: 5 }
+      - { abbrev: "ez", chapter: 6 }
+  - day: 249
+    readings:
+      - { abbrev: "ez", chapter: 7 }
+      - { abbrev: "ez", chapter: 8 }
+      - { abbrev: "ez", chapter: 9 }
+  - day: 250
+    readings:
+      - { abbrev: "ez", chapter: 10 }
+      - { abbrev: "ez", chapter: 11 }
+      - { abbrev: "ez", chapter: 12 }
+  - day: 251
+    readings:
+      - { abbrev: "ez", chapter: 13 }
+      - { abbrev: "ez", chapter: 14 }
+      - { abbrev: "ez", chapter: 15 }
+      - { abbrev: "ez", chapter: 16 }
+  - day: 252
+    readings:
+      - { abbrev: "ez", chapter: 17 }
+      - { abbrev: "ez", chapter: 18 }
+      - { abbrev: "ez", chapter: 19 }
+  - day: 253
+    readings:
+      - { abbrev: "ez", chapter: 20 }
+      - { abbrev: "ez", chapter: 21 }
+      - { abbrev: "ez", chapter: 22 }
+  - day: 254
+    readings:
+      - { abbrev: "ez", chapter: 23 }
+      - { abbrev: "ez", chapter: 24 }
+      - { abbrev: "ez", chapter: 25 }
+  - day: 255
+    readings:
+      - { abbrev: "ez", chapter: 26 }
+      - { abbrev: "ez", chapter: 27 }
+      - { abbrev: "ez", chapter: 28 }
+      - { abbrev: "ez", chapter: 29 }
+  - day: 256
+    readings:
+      - { abbrev: "ez", chapter: 30 }
+      - { abbrev: "ez", chapter: 31 }
+      - { abbrev: "ez", chapter: 32 }
+  - day: 257
+    readings:
+      - { abbrev: "ez", chapter: 33 }
+      - { abbrev: "ez", chapter: 34 }
+      - { abbrev: "ez", chapter: 35 }
+  - day: 258
+    readings:
+      - { abbrev: "ez", chapter: 36 }
+      - { abbrev: "ez", chapter: 37 }
+      - { abbrev: "ez", chapter: 38 }
+  - day: 259
+    readings:
+      - { abbrev: "ez", chapter: 39 }
+      - { abbrev: "ez", chapter: 40 }
+      - { abbrev: "ez", chapter: 41 }
+      - { abbrev: "ez", chapter: 42 }
+  - day: 260
+    readings:
+      - { abbrev: "ez", chapter: 43 }
+      - { abbrev: "ez", chapter: 44 }
+      - { abbrev: "ez", chapter: 45 }
+  - day: 261
+    readings:
+      - { abbrev: "ez", chapter: 46 }
+      - { abbrev: "ez", chapter: 47 }
+      - { abbrev: "ez", chapter: 48 }
+  - day: 262
+    readings:
+      - { abbrev: "dn", chapter: 1 }
+      - { abbrev: "dn", chapter: 2 }
+      - { abbrev: "dn", chapter: 3 }
+  - day: 263
+    readings:
+      - { abbrev: "dn", chapter: 4 }
+      - { abbrev: "dn", chapter: 5 }
+      - { abbrev: "dn", chapter: 6 }
+      - { abbrev: "dn", chapter: 7 }
+  - day: 264
+    readings:
+      - { abbrev: "dn", chapter: 8 }
+      - { abbrev: "dn", chapter: 9 }
+      - { abbrev: "dn", chapter: 10 }
+  - day: 265
+    readings:
+      - { abbrev: "dn", chapter: 11 }
+      - { abbrev: "dn", chapter: 12 }
+      - { abbrev: "ho", chapter: 1 }
+  - day: 266
+    readings:
+      - { abbrev: "ho", chapter: 2 }
+      - { abbrev: "ho", chapter: 3 }
+      - { abbrev: "ho", chapter: 4 }
+      - { abbrev: "ho", chapter: 5 }
+  - day: 267
+    readings:
+      - { abbrev: "ho", chapter: 6 }
+      - { abbrev: "ho", chapter: 7 }
+      - { abbrev: "ho", chapter: 8 }
+  - day: 268
+    readings:
+      - { abbrev: "ho", chapter: 9 }
+      - { abbrev: "ho", chapter: 10 }
+      - { abbrev: "ho", chapter: 11 }
+  - day: 269
+    readings:
+      - { abbrev: "ho", chapter: 12 }
+      - { abbrev: "ho", chapter: 13 }
+      - { abbrev: "ho", chapter: 14 }
+  - day: 270
+    readings:
+      - { abbrev: "jl", chapter: 1 }
+      - { abbrev: "jl", chapter: 2 }
+      - { abbrev: "jl", chapter: 3 }
+      - { abbrev: "am", chapter: 1 }
+  - day: 271
+    readings:
+      - { abbrev: "am", chapter: 2 }
+      - { abbrev: "am", chapter: 3 }
+      - { abbrev: "am", chapter: 4 }
+  - day: 272
+    readings:
+      - { abbrev: "am", chapter: 5 }
+      - { abbrev: "am", chapter: 6 }
+      - { abbrev: "am", chapter: 7 }
+  - day: 273
+    readings:
+      - { abbrev: "am", chapter: 8 }
+      - { abbrev: "am", chapter: 9 }
+      - { abbrev: "ob", chapter: 1 }
+  - day: 274
+    readings:
+      - { abbrev: "jn", chapter: 1 }
+      - { abbrev: "jn", chapter: 2 }
+      - { abbrev: "jn", chapter: 3 }
+      - { abbrev: "jn", chapter: 4 }
+  - day: 275
+    readings:
+      - { abbrev: "mi", chapter: 1 }
+      - { abbrev: "mi", chapter: 2 }
+      - { abbrev: "mi", chapter: 3 }
+  - day: 276
+    readings:
+      - { abbrev: "mi", chapter: 4 }
+      - { abbrev: "mi", chapter: 5 }
+      - { abbrev: "mi", chapter: 6 }
+  - day: 277
+    readings:
+      - { abbrev: "mi", chapter: 7 }
+      - { abbrev: "na", chapter: 1 }
+      - { abbrev: "na", chapter: 2 }
+  - day: 278
+    readings:
+      - { abbrev: "na", chapter: 3 }
+      - { abbrev: "hk", chapter: 1 }
+      - { abbrev: "hk", chapter: 2 }
+      - { abbrev: "hk", chapter: 3 }
+  - day: 279
+    readings:
+      - { abbrev: "zp", chapter: 1 }
+      - { abbrev: "zp", chapter: 2 }
+      - { abbrev: "zp", chapter: 3 }
+  - day: 280
+    readings:
+      - { abbrev: "hg", chapter: 1 }
+      - { abbrev: "hg", chapter: 2 }
+      - { abbrev: "zc", chapter: 1 }
+  - day: 281
+    readings:
+      - { abbrev: "zc", chapter: 2 }
+      - { abbrev: "zc", chapter: 3 }
+      - { abbrev: "zc", chapter: 4 }
+  - day: 282
+    readings:
+      - { abbrev: "zc", chapter: 5 }
+      - { abbrev: "zc", chapter: 6 }
+      - { abbrev: "zc", chapter: 7 }
+      - { abbrev: "zc", chapter: 8 }
+  - day: 283
+    readings:
+      - { abbrev: "zc", chapter: 9 }
+      - { abbrev: "zc", chapter: 10 }
+      - { abbrev: "zc", chapter: 11 }
+  - day: 284
+    readings:
+      - { abbrev: "zc", chapter: 12 }
+      - { abbrev: "zc", chapter: 13 }
+      - { abbrev: "zc", chapter: 14 }
+  - day: 285
+    readings:
+      - { abbrev: "ml", chapter: 1 }
+      - { abbrev: "ml", chapter: 2 }
+      - { abbrev: "ml", chapter: 3 }
+  - day: 286
+    readings:
+      - { abbrev: "ml", chapter: 4 }
+      - { abbrev: "mt", chapter: 1 }
+      - { abbrev: "mt", chapter: 2 }
+      - { abbrev: "mt", chapter: 3 }
+  - day: 287
+    readings:
+      - { abbrev: "mt", chapter: 4 }
+      - { abbrev: "mt", chapter: 5 }
+      - { abbrev: "mt", chapter: 6 }
+  - day: 288
+    readings:
+      - { abbrev: "mt", chapter: 7 }
+      - { abbrev: "mt", chapter: 8 }
+      - { abbrev: "mt", chapter: 9 }
+  - day: 289
+    readings:
+      - { abbrev: "mt", chapter: 10 }
+      - { abbrev: "mt", chapter: 11 }
+      - { abbrev: "mt", chapter: 12 }
+  - day: 290
+    readings:
+      - { abbrev: "mt", chapter: 13 }
+      - { abbrev: "mt", chapter: 14 }
+      - { abbrev: "mt", chapter: 15 }
+      - { abbrev: "mt", chapter: 16 }
+  - day: 291
+    readings:
+      - { abbrev: "mt", chapter: 17 }
+      - { abbrev: "mt", chapter: 18 }
+      - { abbrev: "mt", chapter: 19 }
+  - day: 292
+    readings:
+      - { abbrev: "mt", chapter: 20 }
+      - { abbrev: "mt", chapter: 21 }
+      - { abbrev: "mt", chapter: 22 }
+  - day: 293
+    readings:
+      - { abbrev: "mt", chapter: 23 }
+      - { abbrev: "mt", chapter: 24 }
+      - { abbrev: "mt", chapter: 25 }
+  - day: 294
+    readings:
+      - { abbrev: "mt", chapter: 26 }
+      - { abbrev: "mt", chapter: 27 }
+      - { abbrev: "mt", chapter: 28 }
+      - { abbrev: "mk", chapter: 1 }
+  - day: 295
+    readings:
+      - { abbrev: "mk", chapter: 2 }
+      - { abbrev: "mk", chapter: 3 }
+      - { abbrev: "mk", chapter: 4 }
+  - day: 296
+    readings:
+      - { abbrev: "mk", chapter: 5 }
+      - { abbrev: "mk", chapter: 6 }
+      - { abbrev: "mk", chapter: 7 }
+  - day: 297
+    readings:
+      - { abbrev: "mk", chapter: 8 }
+      - { abbrev: "mk", chapter: 9 }
+      - { abbrev: "mk", chapter: 10 }
+  - day: 298
+    readings:
+      - { abbrev: "mk", chapter: 11 }
+      - { abbrev: "mk", chapter: 12 }
+      - { abbrev: "mk", chapter: 13 }
+      - { abbrev: "mk", chapter: 14 }
+  - day: 299
+    readings:
+      - { abbrev: "mk", chapter: 15 }
+      - { abbrev: "mk", chapter: 16 }
+      - { abbrev: "lk", chapter: 1 }
+  - day: 300
+    readings:
+      - { abbrev: "lk", chapter: 2 }
+      - { abbrev: "lk", chapter: 3 }
+      - { abbrev: "lk", chapter: 4 }
+  - day: 301
+    readings:
+      - { abbrev: "lk", chapter: 5 }
+      - { abbrev: "lk", chapter: 6 }
+      - { abbrev: "lk", chapter: 7 }
+      - { abbrev: "lk", chapter: 8 }
+  - day: 302
+    readings:
+      - { abbrev: "lk", chapter: 9 }
+      - { abbrev: "lk", chapter: 10 }
+      - { abbrev: "lk", chapter: 11 }
+  - day: 303
+    readings:
+      - { abbrev: "lk", chapter: 12 }
+      - { abbrev: "lk", chapter: 13 }
+      - { abbrev: "lk", chapter: 14 }
+  - day: 304
+    readings:
+      - { abbrev: "lk", chapter: 15 }
+      - { abbrev: "lk", chapter: 16 }
+      - { abbrev: "lk", chapter: 17 }
+  - day: 305
+    readings:
+      - { abbrev: "lk", chapter: 18 }
+      - { abbrev: "lk", chapter: 19 }
+      - { abbrev: "lk", chapter: 20 }
+      - { abbrev: "lk", chapter: 21 }
+  - day: 306
+    readings:
+      - { abbrev: "lk", chapter: 22 }
+      - { abbrev: "lk", chapter: 23 }
+      - { abbrev: "lk", chapter: 24 }
+  - day: 307
+    readings:
+      - { abbrev: "jo", chapter: 1 }
+      - { abbrev: "jo", chapter: 2 }
+      - { abbrev: "jo", chapter: 3 }
+  - day: 308
+    readings:
+      - { abbrev: "jo", chapter: 4 }
+      - { abbrev: "jo", chapter: 5 }
+      - { abbrev: "jo", chapter: 6 }
+  - day: 309
+    readings:
+      - { abbrev: "jo", chapter: 7 }
+      - { abbrev: "jo", chapter: 8 }
+      - { abbrev: "jo", chapter: 9 }
+      - { abbrev: "jo", chapter: 10 }
+  - day: 310
+    readings:
+      - { abbrev: "jo", chapter: 11 }
+      - { abbrev: "jo", chapter: 12 }
+      - { abbrev: "jo", chapter: 13 }
+  - day: 311
+    readings:
+      - { abbrev: "jo", chapter: 14 }
+      - { abbrev: "jo", chapter: 15 }
+      - { abbrev: "jo", chapter: 16 }
+  - day: 312
+    readings:
+      - { abbrev: "jo", chapter: 17 }
+      - { abbrev: "jo", chapter: 18 }
+      - { abbrev: "jo", chapter: 19 }
+  - day: 313
+    readings:
+      - { abbrev: "jo", chapter: 20 }
+      - { abbrev: "jo", chapter: 21 }
+      - { abbrev: "act", chapter: 1 }
+      - { abbrev: "act", chapter: 2 }
+  - day: 314
+    readings:
+      - { abbrev: "act", chapter: 3 }
+      - { abbrev: "act", chapter: 4 }
+      - { abbrev: "act", chapter: 5 }
+  - day: 315
+    readings:
+      - { abbrev: "act", chapter: 6 }
+      - { abbrev: "act", chapter: 7 }
+      - { abbrev: "act", chapter: 8 }
+  - day: 316
+    readings:
+      - { abbrev: "act", chapter: 9 }
+      - { abbrev: "act", chapter: 10 }
+      - { abbrev: "act", chapter: 11 }
+  - day: 317
+    readings:
+      - { abbrev: "act", chapter: 12 }
+      - { abbrev: "act", chapter: 13 }
+      - { abbrev: "act", chapter: 14 }
+      - { abbrev: "act", chapter: 15 }
+  - day: 318
+    readings:
+      - { abbrev: "act", chapter: 16 }
+      - { abbrev: "act", chapter: 17 }
+      - { abbrev: "act", chapter: 18 }
+  - day: 319
+    readings:
+      - { abbrev: "act", chapter: 19 }
+      - { abbrev: "act", chapter: 20 }
+      - { abbrev: "act", chapter: 21 }
+  - day: 320
+    readings:
+      - { abbrev: "act", chapter: 22 }
+      - { abbrev: "act", chapter: 23 }
+      - { abbrev: "act", chapter: 24 }
+  - day: 321
+    readings:
+      - { abbrev: "act", chapter: 25 }
+      - { abbrev: "act", chapter: 26 }
+      - { abbrev: "act", chapter: 27 }
+      - { abbrev: "act", chapter: 28 }
+  - day: 322
+    readings:
+      - { abbrev: "rm", chapter: 1 }
+      - { abbrev: "rm", chapter: 2 }
+      - { abbrev: "rm", chapter: 3 }
+  - day: 323
+    readings:
+      - { abbrev: "rm", chapter: 4 }
+      - { abbrev: "rm", chapter: 5 }
+      - { abbrev: "rm", chapter: 6 }
+  - day: 324
+    readings:
+      - { abbrev: "rm", chapter: 7 }
+      - { abbrev: "rm", chapter: 8 }
+      - { abbrev: "rm", chapter: 9 }
+  - day: 325
+    readings:
+      - { abbrev: "rm", chapter: 10 }
+      - { abbrev: "rm", chapter: 11 }
+      - { abbrev: "rm", chapter: 12 }
+      - { abbrev: "rm", chapter: 13 }
+  - day: 326
+    readings:
+      - { abbrev: "rm", chapter: 14 }
+      - { abbrev: "rm", chapter: 15 }
+      - { abbrev: "rm", chapter: 16 }
+  - day: 327
+    readings:
+      - { abbrev: "1co", chapter: 1 }
+      - { abbrev: "1co", chapter: 2 }
+      - { abbrev: "1co", chapter: 3 }
+  - day: 328
+    readings:
+      - { abbrev: "1co", chapter: 4 }
+      - { abbrev: "1co", chapter: 5 }
+      - { abbrev: "1co", chapter: 6 }
+  - day: 329
+    readings:
+      - { abbrev: "1co", chapter: 7 }
+      - { abbrev: "1co", chapter: 8 }
+      - { abbrev: "1co", chapter: 9 }
+      - { abbrev: "1co", chapter: 10 }
+  - day: 330
+    readings:
+      - { abbrev: "1co", chapter: 11 }
+      - { abbrev: "1co", chapter: 12 }
+      - { abbrev: "1co", chapter: 13 }
+  - day: 331
+    readings:
+      - { abbrev: "1co", chapter: 14 }
+      - { abbrev: "1co", chapter: 15 }
+      - { abbrev: "1co", chapter: 16 }
+  - day: 332
+    readings:
+      - { abbrev: "2co", chapter: 1 }
+      - { abbrev: "2co", chapter: 2 }
+      - { abbrev: "2co", chapter: 3 }
+      - { abbrev: "2co", chapter: 4 }
+  - day: 333
+    readings:
+      - { abbrev: "2co", chapter: 5 }
+      - { abbrev: "2co", chapter: 6 }
+      - { abbrev: "2co", chapter: 7 }
+  - day: 334
+    readings:
+      - { abbrev: "2co", chapter: 8 }
+      - { abbrev: "2co", chapter: 9 }
+      - { abbrev: "2co", chapter: 10 }
+  - day: 335
+    readings:
+      - { abbrev: "2co", chapter: 11 }
+      - { abbrev: "2co", chapter: 12 }
+      - { abbrev: "2co", chapter: 13 }
+  - day: 336
+    readings:
+      - { abbrev: "gl", chapter: 1 }
+      - { abbrev: "gl", chapter: 2 }
+      - { abbrev: "gl", chapter: 3 }
+      - { abbrev: "gl", chapter: 4 }
+  - day: 337
+    readings:
+      - { abbrev: "gl", chapter: 5 }
+      - { abbrev: "gl", chapter: 6 }
+      - { abbrev: "eph", chapter: 1 }
+  - day: 338
+    readings:
+      - { abbrev: "eph", chapter: 2 }
+      - { abbrev: "eph", chapter: 3 }
+      - { abbrev: "eph", chapter: 4 }
+  - day: 339
+    readings:
+      - { abbrev: "eph", chapter: 5 }
+      - { abbrev: "eph", chapter: 6 }
+      - { abbrev: "ph", chapter: 1 }
+  - day: 340
+    readings:
+      - { abbrev: "ph", chapter: 2 }
+      - { abbrev: "ph", chapter: 3 }
+      - { abbrev: "ph", chapter: 4 }
+      - { abbrev: "cl", chapter: 1 }
+  - day: 341
+    readings:
+      - { abbrev: "cl", chapter: 2 }
+      - { abbrev: "cl", chapter: 3 }
+      - { abbrev: "cl", chapter: 4 }
+  - day: 342
+    readings:
+      - { abbrev: "1ts", chapter: 1 }
+      - { abbrev: "1ts", chapter: 2 }
+      - { abbrev: "1ts", chapter: 3 }
+  - day: 343
+    readings:
+      - { abbrev: "1ts", chapter: 4 }
+      - { abbrev: "1ts", chapter: 5 }
+      - { abbrev: "2ts", chapter: 1 }
+  - day: 344
+    readings:
+      - { abbrev: "2ts", chapter: 2 }
+      - { abbrev: "2ts", chapter: 3 }
+      - { abbrev: "1tm", chapter: 1 }
+      - { abbrev: "1tm", chapter: 2 }
+  - day: 345
+    readings:
+      - { abbrev: "1tm", chapter: 3 }
+      - { abbrev: "1tm", chapter: 4 }
+      - { abbrev: "1tm", chapter: 5 }
+  - day: 346
+    readings:
+      - { abbrev: "1tm", chapter: 6 }
+      - { abbrev: "2tm", chapter: 1 }
+      - { abbrev: "2tm", chapter: 2 }
+  - day: 347
+    readings:
+      - { abbrev: "2tm", chapter: 3 }
+      - { abbrev: "2tm", chapter: 4 }
+      - { abbrev: "tt", chapter: 1 }
+  - day: 348
+    readings:
+      - { abbrev: "tt", chapter: 2 }
+      - { abbrev: "tt", chapter: 3 }
+      - { abbrev: "phm", chapter: 1 }
+      - { abbrev: "hb", chapter: 1 }
+  - day: 349
+    readings:
+      - { abbrev: "hb", chapter: 2 }
+      - { abbrev: "hb", chapter: 3 }
+      - { abbrev: "hb", chapter: 4 }
+  - day: 350
+    readings:
+      - { abbrev: "hb", chapter: 5 }
+      - { abbrev: "hb", chapter: 6 }
+      - { abbrev: "hb", chapter: 7 }
+  - day: 351
+    readings:
+      - { abbrev: "hb", chapter: 8 }
+      - { abbrev: "hb", chapter: 9 }
+      - { abbrev: "hb", chapter: 10 }
+  - day: 352
+    readings:
+      - { abbrev: "hb", chapter: 11 }
+      - { abbrev: "hb", chapter: 12 }
+      - { abbrev: "hb", chapter: 13 }
+      - { abbrev: "jm", chapter: 1 }
+  - day: 353
+    readings:
+      - { abbrev: "jm", chapter: 2 }
+      - { abbrev: "jm", chapter: 3 }
+      - { abbrev: "jm", chapter: 4 }
+  - day: 354
+    readings:
+      - { abbrev: "jm", chapter: 5 }
+      - { abbrev: "1pe", chapter: 1 }
+      - { abbrev: "1pe", chapter: 2 }
+  - day: 355
+    readings:
+      - { abbrev: "1pe", chapter: 3 }
+      - { abbrev: "1pe", chapter: 4 }
+      - { abbrev: "1pe", chapter: 5 }
+  - day: 356
+    readings:
+      - { abbrev: "2pe", chapter: 1 }
+      - { abbrev: "2pe", chapter: 2 }
+      - { abbrev: "2pe", chapter: 3 }
+      - { abbrev: "1jo", chapter: 1 }
+  - day: 357
+    readings:
+      - { abbrev: "1jo", chapter: 2 }
+      - { abbrev: "1jo", chapter: 3 }
+      - { abbrev: "1jo", chapter: 4 }
+  - day: 358
+    readings:
+      - { abbrev: "1jo", chapter: 5 }
+      - { abbrev: "2jo", chapter: 1 }
+      - { abbrev: "3jo", chapter: 1 }
+  - day: 359
+    readings:
+      - { abbrev: "jd", chapter: 1 }
+      - { abbrev: "re", chapter: 1 }
+      - { abbrev: "re", chapter: 2 }
+  - day: 360
+    readings:
+      - { abbrev: "re", chapter: 3 }
+      - { abbrev: "re", chapter: 4 }
+      - { abbrev: "re", chapter: 5 }
+      - { abbrev: "re", chapter: 6 }
+  - day: 361
+    readings:
+      - { abbrev: "re", chapter: 7 }
+      - { abbrev: "re", chapter: 8 }
+      - { abbrev: "re", chapter: 9 }
+  - day: 362
+    readings:
+      - { abbrev: "re", chapter: 10 }
+      - { abbrev: "re", chapter: 11 }
+      - { abbrev: "re", chapter: 12 }
+  - day: 363
+    readings:
+      - { abbrev: "re", chapter: 13 }
+      - { abbrev: "re", chapter: 14 }
+      - { abbrev: "re", chapter: 15 }
+  - day: 364
+    readings:
+      - { abbrev: "re", chapter: 16 }
+      - { abbrev: "re", chapter: 17 }
+      - { abbrev: "re", chapter: 18 }
+      - { abbrev: "re", chapter: 19 }
+  - day: 365
+    readings:
+      - { abbrev: "re", chapter: 20 }
+      - { abbrev: "re", chapter: 21 }
+      - { abbrev: "re", chapter: 22 }

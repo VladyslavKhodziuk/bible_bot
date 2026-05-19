@@ -267,3 +267,70 @@ feedback:
   too_short: "Your message is too short. Please write a bit more detail."
   support_button: "❤️ Support project"
   later_button: "Later"
+
+  plan:
+    menu_button: "📚 Reading plan"
+
+    no_active_title: "<b>📚 Reading plans</b>"
+    no_active_intro: |
+      Structured Bible reading with progress and encouragement.
+
+      Choose a plan to begin:
+
+    preview_title: "{emoji} <b>{name}</b>"
+    preview_duration: "📅 Duration: <b>{days} days</b>"
+    preview_description: "{description}"
+    preview_first_day: "📖 First day reading:"
+    preview_activate: "✅ Start this plan"
+    preview_back: "← Back to plan list"
+
+    active_title: "{emoji} <b>{name}</b>"
+    active_progress: "📊 Progress: <b>{completed} / {total} days</b> ({percent}%)"
+    active_streak: "🔥 Streak: <b>{days} days</b>"
+    active_today_title: "<b>📖 Today — day {day}:</b>"
+    active_today_reading: "• {book} {chapter}"
+    active_open_chapter: "📖 {book} {chapter}"
+    active_mark_done: "✅ Mark as read"
+    active_change_plan: "🔄 Change plan"
+    active_notification: "🔔 Notification time"
+
+    marked_done: "✅ Day {day} marked as read"
+    already_completed: "Day already marked"
+
+    completed_title: "🎉 <b>Congratulations!</b>"
+    completed_text: |
+      You have completed the plan <b>«{name}»</b>!
+
+      Over these {days} days you have read a significant portion of Scripture. This is a real achievement, and God sees your faithfulness.
+
+      <i>«I have fought the good fight, I have finished the race, I have kept the faith»</i>
+      (2 Timothy 4:7)
+    completed_choose_new: "🎯 Choose new plan"
+    completed_to_menu: "← To menu"
+
+    notif_title: "<b>🔔 Plan notifications</b>"
+    notif_intro: "When should I remind you about the reading plan?"
+    notif_current: "Currently: <b>{time}</b>"
+    notif_status_on: "Notifications: <b>on</b>"
+    notif_status_off: "Notifications: <b>off</b>"
+    notif_disable: "🔕 Turn off notifications"
+    notif_enable: "🔔 Turn on notifications"
+    notif_set_time: "🕐 Change time"
+    notif_choose_time: "Choose a convenient time:"
+    notif_saved: "✅ Time saved: {time}"
+    notif_disabled: "🔕 Plan notifications turned off"
+    notif_enabled_at: "🔔 Notifications on, time: {time}"
+
+    change_confirm_title: "⚠️ <b>Change plan?</b>"
+    change_confirm_text: |
+      If you change the plan, your progress on «{name}» will be lost.
+
+      Are you sure?
+    change_confirm_yes: "Yes, choose another"
+    change_confirm_no: "No, stay"
+
+    push_title: "📚 <b>{name}</b>"
+    push_today: "Today — day <b>{day}</b>:"
+    push_reading: "• {book} {chapter}"
+    push_open: "📖 Open"
+    days_short: "days"

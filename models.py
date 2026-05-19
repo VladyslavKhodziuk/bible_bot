@@ -62,3 +62,23 @@ class Feedback(Base):
 
     def __repr__(self) -> str:
         return f"<Feedback {self.kind} from {self.user_id}>"
+
+
+class PlanProgress(Base):
+    """Прогресс пользователя по активному плану чтения."""
+    __tablename__ = "plan_progress"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, index=True)
+    plan_id: Mapped[str] = mapped_column(String(50))  # "nt_30", "psalms_30", ...
+    started_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    current_day: Mapped[int] = mapped_column(Integer, default=1)  # на каком дне план
+    completed_days: Mapped[str] = mapped_column(String(2000), default="[]")  # JSON [1, 2, 4, ...]
+    status: Mapped[str] = mapped_column(String(20), default="active")  # active / completed / abandoned
+
+    # Время push-уведомления для плана
+    notification_enabled: Mapped[bool] = mapped_column(default=True)
+    notification_time: Mapped[str] = mapped_column(String(5), default="19:00")  # "HH:MM"
+
+    def __repr__(self) -> str:
+        return f"<PlanProgress user={self.user_id} plan={self.plan_id} day={self.current_day}>"

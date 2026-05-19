@@ -1,0 +1,225 @@
+id: psalms_30
+emoji: "🙏"
+duration_days: 30
+names:
+  ru: "Псалмы за месяц"
+  en: "Psalms in a month"
+  es: "Salmos en un mes"
+  uk: "Псалми за місяць"
+descriptions:
+  ru: "Прочитать всю Псалтирь за 30 дней. По 5 псалмов в день — молитвенное чтение, которое настраивает сердце на день."
+  en: "Read the entire Psalter in 30 days. 5 psalms a day — prayerful reading that tunes the heart for the day."
+  es: "Leer todo el Salterio en 30 días. 5 salmos al día — lectura orante que sintoniza el corazón con el día."
+  uk: "Прочитати всю Псалтир за 30 днів. По 5 псалмів на день — молитовне читання, що налаштовує серце на день."
+schedule:
+
+  - day: 1
+    readings:
+      - { abbrev: "ps", chapter: 1 }
+      - { abbrev: "ps", chapter: 2 }
+      - { abbrev: "ps", chapter: 3 }
+      - { abbrev: "ps", chapter: 4 }
+      - { abbrev: "ps", chapter: 5 }
+  - day: 2
+    readings:
+      - { abbrev: "ps", chapter: 6 }
+      - { abbrev: "ps", chapter: 7 }
+      - { abbrev: "ps", chapter: 8 }
+      - { abbrev: "ps", chapter: 9 }
+      - { abbrev: "ps", chapter: 10 }
+  - day: 3
+    readings:
+      - { abbrev: "ps", chapter: 11 }
+      - { abbrev: "ps", chapter: 12 }
+      - { abbrev: "ps", chapter: 13 }
+      - { abbrev: "ps", chapter: 14 }
+      - { abbrev: "ps", chapter: 15 }
+  - day: 4
+    readings:
+      - { abbrev: "ps", chapter: 16 }
+      - { abbrev: "ps", chapter: 17 }
+      - { abbrev: "ps", chapter: 18 }
+      - { abbrev: "ps", chapter: 19 }
+      - { abbrev: "ps", chapter: 20 }
+  - day: 5
+    readings:
+      - { abbrev: "ps", chapter: 21 }
+      - { abbrev: "ps", chapter: 22 }
+      - { abbrev: "ps", chapter: 23 }
+      - { abbrev: "ps", chapter: 24 }
+      - { abbrev: "ps", chapter: 25 }
+  - day: 6
+    readings:
+      - { abbrev: "ps", chapter: 26 }
+      - { abbrev: "ps", chapter: 27 }
+      - { abbrev: "ps", chapter: 28 }
+      - { abbrev: "ps", chapter: 29 }
+      - { abbrev: "ps", chapter: 30 }
+  - day: 7
+    readings:
+      - { abbrev: "ps", chapter: 31 }
+      - { abbrev: "ps", chapter: 32 }
+      - { abbrev: "ps", chapter: 33 }
+      - { abbrev: "ps", chapter: 34 }
+      - { abbrev: "ps", chapter: 35 }
+  - day: 8
+    readings:
+      - { abbrev: "ps", chapter: 36 }
+      - { abbrev: "ps", chapter: 37 }
+      - { abbrev: "ps", chapter: 38 }
+      - { abbrev: "ps", chapter: 39 }
+      - { abbrev: "ps", chapter: 40 }
+  - day: 9
+    readings:
+      - { abbrev: "ps", chapter: 41 }
+      - { abbrev: "ps", chapter: 42 }
+      - { abbrev: "ps", chapter: 43 }
+      - { abbrev: "ps", chapter: 44 }
+      - { abbrev: "ps", chapter: 45 }
+  - day: 10
+    readings:
+      - { abbrev: "ps", chapter: 46 }
+      - { abbrev: "ps", chapter: 47 }
+      - { abbrev: "ps", chapter: 48 }
+      - { abbrev: "ps", chapter: 49 }
+      - { abbrev: "ps", chapter: 50 }
+  - day: 11
+    readings:
+      - { abbrev: "ps", chapter: 51 }
+      - { abbrev: "ps", chapter: 52 }
+      - { abbrev: "ps", chapter: 53 }
+      - { abbrev: "ps", chapter: 54 }
+      - { abbrev: "ps", chapter: 55 }
+  - day: 12
+    readings:
+      - { abbrev: "ps", chapter: 56 }
+      - { abbrev: "ps", chapter: 57 }
+      - { abbrev: "ps", chapter: 58 }
+      - { abbrev: "ps", chapter: 59 }
+      - { abbrev: "ps", chapter: 60 }
+  - day: 13
+    readings:
+      - { abbrev: "ps", chapter: 61 }
+      - { abbrev: "ps", chapter: 62 }
+      - { abbrev: "ps", chapter: 63 }
+      - { abbrev: "ps", chapter: 64 }
+      - { abbrev: "ps", chapter: 65 }
+  - day: 14
+    readings:
+      - { abbrev: "ps", chapter: 66 }
+      - { abbrev: "ps", chapter: 67 }
+      - { abbrev: "ps", chapter: 68 }
+      - { abbrev: "ps", chapter: 69 }
+      - { abbrev: "ps", chapter: 70 }
+  - day: 15
+    readings:
+      - { abbrev: "ps", chapter: 71 }
+      - { abbrev: "ps", chapter: 72 }
+      - { abbrev: "ps", chapter: 73 }
+      - { abbrev: "ps", chapter: 74 }
+      - { abbrev: "ps", chapter: 75 }
+  - day: 16
+    readings:
+      - { abbrev: "ps", chapter: 76 }
+      - { abbrev: "ps", chapter: 77 }
+      - { abbrev: "ps", chapter: 78 }
+      - { abbrev: "ps", chapter: 79 }
+      - { abbrev: "ps", chapter: 80 }
+  - day: 17
+    readings:
+      - { abbrev: "ps", chapter: 81 }
+      - { abbrev: "ps", chapter: 82 }
+      - { abbrev: "ps", chapter: 83 }
+      - { abbrev: "ps", chapter: 84 }
+      - { abbrev: "ps", chapter: 85 }
+  - day: 18
+    readings:
+      - { abbrev: "ps", chapter: 86 }
+      - { abbrev: "ps", chapter: 87 }
+      - { abbrev: "ps", chapter: 88 }
+      - { abbrev: "ps", chapter: 89 }
+      - { abbrev: "ps", chapter: 90 }
+  - day: 19
+    readings:
+      - { abbrev: "ps", chapter: 91 }
+      - { abbrev: "ps", chapter: 92 }
+      - { abbrev: "ps", chapter: 93 }
+      - { abbrev: "ps", chapter: 94 }
+      - { abbrev: "ps", chapter: 95 }
+  - day: 20
+    readings:
+      - { abbrev: "ps", chapter: 96 }
+      - { abbrev: "ps", chapter: 97 }
+      - { abbrev: "ps", chapter: 98 }
+      - { abbrev: "ps", chapter: 99 }
+      - { abbrev: "ps", chapter: 100 }
+  - day: 21
+    readings:
+      - { abbrev: "ps", chapter: 101 }
+      - { abbrev: "ps", chapter: 102 }
+      - { abbrev: "ps", chapter: 103 }
+      - { abbrev: "ps", chapter: 104 }
+      - { abbrev: "ps", chapter: 105 }
+  - day: 22
+    readings:
+      - { abbrev: "ps", chapter: 106 }
+      - { abbrev: "ps", chapter: 107 }
+      - { abbrev: "ps", chapter: 108 }
+      - { abbrev: "ps", chapter: 109 }
+      - { abbrev: "ps", chapter: 110 }
+  - day: 23
+    readings:
+      - { abbrev: "ps", chapter: 111 }
+      - { abbrev: "ps", chapter: 112 }
+      - { abbrev: "ps", chapter: 113 }
+      - { abbrev: "ps", chapter: 114 }
+      - { abbrev: "ps", chapter: 115 }
+  - day: 24
+    readings:
+      - { abbrev: "ps", chapter: 116 }
+      - { abbrev: "ps", chapter: 117 }
+      - { abbrev: "ps", chapter: 118 }
+      - { abbrev: "ps", chapter: 119 }
+      - { abbrev: "ps", chapter: 120 }
+  - day: 25
+    readings:
+      - { abbrev: "ps", chapter: 121 }
+      - { abbrev: "ps", chapter: 122 }
+      - { abbrev: "ps", chapter: 123 }
+      - { abbrev: "ps", chapter: 124 }
+      - { abbrev: "ps", chapter: 125 }
+  - day: 26
+    readings:
+      - { abbrev: "ps", chapter: 126 }
+      - { abbrev: "ps", chapter: 127 }
+      - { abbrev: "ps", chapter: 128 }
+      - { abbrev: "ps", chapter: 129 }
+      - { abbrev: "ps", chapter: 130 }
+  - day: 27
+    readings:
+      - { abbrev: "ps", chapter: 131 }
+      - { abbrev: "ps", chapter: 132 }
+      - { abbrev: "ps", chapter: 133 }
+      - { abbrev: "ps", chapter: 134 }
+      - { abbrev: "ps", chapter: 135 }
+  - day: 28
+    readings:
+      - { abbrev: "ps", chapter: 136 }
+      - { abbrev: "ps", chapter: 137 }
+      - { abbrev: "ps", chapter: 138 }
+      - { abbrev: "ps", chapter: 139 }
+      - { abbrev: "ps", chapter: 140 }
+  - day: 29
+    readings:
+      - { abbrev: "ps", chapter: 141 }
+      - { abbrev: "ps", chapter: 142 }
+      - { abbrev: "ps", chapter: 143 }
+      - { abbrev: "ps", chapter: 144 }
+      - { abbrev: "ps", chapter: 145 }
+  - day: 30
+    readings:
+      - { abbrev: "ps", chapter: 146 }
+      - { abbrev: "ps", chapter: 147 }
+      - { abbrev: "ps", chapter: 148 }
+      - { abbrev: "ps", chapter: 149 }
+      - { abbrev: "ps", chapter: 150 }

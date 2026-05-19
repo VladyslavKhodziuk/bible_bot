@@ -1,0 +1,167 @@
+id: life_of_jesus
+emoji: "✨"
+duration_days: 40
+names:
+  ru: "Жизнь Иисуса"
+  en: "Life of Jesus"
+  es: "Vida de Jesús"
+  uk: "Життя Ісуса"
+descriptions:
+  ru: "40 дней по Евангелиям — путь от Рождества до Воскресения. Подобран тематически, чтобы видеть жизнь Иисуса в её полноте."
+  en: "40 days through the Gospels — a journey from Nativity to Resurrection. Thematically arranged to see the life of Jesus in its fullness."
+  es: "40 días a través de los Evangelios — un viaje desde el Nacimiento hasta la Resurrección. Organizado temáticamente para ver la vida de Jesús en su plenitud."
+  uk: "40 днів через Євангелія — шлях від Різдва до Воскресіння. Підібрано тематично, щоб бачити життя Ісуса в його повноті."
+schedule:
+
+  - day: 1
+    readings:
+      - { abbrev: "mt", chapter: 1 }
+      - { abbrev: "mt", chapter: 2 }
+  - day: 2
+    readings:
+      - { abbrev: "lk", chapter: 1 }
+  - day: 3
+    readings:
+      - { abbrev: "lk", chapter: 2 }
+  - day: 4
+    readings:
+      - { abbrev: "mt", chapter: 3 }
+      - { abbrev: "mk", chapter: 1 }
+  - day: 5
+    readings:
+      - { abbrev: "mt", chapter: 4 }
+      - { abbrev: "lk", chapter: 3 }
+  - day: 6
+    readings:
+      - { abbrev: "jo", chapter: 1 }
+  - day: 7
+    readings:
+      - { abbrev: "jo", chapter: 2 }
+      - { abbrev: "jo", chapter: 3 }
+  - day: 8
+    readings:
+      - { abbrev: "jo", chapter: 4 }
+  - day: 9
+    readings:
+      - { abbrev: "mt", chapter: 5 }
+  - day: 10
+    readings:
+      - { abbrev: "mt", chapter: 6 }
+  - day: 11
+    readings:
+      - { abbrev: "mt", chapter: 7 }
+  - day: 12
+    readings:
+      - { abbrev: "lk", chapter: 4 }
+      - { abbrev: "lk", chapter: 5 }
+  - day: 13
+    readings:
+      - { abbrev: "mk", chapter: 2 }
+      - { abbrev: "mk", chapter: 3 }
+  - day: 14
+    readings:
+      - { abbrev: "mt", chapter: 8 }
+      - { abbrev: "mt", chapter: 9 }
+  - day: 15
+    readings:
+      - { abbrev: "mt", chapter: 10 }
+  - day: 16
+    readings:
+      - { abbrev: "lk", chapter: 6 }
+      - { abbrev: "lk", chapter: 7 }
+  - day: 17
+    readings:
+      - { abbrev: "mt", chapter: 11 }
+      - { abbrev: "mt", chapter: 12 }
+  - day: 18
+    readings:
+      - { abbrev: "mt", chapter: 13 }
+      - { abbrev: "mk", chapter: 4 }
+  - day: 19
+    readings:
+      - { abbrev: "mk", chapter: 5 }
+      - { abbrev: "lk", chapter: 8 }
+  - day: 20
+    readings:
+      - { abbrev: "mt", chapter: 14 }
+      - { abbrev: "mk", chapter: 6 }
+  - day: 21
+    readings:
+      - { abbrev: "jo", chapter: 5 }
+      - { abbrev: "jo", chapter: 6 }
+  - day: 22
+    readings:
+      - { abbrev: "mt", chapter: 15 }
+      - { abbrev: "mk", chapter: 7 }
+  - day: 23
+    readings:
+      - { abbrev: "mt", chapter: 16 }
+      - { abbrev: "mk", chapter: 8 }
+  - day: 24
+    readings:
+      - { abbrev: "mt", chapter: 17 }
+      - { abbrev: "mk", chapter: 9 }
+  - day: 25
+    readings:
+      - { abbrev: "lk", chapter: 9 }
+      - { abbrev: "lk", chapter: 10 }
+  - day: 26
+    readings:
+      - { abbrev: "mt", chapter: 18 }
+      - { abbrev: "lk", chapter: 11 }
+  - day: 27
+    readings:
+      - { abbrev: "lk", chapter: 12 }
+      - { abbrev: "lk", chapter: 13 }
+  - day: 28
+    readings:
+      - { abbrev: "lk", chapter: 14 }
+      - { abbrev: "lk", chapter: 15 }
+  - day: 29
+    readings:
+      - { abbrev: "lk", chapter: 16 }
+      - { abbrev: "lk", chapter: 17 }
+  - day: 30
+    readings:
+      - { abbrev: "jo", chapter: 7 }
+      - { abbrev: "jo", chapter: 8 }
+  - day: 31
+    readings:
+      - { abbrev: "jo", chapter: 9 }
+      - { abbrev: "jo", chapter: 10 }
+  - day: 32
+    readings:
+      - { abbrev: "jo", chapter: 11 }
+  - day: 33
+    readings:
+      - { abbrev: "mt", chapter: 19 }
+      - { abbrev: "mt", chapter: 20 }
+  - day: 34
+    readings:
+      - { abbrev: "mt", chapter: 21 }
+      - { abbrev: "mk", chapter: 11 }
+  - day: 35
+    readings:
+      - { abbrev: "mt", chapter: 22 }
+      - { abbrev: "mt", chapter: 23 }
+  - day: 36
+    readings:
+      - { abbrev: "mt", chapter: 24 }
+      - { abbrev: "mt", chapter: 25 }
+  - day: 37
+    readings:
+      - { abbrev: "mt", chapter: 26 }
+      - { abbrev: "mk", chapter: 14 }
+  - day: 38
+    readings:
+      - { abbrev: "jo", chapter: 13 }
+      - { abbrev: "jo", chapter: 14 }
+      - { abbrev: "jo", chapter: 15 }
+  - day: 39
+    readings:
+      - { abbrev: "jo", chapter: 16 }
+      - { abbrev: "jo", chapter: 17 }
+  - day: 40
+    readings:
+      - { abbrev: "mt", chapter: 27 }
+      - { abbrev: "mt", chapter: 28 }

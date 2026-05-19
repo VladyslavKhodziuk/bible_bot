@@ -268,3 +268,70 @@ feedback:
   too_short: "Повідомлення занадто коротке. Напиши, будь ласка, трохи детальніше."
   support_button: "❤️ Підтримати проєкт"
   later_button: "Пізніше"
+
+  plan:
+    menu_button: "📚 План читання"
+
+    no_active_title: "<b>📚 Плани читання</b>"
+    no_active_intro: |
+      Структуроване читання Біблії з прогресом і підтримкою.
+
+      Обери план, щоб почати:
+
+    preview_title: "{emoji} <b>{name}</b>"
+    preview_duration: "📅 Тривалість: <b>{days} днів</b>"
+    preview_description: "{description}"
+    preview_first_day: "📖 У перший день читаємо:"
+    preview_activate: "✅ Почати план"
+    preview_back: "← До списку планів"
+
+    active_title: "{emoji} <b>{name}</b>"
+    active_progress: "📊 Прогрес: <b>{completed} / {total} днів</b> ({percent}%)"
+    active_streak: "🔥 Серія: <b>{days} дн.</b>"
+    active_today_title: "<b>📖 Сьогодні — день {day}:</b>"
+    active_today_reading: "• {book} {chapter}"
+    active_open_chapter: "📖 {book} {chapter}"
+    active_mark_done: "✅ Позначити як прочитано"
+    active_change_plan: "🔄 Змінити план"
+    active_notification: "🔔 Час сповіщень"
+
+    marked_done: "✅ День {day} позначено як прочитаний"
+    already_completed: "День уже позначено"
+
+    completed_title: "🎉 <b>Вітаємо!</b>"
+    completed_text: |
+      Ти завершив план <b>«{name}»</b>!
+
+      За ці {days} днів ти прочитав значну частину Писання. Це справжнє досягнення, і Бог бачить твою вірність.
+
+      <i>«Боротьбою доброю я боровся, путь закінчив, віру зберіг»</i>
+      (2 Тимофію 4:7)
+    completed_choose_new: "🎯 Обрати новий план"
+    completed_to_menu: "← До меню"
+
+    notif_title: "<b>🔔 Сповіщення плану</b>"
+    notif_intro: "О котрій годині нагадувати про план читання?"
+    notif_current: "Зараз: <b>{time}</b>"
+    notif_status_on: "Сповіщення: <b>увімкнено</b>"
+    notif_status_off: "Сповіщення: <b>вимкнено</b>"
+    notif_disable: "🔕 Вимкнути сповіщення"
+    notif_enable: "🔔 Увімкнути сповіщення"
+    notif_set_time: "🕐 Змінити час"
+    notif_choose_time: "Обери зручний час:"
+    notif_saved: "✅ Час збережено: {time}"
+    notif_disabled: "🔕 Сповіщення плану вимкнено"
+    notif_enabled_at: "🔔 Сповіщення увімкнено, час: {time}"
+
+    change_confirm_title: "⚠️ <b>Змінити план?</b>"
+    change_confirm_text: |
+      Якщо ти зміниш план, твій прогрес у «{name}» буде втрачено.
+
+      Ти впевнений?
+    change_confirm_yes: "Так, обрати інший"
+    change_confirm_no: "Ні, залишитися"
+
+    push_title: "📚 <b>{name}</b>"
+    push_today: "Сьогодні — день <b>{day}</b>:"
+    push_reading: "• {book} {chapter}"
+    push_open: "📖 Відкрити"
+    days_short: "días"
