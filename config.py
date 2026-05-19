@@ -13,4 +13,5 @@ DEFAULT_LANG = "uk"
 SUPPORTED_LANGS = ["ru", "en", "es", "uk"]
 
 # ID администраторов — получают уведомления о фидбеке
-ADMIN_IDS = [1778315709]  # твой Telegram ID
+_admins_raw = os.getenv("ADMIN_IDS", "")
+ADMIN_IDS = [int(x.strip()) for x in _admins_raw.split(",") if x.strip()]

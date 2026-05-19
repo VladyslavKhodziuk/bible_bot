@@ -1,4 +1,5 @@
 import logging
+import asyncio
 
 from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
@@ -141,8 +142,9 @@ async def _do_search_show_scope_callback(
     query: str, lang: str, translation: str,
 ):
     """То же самое, но через callback (например, после 'всё равно искать')."""
-    results = BibleService.search(query, translation, max_results=MAX_RESULTS)
-
+    results = await asyncio.to_thread(
+        BibleService.search, query, translation, MAX_RESULTS
+    )
     if not results:
         await state.clear()
         await callback.message.edit_text(
