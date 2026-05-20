@@ -168,24 +168,37 @@ class PlanService:
         return True
 
     @staticmethod
-    async def mark_day_complete(user_id: int) -> tuple[bool, bool]:
+    async def mark_day_complete(user_id: int) -> tuple[str, int, int]:
         """
         Отметить текущий день плана как прочитанный.
 
-        Возвращает: (success, is_completed)
-            success: удалось ли отметить
-            is_completed: завершён ли весь план этим действием
+        Возвращает: (result, current_day, total_days)
+            result: "completed" — день засчитан, план не закончен
+                    "plan_finished" — день засчитан, план завершён
+                    "already_today" — уже отмечал сегодня, отказ
+                    "no_active" — нет активного плана
+            current_day: текущий день (для UI)
+            total_days: общее количество дней в плане
         """
+        from datetime import date as date_cls
+        today = date_cls.today()
+
         async with async_session() as session:
             result = await session.execute(
                 select(PlanProgress).where(
                     PlanProgress.user_id == user_id,
                     PlanProgress.status == "active",
-                )
+                    )
             )
             progress = result.scalar_one_or_none()
             if not progress:
-                return False, False
+                return "no_active", 0, 0
+
+            # Защита от мультикликов: один день = один клик
+            if progress.last_completion_date == today:
+                plan = PlanService.get_plan(progress.plan_id)
+                total = plan.get("duration_days", 0) if plan else 0
+                return "already_today", progress.current_day, total
 
             # Парсим список завершённых дней
             try:
@@ -194,30 +207,31 @@ class PlanService:
                 completed = []
 
             current_day = progress.current_day
-            if current_day in completed:
-                # Уже отмечен — просто двигаемся дальше
-                pass
-            else:
+            if current_day not in completed:
                 completed.append(current_day)
                 completed.sort()
                 progress.completed_days = json.dumps(completed)
 
-            # Двигаемся на следующий день
+            # Обновляем дату последнего отметки
+            progress.last_completion_date = today
+            # Сбрасываем индекс чтения для следующего дня
+            progress.current_reading_idx = 0
+
+            # Проверяем — план завершён?
             plan = PlanService.get_plan(progress.plan_id)
             total_days = plan.get("duration_days", 0) if plan else 0
 
             if current_day >= total_days:
-                # План завершён
                 progress.status = "completed"
+                progress.completed_at = datetime.utcnow()
                 await session.commit()
-                logger.info(
-                    f"План завершён: user={user_id}, plan={progress.plan_id}"
-                )
-                return True, True
+                logger.info(f"План завершён: user={user_id}, plan={progress.plan_id}")
+                return "plan_finished", current_day, total_days
 
+                # Идём на следующий день
             progress.current_day = current_day + 1
             await session.commit()
-            return True, False
+            return "completed", current_day, total_days  # возвращаем завершённый день, не следующий
 
     @staticmethod
     async def get_completed_days(user_id: int) -> list[int]:
@@ -298,3 +312,67 @@ class PlanService:
             "completed_count": completed_count,
             "percent": percent,
         }
+
+
+    @staticmethod
+    async def advance_reading_index(user_id: int) -> int | None:
+        """
+        Сдвинуть указатель на следующее чтение дня.
+        Возвращает новый индекс, или None если активного плана нет.
+        """
+        async with async_session() as session:
+            result = await session.execute(
+                select(PlanProgress).where(
+                    PlanProgress.user_id == user_id,
+                    PlanProgress.status == "active",
+                    )
+            )
+            progress = result.scalar_one_or_none()
+            if not progress:
+                return None
+            progress.current_reading_idx += 1
+            await session.commit()
+            return progress.current_reading_idx
+
+    @staticmethod
+    async def reset_reading_index(user_id: int) -> None:
+        """Сбросить индекс чтения дня в 0 (когда юзер хочет начать день заново)."""
+        async with async_session() as session:
+            result = await session.execute(
+                select(PlanProgress).where(
+                    PlanProgress.user_id == user_id,
+                    PlanProgress.status == "active",
+                    )
+            )
+            progress = result.scalar_one_or_none()
+            if not progress:
+                return
+            progress.current_reading_idx = 0
+            await session.commit()
+
+    @staticmethod
+    async def can_complete_today(user_id: int) -> bool:
+        """Проверка — можно ли отметить день сегодня (не отмечал ли уже)."""
+        from datetime import date as date_cls
+        progress = await PlanService.get_active(user_id)
+        if not progress:
+            return False
+        return progress.last_completion_date != date_cls.today()
+
+    @staticmethod
+    async def get_history(user_id: int) -> list[PlanProgress]:
+        """История всех планов юзера (завершённые + отложенные)."""
+        async with async_session() as session:
+            result = await session.execute(
+                select(PlanProgress)
+                .where(PlanProgress.user_id == user_id)
+                .order_by(PlanProgress.started_at.desc())
+            )
+            return list(result.scalars().all())
+
+
+def render_progress_bar(percent: int, width: int = 20) -> str:
+    """Рисует прогресс-бар псевдографикой."""
+    filled = round(width * percent / 100)
+    empty = width - filled
+    return f"{'█' * filled}{'░' * empty} {percent}%"

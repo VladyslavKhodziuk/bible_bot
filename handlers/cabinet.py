@@ -4,8 +4,8 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
 from services.user_service import UserService
-from services.streak_service import StreakService
 from services.bookmark_service import BookmarkService
+from services.plan_service import PlanService
 from services.i18n import t
 from keyboards.cabinet import cabinet_keyboard
 
@@ -43,12 +43,17 @@ async def _build_cabinet_text(user, lang: str) -> str:
     # Дней в боте
     days_in_bot = (date.today() - user.created_at.date()).days
     if days_in_bot == 0:
-        days_in_bot = 1  # сегодня = 1-й день
+        days_in_bot = 1
     days_line = t("cabinet.days_in_bot", lang, days=days_in_bot)
 
     # Количество закладок
     bookmarks_count = await BookmarkService.count_for_user(user.tg_id)
     bookmarks_line = t("cabinet.bookmarks_count", lang, count=bookmarks_count)
+
+    # Количество завершённых планов
+    history = await PlanService.get_history(user.tg_id)
+    completed_plans_count = sum(1 for p in history if p.status == "completed")
+    completed_line = t("cabinet.completed_plans_count", lang, count=completed_plans_count)
 
     # Собираем
     parts = [
@@ -63,6 +68,7 @@ async def _build_cabinet_text(user, lang: str) -> str:
     parts.append(freezes_line)
     parts.append(days_line)
     parts.append(bookmarks_line)
+    parts.append(completed_line)
 
     return "\n".join(parts)
 

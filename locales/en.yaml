@@ -101,6 +101,8 @@ cabinet:
   bookmarks_count: "⭐ Bookmarks: <b>{count}</b>"
   days_in_bot: "📅 With us for: <b>{days} days</b>"
   bookmarks_button: "⭐ My bookmarks"
+  my_plans_button: "📊 My plans"
+  completed_plans_count: "🏆 Plans completed: <b>{count}</b>"
   settings_button: "⚙️ Settings"
   back_to_cabinet: "← To my account"
 
@@ -178,7 +180,6 @@ notifications:
   time_changed: "✅ Time changed to {time}"
   enabled_message: "✅ Notifications enabled"
   disabled_message: "🔕 Notifications disabled"
-  daily_greeting: "🌅 <b>Good morning!</b>\n\nHere's your verse for today:"
 
 streak:
   indicator: "🔥 {days} days in a row"
@@ -194,7 +195,7 @@ streak:
     Don't give up, I'm with you 🙏
   onboarding_button: "Got it 🙌"
   freeze_used: |
-    🛡 <b>Good morning, {name}!</b>
+    🛡 <b>Streak preserved</b>
 
     You missed yesterday — I used one freeze to preserve your streak.
     🔥 Streak: <b>{streak} days</b>
@@ -334,3 +335,39 @@ plan:
   push_reading: "• {book} {chapter}"
   push_open: "📖 Open"
   days_short: "days"
+
+  read_header: "📖 Day {day} of {total} · {plan_name}"
+  read_separator: "━━━━━━━━━━━━━━━"
+  read_reading_progress: "Reading {current} of {total_readings}"
+  read_next_chapter: "✅ Read — next chapter"
+  read_complete_day: "✅ I'm done for today"
+  read_back_to_plan: "← Back to plan"
+
+  day_done_title: "🎉 <b>Great job!</b>"
+  day_done_today: "You've read for today — day <b>{day}</b>."
+  day_done_progress: "📊 Progress: <b>{completed} / {total}</b>"
+  day_done_tomorrow: "Tomorrow, day <b>{next_day}</b>:"
+  day_done_tomorrow_reading: "• {book} {chapter}"
+  already_today_alert: "You already marked today. Come back tomorrow!"
+  back_to_plan: "📚 Back to plan"
+  to_menu: "← To menu"
+
+  history_title: "<b>📊 My plans</b>"
+  history_empty: |
+    You haven't started any reading plan yet.
+
+    Go to «📚 Reading plan» to choose your first one.
+  history_completed: "✅ <b>Completed: {count}</b>"
+  history_active: "🟢 <b>Active: 1</b>"
+  history_abandoned: "🔄 <b>Paused: {count}</b>"
+  history_item_completed: "  {emoji} <b>{name}</b>\n  Finished {date} ({days}/{days})"
+  history_item_active: "  {emoji} <b>{name}</b> — day {current}/{total}"
+  history_item_abandoned: "  {emoji} <b>{name}</b> — day {current}/{total}\n  <i>(can be resumed)</i>"
+  history_resume_button: "🔄 Resume «{name}»"
+  history_back: "← To my account"
+
+greetings:
+  morning: "Good morning, {name}! 🌅"
+  day: "Good day, {name}! ☀️"
+  evening: "Good evening, {name}! 🌙"
+  night: "Good night, {name}! 🌃"

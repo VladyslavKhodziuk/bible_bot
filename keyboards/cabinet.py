@@ -12,6 +12,10 @@ def cabinet_keyboard(lang: str) -> InlineKeyboardMarkup:
         callback_data="bookmarks"
     )
     builder.button(
+        text=t("cabinet.my_plans_button", lang),
+        callback_data="plan:history"
+    )
+    builder.button(
         text=t("cabinet.settings_button", lang),
         callback_data="settings"
     )

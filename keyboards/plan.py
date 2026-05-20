@@ -15,7 +15,7 @@ def plan_list_keyboard(lang: str) -> InlineKeyboardMarkup:
         name = PlanService.get_plan_name(plan_id, lang)
         days = plan.get("duration_days", 0)
         builder.button(
-            text=f"{emoji} {name} · {days} {t('plan.days_short', lang)}",
+            text=f"{emoji} {name}",
             callback_data=f"plan:preview:{plan_id}"
         )
 
@@ -47,34 +47,30 @@ def active_plan_keyboard(
     readings: list[dict],
     lang: str,
     book_names_map: dict[str, str],
+    completed_today: bool = False,
 ) -> InlineKeyboardMarkup:
     """
     Клавиатура активного плана.
 
     readings: список вида [{"abbrev": "mt", "chapter": 1}, ...]
-    book_names_map: {"mt": "Матфея", "mk": "Марка", ...} — уже локализованные
+    book_names_map: {"mt": "Матфея", ...}
+    completed_today: уже отмечал ли день сегодня (тогда кнопка чтения 0й главы)
     """
     builder = InlineKeyboardBuilder()
     layout = []
 
-    # Кнопки открытия каждой главы из сегодняшнего чтения
-    for reading in readings:
+    # Кнопки чтения каждой главы — ведут в изолированный режим (plan:read:N)
+    for idx, reading in enumerate(readings):
         abbrev = reading["abbrev"]
         chapter = reading["chapter"]
         book_name = book_names_map.get(abbrev, abbrev)
         builder.button(
             text=t("plan.active_open_chapter", lang, book=book_name, chapter=chapter),
-            callback_data=f"read:ch:{abbrev}:{chapter}"
+            callback_data=f"plan:read:{idx}"
         )
         layout.append(1)
 
-    # Действия
-    builder.button(
-        text=t("plan.active_mark_done", lang),
-        callback_data="plan:mark_done"
-    )
-    layout.append(1)
-
+    # Действия (нет "Отметить" — это теперь только в режиме чтения)
     builder.button(
         text=t("plan.active_notification", lang),
         callback_data="plan:notif"
@@ -178,4 +174,52 @@ def time_picker_keyboard(lang: str) -> InlineKeyboardMarkup:
 
     # Раскладка: 4 в ряд (всего 17 значений + кнопка возврата)
     builder.adjust(4, 4, 4, 4, 1, 1)
+    return builder.as_markup()
+
+
+def reading_mode_keyboard(
+    reading_idx: int,
+    total_readings: int,
+    is_last: bool,
+    lang: str,
+) -> InlineKeyboardMarkup:
+    """
+    Клавиатура изолированного режима чтения.
+
+    is_last: True если это последняя глава дня — тогда кнопка "Прочитал на сегодня всё"
+             False — кнопка "Прочитано — следующая глава"
+    """
+    builder = InlineKeyboardBuilder()
+
+    if is_last:
+        builder.button(
+            text=t("plan.read_complete_day", lang),
+            callback_data="plan:mark_done"
+        )
+    else:
+        builder.button(
+            text=t("plan.read_next_chapter", lang),
+            callback_data="plan:next_reading"
+        )
+
+    builder.button(
+        text=t("plan.read_back_to_plan", lang),
+        callback_data="plan"
+    )
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+def day_done_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Клавиатура после завершения дня (не плана)."""
+    builder = InlineKeyboardBuilder()
+    builder.button(
+        text=t("plan.back_to_plan", lang),
+        callback_data="plan"
+    )
+    builder.button(
+        text=t("plan.to_menu", lang),
+        callback_data="open_menu"
+    )
+    builder.adjust(1)
     return builder.as_markup()

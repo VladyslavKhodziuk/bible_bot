@@ -104,15 +104,17 @@ class BibleService:
 
     @classmethod
     def get_chapter(cls, abbrev: str, chapter: int, translation: str) -> list[str] | None:
-        """Получить главу как список стихов. chapter с 1."""
-        book = cls._get_book_data(abbrev, translation)
-        if not book:
+        """Возвращает список стихов главы (без номеров, просто текст)."""
+        bible = cls._bibles.get(translation)
+        if not bible:
             return None
-        chapters = book["chapters"]
-        idx = chapter - 1
-        if idx < 0 or idx >= len(chapters):
-            return None
-        return chapters[idx]
+        for book_idx, book in enumerate(bible):
+            if cls._book_order[book_idx] == abbrev:
+                chapters = book.get("chapters", [])
+                if 0 <= chapter - 1 < len(chapters):
+                    return chapters[chapter - 1]
+                return None
+        return None
 
     @classmethod
     def get_verse(cls, abbrev: str, chapter: int, verse: int, translation: str) -> str | None:

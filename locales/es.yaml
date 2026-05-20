@@ -101,6 +101,8 @@ cabinet:
   bookmarks_count: "⭐ Favoritos: <b>{count}</b>"
   days_in_bot: "📅 Con nosotros: <b>{days} días</b>"
   bookmarks_button: "⭐ Mis favoritos"
+  my_plans_button: "📊 Mis planes"
+  completed_plans_count: "🏆 Planes completados: <b>{count}</b>"
   settings_button: "⚙️ Ajustes"
   back_to_cabinet: "← A mi cuenta"
 
@@ -179,7 +181,6 @@ notifications:
   time_changed: "✅ Hora cambiada a {time}"
   enabled_message: "✅ Notificaciones activadas"
   disabled_message: "🔕 Notificaciones desactivadas"
-  daily_greeting: "🌅 <b>¡Buenos días!</b>\n\nAquí está tu versículo de hoy:"
 
 streak:
   indicator: "🔥 {days} días seguidos"
@@ -195,7 +196,7 @@ streak:
     No te rindas, estoy contigo 🙏
   onboarding_button: "Entendido 🙌"
   freeze_used: |
-    🛡 <b>¡Buenos días, {name}!</b>
+    🛡 <b>Racha preservada</b>
 
     Ayer perdiste un día — usé una protección para conservar tu racha.
     🔥 Racha: <b>{streak} días</b>
@@ -335,3 +336,39 @@ plan:
   push_reading: "• {book} {chapter}"
   push_open: "📖 Abrir"
   days_short: "días"
+
+  read_header: "📖 Día {day} de {total} · {plan_name}"
+  read_separator: "━━━━━━━━━━━━━━━"
+  read_reading_progress: "Lectura {current} de {total_readings}"
+  read_next_chapter: "✅ Leído — siguiente capítulo"
+  read_complete_day: "✅ Terminé por hoy"
+  read_back_to_plan: "← Volver al plan"
+
+  day_done_title: "🎉 <b>¡Excelente!</b>"
+  day_done_today: "Has leído por hoy — día <b>{day}</b>."
+  day_done_progress: "📊 Progreso: <b>{completed} / {total}</b>"
+  day_done_tomorrow: "Mañana, día <b>{next_day}</b>:"
+  day_done_tomorrow_reading: "• {book} {chapter}"
+  already_today_alert: "Ya marcaste hoy. ¡Vuelve mañana!"
+  back_to_plan: "📚 Volver al plan"
+  to_menu: "← Al menú"
+
+  history_title: "<b>📊 Mis planes</b>"
+  history_empty: |
+    Aún no has comenzado ningún plan de lectura.
+
+    Ve a «📚 Plan de lectura» para elegir el primero.
+  history_completed: "✅ <b>Completados: {count}</b>"
+  history_active: "🟢 <b>Activo: 1</b>"
+  history_abandoned: "🔄 <b>Pausados: {count}</b>"
+  history_item_completed: "  {emoji} <b>{name}</b>\n  Terminado {date} ({days}/{days})"
+  history_item_active: "  {emoji} <b>{name}</b> — día {current}/{total}"
+  history_item_abandoned: "  {emoji} <b>{name}</b> — día {current}/{total}\n  <i>(se puede reanudar)</i>"
+  history_resume_button: "🔄 Reanudar «{name}»"
+  history_back: "← A mi cuenta"
+
+greetings:
+  morning: "¡Buenos días, {name}! 🌅"
+  day: "¡Buenas tardes, {name}! ☀️"
+  evening: "¡Buenas noches, {name}! 🌙"
+  night: "¡Buenas noches, {name}! 🌃"

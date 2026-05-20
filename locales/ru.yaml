@@ -105,6 +105,8 @@ cabinet:
   bookmarks_count: "⭐ Закладок: <b>{count}</b>"
   days_in_bot: "📅 С нами уже: <b>{days} дн.</b>"
   bookmarks_button: "⭐ Мои закладки"
+  my_plans_button: "📊 Мои планы"
+  completed_plans_count: "🏆 Завершено планов: <b>{count}</b>"
   settings_button: "⚙️ Настройки"
   back_to_cabinet: "← В личный кабинет"
 
@@ -183,7 +185,6 @@ notifications:
   time_changed: "✅ Время изменено на {time}"
   enabled_message: "✅ Уведомления включены"
   disabled_message: "🔕 Уведомления выключены"
-  daily_greeting: "🌅 <b>Доброе утро!</b>\n\nВот твой стих на сегодня:"
 
 streak:
   indicator: "🔥 {days} дн. подряд"
@@ -199,7 +200,7 @@ streak:
     Не сдавайся, я буду рядом 🙏
   onboarding_button: "Понятно 🙌"
   freeze_used: |
-    🛡 <b>Доброе утро, {name}!</b>
+    🛡 <b>Серия сохранена</b>
 
     Вчера ты пропустил день — я использовал одну заморозку, чтобы сохранить твою серию.
     🔥 Серия: <b>{streak} дн.</b>
@@ -353,3 +354,43 @@ plan:
   push_reading: "• {book} {chapter}"
   push_open: "📖 Открыть"
   days_short: "дн."
+
+# === Изолированный режим чтения ===
+  read_header: "📖 День {day} из {total} · {plan_name}"
+  read_separator: "━━━━━━━━━━━━━━━"
+  read_reading_progress: "Чтение {current} из {total_readings}"
+  read_next_chapter: "✅ Прочитано — следующая глава"
+  read_complete_day: "✅ Прочитал на сегодня всё"
+  read_back_to_plan: "← К плану"
+
+  # === Сообщения ===
+  day_done_title: "🎉 <b>Отлично!</b>"
+  day_done_today: "Ты прочитал на сегодня — день <b>{day}</b>."
+  day_done_progress: "📊 Прогресс: <b>{completed} / {total}</b>"
+  day_done_tomorrow: "Завтра, день <b>{next_day}</b>:"
+  day_done_tomorrow_reading: "• {book} {chapter}"
+  already_today_alert: "Ты уже отметил день сегодня. Возвращайся завтра!"
+  back_to_plan: "📚 Вернуться к плану"
+  to_menu: "← В меню"
+
+# === История планов ===
+  history_title: "<b>📊 Мои планы</b>"
+  history_empty: |
+    Ты пока не начинал ни один план чтения.
+
+    Зайди в раздел «📚 План чтения», чтобы выбрать первый.
+  history_completed: "✅ <b>Завершено: {count}</b>"
+  history_active: "🟢 <b>Активный: 1</b>"
+  history_abandoned: "🔄 <b>Отложено: {count}</b>"
+  history_item_completed: "  {emoji} <b>{name}</b>\n  Завершён {date} ({days}/{days})"
+  history_item_active: "  {emoji} <b>{name}</b> — день {current}/{total}"
+  history_item_abandoned: "  {emoji} <b>{name}</b> — день {current}/{total}\n  <i>(можно возобновить)</i>"
+  history_resume_button: "🔄 Возобновить «{name}»"
+  history_back: "← В личный кабинет"
+
+
+greetings:
+  morning: "Доброе утро, {name}! 🌅"
+  day: "Добрый день, {name}! ☀️"
+  evening: "Добрый вечер, {name}! 🌙"
+  night: "Доброй ночи, {name}! 🌃"

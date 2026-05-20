@@ -1,8 +1,6 @@
 from datetime import datetime, date
-
-from sqlalchemy import BigInteger, String, DateTime, Date, Integer
+from sqlalchemy import BigInteger, String, Integer, DateTime, Date, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
-
 from database import Base
 
 
@@ -70,15 +68,18 @@ class PlanProgress(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(BigInteger, index=True)
-    plan_id: Mapped[str] = mapped_column(String(50))  # "nt_30", "psalms_30", ...
+    plan_id: Mapped[str] = mapped_column(String(50))
     started_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    current_day: Mapped[int] = mapped_column(Integer, default=1)  # на каком дне план
-    completed_days: Mapped[str] = mapped_column(String(2000), default="[]")  # JSON [1, 2, 4, ...]
-    status: Mapped[str] = mapped_column(String(20), default="active")  # active / completed / abandoned
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)  # когда план завершён
+    current_day: Mapped[int] = mapped_column(Integer, default=1)
+    current_reading_idx: Mapped[int] = mapped_column(Integer, default=0)  # позиция в чтениях дня (0, 1, 2...)
+    completed_days: Mapped[str] = mapped_column(String(2000), default="[]")
+    status: Mapped[str] = mapped_column(String(20), default="active")
+    last_completion_date: Mapped[date | None] = mapped_column(Date, nullable=True)  # для защиты от мультикликов
 
-    # Время push-уведомления для плана
+    # Уведомления
     notification_enabled: Mapped[bool] = mapped_column(default=True)
-    notification_time: Mapped[str] = mapped_column(String(5), default="19:00")  # "HH:MM"
+    notification_time: Mapped[str] = mapped_column(String(5), default="19:00")
 
     def __repr__(self) -> str:
         return f"<PlanProgress user={self.user_id} plan={self.plan_id} day={self.current_day}>"

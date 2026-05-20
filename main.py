@@ -10,7 +10,7 @@ from config import BOT_TOKEN
 from database import init_db
 from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications, cabinet, feedback, search, plan
 from services.plan_service import PlanService
-from services.schelduler import start_scheduler
+from services.scheduler import setup_scheduler
 from services.bible_service import BibleService
 from services.topic_service import TopicService
 
@@ -61,7 +61,9 @@ async def main():
     await set_bot_commands(bot)
     logger.info("Команды бота установлены")
 
-    start_scheduler(bot)
+    # Запускаем планировщик ДО старта polling
+    scheduler = setup_scheduler(bot)
+    logger.info("Планировщик запущен")
 
     logger.info("Бот запускается...")
     await dp.start_polling(bot)
