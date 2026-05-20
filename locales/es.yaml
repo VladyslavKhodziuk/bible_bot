@@ -269,69 +269,69 @@ feedback:
   support_button: "❤️ Apoyar el proyecto"
   later_button: "Más tarde"
 
-  plan:
-    menu_button: "📚 Plan de lectura"
+plan:
+  menu_button: "📚 Plan de lectura"
 
-    no_active_title: "<b>📚 Planes de lectura</b>"
-    no_active_intro: |
-      Lectura estructurada de la Biblia con progreso y apoyo.
+  no_active_title: "<b>📚 Planes de lectura</b>"
+  no_active_intro: |
+    Lectura estructurada de la Biblia con progreso y apoyo.
 
-      Elige un plan para comenzar:
+    Elige un plan para comenzar:
 
-    preview_title: "{emoji} <b>{name}</b>"
-    preview_duration: "📅 Duración: <b>{days} días</b>"
-    preview_description: "{description}"
-    preview_first_day: "📖 El primer día leemos:"
-    preview_activate: "✅ Comenzar plan"
-    preview_back: "← A la lista de planes"
+  preview_title: "{emoji} <b>{name}</b>"
+  preview_duration: "📅 Duración: <b>{days} días</b>"
+  preview_description: "{description}"
+  preview_first_day: "📖 El primer día leemos:"
+  preview_activate: "✅ Comenzar plan"
+  preview_back: "← A la lista de planes"
 
-    active_title: "{emoji} <b>{name}</b>"
-    active_progress: "📊 Progreso: <b>{completed} / {total} días</b> ({percent}%)"
-    active_streak: "🔥 Racha: <b>{days} días</b>"
-    active_today_title: "<b>📖 Hoy — día {day}:</b>"
-    active_today_reading: "• {book} {chapter}"
-    active_open_chapter: "📖 {book} {chapter}"
-    active_mark_done: "✅ Marcar como leído"
-    active_change_plan: "🔄 Cambiar plan"
-    active_notification: "🔔 Hora de notificaciones"
+  active_title: "{emoji} <b>{name}</b>"
+  active_progress: "📊 Progreso: <b>{completed} / {total} días</b> ({percent}%)"
+  active_streak: "🔥 Racha: <b>{days} días</b>"
+  active_today_title: "<b>📖 Hoy — día {day}:</b>"
+  active_today_reading: "• {book} {chapter}"
+  active_open_chapter: "📖 {book} {chapter}"
+  active_mark_done: "✅ Marcar como leído"
+  active_change_plan: "🔄 Cambiar plan"
+  active_notification: "🔔 Hora de notificaciones"
 
-    marked_done: "✅ Día {day} marcado como leído"
-    already_completed: "Día ya marcado"
+  marked_done: "✅ Día {day} marcado como leído"
+  already_completed: "Día ya marcado"
 
-    completed_title: "🎉 <b>¡Felicitaciones!</b>"
-    completed_text: |
-      Has completado el plan <b>«{name}»</b>!
+  completed_title: "🎉 <b>¡Felicitaciones!</b>"
+  completed_text: |
+    Has completado el plan <b>«{name}»</b>!
 
-      Durante estos {days} días has leído una parte significativa de la Escritura. Es un logro real, y Dios ve tu fidelidad.
+    Durante estos {days} días has leído una parte significativa de la Escritura. Es un logro real, y Dios ve tu fidelidad.
 
-      <i>«He peleado la buena batalla, he acabado la carrera, he guardado la fe»</i>
-      (2 Timoteo 4:7)
-    completed_choose_new: "🎯 Elegir nuevo plan"
-    completed_to_menu: "← Al menú"
+    <i>«He peleado la buena batalla, he acabado la carrera, he guardado la fe»</i>
+    (2 Timoteo 4:7)
+  completed_choose_new: "🎯 Elegir nuevo plan"
+  completed_to_menu: "← Al menú"
 
-    notif_title: "<b>🔔 Notificaciones del plan</b>"
-    notif_intro: "¿A qué hora te recuerdo del plan de lectura?"
-    notif_current: "Ahora: <b>{time}</b>"
-    notif_status_on: "Notificaciones: <b>activadas</b>"
-    notif_status_off: "Notificaciones: <b>desactivadas</b>"
-    notif_disable: "🔕 Desactivar notificaciones"
-    notif_enable: "🔔 Activar notificaciones"
-    notif_set_time: "🕐 Cambiar hora"
-    notif_choose_time: "Elige una hora conveniente:"
-    notif_saved: "✅ Hora guardada: {time}"
-    notif_disabled: "🔕 Notificaciones del plan desactivadas"
-    notif_enabled_at: "🔔 Notificaciones activadas, hora: {time}"
+  notif_title: "<b>🔔 Notificaciones del plan</b>"
+  notif_intro: "¿A qué hora te recuerdo del plan de lectura?"
+  notif_current: "Ahora: <b>{time}</b>"
+  notif_status_on: "Notificaciones: <b>activadas</b>"
+  notif_status_off: "Notificaciones: <b>desactivadas</b>"
+  notif_disable: "🔕 Desactivar notificaciones"
+  notif_enable: "🔔 Activar notificaciones"
+  notif_set_time: "🕐 Cambiar hora"
+  notif_choose_time: "Elige una hora conveniente:"
+  notif_saved: "✅ Hora guardada: {time}"
+  notif_disabled: "🔕 Notificaciones del plan desactivadas"
+  notif_enabled_at: "🔔 Notificaciones activadas, hora: {time}"
 
-    change_confirm_title: "⚠️ <b>¿Cambiar plan?</b>"
-    change_confirm_text: |
-      Si cambias el plan, tu progreso en «{name}» se perderá.
+  change_confirm_title: "⚠️ <b>¿Cambiar plan?</b>"
+  change_confirm_text: |
+    Si cambias el plan, tu progreso en «{name}» se perderá.
 
-      ¿Estás seguro?
-    change_confirm_yes: "Sí, elegir otro"
-    change_confirm_no: "No, quedarme"
+    ¿Estás seguro?
+  change_confirm_yes: "Sí, elegir otro"
+  change_confirm_no: "No, quedarme"
 
-    push_title: "📚 <b>{name}</b>"
-    push_today: "Hoy — día <b>{day}</b>:"
-    push_reading: "• {book} {chapter}"
-    push_open: "📖 Abrir"
-    days_short: "días"
+  push_title: "📚 <b>{name}</b>"
+  push_today: "Hoy — día <b>{day}</b>:"
+  push_reading: "• {book} {chapter}"
+  push_open: "📖 Abrir"
+  days_short: "días"

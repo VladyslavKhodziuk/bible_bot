@@ -278,78 +278,78 @@ feedback:
   support_button: "❤️ Поддержать проект"
   later_button: "Позже"
 
-  plan:
-    # === Главное меню (заглушка → реальный экран) ===
-    menu_button: "📚 План чтения"
+plan:
+  # === Главное меню (заглушка → реальный экран) ===
+  menu_button: "📚 План чтения"
 
-    # === Экран выбора плана (когда плана нет) ===
-    no_active_title: "<b>📚 Планы чтения</b>"
-    no_active_intro: |
-      Структурированное чтение Библии с прогрессом и поддержкой.
+  # === Экран выбора плана (когда плана нет) ===
+  no_active_title: "<b>📚 Планы чтения</b>"
+  no_active_intro: |
+    Структурированное чтение Библии с прогрессом и поддержкой.
 
-      Выбери план для начала:
+    Выбери план для начала:
 
-    # === Экран с описанием плана перед активацией ===
-    preview_title: "{emoji} <b>{name}</b>"
-    preview_duration: "📅 Продолжительность: <b>{days} дней</b>"
-    preview_description: "{description}"
-    preview_first_day: "📖 В первый день читаем:"
-    preview_activate: "✅ Начать план"
-    preview_back: "← К списку планов"
+  # === Экран с описанием плана перед активацией ===
+  preview_title: "{emoji} <b>{name}</b>"
+  preview_duration: "📅 Продолжительность: <b>{days} дней</b>"
+  preview_description: "{description}"
+  preview_first_day: "📖 В первый день читаем:"
+  preview_activate: "✅ Начать план"
+  preview_back: "← К списку планов"
 
-    # === Экран активного плана (главный) ===
-    active_title: "{emoji} <b>{name}</b>"
-    active_progress: "📊 Прогресс: <b>{completed} / {total} дней</b> ({percent}%)"
-    active_streak: "🔥 Серия: <b>{days} дн.</b>"
-    active_today_title: "<b>📖 Сегодня — день {day}:</b>"
-    active_today_reading: "• {book} {chapter}"
-    active_open_chapter: "📖 {book} {chapter}"
-    active_mark_done: "✅ Отметить как прочитано"
-    active_change_plan: "🔄 Сменить план"
-    active_notification: "🔔 Время уведомлений"
+  # === Экран активного плана (главный) ===
+  active_title: "{emoji} <b>{name}</b>"
+  active_progress: "📊 Прогресс: <b>{completed} / {total} дней</b> ({percent}%)"
+  active_streak: "🔥 Серия: <b>{days} дн.</b>"
+  active_today_title: "<b>📖 Сегодня — день {day}:</b>"
+  active_today_reading: "• {book} {chapter}"
+  active_open_chapter: "📖 {book} {chapter}"
+  active_mark_done: "✅ Отметить как прочитано"
+  active_change_plan: "🔄 Сменить план"
+  active_notification: "🔔 Время уведомлений"
 
-    # === Сообщения ===
-    marked_done: "✅ День {day} отмечен как прочитанный"
-    already_completed: "День уже отмечен"
+  # === Сообщения ===
+  marked_done: "✅ День {day} отмечен как прочитанный"
+  already_completed: "День уже отмечен"
 
-    # === Завершение плана ===
-    completed_title: "🎉 <b>Поздравляем!</b>"
-    completed_text: |
-      Ты завершил план <b>«{name}»</b>!
+  # === Завершение плана ===
+  completed_title: "🎉 <b>Поздравляем!</b>"
+  completed_text: |
+    Ты завершил план <b>«{name}»</b>!
 
-      За эти {days} дней ты прочитал значительную часть Писания. Это серьёзное достижение, и Бог видит твоё усердие.
+    За эти {days} дней ты прочитал значительную часть Писания. Это серьёзное достижение, и Бог видит твоё усердие.
 
-      <i>«Подвигом добрым я подвизался, течение совершил, веру сохранил»</i>
-      (2 Тимофею 4:7)
-    completed_choose_new: "🎯 Выбрать новый план"
-    completed_to_menu: "← В меню"
+    <i>«Подвигом добрым я подвизался, течение совершил, веру сохранил»</i>
+    (2 Тимофею 4:7)
+  completed_choose_new: "🎯 Выбрать новый план"
+  completed_to_menu: "← В меню"
 
-    # === Время уведомлений ===
-    notif_title: "<b>🔔 Уведомления плана</b>"
-    notif_intro: "В какое время напоминать о плане чтения?"
-    notif_current: "Сейчас: <b>{time}</b>"
-    notif_status_on: "Уведомления: <b>включены</b>"
-    notif_status_off: "Уведомления: <b>выключены</b>"
-    notif_disable: "🔕 Выключить уведомления"
-    notif_enable: "🔔 Включить уведомления"
-    notif_set_time: "🕐 Изменить время"
-    notif_choose_time: "Выбери удобное время:"
-    notif_saved: "✅ Время сохранено: {time}"
-    notif_disabled: "🔕 Уведомления плана выключены"
-    notif_enabled_at: "🔔 Уведомления включены, время: {time}"
+  # === Время уведомлений ===
+  notif_title: "<b>🔔 Уведомления плана</b>"
+  notif_intro: "В какое время напоминать о плане чтения?"
+  notif_current: "Сейчас: <b>{time}</b>"
+  notif_status_on: "Уведомления: <b>включены</b>"
+  notif_status_off: "Уведомления: <b>выключены</b>"
+  notif_disable: "🔕 Выключить уведомления"
+  notif_enable: "🔔 Включить уведомления"
+  notif_set_time: "🕐 Изменить время"
+  notif_choose_time: "Выбери удобное время:"
+  notif_saved: "✅ Время сохранено: {time}"
+  notif_disabled: "🔕 Уведомления плана выключены"
+  notif_enabled_at: "🔔 Уведомления включены, время: {time}"
 
-    # === Подтверждение смены плана ===
-    change_confirm_title: "⚠️ <b>Сменить план?</b>"
-    change_confirm_text: |
-      Если ты сменишь план, прогресс по текущему плану «{name}» будет утерян.
+  # === Подтверждение смены плана ===
+  change_confirm_title: "⚠️ <b>Сменить план?</b>"
+  change_confirm_text: |
+    Если ты сменишь план, прогресс по текущему плану «{name}» будет утерян.
 
-      Ты уверен?
-    change_confirm_yes: "Да, выбрать другой"
-    change_confirm_no: "Нет, остаться"
+    Ты уверен?
+  change_confirm_yes: "Да, выбрать другой"
+  change_confirm_no: "Нет, остаться"
 
-    # === Push-уведомление о плане ===
-    push_title: "📚 <b>{name}</b>"
-    push_today: "Сегодня — день <b>{day}</b>:"
-    push_reading: "• {book} {chapter}"
-    push_open: "📖 Открыть"
-    days_short: "дн."
+  # === Push-уведомление о плане ===
+  push_title: "📚 <b>{name}</b>"
+  push_today: "Сегодня — день <b>{day}</b>:"
+  push_reading: "• {book} {chapter}"
+  push_open: "📖 Открыть"
+  days_short: "дн."
