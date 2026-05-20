@@ -24,7 +24,7 @@ def main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
     builder.button(text=t("menu.verse_of_day", lang), callback_data="verse_of_day")
     builder.button(text=t("menu.random", lang), callback_data="random")
     builder.button(text=t("plan.menu_button", lang), callback_data="plan")
-    builder.button(text=t("menu.share", lang), callback_data="share")
+    builder.button(text=t("menu.ai_pastor", lang), callback_data="ai_pastor")
     builder.button(text=t("menu.cabinet", lang), callback_data="cabinet")
     builder.button(text=t("menu.donate", lang), callback_data="donate")
 

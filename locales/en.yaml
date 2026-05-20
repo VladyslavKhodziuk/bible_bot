@@ -33,7 +33,7 @@ menu:
   verse_of_day: "📅 Verse of the day"
   random: "🎲 Random verse"
   plan: "📚 Reading plan"
-  share: "🎨 Share"
+  ai_pastor: "🙋‍♂️ Pastor's advice"
   cabinet: "👤 My account"
   donate: "❤️ Support project"
 
@@ -431,3 +431,13 @@ greetings:
   day: "Good day, {name}! ☀️"
   evening: "Good evening, {name}! 🌙"
   night: "Good night, {name}! 🌃"
+
+ai_pastor:
+  stub_title: "🙋‍♂️ <b>Pastor's advice</b>"
+  stub_text: |
+    Soon you'll be able to talk with an AI companion for biblical advice in difficult moments.
+
+    When you feel anxious, unsure how to act, or simply want to talk about faith — the AI pastor will offer a relevant verse and a thought to reflect on.
+
+    🛠 <b>Coming soon</b>
+  stub_back: "← To menu"

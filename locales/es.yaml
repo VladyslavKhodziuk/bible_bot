@@ -33,7 +33,7 @@ menu:
   verse_of_day: "📅 Versículo del día"
   random: "🎲 Versículo al azar"
   plan: "📚 Plan de lectura"
-  share: "🎨 Compartir"
+  ai_pastor: "🙋‍♂️ Consejo del pastor"
   cabinet: "👤 Mi cuenta"
   donate: "❤️ Apoyar el proyecto"
 
@@ -432,3 +432,13 @@ greetings:
   day: "¡Buenas tardes, {name}! ☀️"
   evening: "¡Buenas noches, {name}! 🌙"
   night: "¡Buenas noches, {name}! 🌃"
+
+ai_pastor:
+  stub_title: "🙋‍♂️ <b>Consejo del pastor</b>"
+  stub_text: |
+    Pronto podrás hablar con un compañero AI para recibir consejo bíblico en momentos difíciles.
+
+    Cuando sientas ansiedad, no sepas cómo actuar, o simplemente quieras hablar sobre la fe — el pastor AI te ofrecerá un versículo relevante y un pensamiento para reflexionar.
+
+    🛠 <b>Próximamente</b>
+  stub_back: "← Al menú"
