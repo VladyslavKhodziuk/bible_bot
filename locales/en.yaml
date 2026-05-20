@@ -366,6 +366,66 @@ plan:
   history_resume_button: "🔄 Resume «{name}»"
   history_back: "← To my account"
 
+donate:
+  # Main screen
+  title: |
+    ❤️ <b>Support the project</b>
+
+    This bot was created so that the Word of God would be accessible to everyone. It is free and will always remain so.
+
+    Your support helps:
+    – Pay for servers
+    – Develop new features
+    – Make the bot more accessible
+
+  # Main screen buttons
+  stars_button: "⭐ Support with Telegram Stars"
+  buymeacoffee_button: "☕ Buy Me a Coffee"
+  crypto_button: "🪙 Cryptocurrency"
+  paypal_button: "💳 PayPal"
+  where_button: "📊 Where funds go"
+
+  # Stars amount selection screen
+  choose_amount: "⭐ <b>Choose support amount:</b>"
+  preset_label: "{amount} ⭐ (≈ ${usd})"
+  custom_amount: "🎨 Custom amount"
+
+  # FSM: custom amount input
+  enter_amount: |
+    Enter the number of stars (from {min} to {max}):
+  invalid_amount: "⚠️ Enter a whole number from {min} to {max}."
+
+  # Invoice
+  invoice_title: "Support Bible Way"
+  invoice_description: "Support for Bible Way project — {amount} ⭐"
+
+  # After payment
+  thanks: |
+    🙏 <b>Thank you for your support!</b>
+
+    Your contribution ({amount} ⭐) is very valuable. Thanks to you, the Word of God becomes more accessible.
+
+    God sees your generosity ❤️
+
+  # «Where funds go» screen
+  where_title: |
+    📊 <b>Where funds go</b>
+
+    🖥 <b>Servers and infrastructure</b>
+    Hosting, database, backups — to keep the bot running smoothly 24/7.
+
+    ⚙️ <b>Development</b>
+    New features, translations, search improvements — to make the bot more useful.
+
+    🌍 <b>Accessibility</b>
+    Support for new languages and Bible translations.
+
+    💡 All funds go toward project development. The bot is created by one person with faith and love.
+
+  # Navigation
+  back: "← Back"
+  cancel: "← Cancel"
+
 greetings:
   morning: "Good morning, {name}! 🌅"
   day: "Good day, {name}! ☀️"

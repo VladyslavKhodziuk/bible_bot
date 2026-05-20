@@ -83,3 +83,20 @@ class PlanProgress(Base):
 
     def __repr__(self) -> str:
         return f"<PlanProgress user={self.user_id} plan={self.plan_id} day={self.current_day}>"
+
+
+class Donation(Base):
+    """История донатов через Telegram Stars."""
+    __tablename__ = "donations"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, index=True)  # tg_id
+    username: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    first_name: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    amount: Mapped[int] = mapped_column(Integer)  # кол-во звёзд
+    telegram_payment_charge_id: Mapped[str] = mapped_column(String(255))
+    provider_payment_charge_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<Donation user={self.user_id} amount={self.amount}>"

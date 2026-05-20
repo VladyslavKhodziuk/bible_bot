@@ -367,6 +367,66 @@ plan:
   history_resume_button: "🔄 Reanudar «{name}»"
   history_back: "← A mi cuenta"
 
+donate:
+  # Pantalla principal
+  title: |
+    ❤️ <b>Apoyar el proyecto</b>
+
+    Este bot fue creado para que la Palabra de Dios sea accesible a todos. Es gratuito y siempre lo será.
+
+    Tu apoyo ayuda a:
+    – Pagar los servidores
+    – Desarrollar nuevas funciones
+    – Hacer el bot más accesible
+
+  # Botones de la pantalla principal
+  stars_button: "⭐ Apoyar con Estrellas de Telegram"
+  buymeacoffee_button: "☕ Buy Me a Coffee"
+  crypto_button: "🪙 Criptomoneda"
+  paypal_button: "💳 PayPal"
+  where_button: "📊 A dónde van los fondos"
+
+  # Pantalla de selección de cantidad de Stars
+  choose_amount: "⭐ <b>Elige la cantidad de apoyo:</b>"
+  preset_label: "{amount} ⭐ (≈ ${usd})"
+  custom_amount: "🎨 Otra cantidad"
+
+  # FSM: entrada de cantidad personalizada
+  enter_amount: |
+    Introduce la cantidad de estrellas (de {min} a {max}):
+  invalid_amount: "⚠️ Introduce un número entero de {min} a {max}."
+
+  # Invoice
+  invoice_title: "Apoyo a Bible Way"
+  invoice_description: "Apoyo al proyecto Bible Way — {amount} ⭐"
+
+  # Después del pago
+  thanks: |
+    🙏 <b>¡Gracias por tu apoyo!</b>
+
+    Tu contribución ({amount} ⭐) es muy valiosa. Gracias a ti, la Palabra de Dios se vuelve más accesible.
+
+    Dios ve tu generosidad ❤️
+
+  # Pantalla «A dónde van los fondos»
+  where_title: |
+    📊 <b>A dónde van los fondos</b>
+
+    🖥 <b>Servidores e infraestructura</b>
+    Alojamiento, base de datos, copias de seguridad — para que el bot funcione de forma estable 24/7.
+
+    ⚙️ <b>Desarrollo</b>
+    Nuevas funciones, traducciones, mejora de búsqueda — para hacer el bot más útil.
+
+    🌍 <b>Accesibilidad</b>
+    Soporte para nuevos idiomas y traducciones de la Biblia.
+
+    💡 Todos los fondos se destinan al desarrollo del proyecto. El bot es creado por una persona con fe y amor.
+
+  # Navegación
+  back: "← Atrás"
+  cancel: "← Cancelar"
+
 greetings:
   morning: "¡Buenos días, {name}! 🌅"
   day: "¡Buenas tardes, {name}! ☀️"

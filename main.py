@@ -8,7 +8,7 @@ from aiogram.types import BotCommand
 
 from config import BOT_TOKEN
 from database import init_db
-from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications, cabinet, feedback, search, plan
+from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications, cabinet, feedback, search, plan, donate
 from services.plan_service import PlanService
 from services.scheduler import setup_scheduler
 from services.bible_service import BibleService
@@ -46,6 +46,7 @@ async def main():
 
     # Подключаем роутеры
     dp.include_router(feedback.router)
+    dp.include_router(donate.router)
     dp.include_router(start.router)
     dp.include_router(menu.router)
     dp.include_router(settings.router)

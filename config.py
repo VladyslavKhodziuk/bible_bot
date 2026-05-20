@@ -15,3 +15,19 @@ SUPPORTED_LANGS = ["ru", "en", "es", "uk"]
 # ID администраторов — получают уведомления о фидбеке
 _admins_raw = os.getenv("ADMIN_IDS", "")
 ADMIN_IDS = [int(x.strip()) for x in _admins_raw.split(",") if x.strip()]
+
+# ── Донаты ──────────────────────────────────────────────
+# Внешние ссылки: кнопка показывается только если URL задан
+DONATE_BUYMEACOFFEE_URL = os.getenv("DONATE_BUYMEACOFFEE_URL", "")
+DONATE_PAYPAL_URL = os.getenv("DONATE_PAYPAL_URL", "")
+DONATE_CRYPTO_URL = os.getenv("DONATE_CRYPTO_URL", "")
+
+# Пресеты для Telegram Stars (сумма → примерный USD)
+DONATE_STAR_PRESETS = [
+    (50, 1),
+    (200, 4),
+    (500, 10),
+    (1000, 20),
+]
+DONATE_STARS_MIN = 1
+DONATE_STARS_MAX = 2500  # ограничение Telegram на один платёж
