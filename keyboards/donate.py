@@ -2,7 +2,8 @@ from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from config import (
-    DONATE_BUYMEACOFFEE_URL,
+    DONATE_MONOBANK_URL,
+    DONATE_REVOLUT_URL,
     DONATE_PAYPAL_URL,
     DONATE_CRYPTO_URL,
     DONATE_STAR_PRESETS,
@@ -10,39 +11,17 @@ from config import (
 from services.i18n import t
 
 
-def donate_main_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Главный экран доната: Stars + внешние ссылки + инфо."""
+def donate_region_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Выбор региона перед показом способов оплаты (только uk/ru)."""
     builder = InlineKeyboardBuilder()
 
-    # Основная кнопка — Telegram Stars
     builder.button(
-        text=t("donate.stars_button", lang),
-        callback_data="donate:stars"
+        text=t("donate.region_ua", lang),
+        callback_data="donate:region:ua"
     )
-
-    # Внешние ссылки — показываем только если URL задан
-    if DONATE_BUYMEACOFFEE_URL:
-        builder.button(
-            text=t("donate.buymeacoffee_button", lang),
-            url=DONATE_BUYMEACOFFEE_URL
-        )
-
-    if DONATE_CRYPTO_URL:
-        builder.button(
-            text=t("donate.crypto_button", lang),
-            url=DONATE_CRYPTO_URL
-        )
-
-    if DONATE_PAYPAL_URL:
-        builder.button(
-            text=t("donate.paypal_button", lang),
-            url=DONATE_PAYPAL_URL
-        )
-
-    # Информационная кнопка
     builder.button(
-        text=t("donate.where_button", lang),
-        callback_data="donate:where"
+        text=t("donate.region_other", lang),
+        callback_data="donate:region:other"
     )
 
     # Навигация
@@ -51,7 +30,77 @@ def donate_main_keyboard(lang: str) -> InlineKeyboardMarkup:
         callback_data="open_menu"
     )
 
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+def donate_main_keyboard(lang: str, region: str = "other") -> InlineKeyboardMarkup:
+    """Главный экран доната: Stars + региональные ссылки + инфо."""
+    builder = InlineKeyboardBuilder()
+
+    # Основная кнопка — Telegram Stars
+    builder.button(
+        text=t("donate.stars_button", lang),
+        callback_data="donate:stars"
+    )
+
+    # Monobank — только для региона "ua"
+    if region == "ua" and DONATE_MONOBANK_URL:
+        builder.button(
+            text=t("donate.monobank_button", lang),
+            callback_data="donate:monobank"
+        )
+
+    # Revolut — для всех (как "Поддержка любой картой")
+    if DONATE_REVOLUT_URL:
+        builder.button(
+            text=t("donate.revolut_button", lang),
+            url=DONATE_REVOLUT_URL
+        )
+
+    # PayPal — только для региона "other"
+    if region == "other" and DONATE_PAYPAL_URL:
+        builder.button(
+            text=t("donate.paypal_button", lang),
+            url=DONATE_PAYPAL_URL
+        )
+
+    # Крипто — для всех (если URL задан)
+    if DONATE_CRYPTO_URL:
+        builder.button(
+            text=t("donate.crypto_button", lang),
+            url=DONATE_CRYPTO_URL
+        )
+
+    # Информационная кнопка
+    builder.button(
+        text=t("donate.where_button", lang),
+        callback_data="donate:where"
+    )
+
+    builder.button(
+        text=t("common.back_to_menu", lang),
+        callback_data="open_menu"
+    )
+
     # Раскладка: все кнопки по одной в ряд
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+def donate_monobank_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Кнопки под текстом банки Monobank."""
+    builder = InlineKeyboardBuilder()
+
+    builder.button(
+        text=t("donate.monobank_open", lang),
+        url=DONATE_MONOBANK_URL
+    )
+    builder.button(
+        text=t("donate.back", lang),
+        callback_data="donate:region:ua"
+    )
+
     builder.adjust(1)
     return builder.as_markup()
 
@@ -73,10 +122,10 @@ def donate_stars_keyboard(lang: str) -> InlineKeyboardMarkup:
         callback_data="donate:custom"
     )
 
-    # Назад
+    # Назад — к главному экрану доната (через region callback)
     builder.button(
         text=t("donate.back", lang),
-        callback_data="donate"
+        callback_data="donate:back_to_main"
     )
 
     # Раскладка: все по одной
@@ -89,7 +138,7 @@ def donate_where_keyboard(lang: str) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     builder.button(
         text=t("donate.back", lang),
-        callback_data="donate"
+        callback_data="donate:back_to_main"
     )
     return builder.as_markup()
 

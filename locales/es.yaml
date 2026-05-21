@@ -379,12 +379,31 @@ donate:
     – Desarrollar nuevas funciones
     – Hacer el bot más accesible
 
+  # Pantalla de selección de región
+  region_title: |
+    ❤️ <b>Apoyar el proyecto</b>
+
+    Elige tu región para ver los métodos de pago disponibles:
+  region_ua: "🇺🇦 Ucrania"
+  region_other: "🌍 Otro país"
+
   # Botones de la pantalla principal
   stars_button: "⭐ Apoyar con Estrellas de Telegram"
-  buymeacoffee_button: "☕ Buy Me a Coffee"
+  monobank_button: "🏦 Monobank"
+  revolut_button: "💳 Apoyar con cualquier tarjeta"
   crypto_button: "🪙 Criptomoneda"
   paypal_button: "💳 PayPal"
   where_button: "📊 A dónde van los fondos"
+
+  # Pantalla de Monobank
+  monobank_info: |
+    🏦 <b>Monobank — Alcancía</b>
+
+    ❤️ Apoyar el proyecto
+    Recaudación para hosting, servidores y soporte técnico del bot gratuito "Bible Way". ¡Para que la Palabra de Dios siga siendo accesible a todos!
+
+    🎯 Meta: 10,000 ₴
+  monobank_open: "🔗 Abrir alcancía"
 
   # Pantalla de selección de cantidad de Stars
   choose_amount: "⭐ <b>Elige la cantidad de apoyo:</b>"

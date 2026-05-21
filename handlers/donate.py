@@ -10,7 +10,9 @@ from services.user_service import UserService
 from services.donate_service import DonateService
 from services.i18n import t
 from keyboards.donate import (
+    donate_region_keyboard,
     donate_main_keyboard,
+    donate_monobank_keyboard,
     donate_stars_keyboard,
     donate_where_keyboard,
     donate_cancel_keyboard,
@@ -26,20 +28,86 @@ class DonateState(StatesGroup):
     waiting_for_amount = State()
 
 
-# ============ Главный экран доната ============
+# ============ Главный экран — выбор региона (uk/ru) или сразу способы (en/es) ============
 
 @router.callback_query(F.data == "donate")
 async def show_donate(callback: CallbackQuery, state: FSMContext):
-    """Показать главный экран доната."""
+    """Показать экран доната: для uk/ru — выбор региона, для остальных — сразу способы."""
     # Сбрасываем FSM если юзер вернулся назад из ввода суммы
     await state.clear()
 
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
 
+    if lang in ("uk", "ru"):
+        # Показываем выбор региона
+        await callback.message.edit_text(
+            t("donate.region_title", lang),
+            reply_markup=donate_region_keyboard(lang)
+        )
+    else:
+        # Для en/es — сразу показываем способы для "other" региона
+        await state.update_data(donate_region="other")
+        await callback.message.edit_text(
+            t("donate.title", lang),
+            reply_markup=donate_main_keyboard(lang, region="other")
+        )
+    await callback.answer()
+
+
+# ============ Выбор региона → показ способов оплаты ============
+
+@router.callback_query(F.data.startswith("donate:region:"))
+async def show_donate_region(callback: CallbackQuery, state: FSMContext):
+    """Показать способы оплаты для выбранного региона."""
+    region = callback.data.split(":")[2]  # "ua" или "other"
+
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    # Сохраняем регион в FSM для навигации "назад"
+    await state.update_data(donate_region=region)
+
     await callback.message.edit_text(
         t("donate.title", lang),
-        reply_markup=donate_main_keyboard(lang)
+        reply_markup=donate_main_keyboard(lang, region=region)
+    )
+    await callback.answer()
+
+
+# ============ Экран Monobank — банка ============
+
+@router.callback_query(F.data == "donate:monobank")
+async def show_monobank(callback: CallbackQuery):
+    """Показать детали банки Monobank."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    await callback.message.edit_text(
+        t("donate.monobank_info", lang),
+        reply_markup=donate_monobank_keyboard(lang),
+        parse_mode="HTML"
+    )
+    await callback.answer()
+
+
+# ============ Назад к главному экрану доната (из Stars / Where) ============
+
+@router.callback_query(F.data == "donate:back_to_main")
+async def back_to_donate_main(callback: CallbackQuery, state: FSMContext):
+    """Вернуться к главному экрану доната с учётом выбранного региона."""
+    await state.set_state(None)  # Сбрасываем FSM состояние, но сохраняем data
+
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    # Получаем регион из FSM data
+    data = await state.get_data()
+    region = data.get("donate_region", "other")
+
+    await callback.message.edit_text(
+        t("donate.title", lang),
+        reply_markup=donate_main_keyboard(lang, region=region)
     )
     await callback.answer()
 
@@ -94,7 +162,7 @@ async def start_custom_amount(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(F.data == "donate:cancel_custom")
 async def cancel_custom_amount(callback: CallbackQuery, state: FSMContext):
     """Отменить ввод произвольной суммы, вернуться к выбору."""
-    await state.clear()
+    await state.set_state(None)  # Сбрасываем FSM, но сохраняем data (region)
 
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
@@ -128,7 +196,7 @@ async def receive_custom_amount(message: Message, state: FSMContext, bot: Bot):
         return  # Остаёмся в FSM — ждём корректного ввода
 
     # Выходим из FSM и отправляем Invoice
-    await state.clear()
+    await state.set_state(None)  # Сбрасываем FSM, но сохраняем data (region)
     await _send_invoice(bot, message.from_user.id, amount, lang)
 
 
