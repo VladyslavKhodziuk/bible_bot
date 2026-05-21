@@ -30,4 +30,8 @@ DONATE_STAR_PRESETS = [
     (1000, 20),
 ]
 DONATE_STARS_MIN = 1
-DONATE_STARS_MAX = 2500  # ограничение Telegram на один платёж
+DONATE_STARS_MAX = 2500 # ограничение Telegram на один платёж
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API_KEY не задан в .env")

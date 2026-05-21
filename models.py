@@ -100,3 +100,28 @@ class Donation(Base):
 
     def __repr__(self) -> str:
         return f"<Donation user={self.user_id} amount={self.amount}>"
+
+
+class AIRequest(Base):
+    """Запросы юзера к AI Пастырю — для лимитов и истории."""
+    __tablename__ = "ai_requests"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, index=True)
+    request_text: Mapped[str] = mapped_column(String(2000))
+    response_text: Mapped[str] = mapped_column(String(2000))
+    lang: Mapped[str] = mapped_column(String(5))
+    is_crisis: Mapped[bool] = mapped_column(default=False)  # был ли определён как кризисный
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<AIRequest user={self.user_id} at={self.created_at}>"
+
+
+class AIConsent(Base):
+    """Согласие юзера с правилами AI Пастыря (одноразовое)."""
+    __tablename__ = "ai_consent"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
+    accepted_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
