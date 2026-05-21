@@ -78,17 +78,16 @@ def donate_main_keyboard(lang: str, region: str = "other") -> InlineKeyboardMark
         callback_data="donate:where"
     )
 
-    # Навигация — назад к выбору региона (для uk/ru) или в меню (для en/es)
+    # Навигация
     if lang in ("uk", "ru"):
         builder.button(
             text=t("donate.back", lang),
             callback_data="donate"
         )
-    else:
-        builder.button(
-            text=t("common.back_to_menu", lang),
-            callback_data="open_menu"
-        )
+    builder.button(
+        text=t("common.back_to_menu", lang),
+        callback_data="open_menu"
+    )
 
     # Раскладка: все кнопки по одной в ряд
     builder.adjust(1)
