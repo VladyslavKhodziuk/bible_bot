@@ -18,7 +18,9 @@ ADMIN_IDS = [int(x.strip()) for x in _admins_raw.split(",") if x.strip()]
 
 # ── Донаты ──────────────────────────────────────────────
 # Внешние ссылки: кнопка показывается только если URL задан
-DONATE_BUYMEACOFFEE_URL = os.getenv("DONATE_BUYMEACOFFEE_URL", "")
+DONATE_MONOBANK_URL = os.getenv("DONATE_MONOBANK_URL", "https://send.monobank.ua/jar/8ELwuMGBLh")
+DONATE_MONOBANK_CARD = os.getenv("DONATE_MONOBANK_CARD", "4874 1000 3813 2323")
+DONATE_REVOLUT_URL = os.getenv("DONATE_REVOLUT_URL", "https://revolut.me/vladysqu8c")
 DONATE_PAYPAL_URL = os.getenv("DONATE_PAYPAL_URL", "")
 DONATE_CRYPTO_URL = os.getenv("DONATE_CRYPTO_URL", "")
 

@@ -401,12 +401,37 @@ donate:
     – Развивать новые функции
     – Делать бота доступнее
 
+  # Экран выбора региона
+  region_title: |
+    ❤️ <b>Поддержать проект</b>
+
+    Выберите ваш регион, чтобы увидеть удобные способы оплаты:
+  region_ua: "🇺🇦 Украина"
+  region_other: "🌍 Другая страна"
+
   # Кнопки главного экрана
   stars_button: "⭐ Поддержать звёздами Telegram"
-  buymeacoffee_button: "☕ Buy Me a Coffee"
+  monobank_button: "🏦 Monobank (Банка)"
+  revolut_button: "💳 Поддержка любой картой"
   crypto_button: "🪙 Криптовалютой"
   paypal_button: "💳 PayPal"
   where_button: "📊 Куда идут средства"
+
+  # Экран Monobank
+  monobank_info: |
+    🏦 <b>Monobank — Банка</b>
+
+    ❤️ Поддержать проект
+    Сбор на хостинг, серверы и техническую поддержку бесплатного бота «Bible Way». Чтобы Слово Божье оставалось доступным каждому!
+
+    🎯 Цель: 10 000 ₴
+
+    🔗 Ссылка на банку:
+    https://send.monobank.ua/jar/8ELwuMGBLh
+
+    💳 Номер карты банки:
+    <code>4874 1000 3813 2323</code>
+  monobank_open: "🔗 Открыть банку"
 
   # Экран выбора суммы Stars
   choose_amount: "⭐ <b>Выберите сумму поддержки:</b>"

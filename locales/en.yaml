@@ -378,12 +378,37 @@ donate:
     – Develop new features
     – Make the bot more accessible
 
+  # Region selection screen
+  region_title: |
+    ❤️ <b>Support the project</b>
+
+    Choose your region to see convenient payment methods:
+  region_ua: "🇺🇦 Ukraine"
+  region_other: "🌍 Other country"
+
   # Main screen buttons
   stars_button: "⭐ Support with Telegram Stars"
-  buymeacoffee_button: "☕ Buy Me a Coffee"
+  monobank_button: "🏦 Monobank"
+  revolut_button: "💳 Support with any card"
   crypto_button: "🪙 Cryptocurrency"
   paypal_button: "💳 PayPal"
   where_button: "📊 Where funds go"
+
+  # Monobank screen
+  monobank_info: |
+    🏦 <b>Monobank — Jar</b>
+
+    ❤️ Support the project
+    Fundraiser for hosting, servers, and technical support of the free bot "Bible Way". So that the Word of God remains accessible to everyone!
+
+    🎯 Goal: 10,000 ₴
+
+    🔗 Jar link:
+    https://send.monobank.ua/jar/8ELwuMGBLh
+
+    💳 Card number:
+    <code>4874 1000 3813 2323</code>
+  monobank_open: "🔗 Open jar"
 
   # Stars amount selection screen
   choose_amount: "⭐ <b>Choose support amount:</b>"
