@@ -107,6 +107,10 @@ def donate_monobank_keyboard(lang: str) -> InlineKeyboardMarkup:
         text=t("donate.back", lang),
         callback_data="donate:region:ua"
     )
+    builder.button(
+        text=t("common.back_to_menu", lang),
+        callback_data="open_menu"
+    )
 
     builder.adjust(1)
     return builder.as_markup()
