@@ -1,3 +1,5 @@
+import html
+
 from aiogram import Router, F
 from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery
@@ -26,7 +28,7 @@ async def cmd_start(message: Message):
         )
     else:
         # Вернувшийся пользователь — короткое приветствие и сразу меню
-        name = user.first_name or "друг"
+        name = html.escape(user.first_name or "друг")
         await message.answer(
             t("welcome_back", user.lang, name=name)
         )
@@ -61,7 +63,7 @@ async def set_language(callback: CallbackQuery):
     await callback.message.delete()
 
     # Шлём приветствие на выбранном языке
-    name = callback.from_user.first_name or "друг"
+    name = html.escape(callback.from_user.first_name or "друг")
     await callback.message.answer(
         t("welcome.text", lang, name=name),
         reply_markup=welcome_keyboard(lang)

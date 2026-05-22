@@ -1,3 +1,4 @@
+import html
 import logging
 
 from aiogram import Router, F, Bot
@@ -272,7 +273,7 @@ async def _send_invoice(bot: Bot, chat_id: int, amount: int, lang: str):
 
 async def _notify_admin_donation(bot: Bot, tg_user, amount: int):
     """Уведомить всех админов о новом донате."""
-    user_display = tg_user.first_name or "Юзер"
+    user_display = html.escape(tg_user.first_name or "Юзер")
     if tg_user.username:
         user_display += f" (@{tg_user.username})"
     user_display += f" [id:{tg_user.id}]"

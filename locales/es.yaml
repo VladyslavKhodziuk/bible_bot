@@ -200,6 +200,10 @@ notifications:
   time_changed: "✅ Hora cambiada a {time}"
   enabled_message: "✅ Notificaciones activadas"
   disabled_message: "🔕 Notificaciones desactivadas"
+  change_timezone: "🌍 Zona horaria"
+  choose_timezone: "<b>🌍 Zona horaria</b>\n\nElige tu zona horaria — la hora de las notificaciones se interpreta en ella."
+  timezone_line: "🌍 Zona horaria: <b>{timezone}</b>"
+  timezone_changed: "✅ Zona horaria: {timezone}"
 
 streak:
   indicator: "🔥 {days} días seguidos"

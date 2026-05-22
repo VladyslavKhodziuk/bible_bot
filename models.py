@@ -2,6 +2,8 @@ from datetime import datetime, date
 from sqlalchemy import BigInteger, String, Integer, DateTime, Date, Boolean, Text
 from sqlalchemy.orm import Mapped, mapped_column
 from database import Base
+from timeutils import utcnow
+from config import DEFAULT_TZ
 
 
 class User(Base):
@@ -16,13 +18,14 @@ class User(Base):
     translation: Mapped[str] = mapped_column(String(20), default="ru_synodal")
     notifications_enabled: Mapped[bool] = mapped_column(default=False)  # ← новое
     notification_time: Mapped[str] = mapped_column(String(5), default="09:00")  # ← новое, формат "HH:MM"
+    timezone: Mapped[str] = mapped_column(String(64), default=DEFAULT_TZ)  # IANA-зона юзера
     # Серии (streaks)
     current_streak: Mapped[int] = mapped_column(Integer, default=0)
     longest_streak: Mapped[int] = mapped_column(Integer, default=0)
     last_activity_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     freezes_available: Mapped[int] = mapped_column(Integer, default=2)
     streak_explained: Mapped[bool] = mapped_column(default=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
     def __repr__(self) -> str:
         return f"<User tg_id={self.tg_id} lang={self.lang}>"
@@ -38,7 +41,7 @@ class Bookmark(Base):
     chapter: Mapped[int] = mapped_column()
     verse: Mapped[int] = mapped_column()
     note: Mapped[str | None] = mapped_column(String(500), nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
     def __repr__(self) -> str:
         return f"<Bookmark user={self.user_id} ref={self.abbrev} {self.chapter}:{self.verse}>"
@@ -56,7 +59,7 @@ class Feedback(Base):
     kind: Mapped[str] = mapped_column(String(20))  # idea / bug / review
     rating: Mapped[int | None] = mapped_column(Integer, nullable=True)  # для review
     text: Mapped[str] = mapped_column(String(2000))
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
     def __repr__(self) -> str:
         return f"<Feedback {self.kind} from {self.user_id}>"
@@ -69,7 +72,7 @@ class PlanProgress(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(BigInteger, index=True)
     plan_id: Mapped[str] = mapped_column(String(50))
-    started_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    started_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)  # когда план завершён
     current_day: Mapped[int] = mapped_column(Integer, default=1)
     current_reading_idx: Mapped[int] = mapped_column(Integer, default=0)  # позиция в чтениях дня (0, 1, 2...)
@@ -96,7 +99,7 @@ class Donation(Base):
     amount: Mapped[int] = mapped_column(Integer)  # кол-во звёзд
     telegram_payment_charge_id: Mapped[str] = mapped_column(String(255))
     provider_payment_charge_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
     def __repr__(self) -> str:
         return f"<Donation user={self.user_id} amount={self.amount}>"
@@ -112,7 +115,7 @@ class AIRequest(Base):
     response_text: Mapped[str] = mapped_column(String(2000))
     lang: Mapped[str] = mapped_column(String(5))
     is_crisis: Mapped[bool] = mapped_column(default=False)  # был ли определён как кризисный
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
     def __repr__(self) -> str:
         return f"<AIRequest user={self.user_id} at={self.created_at}>"
@@ -124,7 +127,7 @@ class AIConsent(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
-    accepted_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    accepted_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
 class ActivityHourly(Base):

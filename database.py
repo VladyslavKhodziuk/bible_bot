@@ -1,3 +1,4 @@
+from sqlalchemy import event
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 
@@ -11,6 +12,18 @@ class Base(DeclarativeBase):
 
 # Движок подключения к БД
 engine = create_async_engine(DATABASE_URL, echo=False)
+
+
+# WAL: читатели не блокируют писателя и наоборот — критично, т.к. flush
+# аналитики (раз в минуту), стрики, AI-запросы и хендлеры пишут параллельно.
+# busy_timeout: вместо мгновенной ошибки "database is locked" ждём до 5 сек.
+@event.listens_for(engine.sync_engine, "connect")
+def _set_sqlite_pragmas(dbapi_conn, _connection_record):
+    cursor = dbapi_conn.cursor()
+    cursor.execute("PRAGMA journal_mode=WAL")
+    cursor.execute("PRAGMA busy_timeout=5000")
+    cursor.execute("PRAGMA synchronous=NORMAL")
+    cursor.close()
 
 # Фабрика сессий
 async_session = async_sessionmaker(

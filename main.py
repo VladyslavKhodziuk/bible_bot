@@ -14,6 +14,7 @@ from services.scheduler import setup_scheduler
 from services.bible_service import BibleService
 from services.topic_service import TopicService
 from services.alert_service import AlertService
+from services.analytics_service import AnalyticsService
 from middlewares.analytics import AnalyticsMiddleware
 
 logging.basicConfig(
@@ -78,7 +79,21 @@ async def main():
     logger.info("Планировщик запущен")
 
     logger.info("Бот запускается...")
-    await dp.start_polling(bot)
+    try:
+        # drop_pending_updates: после простоя/рестарта отбрасываем накопившуюся
+        # очередь апдейтов, чтобы бот не «оживал» пачкой устаревших нажатий.
+        await dp.start_polling(bot, drop_pending_updates=True)
+    finally:
+        # Чистое завершение: останавливаем планировщик, дописываем накопленную
+        # в памяти аналитику текущего часа и закрываем HTTP-сессию бота.
+        logger.info("Останавливаем бот...")
+        scheduler.shutdown(wait=False)
+        try:
+            await AnalyticsService.flush()
+        except Exception as e:
+            logger.warning(f"Не удалось дописать аналитику при остановке: {e}")
+        await bot.session.close()
+        logger.info("Бот остановлен корректно")
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import html
 from datetime import date
 
 from aiogram import Router, F
@@ -17,7 +18,7 @@ MAX_FREEZES = 2
 
 async def _build_cabinet_text(user, lang: str) -> str:
     """Сформировать текст личного кабинета с сводкой."""
-    name = user.first_name or "друг"
+    name = html.escape(user.first_name or "друг")
 
     # Серия — текущая
     if user.current_streak == 0:

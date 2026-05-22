@@ -5,6 +5,7 @@ from sqlalchemy import select
 
 from database import async_session
 from models import User
+from services.timezones import local_today
 
 logger = logging.getLogger(__name__)
 
@@ -44,9 +45,6 @@ class StreakService:
         Главный метод. Вызывается при каждом значимом действии юзера.
         Обновляет серию по правилам и возвращает StreakResult — что произошло.
         """
-        if today is None:
-            today = date.today()
-
         result = StreakResult()
 
         async with async_session() as session:
@@ -56,6 +54,11 @@ class StreakService:
             user = user_row.scalar_one_or_none()
             if user is None:
                 return result
+
+            # «Сегодня» — в часовом поясе пользователя, иначе у юзеров в других
+            # TZ день серии засчитывался бы по времени сервера.
+            if today is None:
+                today = local_today(user.timezone)
 
             last = user.last_activity_date
 

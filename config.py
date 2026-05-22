@@ -12,6 +12,11 @@ DATABASE_URL = "sqlite+aiosqlite:///bot.db"
 DEFAULT_LANG = "uk"
 SUPPORTED_LANGS = ["ru", "en", "es", "uk"]
 
+# Часовой пояс по умолчанию (IANA). Используется для новых пользователей и как
+# fallback, если у юзера сохранён неизвестный/битый пояс. Уведомления и стрики
+# считаются в личном часовом поясе пользователя (см. services/timezones.py).
+DEFAULT_TZ = os.getenv("DEFAULT_TZ", "Europe/Kyiv")
+
 # ID администраторов — получают уведомления о фидбеке
 _admins_raw = os.getenv("ADMIN_IDS", "")
 ADMIN_IDS = [int(x.strip()) for x in _admins_raw.split(",") if x.strip()]
@@ -76,6 +81,15 @@ CLEANUP_DAY = int(os.getenv("CLEANUP_DAY", "5"))
 # за THROTTLE_WINDOW_SEC секунд. Превышение — действие отбрасывается.
 THROTTLE_MAX_EVENTS = int(os.getenv("THROTTLE_MAX_EVENTS", "15"))
 THROTTLE_WINDOW_SEC = float(os.getenv("THROTTLE_WINDOW_SEC", "3"))
+
+# Хранение текстов AI-запросов (приватность). Строки AIRequest старше стольких
+# дней удаляются ежедневным обслуживанием. Тексты содержат чувствительные данные
+# (в т.ч. кризисные), поэтому срок ограничен. Лимиты и контекст сессии работают
+# в пределах суток, так что на функциональность это не влияет.
+# ВАЖНО: значение >= 45 сохраняет точность месячного отчёта (он смотрит до ~31
+# дня назад). Меньшее значение → старые AI-запросы в месячном отчёте могут
+# недосчитываться.
+AI_REQUEST_RETENTION_DAYS = int(os.getenv("AI_REQUEST_RETENTION_DAYS", "90"))
 
 
 # ── Алерты администратору (мониторинг) ───────────────────

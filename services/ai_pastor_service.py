@@ -1,17 +1,18 @@
 """Сервис AI Пастыря — обёртка над Gemini API + лимиты + промпт."""
 import asyncio
 import logging
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 from google import genai
 from google.genai import types
 from google.genai.errors import APIError
-from sqlalchemy import select, func, desc
+from sqlalchemy import select, func, desc, delete
 
-from config import GEMINI_API_KEY
+from config import GEMINI_API_KEY, AI_REQUEST_RETENTION_DAYS
 from database import async_session
 from models import AIRequest, AIConsent
 from services.alert_service import AlertService
+from timeutils import utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -264,6 +265,29 @@ class AIPastorService:
         count = await AIPastorService.requests_today(user_id)
         remaining = DAILY_LIMIT - count
         return remaining > 0, max(0, remaining)
+
+    # ============ Очистка старых запросов (приватность) ============
+
+    @staticmethod
+    async def cleanup_old_requests() -> int:
+        """Удаляет AIRequest старше AI_REQUEST_RETENTION_DAYS дней.
+
+        Тексты запросов/ответов содержат чувствительные (в т.ч. кризисные)
+        данные — не храним их бессрочно. created_at хранится в naive UTC,
+        поэтому и cutoff считаем через utcnow().
+        """
+        cutoff = utcnow() - timedelta(days=AI_REQUEST_RETENTION_DAYS)
+        async with async_session() as session:
+            result = await session.execute(
+                delete(AIRequest).where(AIRequest.created_at < cutoff)
+            )
+            await session.commit()
+        deleted = result.rowcount or 0
+        if deleted:
+            logger.info(
+                f"Очистка ai_requests: удалено {deleted} строк старше {cutoff:%d.%m.%Y}"
+            )
+        return deleted
 
     # ============ Контекст сессии ============
 

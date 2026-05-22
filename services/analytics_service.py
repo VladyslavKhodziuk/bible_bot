@@ -24,6 +24,7 @@ from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 
 from database import async_session
 from models import ActivityHourly, User, AIRequest, Donation
+from timeutils import utcnow
 from config import THROTTLE_MAX_EVENTS, THROTTLE_WINDOW_SEC, MONTHLY_REPORT_DAY
 
 logger = logging.getLogger(__name__)
@@ -239,7 +240,7 @@ class AnalyticsService:
         await cls.flush()
 
         # created_at юзеров/донатов/AI хранится в UTC — переводим границы окна.
-        utc_offset = datetime.now() - datetime.utcnow()
+        utc_offset = datetime.now() - utcnow()
         utc_start = local_start - utc_offset
         utc_end = local_end - utc_offset
 

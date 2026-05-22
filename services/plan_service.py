@@ -1,6 +1,5 @@
 import json
 import logging
-from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -8,6 +7,7 @@ from sqlalchemy import select, delete
 
 from database import async_session
 from models import PlanProgress
+from timeutils import utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -134,7 +134,7 @@ class PlanService:
             new_progress = PlanProgress(
                 user_id=user_id,
                 plan_id=plan_id,
-                started_at=datetime.utcnow(),
+                started_at=utcnow(),
                 current_day=1,
                 completed_days="[]",
                 status="active",
@@ -223,7 +223,7 @@ class PlanService:
 
             if current_day >= total_days:
                 progress.status = "completed"
-                progress.completed_at = datetime.utcnow()
+                progress.completed_at = utcnow()
                 await session.commit()
                 logger.info(f"План завершён: user={user_id}, plan={progress.plan_id}")
                 return "plan_finished", current_day, total_days

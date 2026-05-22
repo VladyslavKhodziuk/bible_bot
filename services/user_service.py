@@ -92,6 +92,18 @@ class UserService:
             await session.commit()
 
     @staticmethod
+    async def set_timezone(tg_id: int, tz_name: str) -> None:
+        """Сменить часовой пояс пользователя (IANA-имя)."""
+        async with async_session() as session:
+            result = await session.execute(
+                select(User).where(User.tg_id == tg_id)
+            )
+            user = result.scalar_one_or_none()
+            if user:
+                user.timezone = tz_name
+                await session.commit()
+
+    @staticmethod
     async def get_users_for_notification(time_str: str) -> list[User]:
         """Получить всех юзеров, которым сейчас нужно отправить уведомление.
 

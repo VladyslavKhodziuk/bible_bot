@@ -1,4 +1,5 @@
 """Планировщик уведомлений: стих дня + план чтения."""
+import html
 import logging
 from datetime import datetime
 
@@ -18,6 +19,8 @@ from services.streak_service import StreakService
 from services.streak_display import format_streak_indicator, get_milestone_message
 from services.analytics_service import AnalyticsService
 from services.alert_service import AlertService
+from services.ai_pastor_service import AIPastorService
+from services.timezones import local_hhmm
 from services.i18n import t
 from config import (
     REPORT_CHAT_ID, REPORT_TIME, ADMIN_IDS, MONTHLY_REPORT_DAY, CLEANUP_DAY,
@@ -82,7 +85,7 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
         verse=verse["verse"],
     )
 
-    name = user.first_name or "друг"
+    name = html.escape(user.first_name or "друг")
 
     # === Особые сообщения: ободрение или заморозка ===
     if streak_result.returned_after_loss:
@@ -180,7 +183,7 @@ async def _send_plan_to_user(bot: Bot, user: User, progress: PlanProgress) -> No
     if not readings:
         return
 
-    name = user.first_name or "друг"
+    name = html.escape(user.first_name or "друг")
     plan_name = PlanService.get_plan_name(progress.plan_id, user.lang)
 
     # Приветствие по времени плана
@@ -270,17 +273,31 @@ async def send_daily_verses(bot: Bot):
     1. Кому пора слать стих дня
     2. Кому пора слать план чтения
     """
+    # current_time — локальное время сервера. Используем его только для отчётов
+    # (это ops-задача в одном поясе). Уведомления юзерам матчим по ИХ поясу.
     current_time = datetime.now().strftime("%H:%M")
 
-    # === 1. Стих дня ===
+    # === 1. Стих дня (по часовому поясу пользователя) ===
+    # Берём различные пояса среди подписанных юзеров и для каждого считаем его
+    # локальное HH:MM — так фильтрация остаётся в SQL по индексам, без выгрузки
+    # всех подписчиков каждую минуту.
+    verse_users = []
     async with async_session() as session:
-        result = await session.execute(
-            select(User).where(
-                User.notifications_enabled == True,
-                User.notification_time == current_time,
-            )
-        )
-        verse_users = result.scalars().all()
+        tzs = (await session.execute(
+            select(User.timezone)
+            .where(User.notifications_enabled == True)
+            .distinct()
+        )).scalars().all()
+        for tz in tzs:
+            local_time = local_hhmm(tz)
+            rows = (await session.execute(
+                select(User).where(
+                    User.notifications_enabled == True,
+                    User.timezone == tz,
+                    User.notification_time == local_time,
+                )
+            )).scalars().all()
+            verse_users.extend(rows)
 
     for user in verse_users:
         try:
@@ -288,18 +305,31 @@ async def send_daily_verses(bot: Bot):
         except Exception as e:
             logger.warning(f"Ошибка стиха дня для {user.tg_id}: {e}")
 
-    # === 2. План чтения ===
+    # === 2. План чтения (по часовому поясу пользователя) ===
+    plan_rows = []
     async with async_session() as session:
-        result = await session.execute(
-            select(PlanProgress, User)
-            .join(User, User.tg_id == PlanProgress.user_id)
+        tzs = (await session.execute(
+            select(User.timezone)
+            .join(PlanProgress, PlanProgress.user_id == User.tg_id)
             .where(
                 PlanProgress.status == "active",
                 PlanProgress.notification_enabled == True,
-                PlanProgress.notification_time == current_time,
             )
-        )
-        plan_rows = result.all()
+            .distinct()
+        )).scalars().all()
+        for tz in tzs:
+            local_time = local_hhmm(tz)
+            rows = (await session.execute(
+                select(PlanProgress, User)
+                .join(User, User.tg_id == PlanProgress.user_id)
+                .where(
+                    PlanProgress.status == "active",
+                    PlanProgress.notification_enabled == True,
+                    PlanProgress.notification_time == local_time,
+                    User.timezone == tz,
+                )
+            )).all()
+            plan_rows.extend(rows)
 
     for progress, user in plan_rows:
         try:
@@ -321,6 +351,9 @@ async def send_daily_verses(bot: Bot):
             await send_activity_report(bot, monthly=True)
         if today == CLEANUP_DAY:
             await AnalyticsService.cleanup_old_aggregates()
+        # Приватность: чистим старые тексты AI-запросов. После отчётов, чтобы
+        # месячный отчёт успел учесть запросы до их удаления.
+        await AIPastorService.cleanup_old_requests()
 
 
 # ============ Отчёты активности ============

@@ -1,3 +1,4 @@
+import html
 import logging
 import asyncio
 
@@ -94,7 +95,7 @@ async def receive_query(message: Message, state: FSMContext):
         await state.update_data(pending_query=query)
         translation_name = t(f"settings.translation_names.{translation}", lang)
         await message.answer(
-            t("search.wrong_alphabet", lang, query=query, translation=translation_name),
+            t("search.wrong_alphabet", lang, query=html.escape(query), translation=translation_name),
             reply_markup=wrong_alphabet_keyboard(lang)
         )
         return
@@ -125,12 +126,15 @@ async def _do_search_show_scope_message(
     query: str, lang: str, translation: str,
 ):
     """Поиск и показ экрана выбора раздела (новым сообщением)."""
-    results = BibleService.search(query, translation, max_results=MAX_RESULTS)
+    # to_thread: скан всей Библии (~31k стихов) — CPU-bound, не блокируем event loop.
+    results = await asyncio.to_thread(
+        BibleService.search, query, translation, MAX_RESULTS
+    )
 
     if not results:
         await state.clear()
         await message.answer(
-            t("search.no_results", lang, query=query),
+            t("search.no_results", lang, query=html.escape(query)),
             reply_markup=no_results_keyboard(lang)
         )
         return
@@ -139,7 +143,7 @@ async def _do_search_show_scope_message(
     await state.update_data(query=query, results=results, counts=counts)
     await state.set_state(None)
 
-    text = t("search.choose_scope", lang, query=query, total=counts["all"])
+    text = t("search.choose_scope", lang, query=html.escape(query), total=counts["all"])
     await message.answer(text, reply_markup=scope_keyboard(counts, lang))
 
 
@@ -154,7 +158,7 @@ async def _do_search_show_scope_callback(
     if not results:
         await state.clear()
         await callback.message.edit_text(
-            t("search.no_results", lang, query=query),
+            t("search.no_results", lang, query=html.escape(query)),
             reply_markup=no_results_keyboard(lang)
         )
         await callback.answer()
@@ -164,7 +168,7 @@ async def _do_search_show_scope_callback(
     await state.update_data(query=query, results=results, counts=counts)
     await state.set_state(None)
 
-    text = t("search.choose_scope", lang, query=query, total=counts["all"])
+    text = t("search.choose_scope", lang, query=html.escape(query), total=counts["all"])
     await callback.message.edit_text(text, reply_markup=scope_keyboard(counts, lang))
     await callback.answer()
 
@@ -218,7 +222,7 @@ async def back_to_scope(callback: CallbackQuery, state: FSMContext):
     user = await UserService.get(callback.from_user.id)
     lang = user.lang
 
-    text = t("search.choose_scope", lang, query=query, total=counts["all"])
+    text = t("search.choose_scope", lang, query=html.escape(query), total=counts["all"])
     await callback.message.edit_text(text, reply_markup=scope_keyboard(counts, lang))
     await callback.answer()
 
@@ -248,7 +252,7 @@ def _build_results_text(
         "ot": "search.results_title_ot",
         "nt": "search.results_title_nt",
     }[scope]
-    parts = [t(title_key, lang, query=query)]
+    parts = [t(title_key, lang, query=html.escape(query))]
 
     if total_all >= MAX_RESULTS:
         parts.append(t("search.found_limited", lang, limit=MAX_RESULTS))

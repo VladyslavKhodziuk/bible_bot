@@ -1,3 +1,4 @@
+import html
 import logging
 
 from aiogram import Router, F, Bot
@@ -157,8 +158,9 @@ async def _notify_admin(bot: Bot, tg_user, lang: str, kind: str, text: str):
     emoji = kind_emoji.get(kind, "📨")
     label = kind_label.get(kind, kind.upper())
 
-    # Имя/юзернейм для опознания
-    user_display = tg_user.first_name or "Юзер"
+    # Имя/юзернейм для опознания. Экранируем — first_name юзера может содержать
+    # <, >, & и сломать разбор HTML (тогда фидбек не дойдёт до админа).
+    user_display = html.escape(tg_user.first_name or "Юзер")
     if tg_user.username:
         user_display += f" (@{tg_user.username})"
     user_display += f" [id:{tg_user.id}]"
@@ -178,7 +180,7 @@ async def _notify_admin(bot: Bot, tg_user, lang: str, kind: str, text: str):
     admin_text = (
         f"{emoji} <b>Новый {label}</b>\n\n"
         f"{info_block}\n\n"
-        f"<i>{text}</i>"
+        f"<i>{html.escape(text)}</i>"
     )
 
     # Если для типа задана группа — шлём в неё, иначе в личку админам

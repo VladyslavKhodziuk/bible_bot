@@ -199,6 +199,10 @@ notifications:
   time_changed: "✅ Time changed to {time}"
   enabled_message: "✅ Notifications enabled"
   disabled_message: "🔕 Notifications disabled"
+  change_timezone: "🌍 Time zone"
+  choose_timezone: "<b>🌍 Time zone</b>\n\nChoose your time zone — notification times are interpreted in it."
+  timezone_line: "🌍 Time zone: <b>{timezone}</b>"
+  timezone_changed: "✅ Time zone: {timezone}"
 
 streak:
   indicator: "🔥 {days} days in a row"

@@ -204,6 +204,10 @@ notifications:
   time_changed: "✅ Время изменено на {time}"
   enabled_message: "✅ Уведомления включены"
   disabled_message: "🔕 Уведомления выключены"
+  change_timezone: "🌍 Часовой пояс"
+  choose_timezone: "<b>🌍 Часовой пояс</b>\n\nВыбери свой часовой пояс — в нём будет трактоваться время уведомлений."
+  timezone_line: "🌍 Часовой пояс: <b>{timezone}</b>"
+  timezone_changed: "✅ Часовой пояс: {timezone}"
 
 streak:
   indicator: "🔥 {days} дн. подряд"
