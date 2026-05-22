@@ -125,3 +125,25 @@ class AIConsent(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
     accepted_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+class ActivityEvent(Base):
+    """Лог взаимодействий с ботом для аналитики и ежедневных отчётов.
+
+    Пишется батчами из памяти (см. AnalyticsService), а не на каждое событие,
+    чтобы не нагружать БД. Язык здесь не хранится — берётся из User при
+    построении отчёта, чтобы не дублировать и не устаревать.
+
+    created_at в локальном времени сервера (datetime.now()), как и cron-задачи
+    планировщика — так пиковый час совпадает с тем, что видит администратор.
+    """
+    __tablename__ = "activity_events"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    tg_id: Mapped[int] = mapped_column(BigInteger, index=True)
+    event_type: Mapped[str] = mapped_column(String(32), index=True)  # категория действия
+    kind: Mapped[str] = mapped_column(String(16))  # message / callback / error / notif / throttled
+    created_at: Mapped[datetime] = mapped_column(DateTime, index=True, default=datetime.now)
+
+    def __repr__(self) -> str:
+        return f"<ActivityEvent tg_id={self.tg_id} {self.kind}:{self.event_type}>"

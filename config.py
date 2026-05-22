@@ -57,3 +57,22 @@ DONATE_STARS_MAX = 2500 # ограничение Telegram на один плат
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 if not GEMINI_API_KEY:
     raise ValueError("GEMINI_API_KEY не задан в .env")
+
+
+# ── Аналитика и ежедневный отчёт ─────────────────────────
+# ID группы, куда раз в сутки в REPORT_TIME уходит сводка активности.
+# Если не задан — отчёт уходит в личку администраторам (ADMIN_IDS).
+REPORT_CHAT_ID = _parse_chat_id(os.getenv("REPORT_CHAT_ID", ""))
+REPORT_TIME = os.getenv("REPORT_TIME", "22:00")  # формат "HH:MM", локальное время сервера
+
+# Месячный отчёт: шлётся в REPORT_TIME в день MONTHLY_REPORT_DAY и покрывает
+# цикл [прошлый MONTHLY_REPORT_DAY → этот MONTHLY_REPORT_DAY).
+# Очистка старых событий запускается в день CLEANUP_DAY (≈10 дней спустя):
+# удаляются записи старше начала последнего отчётного цикла (уже отчётанные).
+MONTHLY_REPORT_DAY = int(os.getenv("MONTHLY_REPORT_DAY", "25"))
+CLEANUP_DAY = int(os.getenv("CLEANUP_DAY", "5"))
+
+# Throttling: не больше THROTTLE_MAX_EVENTS действий от одного юзера
+# за THROTTLE_WINDOW_SEC секунд. Превышение — действие отбрасывается.
+THROTTLE_MAX_EVENTS = int(os.getenv("THROTTLE_MAX_EVENTS", "15"))
+THROTTLE_WINDOW_SEC = float(os.getenv("THROTTLE_WINDOW_SEC", "3"))

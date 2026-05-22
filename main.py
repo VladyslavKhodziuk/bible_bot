@@ -8,11 +8,12 @@ from aiogram.types import BotCommand
 
 from config import BOT_TOKEN
 from database import init_db
-from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications, cabinet, feedback, search, plan, donate, ai_pastor
+from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications, cabinet, feedback, search, plan, donate, ai_pastor, chatid
 from services.plan_service import PlanService
 from services.scheduler import setup_scheduler
 from services.bible_service import BibleService
 from services.topic_service import TopicService
+from middlewares.analytics import AnalyticsMiddleware
 
 logging.basicConfig(
     level=logging.INFO,
@@ -44,6 +45,9 @@ async def main():
     )
     dp = Dispatcher()
 
+    # Аналитика + throttling: один middleware видит каждое обновление
+    dp.update.outer_middleware(AnalyticsMiddleware())
+
     # Подключаем роутеры
     dp.include_router(feedback.router)
     dp.include_router(donate.router)
@@ -59,6 +63,8 @@ async def main():
     dp.include_router(search.router)
     dp.include_router(plan.router)
     dp.include_router(ai_pastor.router)
+    # chatid — последним, чтобы не перехватывать обычные сообщения/пересылки
+    dp.include_router(chatid.router)
 
     await set_bot_commands(bot)
     logger.info("Команды бота установлены")

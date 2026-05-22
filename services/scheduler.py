@@ -13,7 +13,9 @@ from services.bible_service import BibleService
 from services.plan_service import PlanService
 from services.streak_service import StreakService
 from services.streak_display import format_streak_indicator, get_milestone_message
+from services.analytics_service import AnalyticsService
 from services.i18n import t
+from config import REPORT_CHAT_ID, REPORT_TIME, ADMIN_IDS, MONTHLY_REPORT_DAY, CLEANUP_DAY
 
 logger = logging.getLogger(__name__)
 
@@ -119,8 +121,10 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
             parse_mode="HTML",
         )
         logger.info(f"Стих дня отправлен юзеру {user.tg_id}")
+        AnalyticsService.record(user.tg_id, "notif_verse", "notif")
     except Exception as e:
         logger.warning(f"Не удалось отправить стих дня юзеру {user.tg_id}: {e}")
+        AnalyticsService.record(user.tg_id, "notif_verse", "error")
 
     # === Поздравление с милстоуном (отдельным сообщением) ===
     if streak_result.milestone_reached:
@@ -200,8 +204,10 @@ async def _send_plan_to_user(bot: Bot, user: User, progress: PlanProgress) -> No
             f"План отправлен юзеру {user.tg_id} "
             f"(план: {progress.plan_id}, день: {progress.current_day})"
         )
+        AnalyticsService.record(user.tg_id, "notif_plan", "notif")
     except Exception as e:
         logger.warning(f"Не удалось отправить план юзеру {user.tg_id}: {e}")
+        AnalyticsService.record(user.tg_id, "notif_plan", "error")
 
 
 # ============ Главная функция планировщика (каждую минуту) ============
@@ -248,6 +254,50 @@ async def send_daily_verses(bot: Bot):
             await _send_plan_to_user(bot, user, progress)
         except Exception as e:
             logger.warning(f"Ошибка плана для {user.tg_id}: {e}")
+
+    # === 3. Аналитика: сбрасываем буфер событий в БД ===
+    await AnalyticsService.flush()
+
+    # === 4. Отчёты и обслуживание (раз в сутки, в REPORT_TIME) ===
+    if current_time == REPORT_TIME:
+        today = datetime.now().day
+        await send_activity_report(bot)  # ежедневный за 24ч
+        if today == MONTHLY_REPORT_DAY:
+            await send_activity_report(bot, monthly=True)
+        if today == CLEANUP_DAY:
+            await AnalyticsService.cleanup_old_events()
+
+
+# ============ Отчёты активности ============
+
+def _report_targets() -> list[int]:
+    """Куда слать отчёт: группа REPORT_CHAT_ID или личка администраторам."""
+    return [REPORT_CHAT_ID] if REPORT_CHAT_ID else list(ADMIN_IDS)
+
+
+async def send_activity_report(bot: Bot, monthly: bool = False):
+    """Строит и шлёт сводку активности (за сутки или за месяц) в REPORT_CHAT_ID
+    (или в личку администраторам, если группа не задана)."""
+    try:
+        if monthly:
+            text = await AnalyticsService.build_monthly_report()
+        else:
+            text = await AnalyticsService.build_daily_report()
+    except Exception as e:
+        logger.error(f"Не удалось построить отчёт активности (monthly={monthly}): {e}")
+        return
+
+    targets = _report_targets()
+    if not targets:
+        logger.warning("Отчёт не отправлен: не задан REPORT_CHAT_ID и нет ADMIN_IDS")
+        return
+
+    for chat_id in targets:
+        try:
+            await bot.send_message(chat_id=chat_id, text=text, parse_mode="HTML")
+            logger.info(f"Отчёт активности отправлен в {chat_id} (monthly={monthly})")
+        except Exception as e:
+            logger.warning(f"Не удалось отправить отчёт в {chat_id}: {e}")
 
 
 # ============ Регистрация планировщика ============
