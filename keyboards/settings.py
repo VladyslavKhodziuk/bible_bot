@@ -5,15 +5,27 @@ from services.i18n import t
 from services.bible_service import BibleService
 
 
-def settings_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Главный экран настроек."""
+def settings_keyboard(user, lang: str) -> InlineKeyboardMarkup:
+    """Главный экран настроек. Сетка 2 в ряд: язык | уведомления, идея | баг, назад."""
     builder = InlineKeyboardBuilder()
+    layout = []
 
-    # === Настройки бота ===
+    # === Ряд 1: язык + уведомления ===
+    language_name = t(f"settings.language_names.{lang}", lang)
     builder.button(
-        text=t("settings.change_language", lang),
+        text=t("settings.btn_language", lang, language=language_name),
         callback_data="settings:change_lang"
     )
+
+    if user.notifications_enabled:
+        notif_text = t("settings.btn_notif_on", lang, time=user.notification_time)
+    else:
+        notif_text = t("settings.btn_notif_off", lang)
+    builder.button(
+        text=notif_text,
+        callback_data="notif:open"
+    )
+    layout.append(2)
 
     # Кнопка выбора перевода — только если на языке больше одного перевода
     if len(BibleService.get_translations_for_lang(lang)) > 1:
@@ -21,13 +33,9 @@ def settings_keyboard(lang: str) -> InlineKeyboardMarkup:
             text=t("settings.change_translation", lang),
             callback_data="settings:change_translation"
         )
+        layout.append(1)
 
-    builder.button(
-        text=t("settings.change_notifications", lang),
-        callback_data="notif:open"
-    )
-
-    # === Обратная связь (переместили из ЛК) ===
+    # === Ряд 2: обратная связь ===
     builder.button(
         text=t("feedback.cabinet_idea", lang),
         callback_data="fb:start:idea"
@@ -36,18 +44,16 @@ def settings_keyboard(lang: str) -> InlineKeyboardMarkup:
         text=t("feedback.cabinet_bug", lang),
         callback_data="fb:start:bug"
     )
+    layout.append(2)
 
     # === Возврат ===
     builder.button(
-        text=t("cabinet.back_to_cabinet", lang),
+        text=t("common.back", lang),
         callback_data="cabinet"
     )
-    builder.button(
-        text=t("common.back_to_menu", lang),
-        callback_data="open_menu"
-    )
+    layout.append(1)
 
-    builder.adjust(1)
+    builder.adjust(*layout)
     return builder.as_markup()
 
 

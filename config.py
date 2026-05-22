@@ -16,6 +16,26 @@ SUPPORTED_LANGS = ["ru", "en", "es", "uk"]
 _admins_raw = os.getenv("ADMIN_IDS", "")
 ADMIN_IDS = [int(x.strip()) for x in _admins_raw.split(",") if x.strip()]
 
+
+# ── Группы для уведомлений о фидбеке ────────────────────────
+# ID Telegram-групп (число вида -100..., бот должен быть участником группы).
+# Если ID не задан — соответствующий фидбек уходит админам в личку (ADMIN_IDS).
+def _parse_chat_id(raw: str):
+    raw = (raw or "").strip()
+    if not raw:
+        return None
+    try:
+        return int(raw)
+    except ValueError:
+        return None
+
+
+FEEDBACK_CHAT_IDS = {
+    "review": _parse_chat_id(os.getenv("FEEDBACK_REVIEW_CHAT_ID", "")),
+    "bug": _parse_chat_id(os.getenv("FEEDBACK_BUG_CHAT_ID", "")),
+    "idea": _parse_chat_id(os.getenv("FEEDBACK_IDEA_CHAT_ID", "")),
+}
+
 # ── Донаты ──────────────────────────────────────────────
 # Внешние ссылки: кнопка показывается только если URL задан
 DONATE_MONOBANK_URL = os.getenv("DONATE_MONOBANK_URL", "https://send.monobank.ua/jar/8ELwuMGBLh")

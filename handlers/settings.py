@@ -51,7 +51,7 @@ async def open_settings_from_menu(callback: CallbackQuery):
 
     await callback.message.edit_text(
         _build_settings_text(user, lang),
-        reply_markup=settings_keyboard(lang)
+        reply_markup=settings_keyboard(user, lang)
     )
     await callback.answer()
 
@@ -91,7 +91,7 @@ async def apply_new_language(callback: CallbackQuery):
     user = await UserService.get(callback.from_user.id)
     await callback.message.edit_text(
         _build_settings_text(user, new_lang),
-        reply_markup=settings_keyboard(new_lang)
+        reply_markup=settings_keyboard(user, new_lang)
     )
 
 
@@ -126,5 +126,5 @@ async def apply_new_translation(callback: CallbackQuery):
 
     await callback.message.edit_text(
         _build_settings_text(user, lang),
-        reply_markup=settings_keyboard(lang)
+        reply_markup=settings_keyboard(user, lang)
     )

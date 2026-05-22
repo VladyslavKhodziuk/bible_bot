@@ -78,6 +78,12 @@ def donate_main_keyboard(lang: str, region: str = "other") -> InlineKeyboardMark
         callback_data="donate:where"
     )
 
+    # Проблема с оплатой — ведёт в поток репорта о проблеме
+    builder.button(
+        text=t("donate.problem_button", lang),
+        callback_data="fb:start:bug"
+    )
+
     builder.button(
         text=t("common.back_to_menu", lang),
         callback_data="open_menu"

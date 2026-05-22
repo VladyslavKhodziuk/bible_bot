@@ -126,10 +126,16 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
     if streak_result.milestone_reached:
         msg = get_milestone_message(streak_result.milestone_reached, user.lang)
         if msg:
+            builder = InlineKeyboardBuilder()
+            builder.button(
+                text=t("streak.onboarding_button", user.lang),
+                callback_data="streak:onboarding_done"
+            )
             try:
                 await bot.send_message(
                     chat_id=user.tg_id,
                     text=msg,
+                    reply_markup=builder.as_markup(),
                     parse_mode="HTML",
                 )
             except Exception as e:
@@ -169,13 +175,13 @@ async def _send_plan_to_user(bot: Bot, user: User, progress: PlanProgress) -> No
 
     text = "\n".join(parts)
 
-    # Кнопки: открыть каждую главу + переход на план
+    # Кнопки: открыть каждую главу в изолированном режиме плана + переход на план
     builder = InlineKeyboardBuilder()
-    for r in readings:
+    for idx, r in enumerate(readings):
         book_name = BibleService.get_book_name(r["abbrev"], user.lang)
         builder.button(
             text=f"📖 {book_name} {r['chapter']}",
-            callback_data=f"read:ch:{r['abbrev']}:{r['chapter']}"
+            callback_data=f"plan:read:{idx}"
         )
     builder.button(
         text=t("plan.menu_button", user.lang),

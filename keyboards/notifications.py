@@ -3,12 +3,8 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.i18n import t
 
-# Список временных слотов, из которых юзер выбирает
-TIME_SLOTS = [
-    "06:00", "07:00", "08:00",
-    "09:00", "10:00", "12:00",
-    "18:00", "20:00", "21:00",
-]
+# Список временных слотов, из которых юзер выбирает — каждый час с 06:00 до 22:00
+TIME_SLOTS = [f"{hour:02d}:00" for hour in range(6, 23)]
 
 
 def notifications_keyboard(enabled: bool, lang: str) -> InlineKeyboardMarkup:
@@ -47,5 +43,5 @@ def time_picker_keyboard(lang: str) -> InlineKeyboardMarkup:
         text=t("common.back", lang),
         callback_data="notif:open"
     )
-    builder.adjust(3, 3, 3, 1)
+    builder.adjust(4, 4, 4, 4, 1, 1)
     return builder.as_markup()

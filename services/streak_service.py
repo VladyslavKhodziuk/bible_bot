@@ -108,8 +108,10 @@ class StreakService:
                 user.current_streak = 1
                 user.last_activity_date = today
 
-            # Проверяем милстоуны
-            if user.current_streak in MILESTONES:
+            # Проверяем милстоуны — только если серия реально выросла сегодня.
+            # Иначе повторные действия в тот же день (стих дня, чтение, случайный
+            # стих) слали бы поздравление снова и снова.
+            if result.streak_grew and user.current_streak in MILESTONES:
                 result.milestone_reached = user.current_streak
 
             # Первая серия в жизни юзера — нужно показать onboarding
