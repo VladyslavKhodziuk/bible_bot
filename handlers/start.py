@@ -3,7 +3,8 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery
 
 from services.user_service import UserService
-from services.streak_display import format_streak_indicator
+from services.plan_service import PlanService
+from services.menu_text import build_menu_text
 from services.i18n import t
 from keyboards.language import language_keyboard
 from keyboards.menu import welcome_keyboard, main_menu_keyboard
@@ -29,9 +30,11 @@ async def cmd_start(message: Message):
         await message.answer(
             t("welcome_back", user.lang, name=name)
         )
+        active = await PlanService.get_active(user.tg_id)
+        plan_day = active.current_day if active else None
         await message.answer(
-            t("menu.title", user.lang),
-            reply_markup=main_menu_keyboard(user.lang)
+            build_menu_text(user, user.lang),
+            reply_markup=main_menu_keyboard(user.lang, plan_day=plan_day),
         )
 
 
@@ -72,14 +75,11 @@ async def open_menu(callback: CallbackQuery):
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
 
-    base = t("menu.title", lang)
-    if user and user.current_streak > 0:
-        streak_line = format_streak_indicator(user.current_streak, lang)
-        if streak_line:
-            base = f"{base}\n\n{streak_line}"
+    active = await PlanService.get_active(callback.from_user.id) if user else None
+    plan_day = active.current_day if active else None
 
     await callback.message.edit_text(
-        base,
-        reply_markup=main_menu_keyboard(lang)
+        build_menu_text(user, lang),
+        reply_markup=main_menu_keyboard(lang, plan_day=plan_day),
     )
     await callback.answer()

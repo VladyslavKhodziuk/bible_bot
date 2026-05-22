@@ -59,9 +59,15 @@ async def cancel_search(callback: CallbackQuery, state: FSMContext):
     lang = user.lang if user else "ru"
 
     from keyboards.menu import main_menu_keyboard
+    from services.menu_text import build_menu_text
+    from services.plan_service import PlanService
+
+    active = await PlanService.get_active(callback.from_user.id) if user else None
+    plan_day = active.current_day if active else None
+
     await callback.message.edit_text(
-        t("menu.title", lang),
-        reply_markup=main_menu_keyboard(lang)
+        build_menu_text(user, lang),
+        reply_markup=main_menu_keyboard(lang, plan_day=plan_day),
     )
     await callback.answer()
 

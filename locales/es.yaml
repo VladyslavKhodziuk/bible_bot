@@ -26,16 +26,32 @@ welcome:
 welcome_back: "🕊️ ¡Bienvenido de nuevo, {name}!"
 
 menu:
-  title: "<b>Menú principal</b>\n\nElige lo que te interesa:"
-  read: "📖 Leer la Biblia"
-  search: "🔍 Buscar por palabra"
-  topics: "💭 Me siento..."
+  greeting: "LA PAZ SEA CONTIGO 🕊️"
+  subtitle: "¿Qué buscas hoy en la Palabra?"
+  verse_card_title: "Versículo del día · {date}"
+  date_format: "{day} de {month}"
+  months:
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+  read: "📖 Leer"
+  search: "🔍 Buscar"
+  topics: "💭 Por ánimo"
   verse_of_day: "📅 Versículo del día"
-  random: "🎲 Versículo al azar"
+  random: "🎲 Al azar"
   plan: "📚 Plan de lectura"
-  ai_pastor: "🙋‍♂️ Consejo del pastor"
+  ai_pastor: "🙋 Hablar con el pastor"
   cabinet: "👤 Mi cuenta"
-  donate: "❤️ Apoyar el proyecto"
+  donate: "❤️ Apoyar"
 
 search:
   prompt: |
@@ -272,6 +288,7 @@ feedback:
 
 plan:
   menu_button: "📚 Plan de lectura"
+  menu_button_active: "📚 Plan de lectura · día {day}"
 
   no_active_title: "<b>📚 Planes de lectura</b>"
   no_active_intro: |
@@ -453,11 +470,38 @@ greetings:
   night: "¡Buenas noches, {name}! 🌃"
 
 ai_pastor:
-  stub_title: "🙋‍♂️ <b>Consejo del pastor</b>"
-  stub_text: |
-    Pronto podrás hablar con un compañero AI para recibir consejo bíblico en momentos difíciles.
+  consent_text: |
+    🙋‍♂️ <b>Consejo del pastor</b>
 
-    Cuando sientas ansiedad, no sepas cómo actuar, o simplemente quieras hablar sobre la fe — el pastor AI te ofrecerá un versículo relevante y un pensamiento para reflexionar.
+    Soy un compañero AI que te escuchará y te ofrecerá un versículo bíblico para reflexionar.
 
-    🛠 <b>Próximamente</b>
-  stub_back: "← Al menú"
+    <b>Es importante entender:</b>
+    • <b>No</b> soy pastor, sacerdote, médico ni psicólogo.
+    • Soy un amigo con la Biblia abierta, buscando una Palabra para tu situación.
+    • Para temas serios (salud, crisis, violencia) — acude a un especialista o a una línea de ayuda.
+    • Límite — <b>3 consultas al día</b>.
+
+    Al pulsar «Acepto» confirmas que lo entiendes.
+  consent_agree: "✅ Acepto, continuar"
+  prompt: |
+    🙋‍♂️ <b>Cuéntame qué llevas en el corazón</b>
+
+    Describe tu situación, pregunta o sentimiento en un solo mensaje.
+    Intentaré ofrecerte un versículo y un pensamiento para reflexionar.
+
+    ⏳ <i>Preparar la respuesta suele tomar unos 30 segundos.</i>
+
+    <i>Consultas restantes hoy: {remaining} de {limit}</i>
+  thinking: "🙏 Leyendo y preparando una respuesta para ti…"
+  cancel: "← Cancelar"
+  ask_more: "🙋‍♂️ Hacer otra pregunta"
+  too_short: "⚠️ Por favor, escribe un poco más — al menos un par de frases."
+  too_long: "⚠️ El mensaje es demasiado largo. Resume en menos de {max} caracteres."
+  limit_reached: |
+    🙏 Has alcanzado el límite de consultas de hoy ({limit} al día).
+
+    Vuelve mañana — aquí estaré de nuevo.
+  remaining: "Consultas restantes hoy: {remaining} de {limit}"
+  last_used: "Esa fue tu última consulta de hoy ({limit}/{limit})"
+  crisis_header: "💛 <b>No estás solo. Por favor, lee con atención.</b>"
+  error: "🙏 Algo salió mal. Inténtalo de nuevo en un minuto."
