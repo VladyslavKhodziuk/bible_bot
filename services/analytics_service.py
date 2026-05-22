@@ -1,30 +1,37 @@
-"""Аналитика активности: сбор событий в память, батч-запись в БД и
-построение ежедневного отчёта.
+"""Аналитика активности: почасовые агрегаты вместо строки-на-клик.
 
 Принципы:
-- События НЕ пишутся в БД по одному — копятся в памяти и сбрасываются батчем
-  (flush) раз в минуту из планировщика. Это снимает нагрузку с SQLite.
+- События НЕ пишутся в БД по одному. Счётчики текущего часа копятся в памяти
+  и апсертятся одной строкой `activity_hourly` раз в минуту (flush из
+  планировщика). Объём БД растёт ~24 строки в сутки, а не тысячами.
 - Throttling частоты запросов на юзера держится в памяти (скользящее окно).
-- Время событий — локальное (datetime.now()), как и cron планировщика.
+- Время — локальное (datetime.now()), как и cron планировщика, чтобы пиковый
+  час в отчёте совпадал с тем, что видит админ.
+
+Сознательно НЕ храним сырые timestamp'ы и список юзеров: метрики «сессии» и
+точный unique-active за сутки недоступны — для мониторинга нагрузки не нужны.
+На границе часа события, пришедшие между сменой часа и ближайшим flush
+(<1 мин), относятся к завершившемуся часу — погрешность мониторинга приемлема.
 """
+import json
 import time
 import logging
 from collections import deque, defaultdict
 from datetime import datetime, timedelta
 
 from sqlalchemy import select, func, delete
+from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 
 from database import async_session
-from models import ActivityEvent, User, AIRequest, Donation
+from models import ActivityHourly, User, AIRequest, Donation
 from config import THROTTLE_MAX_EVENTS, THROTTLE_WINDOW_SEC, MONTHLY_REPORT_DAY
 
 logger = logging.getLogger(__name__)
 
-# Действия, инициированные юзером (для подсчёта активных и сессий).
+# Успешные действия юзера (для счётчика категорий и активных юзеров).
 USER_KINDS = {"message", "callback"}
-
-# Разрыв между событиями, после которого начинается новая «сессия».
-SESSION_GAP = timedelta(minutes=30)
+# Входящая нагрузка (для пика запросов в минуту).
+INBOUND_KINDS = {"message", "callback", "throttled"}
 
 # Префикс callback-data → понятная категория действия.
 _CALLBACK_CATEGORY = {
@@ -60,14 +67,18 @@ _CATEGORY_LABEL = {
     "other": "❓ Прочее",
 }
 
-_LANG_LABEL = {"ru": "🇷🇺 RU", "en": "🇬🇧 EN", "es": "🇪🇸 ES", "uk": "🇺🇦 UK"}
-
 
 class AnalyticsService:
-    """Стейтлес-сервис с буфером событий и состоянием throttling в памяти."""
+    """Стейтлес-сервис: аккумулятор текущего часа + throttling в памяти."""
 
-    _buffer: list[dict] = []
     _throttle: dict[int, deque] = {}
+
+    # Аккумулятор текущего часа.
+    _hour: datetime | None = None
+    _by_kind: defaultdict = defaultdict(int)
+    _by_category: defaultdict = defaultdict(int)
+    _per_minute: defaultdict = defaultdict(int)
+    _active: set[int] = set()
 
     # ── Throttling ──────────────────────────────────────────
     @classmethod
@@ -101,31 +112,68 @@ class AnalyticsService:
             return cmd if cmd in ("start", "menu") else "other"
         return "text"
 
-    # ── Сбор событий ────────────────────────────────────────
+    # ── Сбор событий (только в память) ──────────────────────
     @classmethod
     def record(cls, tg_id: int, event_type: str, kind: str) -> None:
-        """Добавить событие в буфер (без записи в БД)."""
-        cls._buffer.append({
-            "tg_id": tg_id,
-            "event_type": event_type,
-            "kind": kind,
-            "created_at": datetime.now(),
-        })
+        """Учесть событие в аккумуляторе текущего часа (без записи в БД).
+
+        Сброс аккумулятора при смене часа делает flush, а не record — чтобы не
+        потерять последнюю минуту завершившегося часа.
+        """
+        now = datetime.now()
+        if cls._hour is None:
+            cls._hour = now.replace(minute=0, second=0, microsecond=0)
+        cls._by_kind[kind] += 1
+        if kind in INBOUND_KINDS:
+            cls._per_minute[now.strftime("%H:%M")] += 1
+        if kind in USER_KINDS:
+            cls._by_category[event_type] += 1
+            cls._active.add(tg_id)
 
     @classmethod
     async def flush(cls) -> None:
-        """Сбросить накопленные события в БД одним батчем."""
-        if not cls._buffer:
-            cls._prune_throttle()
-            return
-        pending, cls._buffer = cls._buffer, []
-        try:
-            async with async_session() as session:
-                session.add_all([ActivityEvent(**e) for e in pending])
-                await session.commit()
-        except Exception as e:
-            logger.error(f"Не удалось сбросить {len(pending)} событий в БД: {e}")
+        """Апсертит строку текущего часа; на смене часа фиксирует прошлый."""
         cls._prune_throttle()
+        if cls._hour is None:
+            return
+        bucket = datetime.now().replace(minute=0, second=0, microsecond=0)
+        try:
+            await cls._persist(cls._hour)
+        except Exception as e:
+            logger.error(f"Не удалось записать почасовой агрегат: {e}")
+        if cls._hour != bucket:
+            cls._reset(bucket)
+
+    @classmethod
+    async def _persist(cls, bucket: datetime) -> None:
+        """Апсерт (INSERT ... ON CONFLICT) строки агрегата за `bucket`."""
+        values = {
+            "hour_bucket": bucket,
+            "events": sum(cls._by_category.values()),
+            "peak_per_min": max(cls._per_minute.values(), default=0),
+            "active_users": len(cls._active),
+            "errors": cls._by_kind.get("error", 0),
+            "throttled": cls._by_kind.get("throttled", 0),
+            "notifs": cls._by_kind.get("notif", 0),
+            "by_category": json.dumps(dict(cls._by_category), ensure_ascii=False),
+        }
+        stmt = sqlite_insert(ActivityHourly).values(**values)
+        stmt = stmt.on_conflict_do_update(
+            index_elements=["hour_bucket"],
+            set_={k: v for k, v in values.items() if k != "hour_bucket"},
+        )
+        async with async_session() as session:
+            await session.execute(stmt)
+            await session.commit()
+
+    @classmethod
+    def _reset(cls, bucket: datetime) -> None:
+        """Начать новый час: обнулить счётчики."""
+        cls._hour = bucket
+        cls._by_kind = defaultdict(int)
+        cls._by_category = defaultdict(int)
+        cls._per_minute = defaultdict(int)
+        cls._active = set()
 
     @classmethod
     def _prune_throttle(cls) -> None:
@@ -172,28 +220,22 @@ class AnalyticsService:
         )
 
     @classmethod
-    async def cleanup_old_events(cls) -> int:
-        """Удаляет уже отчётанные события: всё старше начала текущего цикла.
-
-        Запускается через ~10 дней после месячного отчёта. На дату очистки
-        граница = MONTHLY_REPORT_DAY-е число предыдущего месяца (конец того
-        цикла, что попал в последний отчёт). Свежий, ещё не отчётанный цикл
-        сохраняется.
-        """
+    async def cleanup_old_aggregates(cls) -> int:
+        """Удаляет почасовые строки старше начала последнего отчётного цикла."""
         cutoff = cls._shift_month(datetime.now(), MONTHLY_REPORT_DAY)
         async with async_session() as session:
             result = await session.execute(
-                delete(ActivityEvent).where(ActivityEvent.created_at < cutoff)
+                delete(ActivityHourly).where(ActivityHourly.hour_bucket < cutoff)
             )
             await session.commit()
         deleted = result.rowcount or 0
-        logger.info(f"Очистка activity_events: удалено {deleted} записей старше {cutoff:%d.%m.%Y}")
+        logger.info(f"Очистка activity_hourly: удалено {deleted} строк старше {cutoff:%d.%m.%Y}")
         return deleted
 
     @classmethod
     async def _build_report(cls, local_start: datetime, local_end: datetime, title: str) -> str:
         """Ядро отчёта за окно [local_start, local_end) в локальном времени."""
-        # Сначала добиваем буфер, чтобы отчёт учитывал самые свежие события.
+        # Сначала добиваем текущий час, чтобы отчёт учитывал свежие события.
         await cls.flush()
 
         # created_at юзеров/донатов/AI хранится в UTC — переводим границы окна.
@@ -203,16 +245,11 @@ class AnalyticsService:
 
         async with async_session() as session:
             rows = (await session.execute(
-                select(
-                    ActivityEvent.tg_id,
-                    ActivityEvent.event_type,
-                    ActivityEvent.kind,
-                    ActivityEvent.created_at,
-                ).where(
-                    ActivityEvent.created_at >= local_start,
-                    ActivityEvent.created_at < local_end,
+                select(ActivityHourly).where(
+                    ActivityHourly.hour_bucket >= local_start,
+                    ActivityHourly.hour_bucket < local_end,
                 )
-            )).all()
+            )).scalars().all()
 
             total_users = (await session.execute(
                 select(func.count(User.id))
@@ -247,50 +284,29 @@ class AnalyticsService:
                 )
             )).scalar() or 0
 
-            # Языки активных юзеров.
-            active_ids = {r.tg_id for r in rows if r.kind in USER_KINDS}
-            lang_counts: dict[str, int] = defaultdict(int)
-            if active_ids:
-                lang_rows = (await session.execute(
-                    select(User.lang, func.count(User.id))
-                    .where(User.tg_id.in_(active_ids))
-                    .group_by(User.lang)
-                )).all()
-                for lang, cnt in lang_rows:
-                    lang_counts[lang] = cnt
+        # ── Агрегации по почасовым строкам ──
+        user_actions = sum(r.events for r in rows)
+        errors = sum(r.errors for r in rows)
+        throttled = sum(r.throttled for r in rows)
+        notif_sent = sum(r.notifs for r in rows)
+        peak_min_cnt = max((r.peak_per_min for r in rows), default=0)
+        peak_active_hour = max((r.active_users for r in rows), default=0)
 
-        # ── Агрегации в памяти ──
-        by_kind: dict[str, int] = defaultdict(int)
         by_category: dict[str, int] = defaultdict(int)
-        per_user_events: dict[int, list[datetime]] = defaultdict(list)
-        per_hour: dict[int, int] = defaultdict(int)
-        per_minute: dict[str, int] = defaultdict(int)
-
         for r in rows:
-            by_kind[r.kind] += 1
-            if r.kind in USER_KINDS:
-                by_category[r.event_type] += 1
-                per_user_events[r.tg_id].append(r.created_at)
-                per_hour[r.created_at.hour] += 1
-                per_minute[r.created_at.strftime("%Y-%m-%d %H:%M")] += 1
+            try:
+                for cat, cnt in json.loads(r.by_category).items():
+                    by_category[cat] += cnt
+            except (ValueError, TypeError):
+                continue
 
-        active_count = len(active_ids)
-        returning = max(active_count - new_users, 0)
-        user_actions = sum(by_category.values())
-
-        # Сессии.
-        sessions, total_session_sec = cls._compute_sessions(per_user_events)
-        avg_session_min = (total_session_sec / sessions / 60) if sessions else 0
-        avg_events_per_session = (user_actions / sessions) if sessions else 0
-
-        # Пики.
-        peak_hour, peak_hour_cnt = (max(per_hour.items(), key=lambda x: x[1])
-                                    if per_hour else (None, 0))
-        peak_min_cnt = max(per_minute.values()) if per_minute else 0
-
-        notif_sent = by_kind.get("notif", 0)
-        errors = by_kind.get("error", 0)
-        throttled = by_kind.get("throttled", 0)
+        # Пиковый час — строка с максимумом действий.
+        peak_row = max(rows, key=lambda r: r.events, default=None)
+        if peak_row is not None and peak_row.events > 0:
+            h = peak_row.hour_bucket.hour
+            peak_str = f"{h:02d}:00–{h + 1:02d}:00 ({peak_row.events} действий)"
+        else:
+            peak_str = "—"
 
         # ── Сборка текста ──
         lines = [
@@ -298,23 +314,12 @@ class AnalyticsService:
             f"<i>{local_start.strftime('%d.%m %H:%M')} — {local_end.strftime('%d.%m %H:%M')}</i>",
             "",
             "👥 <b>Пользователи</b>",
-            f"• Активных: <b>{active_count}</b> (новых {new_users}, вернувшихся {returning})",
+            f"• Новых за период: <b>{new_users}</b>",
             f"• Всего в базе: <b>{total_users}</b>",
-        ]
-
-        if lang_counts:
-            lang_str = "  ".join(
-                f"{_LANG_LABEL.get(l, l)}: {c}"
-                for l, c in sorted(lang_counts.items(), key=lambda x: -x[1])
-            )
-            lines += ["", "🌍 <b>Языки активных</b>", f"• {lang_str}"]
-
-        lines += [
+            f"• Пик активных за час: <b>{peak_active_hour}</b>",
             "",
             "⏱ <b>Использование</b>",
             f"• Действий: <b>{user_actions}</b>",
-            f"• Сессий: <b>{sessions}</b>",
-            f"• Средняя сессия: <b>{avg_session_min:.1f}</b> мин ({avg_events_per_session:.1f} действий)",
         ]
 
         if by_category:
@@ -324,19 +329,14 @@ class AnalyticsService:
             ]
             lines += ["", "📈 <b>По типам действий</b>", *cat_lines]
 
-        peak_str = (f"{peak_hour:02d}:00–{peak_hour + 1:02d}:00 ({peak_hour_cnt} соб.)"
-                    if peak_hour is not None else "—")
         lines += [
             "",
             "🔥 <b>Нагрузка</b>",
             f"• Пиковый час: <b>{peak_str}</b>",
-            f"• Максимум в минуту: <b>{peak_min_cnt}</b> соб.",
+            f"• Максимум в минуту: <b>{peak_min_cnt}</b> запр.",
             f"• Уведомлений отправлено: {notif_sent}",
             f"• Ошибок: <b>{errors}</b>",
             f"• Заблокировано throttling: {throttled}",
-        ]
-
-        lines += [
             "",
             "🤖 <b>AI Пастырь</b>",
             f"• Запросов: {ai_total} (кризисных: {ai_crisis})",
@@ -346,25 +346,3 @@ class AnalyticsService:
         ]
 
         return "\n".join(lines)
-
-    @staticmethod
-    def _compute_sessions(per_user_events: dict[int, list[datetime]]) -> tuple[int, float]:
-        """Считает число сессий и суммарную их длительность (в секундах).
-
-        Сессия — цепочка действий юзера с разрывом не больше SESSION_GAP.
-        Длительность одиночной сессии (1 действие) = 0.
-        """
-        total_sessions = 0
-        total_seconds = 0.0
-        for times in per_user_events.values():
-            times.sort()
-            session_start = prev = times[0]
-            total_sessions += 1
-            for t in times[1:]:
-                if t - prev > SESSION_GAP:
-                    total_seconds += (prev - session_start).total_seconds()
-                    total_sessions += 1
-                    session_start = t
-                prev = t
-            total_seconds += (prev - session_start).total_seconds()
-        return total_sessions, total_seconds

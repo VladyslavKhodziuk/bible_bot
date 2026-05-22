@@ -5,3 +5,4 @@ pyyaml==6.0.2
 python-dotenv==1.0.1
 apscheduler==3.10.4
 google-genai>=0.4.0
+psutil==6.1.0

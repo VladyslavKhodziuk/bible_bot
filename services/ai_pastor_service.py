@@ -11,6 +11,7 @@ from sqlalchemy import select, func, desc
 from config import GEMINI_API_KEY
 from database import async_session
 from models import AIRequest, AIConsent
+from services.alert_service import AlertService
 
 logger = logging.getLogger(__name__)
 
@@ -381,12 +382,22 @@ class AIPastorService:
                     )
                     if attempt == max_retries:
                         logger.error("Все попытки исчерпаны")
+                        await AlertService.alert_error(
+                            key="gemini_down",
+                            title="Gemini недоступен",
+                            detail=f"Исчерпаны ретраи, код {error_code}: {e}",
+                        )
                         return _get_fallback_message(lang), False
                     await asyncio.sleep(retry_delay)
                     retry_delay *= 2
                 else:
                     # Постоянная ошибка (400, 403 — что-то не так с запросом)
                     logger.error(f"Gemini API ошибка (попытка {attempt}): {e}")
+                    await AlertService.alert_error(
+                        key="gemini_permanent",
+                        title="Gemini: постоянная ошибка",
+                        detail=f"Код {error_code}: {e}",
+                    )
                     return _get_fallback_message(lang), False
             except Exception as e:
                 # Сетевая ошибка (RemoteProtocolError, timeout, и т.п.) — повторяем
@@ -396,6 +407,11 @@ class AIPastorService:
                 )
                 if attempt == max_retries:
                     logger.error("Все попытки исчерпаны", exc_info=True)
+                    await AlertService.alert_error(
+                        key="gemini_network",
+                        title="Gemini: сетевой сбой",
+                        detail=f"Исчерпаны ретраи: {type(e).__name__}: {e}",
+                    )
                     return _get_fallback_message(lang), False
                 await asyncio.sleep(retry_delay)
                 retry_delay *= 2  # экспоненциальная задержка: 1, 2, 4

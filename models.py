@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from sqlalchemy import BigInteger, String, Integer, DateTime, Date, Boolean
+from sqlalchemy import BigInteger, String, Integer, DateTime, Date, Boolean, Text
 from sqlalchemy.orm import Mapped, mapped_column
 from database import Base
 
@@ -127,23 +127,29 @@ class AIConsent(Base):
     accepted_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
 
-class ActivityEvent(Base):
-    """Лог взаимодействий с ботом для аналитики и ежедневных отчётов.
+class ActivityHourly(Base):
+    """Почасовой агрегат активности — одна строка на час вместо строки на клик.
 
-    Пишется батчами из памяти (см. AnalyticsService), а не на каждое событие,
-    чтобы не нагружать БД. Язык здесь не хранится — берётся из User при
-    построении отчёта, чтобы не дублировать и не устаревать.
+    Счётчики копятся в памяти (см. AnalyticsService) и апсертятся в строку
+    текущего часа раз в минуту, поэтому БД не нагружается потоком событий, а
+    объём растёт ~24 строки в сутки. Сознательно НЕ храним сырые timestamp'ы и
+    список юзеров, поэтому метрики «сессии» и точный unique-active за сутки
+    недоступны — для мониторинга нагрузки они не нужны.
 
-    created_at в локальном времени сервера (datetime.now()), как и cron-задачи
-    планировщика — так пиковый час совпадает с тем, что видит администратор.
+    hour_bucket — начало часа в локальном времени сервера (datetime.now()),
+    как и cron планировщика: пиковый час совпадает с тем, что видит админ.
     """
-    __tablename__ = "activity_events"
+    __tablename__ = "activity_hourly"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    tg_id: Mapped[int] = mapped_column(BigInteger, index=True)
-    event_type: Mapped[str] = mapped_column(String(32), index=True)  # категория действия
-    kind: Mapped[str] = mapped_column(String(16))  # message / callback / error / notif / throttled
-    created_at: Mapped[datetime] = mapped_column(DateTime, index=True, default=datetime.now)
+    hour_bucket: Mapped[datetime] = mapped_column(DateTime, unique=True, index=True)
+    events: Mapped[int] = mapped_column(Integer, default=0)         # действий юзеров (message/callback)
+    peak_per_min: Mapped[int] = mapped_column(Integer, default=0)   # макс. входящих за минуту в этот час
+    active_users: Mapped[int] = mapped_column(Integer, default=0)   # уникальных юзеров за этот час
+    errors: Mapped[int] = mapped_column(Integer, default=0)
+    throttled: Mapped[int] = mapped_column(Integer, default=0)
+    notifs: Mapped[int] = mapped_column(Integer, default=0)
+    by_category: Mapped[str] = mapped_column(Text, default="{}")    # JSON: {"reading": 12, ...}
 
     def __repr__(self) -> str:
-        return f"<ActivityEvent tg_id={self.tg_id} {self.kind}:{self.event_type}>"
+        return f"<ActivityHourly {self.hour_bucket:%Y-%m-%d %H:00} events={self.events}>"

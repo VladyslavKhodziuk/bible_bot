@@ -2,7 +2,10 @@
 import logging
 from datetime import datetime
 
+import psutil
+
 from aiogram import Bot
+from aiogram.exceptions import TelegramNetworkError, TelegramServerError, TelegramRetryAfter
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sqlalchemy import select
@@ -14,10 +17,28 @@ from services.plan_service import PlanService
 from services.streak_service import StreakService
 from services.streak_display import format_streak_indicator, get_milestone_message
 from services.analytics_service import AnalyticsService
+from services.alert_service import AlertService
 from services.i18n import t
-from config import REPORT_CHAT_ID, REPORT_TIME, ADMIN_IDS, MONTHLY_REPORT_DAY, CLEANUP_DAY
+from config import (
+    REPORT_CHAT_ID, REPORT_TIME, ADMIN_IDS, MONTHLY_REPORT_DAY, CLEANUP_DAY,
+    ALERT_MEM_THRESHOLD, ALERT_DISK_THRESHOLD,
+)
 
 logger = logging.getLogger(__name__)
+
+# Сбои Telegram, означающие проблему инфраструктуры (а не «юзер заблокировал
+# бота» — то нормально и алерта не требует). Только эти классы дают алерт.
+_INFRA_TG_ERRORS = (TelegramNetworkError, TelegramServerError, TelegramRetryAfter)
+
+
+async def _alert_if_infra(exc: Exception, context: str) -> None:
+    """Шлёт алерт, только если сбой отправки относится к инфраструктуре."""
+    if isinstance(exc, _INFRA_TG_ERRORS):
+        await AlertService.alert_error(
+            key=f"telegram_infra:{type(exc).__name__}",
+            title="Сбой отправки в Telegram",
+            detail=f"{context}: {type(exc).__name__}: {exc}",
+        )
 
 
 # ============ Утилиты ============
@@ -125,6 +146,7 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
     except Exception as e:
         logger.warning(f"Не удалось отправить стих дня юзеру {user.tg_id}: {e}")
         AnalyticsService.record(user.tg_id, "notif_verse", "error")
+        await _alert_if_infra(e, "рассылка стиха дня")
 
     # === Поздравление с милстоуном (отдельным сообщением) ===
     if streak_result.milestone_reached:
@@ -208,6 +230,36 @@ async def _send_plan_to_user(bot: Bot, user: User, progress: PlanProgress) -> No
     except Exception as e:
         logger.warning(f"Не удалось отправить план юзеру {user.tg_id}: {e}")
         AnalyticsService.record(user.tg_id, "notif_plan", "error")
+        await _alert_if_infra(e, "рассылка плана чтения")
+
+
+# ============ Health-check ресурсов ============
+
+async def _health_check() -> None:
+    """Раз в минуту проверяет RAM и диск; алертит при превышении порога.
+
+    Троттлинг алертов (по ключу) живёт в AlertService, поэтому при длительной
+    перегрузке админ получит одно сообщение, а не по одному каждую минуту.
+    """
+    try:
+        mem_percent = psutil.virtual_memory().percent
+        disk_percent = psutil.disk_usage(".").percent
+    except Exception as e:
+        logger.warning(f"Health-check не смог прочитать метрики: {e}")
+        return
+
+    if mem_percent >= ALERT_MEM_THRESHOLD:
+        await AlertService.alert_error(
+            key="health_mem",
+            title="Высокая нагрузка на память",
+            detail=f"RAM занято {mem_percent:.0f}% (порог {ALERT_MEM_THRESHOLD:.0f}%)",
+        )
+    if disk_percent >= ALERT_DISK_THRESHOLD:
+        await AlertService.alert_error(
+            key="health_disk",
+            title="Заканчивается место на диске",
+            detail=f"Диск занят {disk_percent:.0f}% (порог {ALERT_DISK_THRESHOLD:.0f}%)",
+        )
 
 
 # ============ Главная функция планировщика (каждую минуту) ============
@@ -258,6 +310,9 @@ async def send_daily_verses(bot: Bot):
     # === 3. Аналитика: сбрасываем буфер событий в БД ===
     await AnalyticsService.flush()
 
+    # === 3.5. Health-check ресурсов сервера ===
+    await _health_check()
+
     # === 4. Отчёты и обслуживание (раз в сутки, в REPORT_TIME) ===
     if current_time == REPORT_TIME:
         today = datetime.now().day
@@ -265,7 +320,7 @@ async def send_daily_verses(bot: Bot):
         if today == MONTHLY_REPORT_DAY:
             await send_activity_report(bot, monthly=True)
         if today == CLEANUP_DAY:
-            await AnalyticsService.cleanup_old_events()
+            await AnalyticsService.cleanup_old_aggregates()
 
 
 # ============ Отчёты активности ============

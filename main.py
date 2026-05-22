@@ -13,6 +13,7 @@ from services.plan_service import PlanService
 from services.scheduler import setup_scheduler
 from services.bible_service import BibleService
 from services.topic_service import TopicService
+from services.alert_service import AlertService
 from middlewares.analytics import AnalyticsMiddleware
 
 logging.basicConfig(
@@ -44,6 +45,9 @@ async def main():
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
     dp = Dispatcher()
+
+    # Алерты админу о сбоях — сохраняем bot, чтобы notify работал отовсюду
+    AlertService.init(bot)
 
     # Аналитика + throttling: один middleware видит каждое обновление
     dp.update.outer_middleware(AnalyticsMiddleware())

@@ -76,3 +76,14 @@ CLEANUP_DAY = int(os.getenv("CLEANUP_DAY", "5"))
 # за THROTTLE_WINDOW_SEC секунд. Превышение — действие отбрасывается.
 THROTTLE_MAX_EVENTS = int(os.getenv("THROTTLE_MAX_EVENTS", "15"))
 THROTTLE_WINDOW_SEC = float(os.getenv("THROTTLE_WINDOW_SEC", "3"))
+
+
+# ── Алерты администратору (мониторинг) ───────────────────
+# Срочные уведомления о сбоях уходят в личку ADMIN_IDS. Чтобы при краш-цикле
+# не прилетали сотни сообщений, одинаковые алерты (по ключу) шлются не чаще,
+# чем раз в ALERT_COOLDOWN_SEC секунд.
+ALERT_COOLDOWN_SEC = int(os.getenv("ALERT_COOLDOWN_SEC", "300"))
+
+# Пороги health-check (в процентах). При превышении — алерт.
+ALERT_MEM_THRESHOLD = float(os.getenv("ALERT_MEM_THRESHOLD", "90"))
+ALERT_DISK_THRESHOLD = float(os.getenv("ALERT_DISK_THRESHOLD", "90"))
