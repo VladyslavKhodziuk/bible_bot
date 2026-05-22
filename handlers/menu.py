@@ -1,22 +1,17 @@
-from aiogram import Router, F
+from aiogram import Router
 from aiogram.filters import Command
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message
 
 from services.user_service import UserService
-from services.streak_display import format_streak_indicator
-from services.i18n import t
+from services.plan_service import PlanService
+from services.menu_text import build_menu_text
 from keyboards.menu import main_menu_keyboard
 
-def _menu_text(user, lang: str) -> str:
-    """Текст главного меню с индикатором серии (если есть)."""
-    base = t("menu.title", lang)
-    if user is None:
-        return base
 
-    streak_line = format_streak_indicator(user.current_streak, lang)
-    if streak_line:
-        return f"{base}\n\n{streak_line}"
-    return base
+# Оставлено для обратной совместимости с handlers/ai_pastor.py
+def _menu_text(user, lang: str) -> str:
+    return build_menu_text(user, lang)
+
 
 router = Router()
 
@@ -27,7 +22,11 @@ async def cmd_menu(message: Message):
     user = await UserService.get(message.from_user.id)
     lang = user.lang if user else "ru"
 
-    text = _menu_text(user, lang)
+    active = await PlanService.get_active(message.from_user.id) if user else None
+    plan_day = active.current_day if active else None
 
-    await message.answer(text, reply_markup=main_menu_keyboard(lang))
+    await message.answer(
+        build_menu_text(user, lang),
+        reply_markup=main_menu_keyboard(lang, plan_day=plan_day),
+    )
 

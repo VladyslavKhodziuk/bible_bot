@@ -26,16 +26,32 @@ welcome:
 welcome_back: "🕊️ Welcome back, {name}!"
 
 menu:
-  title: "<b>Main menu</b>\n\nChoose what interests you:"
-  read: "📖 Read the Bible"
-  search: "🔍 Search by word"
-  topics: "💭 I feel..."
+  greeting: "PEACE BE WITH YOU 🕊️"
+  subtitle: "What are you seeking in the Word today?"
+  verse_card_title: "Verse of the day · {date}"
+  date_format: "{month} {day}"
+  months:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+  read: "📖 Read"
+  search: "🔍 Search"
+  topics: "💭 By mood"
   verse_of_day: "📅 Verse of the day"
-  random: "🎲 Random verse"
+  random: "🎲 At random"
   plan: "📚 Reading plan"
-  ai_pastor: "🙋‍♂️ Pastor's advice"
-  cabinet: "👤 My account"
-  donate: "❤️ Support project"
+  ai_pastor: "🙋 Talk to the pastor"
+  cabinet: "👤 Account"
+  donate: "❤️ Support"
 
 search:
   prompt: |
@@ -271,6 +287,7 @@ feedback:
 
 plan:
   menu_button: "📚 Reading plan"
+  menu_button_active: "📚 Reading plan · day {day}"
 
   no_active_title: "<b>📚 Reading plans</b>"
   no_active_intro: |
@@ -452,11 +469,38 @@ greetings:
   night: "Good night, {name}! 🌃"
 
 ai_pastor:
-  stub_title: "🙋‍♂️ <b>Pastor's advice</b>"
-  stub_text: |
-    Soon you'll be able to talk with an AI companion for biblical advice in difficult moments.
+  consent_text: |
+    🙋‍♂️ <b>Pastor's advice</b>
 
-    When you feel anxious, unsure how to act, or simply want to talk about faith — the AI pastor will offer a relevant verse and a thought to reflect on.
+    This is an AI companion who will listen and offer a relevant Bible verse to reflect on.
 
-    🛠 <b>Coming soon</b>
-  stub_back: "← To menu"
+    <b>Please understand:</b>
+    • I am <b>not</b> a pastor, priest, doctor, or psychologist.
+    • I am a friend with an open Bible, looking for a Word that fits your situation.
+    • For serious matters (health, crisis, abuse) — reach out to a specialist or a helpline.
+    • Limit — <b>3 requests per day</b>.
+
+    By tapping "I agree" you confirm you understand this.
+  consent_agree: "✅ I agree, continue"
+  prompt: |
+    🙋‍♂️ <b>Tell me what's on your heart</b>
+
+    Describe your situation, question or feeling in one message.
+    I'll try to offer a verse and a thought to reflect on.
+
+    ⏳ <i>Preparing a response usually takes about 30 seconds.</i>
+
+    <i>Requests left today: {remaining} of {limit}</i>
+  thinking: "🙏 Reading and preparing a response for you…"
+  cancel: "← Cancel"
+  ask_more: "🙋‍♂️ Ask another question"
+  too_short: "⚠️ Please write a bit more — at least a couple of sentences."
+  too_long: "⚠️ The message is too long. Please keep it under {max} characters."
+  limit_reached: |
+    🙏 You've used today's request limit ({limit} per day).
+
+    Come back tomorrow — I'll be here again.
+  remaining: "Requests left today: {remaining} of {limit}"
+  last_used: "That was your last request for today ({limit}/{limit})"
+  crisis_header: "💛 <b>You are not alone. Please read carefully.</b>"
+  error: "🙏 Something went wrong. Please try again in a minute."
