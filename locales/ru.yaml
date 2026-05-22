@@ -138,6 +138,9 @@ settings:
   notifications_on: "вкл, {time}"
   notifications_off: "выкл"
   change_notifications: "🔔 Настройки уведомлений"
+  btn_language: "🌐 {language}"
+  btn_notif_on: "🔔 Вкл · {time}"
+  btn_notif_off: "🔕 Выкл"
   feedback_section: "💬 Помоги сделать бот лучше:"
   language_names:
     ru: "Русский"
@@ -418,6 +421,8 @@ donate:
     – Развивать новые функции
     – Делать бота доступнее
 
+    ⚠️ Если возникнет проблема с оплатой — нажмите «Проблема с оплатой», и мы поможем.
+
   # Экран выбора региона
   region_title: |
     ❤️ <b>Поддержать проект</b>
@@ -433,6 +438,7 @@ donate:
   crypto_button: "🪙 Криптовалютой"
   paypal_button: "💳 PayPal"
   where_button: "📊 Куда идут средства"
+  problem_button: "⚠️ Проблема с оплатой"
 
   # Экран Monobank
   monobank_info: |

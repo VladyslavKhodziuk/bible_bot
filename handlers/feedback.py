@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import CallbackQuery, Message
 
-from config import ADMIN_IDS
+from config import ADMIN_IDS, FEEDBACK_CHAT_IDS
 from services.user_service import UserService
 from services.feedback_service import FeedbackService, KIND_IDEA, KIND_BUG, KIND_REVIEW
 from services.i18n import t
@@ -146,7 +146,11 @@ async def _receive_feedback(message: Message, state: FSMContext, bot: Bot, kind:
 
 
 async def _notify_admin(bot: Bot, tg_user, lang: str, kind: str, text: str):
-    """Шлём уведомление всем админам о новом фидбеке."""
+    """Шлём уведомление о новом фидбеке.
+
+    Каждый тип уходит в свою Telegram-группу (если её ID задан в конфиге),
+    иначе — всем админам в личку.
+    """
     kind_emoji = {"idea": "💡", "bug": "🐞", "review": "😊"}
     kind_label = {"idea": "ИДЕЯ", "bug": "БАГ", "review": "ОТЗЫВ"}
 
@@ -159,15 +163,30 @@ async def _notify_admin(bot: Bot, tg_user, lang: str, kind: str, text: str):
         user_display += f" (@{tg_user.username})"
     user_display += f" [id:{tg_user.id}]"
 
+    # В отзывах прячем данные отправителя и язык под спойлер (раскрывается по клику)
+    if kind == KIND_REVIEW:
+        info_block = (
+            f"От: <tg-spoiler>{user_display}</tg-spoiler>\n"
+            f"Язык: <tg-spoiler>{lang}</tg-spoiler>"
+        )
+    else:
+        info_block = (
+            f"От: {user_display}\n"
+            f"Язык: {lang}"
+        )
+
     admin_text = (
         f"{emoji} <b>Новый {label}</b>\n\n"
-        f"От: {user_display}\n"
-        f"Язык: {lang}\n\n"
+        f"{info_block}\n\n"
         f"<i>{text}</i>"
     )
 
-    for admin_id in ADMIN_IDS:
+    # Если для типа задана группа — шлём в неё, иначе в личку админам
+    group_chat_id = FEEDBACK_CHAT_IDS.get(kind)
+    targets = [group_chat_id] if group_chat_id else ADMIN_IDS
+
+    for target in targets:
         try:
-            await bot.send_message(admin_id, admin_text, parse_mode="HTML")
+            await bot.send_message(target, admin_text, parse_mode="HTML")
         except Exception as e:
-            logger.warning(f"Не удалось отправить уведомление админу {admin_id}: {e}")
+            logger.warning(f"Не удалось отправить уведомление ({kind}) в {target}: {e}")

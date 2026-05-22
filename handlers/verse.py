@@ -77,11 +77,16 @@ async def _send_streak_extras(callback, streak_result, lang: str):
         )
         await StreakService.mark_explained(callback.from_user.id)
 
-    # Поздравление с милстоуном
+    # Поздравление с милстоуном — с кнопкой "Понятно", которая его удаляет
     if streak_result.milestone_reached:
         msg = get_milestone_message(streak_result.milestone_reached, lang)
         if msg:
-            await callback.message.answer(msg)
+            builder = InlineKeyboardBuilder()
+            builder.button(
+                text=t("streak.onboarding_button", lang),
+                callback_data="streak:onboarding_done"
+            )
+            await callback.message.answer(msg, reply_markup=builder.as_markup())
 
 
 @router.callback_query(F.data == "verse_of_day")

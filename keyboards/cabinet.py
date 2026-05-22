@@ -27,5 +27,6 @@ def cabinet_keyboard(lang: str) -> InlineKeyboardMarkup:
         text=t("common.back_to_menu", lang),
         callback_data="open_menu"
     )
-    builder.adjust(1)
+    # Сетка 2 в ряд: закладки | планы, настройки | отзыв, в меню
+    builder.adjust(2, 2, 1)
     return builder.as_markup()

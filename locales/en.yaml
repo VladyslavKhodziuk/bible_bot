@@ -134,6 +134,9 @@ settings:
   notifications_on: "on, {time}"
   notifications_off: "off"
   change_notifications: "🔔 Notification settings"
+  btn_language: "🌐 {language}"
+  btn_notif_on: "🔔 On · {time}"
+  btn_notif_off: "🔕 Off"
   feedback_section: "💬 Help make the bot better:"
   language_names:
     ru: "Русский"
@@ -395,6 +398,8 @@ donate:
     – Develop new features
     – Make the bot more accessible
 
+    ⚠️ If you have a problem with payment — tap "Payment problem" and we'll help.
+
   # Region selection screen
   region_title: |
     ❤️ <b>Support the project</b>
@@ -410,6 +415,7 @@ donate:
   crypto_button: "🪙 Cryptocurrency"
   paypal_button: "💳 PayPal"
   where_button: "📊 Where funds go"
+  problem_button: "⚠️ Payment problem"
 
   # Monobank screen
   monobank_info: |
