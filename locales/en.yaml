@@ -1,16 +1,21 @@
 language:
-  choose: "🌍 Elige el idioma / Choose language / Виберіть мову / Выберите язык"
+  choose: |-
+    🇪🇸 Elige el idioma
+    🇺🇸 Choose language
+    🇺🇦 Виберіть мову
+    🌍 Выберите язык
   changed: "✅ Language changed to English"
 
 onboarding:
-  choose_timezone: "<b>🌍 Your time zone</b>\n\nPick it so the verse of the day arrives at a time that suits you. You can skip and set it later."
-  tz_skip: "Skip"
+  choose_timezone: "<b>🌍 Your time zone</b>\n\nPick it so the verse of the day arrives in your local time."
 
 welcome:
   text: |
     Peace to you, {name}! 🕊️
 
     I'm <b>Bible Way</b>, your companion in reading the Holy Scripture.
+
+    {verse_line}
 
     Here's what I can do:
 
@@ -20,13 +25,15 @@ welcome:
     💭 Find the Word for any life situation
     🎲 Show you a random verse
     ⭐ Save your favorite passages
-    📅 Send you a verse of the day at a time that suits you
     📚 Guide you through a reading plan
     🔥 Help you keep a daily streak with the Word
 
     <i>"Your word is a lamp for my feet, a light on my path" (Psalm 119:105)</i>
 
     Ready to begin? 👇
+  verse_time: "<blockquote>🕐 Verse of the day — daily at {time} · {timezone}</blockquote>"
+  verse_off: "<blockquote>📅 You can turn on the verse of the day in settings</blockquote>"
+  change_timezone: "🕐 Change time zone"
   button: "📖 Open menu"
 
 welcome_back: "🕊️ Welcome back, {name}!"

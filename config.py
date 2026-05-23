@@ -15,7 +15,7 @@ SUPPORTED_LANGS = ["ru", "en", "es", "uk"]
 # Часовой пояс по умолчанию (IANA). Используется для новых пользователей и как
 # fallback, если у юзера сохранён неизвестный/битый пояс. Уведомления и стрики
 # считаются в личном часовом поясе пользователя (см. services/timezones.py).
-DEFAULT_TZ = os.getenv("DEFAULT_TZ", "Europe/Kyiv")
+DEFAULT_TZ = os.getenv("DEFAULT_TZ", "Europe/Madrid")
 
 # ID администраторов — получают уведомления о фидбеке
 _admins_raw = os.getenv("ADMIN_IDS", "")

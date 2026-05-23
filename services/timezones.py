@@ -16,6 +16,7 @@ SUPPORTED_TIMEZONES: list[str] = [
     "Europe/London",
     "Europe/Madrid",
     "Europe/Kyiv",
+    "Asia/Tbilisi",
     "Asia/Almaty",
     "America/New_York",
     "America/Chicago",
@@ -27,20 +28,21 @@ SUPPORTED_TIMEZONES: list[str] = [
     "UTC",
 ]
 
-# Человекочитаемое название города/зоны (латиницей — универсально читаемо).
-_CITY_LABEL: dict[str, str] = {
-    "Europe/London": "London",
-    "Europe/Madrid": "Madrid",
-    "Europe/Kyiv": "Kyiv",
-    "Asia/Almaty": "Almaty",
-    "America/New_York": "New York",
-    "America/Chicago": "Chicago",
-    "America/Denver": "Denver",
-    "America/Los_Angeles": "Los Angeles",
-    "America/Mexico_City": "Mexico City",
-    "America/Bogota": "Bogota",
-    "America/Argentina/Buenos_Aires": "Buenos Aires",
-    "UTC": "UTC",
+# Название города по UI-языку (en — fallback для неизвестного языка).
+_CITY_LABEL: dict[str, dict[str, str]] = {
+    "Europe/London": {"en": "London", "ru": "Лондон", "uk": "Лондон", "es": "Londres"},
+    "Europe/Madrid": {"en": "Madrid", "ru": "Мадрид", "uk": "Мадрид", "es": "Madrid"},
+    "Europe/Kyiv": {"en": "Kyiv", "ru": "Киев", "uk": "Київ", "es": "Kiev"},
+    "Asia/Tbilisi": {"en": "Tbilisi", "ru": "Тбилиси", "uk": "Тбілісі", "es": "Tiflis"},
+    "Asia/Almaty": {"en": "Almaty", "ru": "Алматы", "uk": "Алмати", "es": "Almaty"},
+    "America/New_York": {"en": "New York", "ru": "Нью-Йорк", "uk": "Нью-Йорк", "es": "Nueva York"},
+    "America/Chicago": {"en": "Chicago", "ru": "Чикаго", "uk": "Чикаго", "es": "Chicago"},
+    "America/Denver": {"en": "Denver", "ru": "Денвер", "uk": "Денвер", "es": "Denver"},
+    "America/Los_Angeles": {"en": "Los Angeles", "ru": "Лос-Анджелес", "uk": "Лос-Анджелес", "es": "Los Ángeles"},
+    "America/Mexico_City": {"en": "Mexico City", "ru": "Мехико", "uk": "Мехіко", "es": "Ciudad de México"},
+    "America/Bogota": {"en": "Bogota", "ru": "Богота", "uk": "Богота", "es": "Bogotá"},
+    "America/Argentina/Buenos_Aires": {"en": "Buenos Aires", "ru": "Буэнос-Айрес", "uk": "Буенос-Айрес", "es": "Buenos Aires"},
+    "UTC": {"en": "UTC", "ru": "UTC", "uk": "UTC", "es": "UTC"},
 }
 
 
@@ -87,9 +89,14 @@ def offset_label(tz_name: str) -> str:
     return f"UTC{sign}{hh:02d}:{mm:02d}"
 
 
-def label(tz_name: str) -> str:
-    """Подпись для кнопки/статуса: 'Kyiv (UTC+03:00)'."""
-    city = _CITY_LABEL.get(tz_name, tz_name)
+def label(tz_name: str, lang: str = "en") -> str:
+    """Подпись для кнопки/статуса на языке UI: 'Киев (UTC+03:00)'.
+
+    Город берётся из локализованного словаря (fallback: en → само имя зоны),
+    смещение всегда числовое и языконезависимое.
+    """
+    cities = _CITY_LABEL.get(tz_name, {})
+    city = cities.get(lang) or cities.get("en") or tz_name
     return f"{city} ({offset_label(tz_name)})"
 
 

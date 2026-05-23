@@ -1,16 +1,21 @@
 language:
-  choose: "🌍 Elige el idioma / Choose language / Виберіть мову / Выберите язык"
+  choose: |-
+    🇪🇸 Elige el idioma
+    🇺🇸 Choose language
+    🇺🇦 Виберіть мову
+    🌍 Выберите язык
   changed: "✅ Idioma cambiado a español"
 
 onboarding:
-  choose_timezone: "<b>🌍 Tu zona horaria</b>\n\nElígela para que el versículo del día llegue a una hora que te convenga. Puedes omitirlo y configurarlo más tarde."
-  tz_skip: "Omitir"
+  choose_timezone: "<b>🌍 Tu zona horaria</b>\n\nElígela para que el versículo del día llegue en tu hora local."
 
 welcome:
   text: |
     ¡La paz sea contigo, {name}! 🕊️
 
     Soy <b>Bible Way</b>, tu compañero en la lectura de las Sagradas Escrituras.
+
+    {verse_line}
 
     Esto es lo que puedo hacer:
 
@@ -20,13 +25,15 @@ welcome:
     💭 Encontrar la Palabra para cualquier situación de la vida
     🎲 Mostrarte un versículo al azar
     ⭐ Guardar tus pasajes favoritos
-    📅 Enviarte el versículo del día a la hora que te convenga
     📚 Guiarte por un plan de lectura
     🔥 Ayudarte a mantener una racha diaria con la Palabra
 
     <i>«Lámpara es a mis pies tu palabra, y lumbrera a mi camino» (Salmo 119:105)</i>
 
     ¿Listo para comenzar? 👇
+  verse_time: "<blockquote>🕐 Versículo del día — cada día a las {time} · {timezone}</blockquote>"
+  verse_off: "<blockquote>📅 Puedes activar el versículo del día en los ajustes</blockquote>"
+  change_timezone: "🕐 Cambiar zona horaria"
   button: "📖 Abrir el menú"
 
 welcome_back: "🕊️ ¡Bienvenido de nuevo, {name}!"

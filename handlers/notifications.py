@@ -25,7 +25,7 @@ def _build_notifications_text(user, lang: str) -> str:
         status = t("notifications.status_disabled", lang)
     # Показываем текущий часовой пояс — чтобы было понятно, в каком времени
     # трактуется выбранный час уведомления.
-    tz_line = t("notifications.timezone_line", lang, timezone=tz_label(user.timezone))
+    tz_line = t("notifications.timezone_line", lang, timezone=tz_label(user.timezone, lang))
     return t("notifications.title", lang, status=status) + "\n\n" + tz_line
 
 
@@ -99,7 +99,7 @@ async def choose_timezone(callback: CallbackQuery):
 
     await callback.message.edit_text(
         t("notifications.choose_timezone", lang),
-        reply_markup=timezone_picker_keyboard(lang)
+        reply_markup=timezone_picker_keyboard(lang, current_tz=user.timezone if user else None)
     )
     await callback.answer()
 
@@ -120,7 +120,7 @@ async def set_timezone(callback: CallbackQuery):
     user = await UserService.get(callback.from_user.id)
 
     await callback.answer(
-        t("notifications.timezone_changed", lang, timezone=tz_label(tz_name)),
+        t("notifications.timezone_changed", lang, timezone=tz_label(tz_name, lang)),
         show_alert=False
     )
     await callback.message.edit_text(

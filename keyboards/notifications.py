@@ -40,11 +40,18 @@ def notifications_keyboard(enabled: bool, lang: str) -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def timezone_picker_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Список часовых поясов для выбора. Подпись = город + текущее смещение."""
+def _tz_button_text(tz: str, lang: str, current_tz: str | None) -> str:
+    """Подпись кнопки пояса. У текущей зоны вместо циферблата — ✅."""
+    marker = "✅" if tz == current_tz else clock_emoji(tz)
+    return f"{marker} {tz_label(tz, lang)}"
+
+
+def timezone_picker_keyboard(lang: str, current_tz: str | None = None) -> InlineKeyboardMarkup:
+    """Список часовых поясов для выбора. Подпись = город + текущее смещение.
+    Активный пояс юзера помечается галочкой."""
     builder = InlineKeyboardBuilder()
     for tz in SUPPORTED_TIMEZONES:
-        builder.button(text=f"{clock_emoji(tz)} {tz_label(tz)}", callback_data=f"notif:settz:{tz}")
+        builder.button(text=_tz_button_text(tz, lang, current_tz), callback_data=f"notif:settz:{tz}")
     builder.button(
         text=t("common.back", lang),
         callback_data="notif:open"
@@ -53,15 +60,16 @@ def timezone_picker_keyboard(lang: str) -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def onboarding_timezone_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Выбор часового пояса на онбординге. Отдельный callback-префикс
-    (onboard:settz:) ведёт к приветствию, а не обратно в настройки."""
+def onboarding_timezone_keyboard(lang: str, current_tz: str | None = None) -> InlineKeyboardMarkup:
+    """Выбор часового пояса с экрана приветствия. Отдельный callback-префикс
+    (onboard:settz:) после выбора возвращает на приветствие, а не в настройки.
+    Активный пояс юзера помечается галочкой."""
     builder = InlineKeyboardBuilder()
     for tz in SUPPORTED_TIMEZONES:
-        builder.button(text=f"{clock_emoji(tz)} {tz_label(tz)}", callback_data=f"onboard:settz:{tz}")
+        builder.button(text=_tz_button_text(tz, lang, current_tz), callback_data=f"onboard:settz:{tz}")
     builder.button(
-        text=t("onboarding.tz_skip", lang),
-        callback_data="onboard:tz_skip"
+        text=t("common.back", lang),
+        callback_data="onboard:welcome"
     )
     builder.adjust(1)
     return builder.as_markup()

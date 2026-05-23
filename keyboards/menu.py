@@ -5,12 +5,21 @@ from services.i18n import t
 
 
 def welcome_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Кнопка 'Открыть меню' после приветствия."""
+    """Кнопки после приветствия: открыть меню + сменить часовой пояс.
+
+    Пояс по умолчанию — Europe/Madrid; кнопка даёт юзерам из других регионов
+    поправить его сразу, чтобы стих дня приходил в их локальное время.
+    """
     builder = InlineKeyboardBuilder()
     builder.button(
         text=t("welcome.button", lang),
         callback_data="open_menu"
     )
+    builder.button(
+        text=t("welcome.change_timezone", lang),
+        callback_data="onboard:tz"
+    )
+    builder.adjust(1)
     return builder.as_markup()
 
 

@@ -16,8 +16,8 @@ class User(Base):
     first_name: Mapped[str | None] = mapped_column(String(64), nullable=True)
     lang: Mapped[str] = mapped_column(String(5), default="ru")
     translation: Mapped[str] = mapped_column(String(20), default="ru_synodal")
-    notifications_enabled: Mapped[bool] = mapped_column(default=False)  # ← новое
-    notification_time: Mapped[str] = mapped_column(String(5), default="09:00")  # ← новое, формат "HH:MM"
+    notifications_enabled: Mapped[bool] = mapped_column(default=True)  # стих дня вкл по умолчанию
+    notification_time: Mapped[str] = mapped_column(String(5), default="09:00")  # формат "HH:MM"
     timezone: Mapped[str] = mapped_column(String(64), default=DEFAULT_TZ)  # IANA-зона юзера
     # Серии (streaks)
     current_streak: Mapped[int] = mapped_column(Integer, default=0)
