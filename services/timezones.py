@@ -16,8 +16,6 @@ SUPPORTED_TIMEZONES: list[str] = [
     "Europe/London",
     "Europe/Madrid",
     "Europe/Kyiv",
-    "Europe/Moscow",
-    "Asia/Yekaterinburg",
     "Asia/Almaty",
     "America/New_York",
     "America/Chicago",
@@ -34,8 +32,6 @@ _CITY_LABEL: dict[str, str] = {
     "Europe/London": "London",
     "Europe/Madrid": "Madrid",
     "Europe/Kyiv": "Kyiv",
-    "Europe/Moscow": "Moscow",
-    "Asia/Yekaterinburg": "Yekaterinburg",
     "Asia/Almaty": "Almaty",
     "America/New_York": "New York",
     "America/Chicago": "Chicago",
@@ -95,3 +91,24 @@ def label(tz_name: str) -> str:
     """Подпись для кнопки/статуса: 'Kyiv (UTC+03:00)'."""
     city = _CITY_LABEL.get(tz_name, tz_name)
     return f"{city} ({offset_label(tz_name)})"
+
+
+# Эмодзи-циферблаты, индекс = час % 12. Две шкалы: ровный час и «половина».
+_CLOCK_HOUR = ["🕛", "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚"]
+_CLOCK_HALF = ["🕧", "🕜", "🕝", "🕞", "🕟", "🕠", "🕡", "🕢", "🕣", "🕤", "🕥", "🕦"]
+
+
+def clock_emoji(tz_name: str) -> str:
+    """Циферблат, показывающий текущий локальный час зоны.
+
+    Минуты округляются до ближайшего получаса: …:00 — ровный час,
+    …:30 — «половина», иначе тикаем на следующий час.
+    """
+    now = local_now(tz_name)
+    hour = now.hour % 12
+    half = round(now.minute / 30)  # 0, 1 или 2
+    if half == 0:
+        return _CLOCK_HOUR[hour]
+    if half == 1:
+        return _CLOCK_HALF[hour]
+    return _CLOCK_HOUR[(hour + 1) % 12]

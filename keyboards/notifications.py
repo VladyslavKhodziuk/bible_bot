@@ -2,7 +2,7 @@ from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.i18n import t
-from services.timezones import SUPPORTED_TIMEZONES, label as tz_label
+from services.timezones import SUPPORTED_TIMEZONES, label as tz_label, clock_emoji
 
 # Список временных слотов, из которых юзер выбирает — каждый час с 06:00 до 22:00
 TIME_SLOTS = [f"{hour:02d}:00" for hour in range(6, 23)]
@@ -44,10 +44,24 @@ def timezone_picker_keyboard(lang: str) -> InlineKeyboardMarkup:
     """Список часовых поясов для выбора. Подпись = город + текущее смещение."""
     builder = InlineKeyboardBuilder()
     for tz in SUPPORTED_TIMEZONES:
-        builder.button(text=f"🌍 {tz_label(tz)}", callback_data=f"notif:settz:{tz}")
+        builder.button(text=f"{clock_emoji(tz)} {tz_label(tz)}", callback_data=f"notif:settz:{tz}")
     builder.button(
         text=t("common.back", lang),
         callback_data="notif:open"
+    )
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+def onboarding_timezone_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Выбор часового пояса на онбординге. Отдельный callback-префикс
+    (onboard:settz:) ведёт к приветствию, а не обратно в настройки."""
+    builder = InlineKeyboardBuilder()
+    for tz in SUPPORTED_TIMEZONES:
+        builder.button(text=f"{clock_emoji(tz)} {tz_label(tz)}", callback_data=f"onboard:settz:{tz}")
+    builder.button(
+        text=t("onboarding.tz_skip", lang),
+        callback_data="onboard:tz_skip"
     )
     builder.adjust(1)
     return builder.as_markup()

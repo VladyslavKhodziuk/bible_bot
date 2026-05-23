@@ -10,8 +10,19 @@ from services.menu_text import build_menu_text
 from services.i18n import t
 from keyboards.language import language_keyboard
 from keyboards.menu import welcome_keyboard, main_menu_keyboard
+from keyboards.notifications import onboarding_timezone_keyboard
+from services.timezones import is_valid, label as tz_label
 
 router = Router()
+
+
+async def _send_welcome(callback: CallbackQuery, lang: str) -> None:
+    """Показать приветствие на выбранном языке (последний шаг онбординга)."""
+    name = html.escape(callback.from_user.first_name or "друг")
+    await callback.message.answer(
+        t("welcome.text", lang, name=name),
+        reply_markup=welcome_keyboard(lang)
+    )
 
 
 @router.message(CommandStart())
@@ -47,27 +58,59 @@ async def set_language(callback: CallbackQuery):
 
     user = await UserService.get(callback.from_user.id)
 
+    # Удаляем сообщение с выбором языка
+    await callback.message.delete()
+
     if user is None:
-        # Первый раз — создаём юзера с выбранным языком
+        # Первый раз — создаём юзера и спрашиваем часовой пояс,
+        # чтобы уведомления приходили в его локальное время.
         await UserService.create(
             tg_id=callback.from_user.id,
             username=callback.from_user.username,
             first_name=callback.from_user.first_name,
             lang=lang
         )
+        await callback.message.answer(
+            t("onboarding.choose_timezone", lang),
+            reply_markup=onboarding_timezone_keyboard(lang)
+        )
     else:
-        # Юзер уже есть — просто меняем язык
+        # Юзер уже есть (часовой пояс выбран ранее) — сразу к приветствию.
         await UserService.set_language(callback.from_user.id, lang)
+        await _send_welcome(callback, lang)
 
-    # Удаляем сообщение с выбором языка
-    await callback.message.delete()
+    await callback.answer()
 
-    # Шлём приветствие на выбранном языке
-    name = html.escape(callback.from_user.first_name or "друг")
-    await callback.message.answer(
-        t("welcome.text", lang, name=name),
-        reply_markup=welcome_keyboard(lang)
+
+@router.callback_query(F.data.startswith("onboard:settz:"))
+async def onboarding_set_timezone(callback: CallbackQuery):
+    """Онбординг: сохранить выбранный часовой пояс и показать приветствие."""
+    tz_name = callback.data.split(":", 2)[2]  # IANA-имя (может содержать '/')
+
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    if not is_valid(tz_name):
+        await callback.answer("⚠️", show_alert=True)
+        return
+
+    await UserService.set_timezone(callback.from_user.id, tz_name)
+    await callback.answer(
+        t("notifications.timezone_changed", lang, timezone=tz_label(tz_name)),
+        show_alert=False
     )
+    await callback.message.delete()
+    await _send_welcome(callback, lang)
+
+
+@router.callback_query(F.data == "onboard:tz_skip")
+async def onboarding_skip_timezone(callback: CallbackQuery):
+    """Онбординг: пропустить выбор пояса (остаётся значение по умолчанию)."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    await callback.message.delete()
+    await _send_welcome(callback, lang)
     await callback.answer()
 
 

@@ -1,6 +1,10 @@
 language:
-  choose: "🌍 Выберите язык / Choose language / Elige el idioma"
+  choose: "🌍 Elige el idioma / Choose language / Виберіть мову / Выберите язык"
   changed: "✅ Idioma cambiado a español"
+
+onboarding:
+  choose_timezone: "<b>🌍 Tu zona horaria</b>\n\nElígela para que el versículo del día llegue a una hora que te convenga. Puedes omitirlo y configurarlo más tarde."
+  tz_skip: "Omitir"
 
 welcome:
   text: |
@@ -10,13 +14,15 @@ welcome:
 
     Esto es lo que puedo hacer:
 
+    🙋 Escucharte y apoyarte con la Palabra — habla con el pastor
     📖 Leer la Biblia en diferentes traducciones
     🔍 Buscar versículos por palabras y temas
     💭 Encontrar la Palabra para cualquier situación de la vida
+    🎲 Mostrarte un versículo al azar
     ⭐ Guardar tus pasajes favoritos
-    📅 Enviarte un versículo cada mañana
+    📅 Enviarte el versículo del día a la hora que te convenga
     📚 Guiarte por un plan de lectura
-    🎨 Crear hermosas tarjetas con versículos para compartir con tus seres queridos
+    🔥 Ayudarte a mantener una racha diaria con la Palabra
 
     <i>«Lámpara es a mis pies tu palabra, y lumbrera a mi camino» (Salmo 119:105)</i>
 

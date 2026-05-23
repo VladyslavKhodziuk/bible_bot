@@ -1,6 +1,10 @@
 language:
-  choose: "🌍 Выберите язык / Choose language / Elige el idioma"
+  choose: "🌍 Elige el idioma / Choose language / Виберіть мову / Выберите язык"
   changed: "✅ Language changed to English"
+
+onboarding:
+  choose_timezone: "<b>🌍 Your time zone</b>\n\nPick it so the verse of the day arrives at a time that suits you. You can skip and set it later."
+  tz_skip: "Skip"
 
 welcome:
   text: |
@@ -10,13 +14,15 @@ welcome:
 
     Here's what I can do:
 
+    🙋 Listen and support you with the Word — talk to the pastor
     📖 Read the Bible in different translations
     🔍 Search verses by words and topics
     💭 Find the Word for any life situation
+    🎲 Show you a random verse
     ⭐ Save your favorite passages
-    📅 Send you a daily verse every morning
+    📅 Send you a verse of the day at a time that suits you
     📚 Guide you through a reading plan
-    🎨 Create beautiful verse cards to share with loved ones
+    🔥 Help you keep a daily streak with the Word
 
     <i>"Your word is a lamp for my feet, a light on my path" (Psalm 119:105)</i>
 
