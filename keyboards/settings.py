@@ -2,7 +2,6 @@ from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.i18n import t
-from services.bible_service import BibleService
 
 
 def settings_keyboard(user, lang: str) -> InlineKeyboardMarkup:
@@ -26,14 +25,6 @@ def settings_keyboard(user, lang: str) -> InlineKeyboardMarkup:
         callback_data="notif:open"
     )
     layout.append(2)
-
-    # Кнопка выбора перевода — только если на языке больше одного перевода
-    if len(BibleService.get_translations_for_lang(lang)) > 1:
-        builder.button(
-            text=t("settings.change_translation", lang),
-            callback_data="settings:change_translation"
-        )
-        layout.append(1)
 
     # === Ряд 2: обратная связь ===
     builder.button(
@@ -64,20 +55,6 @@ def language_settings_keyboard(lang: str) -> InlineKeyboardMarkup:
     builder.button(text="🇺🇸 English", callback_data="changelang:en")
     builder.button(text="🇺🇦 Українська", callback_data="changelang:uk")
     builder.button(text="🇷🇺 Русский", callback_data="changelang:ru")
-    builder.button(
-        text=t("common.back", lang),
-        callback_data="settings:open"
-    )
-    builder.adjust(1)
-    return builder.as_markup()
-
-
-def translation_settings_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Выбор перевода Библии — только переводы для текущего языка интерфейса."""
-    builder = InlineKeyboardBuilder()
-    for code in BibleService.get_translations_for_lang(lang):
-        name = t(f"settings.translation_names.{code}", lang)
-        builder.button(text=name, callback_data=f"changetrans:{code}")
     builder.button(
         text=t("common.back", lang),
         callback_data="settings:open"

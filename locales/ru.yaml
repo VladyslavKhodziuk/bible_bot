@@ -166,12 +166,14 @@ settings:
     en_kjv: "King James Version"
     en_asv: "American Standard Version"
     en_web: "World English Bible"
-    es_rvr: "Reina-Valera 1960"
+    es_rvr: "Reina-Valera Antigua (1909)"
+    es_torres: "Biblia Torres Amat (1825)"
     es_sagradas: "Sagradas Escrituras 1569"
     uk_ogienko: "Огієнко"
 
 read:
   choose_testament: "<b>📖 Читать Библию</b>\n\nВыбери раздел:"
+  btn_translation: "📖 {translation}"
   old_testament: "📜 Ветхий Завет"
   new_testament: "✝️ Новый Завет"
   choose_book: "<b>{testament}</b>\n\nВыбери книгу:"

@@ -299,7 +299,7 @@ async def _show_reading(callback: CallbackQuery, reading_idx: int):
                       current=reading_idx + 1, total_readings=len(today_readings))
 
     verses_text = "\n".join(
-        f"<b>{i + 1}</b> {v}" for i, v in enumerate(chapter_data)
+        f"<b>{i + 1}.</b> {v}" for i, v in enumerate(chapter_data)
     )
 
     parts = [

@@ -7,6 +7,7 @@ from services.streak_service import StreakService
 from services.i18n import t
 from keyboards.read import (
     testament_keyboard,
+    translation_keyboard,
     books_keyboard,
     chapters_keyboard,
     chapter_view_keyboard,
@@ -26,10 +27,11 @@ async def read_start(callback: CallbackQuery):
     """Вход в раздел чтения из главного меню."""
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
+    translation = user.translation if user else "ru_synodal"
 
     await callback.message.edit_text(
         t("read.choose_testament", lang),
-        reply_markup=testament_keyboard(lang)
+        reply_markup=testament_keyboard(lang, translation)
     )
     await callback.answer()
 
@@ -38,6 +40,38 @@ async def read_start(callback: CallbackQuery):
 async def read_back_to_start(callback: CallbackQuery):
     """Возврат к выбору Завета (из списка книг)."""
     await read_start(callback)
+
+
+# ============ Выбор перевода Библии ============
+
+@router.callback_query(F.data == "read:trans")
+async def choose_translation_screen(callback: CallbackQuery):
+    """Экран выбора перевода Библии из меню чтения."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    await callback.message.edit_text(
+        t("settings.choose_translation", lang),
+        reply_markup=translation_keyboard(lang)
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data.startswith("read:settrans:"))
+async def apply_translation(callback: CallbackQuery):
+    """Применение выбранного перевода и возврат к выбору Завета."""
+    new_translation = callback.data.split(":")[2]
+    await UserService.set_translation(callback.from_user.id, new_translation)
+
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    await callback.answer(t("settings.translation_changed", lang), show_alert=True)
+
+    await callback.message.edit_text(
+        t("read.choose_testament", lang),
+        reply_markup=testament_keyboard(lang, new_translation)
+    )
 
 
 # ============ Экран 2: Список книг ============
@@ -137,7 +171,7 @@ async def show_chapter(callback: CallbackQuery):
 
     # Тело: только стихи текущей страницы
     text_body = "\n".join(
-        f"<b>{i}</b> {verses[i - 1]}"
+        f"<b>{i}.</b> {verses[i - 1]}"
         for i in range(start_v, end_v + 1)
     )
 

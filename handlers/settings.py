@@ -6,7 +6,6 @@ from services.i18n import t
 from keyboards.settings import (
     settings_keyboard,
     language_settings_keyboard,
-    translation_settings_keyboard,
 )
 
 router = Router()
@@ -14,8 +13,6 @@ router = Router()
 
 def _build_settings_text(user, lang: str) -> str:
     """Текст главного экрана настроек."""
-    from services.bible_service import BibleService
-
     language_name = t(f"settings.language_names.{lang}", lang)
 
     lines = [
@@ -23,11 +20,6 @@ def _build_settings_text(user, lang: str) -> str:
         "",
         t("settings.current_language", lang, language=language_name),
     ]
-
-    # Перевод — только если есть выбор
-    if len(BibleService.get_translations_for_lang(lang)) > 1:
-        translation_name = t(f"settings.translation_names.{user.translation}", lang)
-        lines.append(t("settings.current_translation", lang, translation=translation_name))
 
     # Уведомления
     if user.notifications_enabled:
@@ -92,39 +84,4 @@ async def apply_new_language(callback: CallbackQuery):
     await callback.message.edit_text(
         _build_settings_text(user, new_lang),
         reply_markup=settings_keyboard(user, new_lang)
-    )
-
-
-# ============ Смена перевода Библии (внутри одного языка) ============
-
-@router.callback_query(F.data == "settings:change_translation")
-async def change_translation_screen(callback: CallbackQuery):
-    """Экран выбора перевода Библии."""
-    user = await UserService.get(callback.from_user.id)
-    lang = user.lang if user else "ru"
-
-    await callback.message.edit_text(
-        t("settings.choose_translation", lang),
-        reply_markup=translation_settings_keyboard(lang)
-    )
-    await callback.answer()
-
-
-@router.callback_query(F.data.startswith("changetrans:"))
-async def apply_new_translation(callback: CallbackQuery):
-    """Применение нового перевода."""
-    new_translation = callback.data.split(":")[1]
-    await UserService.set_translation(callback.from_user.id, new_translation)
-
-    user = await UserService.get(callback.from_user.id)
-    lang = user.lang if user else "ru"
-
-    await callback.answer(
-        t("settings.translation_changed", lang),
-        show_alert=True
-    )
-
-    await callback.message.edit_text(
-        _build_settings_text(user, lang),
-        reply_markup=settings_keyboard(user, lang)
     )

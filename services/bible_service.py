@@ -20,6 +20,7 @@ TRANSLATIONS = {
     "en_asv":       {"file": "en_asv.json",       "lang": "en"},
     "en_web":       {"file": "en_web.json",       "lang": "en"},
     "es_rvr":       {"file": "es_rvr.json",       "lang": "es"},
+    "es_torres":    {"file": "es_torres.json",     "lang": "es"},
     "es_sagradas":  {"file": "es_sagradas.json",  "lang": "es"},
     "uk_ogienko":   {"file": "uk_ogienko.json", "lang": "uk"},
 }
@@ -240,7 +241,7 @@ class BibleService:
 
         for i, verse in enumerate(verses, start=1):
             # Длина строки "**N** текст стиха\n"
-            verse_length = len(f"**{i}** {verse}\n")
+            verse_length = len(f"**{i}.** {verse}\n")
 
             # Если добавив этот стих, превысим лимит — закрываем страницу
             if current_length + verse_length > max_chars and current_length > 0:
@@ -359,6 +360,7 @@ TRANSLATION_ALPHABETS = {
     "en_asv":      "latin",
     "en_web":      "latin",
     "es_rvr":      "latin",
+    "es_torres":   "latin",
     "es_sagradas": "latin",
 }
 

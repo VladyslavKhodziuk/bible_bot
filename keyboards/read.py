@@ -11,12 +11,36 @@ BOOKS_PER_PAGE = 12
 CHAPTERS_PER_ROW = 5
 
 
-def testament_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Выбор Ветхий / Новый Завет."""
+def testament_keyboard(lang: str, translation: str) -> InlineKeyboardMarkup:
+    """Выбор Ветхий / Новый Завет. Плюс кнопка перевода, если их больше одного."""
     builder = InlineKeyboardBuilder()
     builder.button(text=t("read.old_testament", lang), callback_data="read:ot:0")
     builder.button(text=t("read.new_testament", lang), callback_data="read:nt:0")
+    layout = [1, 1]
+
+    # Кнопка выбора перевода — только если на языке больше одного перевода
+    if len(BibleService.get_translations_for_lang(lang)) > 1:
+        translation_name = t(f"settings.translation_names.{translation}", lang)
+        builder.button(
+            text=t("read.btn_translation", lang, translation=translation_name),
+            callback_data="read:trans"
+        )
+        layout.append(1)
+
     builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
+    layout.append(1)
+
+    builder.adjust(*layout)
+    return builder.as_markup()
+
+
+def translation_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Выбор перевода Библии из меню чтения — только переводы текущего языка."""
+    builder = InlineKeyboardBuilder()
+    for code in BibleService.get_translations_for_lang(lang):
+        name = t(f"settings.translation_names.{code}", lang)
+        builder.button(text=name, callback_data=f"read:settrans:{code}")
+    builder.button(text=t("read.back_to_testaments", lang), callback_data="read")
     builder.adjust(1)
     return builder.as_markup()
 

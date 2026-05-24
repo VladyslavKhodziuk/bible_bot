@@ -162,12 +162,14 @@ settings:
     en_kjv: "King James Version (KJV)"
     en_asv: "American Standard Version (ASV)"
     en_web: "World English Bible (WEB)"
-    es_rvr: "Reina-Valera 1960"
+    es_rvr: "Reina-Valera Antigua (1909)"
+    es_torres: "Biblia Torres Amat (1825)"
     es_sagradas: "Sagradas Escrituras 1569"
     uk_ogienko: "Огієнко"
 
 read:
   choose_testament: "<b>📖 Leer la Biblia</b>\n\nElige una sección:"
+  btn_translation: "📖 {translation}"
   old_testament: "📜 Antiguo Testamento"
   new_testament: "✝️ Nuevo Testamento"
   choose_book: "<b>{testament}</b>\n\nElige un libro:"

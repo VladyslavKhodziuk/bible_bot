@@ -137,6 +137,7 @@ cabinet:
 
 read:
   choose_testament: "<b>📖 Читати Біблію</b>\n\nОбери розділ:"
+  btn_translation: "📖 {translation}"
   old_testament: "📜 Старий Заповіт"
   new_testament: "✝️ Новий Заповіт"
   choose_book: "<b>{testament}</b>\n\nОбери книгу:"
@@ -199,7 +200,8 @@ settings:
     en_kjv: "King James Version (KJV)"
     en_asv: "American Standard Version (ASV)"
     en_web: "World English Bible (WEB)"
-    es_rvr: "Reina-Valera 1960"
+    es_rvr: "Reina-Valera Antigua (1909)"
+    es_torres: "Biblia Torres Amat (1825)"
     es_sagradas: "Sagradas Escrituras 1569"
     uk_ogienko: "Огієнко"
 
