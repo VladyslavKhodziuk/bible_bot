@@ -15,6 +15,7 @@ BOOKS_FILE = DATA_DIR / "books.yaml"
 # Поддерживаемые переводы: код → имя файла
 TRANSLATIONS = {
     "ru_synodal":   {"file": "ru_synodal.json",   "lang": "ru"},
+    "ru_nrt":       {"file": "ru_nrt.json",        "lang": "ru"},
     "en_kjv":       {"file": "en_kjv.json",       "lang": "en"},
     "en_asv":       {"file": "en_asv.json",       "lang": "en"},
     "en_web":       {"file": "en_web.json",       "lang": "en"},
@@ -352,6 +353,7 @@ class BibleService:
 # Маппинг переводов → ожидаемый алфавит
 TRANSLATION_ALPHABETS = {
     "ru_synodal":  "cyrillic",
+    "ru_nrt":      "cyrillic",
     "uk_ogienko":  "cyrillic",
     "en_kjv":      "latin",
     "en_asv":      "latin",

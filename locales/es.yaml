@@ -158,6 +158,7 @@ settings:
     uk: "Українська"
   translation_names:
     ru_synodal: "Sinodal"
+    ru_nrt: "Nueva Traducción Rusa (NRT)"
     en_kjv: "King James Version (KJV)"
     en_asv: "American Standard Version (ASV)"
     en_web: "World English Bible (WEB)"
