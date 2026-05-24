@@ -20,6 +20,7 @@ TRANSLATIONS = {
     "en_asv":       {"file": "en_asv.json",       "lang": "en"},
     "en_web":       {"file": "en_web.json",       "lang": "en"},
     "es_rvr":       {"file": "es_rvr.json",       "lang": "es"},
+    "es_rvr1865":   {"file": "es_rvr1865.json",    "lang": "es"},
     "es_torres":    {"file": "es_torres.json",     "lang": "es"},
     "es_sagradas":  {"file": "es_sagradas.json",  "lang": "es"},
     "uk_ogienko":   {"file": "uk_ogienko.json", "lang": "uk"},
@@ -360,6 +361,7 @@ TRANSLATION_ALPHABETS = {
     "en_asv":      "latin",
     "en_web":      "latin",
     "es_rvr":      "latin",
+    "es_rvr1865":  "latin",
     "es_torres":   "latin",
     "es_sagradas": "latin",
 }
