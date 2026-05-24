@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 DATA_DIR = Path(__file__).parent.parent / "data"
 BIBLES_DIR = DATA_DIR / "bibles"
 BOOKS_FILE = DATA_DIR / "books.yaml"
+VERSES_OF_DAY_FILE = DATA_DIR / "verses_of_day.yaml"
 
 # Поддерживаемые переводы: код → имя файла
 TRANSLATIONS = {
@@ -44,6 +45,7 @@ class BibleService:
     _bibles: dict[str, list] = {}
     _books_meta: dict[str, dict] = {}
     _book_order: list[str] = []
+    _daily_pool: list[tuple[str, int, int]] = []
     _loaded: bool = False
 
     @classmethod
@@ -69,8 +71,29 @@ class BibleService:
                 cls._bibles[code] = json.load(f)
             logger.info(f"  {code}: {len(cls._bibles[code])} книг")
 
+        cls._load_daily_pool()
+
         cls._loaded = True
         logger.info("Библии загружены")
+
+    @classmethod
+    def _load_daily_pool(cls) -> None:
+        """Загружает курируемый пул стихов дня. Порядок перемешивается фиксированным
+        seed — день года стабильно отображается на стих, но соседние дни берут стихи
+        из разных книг, а не подряд."""
+        if not VERSES_OF_DAY_FILE.exists():
+            logger.warning(f"  Пул стихов дня не найден: {VERSES_OF_DAY_FILE}")
+            return
+        with open(VERSES_OF_DAY_FILE, "r", encoding="utf-8") as f:
+            refs = yaml.safe_load(f).get("verses", [])
+        pool = []
+        for ref in refs:
+            abbrev, cv = ref.rsplit(" ", 1)
+            chapter, verse = cv.split(":")
+            pool.append((abbrev, int(chapter), int(verse)))
+        random.Random(20240101).shuffle(pool)
+        cls._daily_pool = pool
+        logger.info(f"  Пул стихов дня: {len(pool)} стихов")
 
     @classmethod
     def get_books(cls, testament: str | None = None) -> list[dict]:
@@ -189,29 +212,44 @@ class BibleService:
     @classmethod
     def get_verse_of_day(cls, translation: str, target_date: date | None = None) -> dict | None:
         """
-        Стих дня — один и тот же в течение суток для всех с этим переводом.
-        Использует дату как seed для рандома: одна дата = один и тот же стих.
+        Стих дня — один и тот же в течение суток для всех. Берётся из курируемого
+        пула по дню года, поэтому это всегда осмысленный стих, а не случайная
+        родословная. Один и тот же reference для всех переводов; текст резолвится
+        в переводе пользователя.
         """
         if target_date is None:
             target_date = date.today()
 
+        if not cls._bibles.get(translation):
+            return None
+
+        pool = cls._daily_pool
+        if not pool:
+            return cls._random_verse(translation, target_date)
+
+        # День года -> индекс в пуле. Если стих почему-то не резолвится в этом
+        # переводе (разная версификация), детерминированно идём по пулу дальше.
+        start = (target_date.timetuple().tm_yday - 1) % len(pool)
+        for offset in range(len(pool)):
+            abbrev, chapter, verse = pool[(start + offset) % len(pool)]
+            text = cls.get_verse(abbrev, chapter, verse, translation)
+            if text is not None:
+                return {"abbrev": abbrev, "chapter": chapter, "verse": verse, "text": text}
+
+        return cls._random_verse(translation, target_date)
+
+    @classmethod
+    def _random_verse(cls, translation: str, target_date: date) -> dict | None:
+        """Запасной вариант: детерминированно случайный стих (если пул пуст/не сошёлся)."""
         bible = cls._bibles.get(translation)
         if not bible:
             return None
-
-        # Используем дату как seed — один день = один стих
-        seed = target_date.toordinal()
-        rng = random.Random(seed)
-
+        rng = random.Random(target_date.toordinal())
         book_idx = rng.randrange(len(bible))
-        book = bible[book_idx]
         abbrev = cls._book_order[book_idx]
-
-        chapter_idx = rng.randrange(len(book["chapters"]))
-        chapter_verses = book["chapters"][chapter_idx]
-
+        chapter_idx = rng.randrange(len(bible[book_idx]["chapters"]))
+        chapter_verses = bible[book_idx]["chapters"][chapter_idx]
         verse_idx = rng.randrange(len(chapter_verses))
-
         return {
             "abbrev": abbrev,
             "chapter": chapter_idx + 1,
