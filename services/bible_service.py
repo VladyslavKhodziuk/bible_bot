@@ -12,6 +12,7 @@ DATA_DIR = Path(__file__).parent.parent / "data"
 BIBLES_DIR = DATA_DIR / "bibles"
 BOOKS_FILE = DATA_DIR / "books.yaml"
 VERSES_OF_DAY_FILE = DATA_DIR / "verses_of_day.yaml"
+WISDOM_OF_DAY_FILE = DATA_DIR / "wisdom_of_day.yaml"
 
 # Поддерживаемые переводы: код → имя файла
 TRANSLATIONS = {
@@ -53,6 +54,8 @@ class BibleService:
     _books_meta: dict[str, dict] = {}
     _book_order: list[str] = []
     _daily_pool: list[tuple[str, int, int]] = []
+    # Пул «мудрости дня»: (abbrev, chapter, verse, theme_key, reflections_by_lang)
+    _wisdom_pool: list[tuple[str, int, int, str, dict]] = []
     _loaded: bool = False
 
     @classmethod
@@ -82,6 +85,7 @@ class BibleService:
             logger.info(f"  {code}: {len(cls._bibles[code])} книг")
 
         cls._load_daily_pool()
+        cls._load_wisdom_pool()
 
         cls._loaded = True
         logger.info("Библии загружены")
@@ -104,6 +108,31 @@ class BibleService:
         random.Random(20240101).shuffle(pool)
         cls._daily_pool = pool
         logger.info(f"  Пул стихов дня: {len(pool)} стихов")
+
+    @classmethod
+    def _load_wisdom_pool(cls) -> None:
+        """Загружает курируемый пул «мудрости дня». Каждый стих несёт ключ темы
+        (локализуется через wisdom.theme.<key>) и пастырское размышление на каждом
+        UI-языке. Порядок перемешивается фиксированным seed — день года стабильно
+        отображается на стих, но соседние дни берут стихи из разных тем и книг."""
+        if not WISDOM_OF_DAY_FILE.exists():
+            logger.warning(f"  Пул мудрости дня не найден: {WISDOM_OF_DAY_FILE}")
+            return
+        with open(WISDOM_OF_DAY_FILE, "r", encoding="utf-8") as f:
+            themes = yaml.safe_load(f).get("themes", {})
+        pool = []
+        for theme_key, items in themes.items():
+            for item in items or []:
+                abbrev, cv = item["ref"].rsplit(" ", 1)
+                chapter, verse = cv.split(":")
+                reflections = {
+                    lang: item.get(lang, "")
+                    for lang in ("ru", "en", "es", "uk")
+                }
+                pool.append((abbrev, int(chapter), int(verse), theme_key, reflections))
+        random.Random(20240202).shuffle(pool)
+        cls._wisdom_pool = pool
+        logger.info(f"  Пул мудрости дня: {len(pool)} стихов")
 
     @classmethod
     def get_books(cls, testament: str | None = None) -> list[dict]:
@@ -272,6 +301,53 @@ class BibleService:
                 return {"abbrev": abbrev, "chapter": chapter, "verse": verse, "text": text}
 
         return cls._random_verse(translation, target_date)
+
+    @classmethod
+    def get_wisdom_of_day(
+        cls,
+        translation: str,
+        lang: str | None = None,
+        target_date: date | None = None,
+    ) -> dict | None:
+        """
+        Мудрость дня — практический стих из книг премудрости (Притчи/Екклесиаст/Иов),
+        один и тот же в течение суток для всех. Берётся из курируемого пула по дню
+        года. Один и тот же reference для всех переводов; текст резолвится в переводе
+        пользователя. Возвращает dict со стихом, ключом темы (theme) и пастырским
+        размышлением (reflection) на UI-языке.
+        """
+        if target_date is None:
+            target_date = date.today()
+
+        if not cls._bibles.get(translation):
+            return None
+
+        # Язык размышления — UI-язык; если не задан, берём язык перевода.
+        if lang is None:
+            lang = TRANSLATIONS.get(translation, {}).get("lang", "ru")
+
+        pool = cls._wisdom_pool
+        if not pool:
+            return None
+
+        # День года -> индекс в пуле. Если стих почему-то не резолвится в этом
+        # переводе, детерминированно идём по пулу дальше.
+        start = (target_date.timetuple().tm_yday - 1) % len(pool)
+        for offset in range(len(pool)):
+            abbrev, chapter, verse, theme, reflections = pool[(start + offset) % len(pool)]
+            text = cls.get_verse(abbrev, chapter, verse, translation)
+            if text is not None:
+                reflection = reflections.get(lang) or reflections.get("ru", "")
+                return {
+                    "abbrev": abbrev,
+                    "chapter": chapter,
+                    "verse": verse,
+                    "text": text,
+                    "theme": theme,
+                    "reflection": reflection,
+                }
+
+        return None
 
     @classmethod
     def _random_verse(cls, translation: str, target_date: date) -> dict | None:

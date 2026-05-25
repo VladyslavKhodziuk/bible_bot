@@ -207,7 +207,26 @@ pray:
   title: "<b>🙏 Orar</b>\n\nElige lo que sientas más cercano ahora:"
 
 wisdom:
-  coming_soon: "¡Pronto! 🔧 En desarrollo"
+  title: "💡 <b>Sabiduría del día</b>"
+  theme_line: "<i>Tema: {theme}</i>"
+  theme:
+    speech: "El poder de las palabras"
+    anger: "La ira y la paciencia"
+    money: "El dinero y el contentamiento"
+    work: "El trabajo y la diligencia"
+    friendship: "La amistad"
+    humility: "La humildad"
+    wisdom_fear: "El principio de la sabiduría"
+    honesty: "La honradez"
+    trust_god: "La confianza en Dios"
+    time_meaning: "El tiempo y el sentido"
+    endurance: "La perseverancia en el sufrimiento"
+    kindness: "La bondad y la misericordia"
+    planning: "Los planes y el consejo"
+    family: "La familia y la crianza"
+    guarding_heart: "Guardar el corazón"
+    learning: "La instrucción y el aprendizaje"
+    self_control: "El dominio propio"
 
 bookmarks:
   empty: "<b>⭐ Mis favoritos</b>\n\nAún no tienes favoritos.\n\nCuando leas un versículo que te conmueva — toca <b>⭐ Guardar</b>, y se guardará aquí."

@@ -204,7 +204,26 @@ pray:
   title: "<b>🙏 Pray</b>\n\nChoose what's closest right now:"
 
 wisdom:
-  coming_soon: "Coming soon! 🔧 In development"
+  title: "💡 <b>Wisdom of the Day</b>"
+  theme_line: "<i>Theme: {theme}</i>"
+  theme:
+    speech: "The power of words"
+    anger: "Anger and patience"
+    money: "Money and contentment"
+    work: "Work and diligence"
+    friendship: "Friendship"
+    humility: "Humility"
+    wisdom_fear: "The beginning of wisdom"
+    honesty: "Honesty"
+    trust_god: "Trust in God"
+    time_meaning: "Time and meaning"
+    endurance: "Endurance in suffering"
+    kindness: "Kindness and mercy"
+    planning: "Plans and counsel"
+    family: "Family and upbringing"
+    guarding_heart: "Guarding the heart"
+    learning: "Instruction and learning"
+    self_control: "Self-control"
 
 bookmarks:
   empty: "<b>⭐ My bookmarks</b>\n\nYou don't have any bookmarks yet.\n\nWhen you read a verse that touches you — tap <b>⭐ Bookmark</b>, and it will be saved here."

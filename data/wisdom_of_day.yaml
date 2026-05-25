@@ -1,0 +1,632 @@
+# Curated pool for "wisdom of the day" (Мудрость дня).
+#
+# Practical wisdom drawn ONLY from Proverbs (prv), Ecclesiastes (ec) and Job
+# (job) — books whose versification is identical across all translations,
+# so a single ref resolves to the same verse for every user. Psalms and the
+# deuterocanonical wisdom books (sir/wis) are intentionally excluded.
+#
+# Each entry: a ref + a short, plain reflection in each UI language. Tone:
+# simple, everyday, like advice from a friend — clear even to someone with no
+# church background, no religious jargon. 1-2 short sentences, one real insight.
+# The verse TEXT is resolved per Bible translation; the reflection per UI lang.
+#
+# The bot maps day-of-year -> one entry deterministically (fixed-seed shuffle),
+# so all users see the same wisdom on the same date.
+themes:
+  speech:
+    - ref: prv 15:1
+      ru: "Спокойный ответ гасит ссору, резкий — раздувает. Хочешь меньше скандалов — говори тише."
+      en: "A calm answer cools a fight; a sharp one fuels it. Want fewer arguments? Speak softer."
+      es: "Una respuesta calmada apaga la pelea; una brusca la aviva. ¿Quieres menos discusiones? Habla más bajo."
+      uk: "Спокійна відповідь гасить сварку, різка — роздмухує. Хочеш менше сварок — говори тихіше."
+    - ref: prv 18:21
+      ru: "Словом можно поддержать, а можно ранить. Думай, что говоришь людям."
+      en: "Words can lift someone up or cut them down. Think before you speak to people."
+      es: "Con una palabra puedes animar o herir. Piensa lo que dices a los demás."
+      uk: "Словом можна підтримати, а можна поранити. Думай, що кажеш людям."
+    - ref: prv 10:19
+      ru: "Чем больше говоришь, тем легче ляпнуть лишнее. Иногда лучше промолчать."
+      en: "The more you talk, the easier it is to say something you'll regret. Sometimes it's better to stay quiet."
+      es: "Cuanto más hablas, más fácil es soltar algo de más. A veces es mejor callar."
+      uk: "Що більше говориш, то легше бовкнути зайве. Іноді краще промовчати."
+    - ref: prv 12:18
+      ru: "Резкие слова ранят, добрые — лечат. Выбирай, что оставить после себя."
+      en: "Harsh words hurt; kind ones heal. Choose what you leave behind."
+      es: "Las palabras duras hieren; las amables curan. Elige qué dejas tras de ti."
+      uk: "Різкі слова ранять, добрі — лікують. Обирай, що залишити після себе."
+    - ref: prv 16:24
+      ru: "Доброе слово поднимает настроение лучше любого лекарства. Скажи его кому-нибудь сегодня."
+      en: "A kind word lifts the mood better than any medicine. Say one to someone today."
+      es: "Una palabra amable levanta el ánimo mejor que cualquier medicina. Dile una a alguien hoy."
+      uk: "Добре слово піднімає настрій краще за будь-які ліки. Скажи його комусь сьогодні."
+    - ref: prv 25:11
+      ru: "Нужное слово в нужный момент дорогого стоит. Иногда это лучший подарок."
+      en: "The right word at the right moment is worth a lot. Sometimes it's the best gift you can give."
+      es: "La palabra justa en el momento justo vale mucho. A veces es el mejor regalo."
+      uk: "Потрібне слово в потрібний момент дорого коштує. Іноді це найкращий подарунок."
+    - ref: prv 17:27
+      ru: "Кто меньше болтает, тот выглядит умнее. Спокойствие — это сила."
+      en: "People who talk less come across as smarter. Staying calm is a strength."
+      es: "Quien habla menos parece más inteligente. La calma es una fuerza."
+      uk: "Хто менше базікає, той виглядає розумнішим. Спокій — це сила."
+    - ref: prv 21:23
+      ru: "Следи за языком — избежишь кучи проблем. Часто беда начинается с лишнего слова."
+      en: "Watch your tongue and you'll dodge a lot of trouble. Many problems start with one word too many."
+      es: "Cuida tu lengua y te ahorrarás muchos problemas. A menudo el lío empieza por una palabra de más."
+      uk: "Стеж за язиком — уникнеш купи проблем. Часто біда починається із зайвого слова."
+    - ref: prv 15:23
+      ru: "Приятно сказать человеку именно то, что ему нужно услышать. Не упускай такой момент."
+      en: "It feels good to tell someone exactly what they needed to hear. Don't miss that chance."
+      es: "Da gusto decirle a alguien justo lo que necesitaba oír. No dejes pasar ese momento."
+      uk: "Приємно сказати людині саме те, що їй треба почути. Не пропускай такий момент."
+  anger:
+    - ref: prv 14:29
+      ru: "Терпеливый умнее вспыльчивого. Не торопись реагировать — сначала выдохни."
+      en: "Patient people are smarter than hot-tempered ones. Don't rush to react — breathe first."
+      es: "El paciente es más sabio que el de mal genio. No corras a reaccionar: respira primero."
+      uk: "Терплячий розумніший за запального. Не поспішай реагувати — спершу видихни."
+    - ref: prv 22:24
+      ru: "Не дружи с тем, кто вечно злится — сам станешь таким же. Мы перенимаем привычки тех, кто рядом."
+      en: "Don't get close to people who are always angry — you'll pick it up. We copy the habits of those around us."
+      es: "No te juntes con gente que siempre está enojada: se te pega. Copiamos las costumbres de quienes nos rodean."
+      uk: "Не дружи з тим, хто вічно злиться — сам станеш таким. Ми переймаємо звички тих, хто поруч."
+    - ref: prv 15:18
+      ru: "Вспыльчивый раздувает ссору, спокойный — гасит. Будь тем, кто гасит."
+      en: "A hot temper fans a fight; a calm one puts it out. Be the one who puts it out."
+      es: "El de mal genio aviva la pelea; el calmado la apaga. Sé de los que la apagan."
+      uk: "Запальний роздмухує сварку, спокійний — гасить. Будь тим, хто гасить."
+    - ref: prv 19:11
+      ru: "Умный человек не вспыхивает по пустякам. Уметь простить — это сила, а не слабость."
+      en: "A smart person doesn't blow up over small stuff. Letting things go is strength, not weakness."
+      es: "El listo no estalla por tonterías. Saber perdonar es fuerza, no debilidad."
+      uk: "Розумна людина не спалахує через дрібниці. Уміти пробачити — це сила, а не слабкість."
+    - ref: prv 14:17
+      ru: "На горячую голову легко наделать глупостей. Дай себе пару секунд — и не пожалеешь."
+      en: "It's easy to do something dumb in the heat of the moment. Give yourself a couple of seconds and you won't regret it."
+      es: "En caliente es fácil hacer tonterías. Date un par de segundos y no te arrepentirás."
+      uk: "На гарячу голову легко наробити дурниць. Дай собі пару секунд — і не пошкодуєш."
+    - ref: prv 29:11
+      ru: "Глупый выплёскивает всю злость, умный держит себя в руках. Сдержаться — не молчать в себе, а не дать гневу командовать."
+      en: "A fool dumps all their anger out; a wise person keeps it in check. Holding back isn't bottling up — it's not letting anger run the show."
+      es: "El necio descarga toda su ira; el sabio se controla. Contenerse no es tragárselo todo, sino no dejar que la ira mande."
+      uk: "Дурний виплескує всю злість, розумний тримає себе в руках. Стриматися — не мовчати в собі, а не дати гніву командувати."
+    - ref: ec 7:9
+      ru: "Не спеши злиться. Злость быстрее всего поселяется в тех, кто даёт ей волю."
+      en: "Don't be quick to get angry. Anger settles in fastest with those who let it loose."
+      es: "No te apresures a enojarte. La ira se instala más rápido en quien le da rienda suelta."
+      uk: "Не поспішай злитися. Злість найшвидше оселяється в тих, хто дає їй волю."
+  money:
+    - ref: prv 11:28
+      ru: "Кто надеется только на деньги, однажды останется ни с чем. Деньги — плохая опора."
+      en: "Lean only on money and one day you'll be left with nothing. Money is a shaky thing to stand on."
+      es: "Quien se apoya solo en el dinero, un día se queda sin nada. El dinero es un mal soporte."
+      uk: "Хто надіється лише на гроші, одного дня залишиться ні з чим. Гроші — погана опора."
+    - ref: prv 13:11
+      ru: "Лёгкие деньги быстро уходят, заработанные трудом — остаются. Нет смысла гнаться за быстрым."
+      en: "Easy money slips away fast; money earned by work tends to stay. Chasing quick cash rarely pays off."
+      es: "El dinero fácil se va rápido; el ganado con trabajo se queda. No vale la pena correr tras lo rápido."
+      uk: "Легкі гроші швидко йдуть, зароблені працею — залишаються. Немає сенсу гнатися за швидким."
+    - ref: prv 23:5
+      ru: "Деньги легко исчезают — будто крылья отрастили. Не привязывайся к тому, что может пропасть за день."
+      en: "Money disappears easily — like it grew wings and flew off. Don't get attached to what can vanish in a day."
+      es: "El dinero se esfuma con facilidad, como si le salieran alas. No te apegues a lo que puede irse en un día."
+      uk: "Гроші легко зникають — наче крила відростили. Не прив'язуйся до того, що може пропасти за день."
+    - ref: prv 22:1
+      ru: "Доброе имя дороже денег. То, какой ты человек, останется, когда деньги уйдут."
+      en: "A good name is worth more than money. Who you are stays when the money's gone."
+      es: "El buen nombre vale más que el dinero. Lo que eres queda cuando el dinero se acaba."
+      uk: "Добре ім'я дорожче за гроші. Те, яка ти людина, залишиться, коли гроші підуть."
+    - ref: prv 28:20
+      ru: "Честный человек живёт спокойно, а кто рвётся разбогатеть любой ценой — нарвётся. Лучше медленно и честно."
+      en: "An honest person lives in peace; someone desperate to get rich quick gets burned. Slow and honest is better."
+      es: "El honesto vive tranquilo; quien quiere enriquecerse a toda costa acaba mal. Mejor despacio y honrado."
+      uk: "Чесна людина живе спокійно, а хто рветься розбагатіти за всяку ціну — нарветься. Краще повільно й чесно."
+    - ref: prv 30:8
+      ru: "Хорошо, когда не голодаешь и не зажрался, а просто хватает на жизнь. В этом меньше страха и меньше гордыни."
+      en: "It's good to be neither broke nor overstuffed — just enough to live on. That spot has less fear and less ego."
+      es: "Está bien ni pasar hambre ni nadar en lujos, solo tener para vivir. Ahí hay menos miedo y menos orgullo."
+      uk: "Добре, коли не голодуєш і не переїдаєш, а просто вистачає на життя. У цьому менше страху й менше гордині."
+    - ref: prv 15:16
+      ru: "Лучше мало, но спокойно, чем много, но в вечной тревоге. Покой не купишь."
+      en: "Better a little with peace than a lot with constant stress. You can't buy calm."
+      es: "Mejor poco con tranquilidad que mucho con angustia constante. La paz no se compra."
+      uk: "Краще мало, але спокійно, ніж багато, але у вічній тривозі. Спокій не купиш."
+    - ref: prv 16:8
+      ru: "Лучше немного, но честно, чем много, но обманом. Чистая совесть дороже."
+      en: "Better a little earned honestly than a lot gained by cheating. A clear conscience is worth more."
+      es: "Mejor poco con honradez que mucho con engaño. La conciencia limpia vale más."
+      uk: "Краще трохи, але чесно, ніж багато, але обманом. Чисте сумління дорожче."
+  work:
+    - ref: prv 6:6
+      ru: "Не жди настроения — просто начни. Даже муравей не ждёт, пока его подтолкнут."
+      en: "Don't wait to feel like it — just start. Even an ant doesn't wait to be told."
+      es: "No esperes a tener ganas: empieza. Hasta la hormiga no espera a que la empujen."
+      uk: "Не чекай настрою — просто почни. Навіть мурашка не чекає, поки її підштовхнуть."
+    - ref: prv 13:4
+      ru: "Лентяй только мечтает, а трудяга получает. Желание без действия так и остаётся мечтой."
+      en: "The lazy just dream; the hard-working actually get it. A wish with no action stays a wish."
+      es: "El perezoso solo sueña; el trabajador consigue. El deseo sin acción se queda en sueño."
+      uk: "Ледар лише мріє, а трудяга отримує. Бажання без дії так і залишається мрією."
+    - ref: prv 12:24
+      ru: "Кто работает — тот растёт, кто ленится — остаётся внизу. Старание тихо открывает двери."
+      en: "Those who work move up; those who slack stay put. Effort quietly opens doors."
+      es: "Quien trabaja sube; quien holgazanea se queda abajo. El esfuerzo abre puertas sin ruido."
+      uk: "Хто працює — той росте, хто лінується — залишається внизу. Старання тихо відчиняє двері."
+    - ref: prv 10:4
+      ru: "Ленивые руки — пустой карман. Кто работает, у того и достаток."
+      en: "Lazy hands, empty pockets. People who work end up with enough."
+      es: "Manos perezosas, bolsillos vacíos. Quien trabaja tiene de sobra."
+      uk: "Ліниві руки — порожня кишеня. Хто працює, у того й достаток."
+    - ref: prv 14:23
+      ru: "От любой работы есть толк, а от пустой болтовни — только убыток. Дело важнее слов."
+      en: "Any work brings something; just talking brings nothing. Doing beats talking."
+      es: "Todo trabajo da algo; la pura charla, nada. Hacer vale más que hablar."
+      uk: "Від будь-якої роботи є користь, а від порожньої балаканини — лише збиток. Діло важливіше за слова."
+    - ref: prv 20:13
+      ru: "Любишь поспать — будешь без денег. Не проспи свой день."
+      en: "Love your sleep too much and you'll stay broke. Don't sleep your day away."
+      es: "Si amas demasiado el sueño, te quedarás sin dinero. No te duermas el día."
+      uk: "Любиш поспати — будеш без грошей. Не проспи свій день."
+    - ref: prv 12:11
+      ru: "Делай своё дело — будешь с хлебом. Гнаться за пустыми мечтами — пустая трата времени."
+      en: "Do your work and you'll have bread. Chasing empty dreams is just wasted time."
+      es: "Haz tu trabajo y tendrás pan. Perseguir sueños vacíos es perder el tiempo."
+      uk: "Роби своє діло — будеш із хлібом. Гнатися за порожніми мріями — марна трата часу."
+    - ref: ec 9:10
+      ru: "Что делаешь — делай хорошо. Сегодняшний день не повторится."
+      en: "Whatever you do, do it well. Today won't come around again."
+      es: "Lo que hagas, hazlo bien. El día de hoy no se repetirá."
+      uk: "Що робиш — роби добре. Сьогоднішній день не повториться."
+  friendship:
+    - ref: prv 17:17
+      ru: "Настоящий друг рядом не только в радости, но и в беде. Будь таким сам."
+      en: "A real friend is there not just in good times but in the hard ones. Be that kind of friend yourself."
+      es: "Un amigo de verdad está no solo en lo bueno, sino también en lo malo. Sé tú ese amigo."
+      uk: "Справжній друг поруч не лише в радості, а й у біді. Будь таким сам."
+    - ref: prv 27:17
+      ru: "Хорошие друзья делают нас лучше. Держись тех, рядом с кем растёшь."
+      en: "Good friends make us better. Stick with people who help you grow."
+      es: "Los buenos amigos nos hacen mejores. Quédate con quienes te hacen crecer."
+      uk: "Хороші друзі роблять нас кращими. Тримайся тих, поруч з ким ростеш."
+    - ref: prv 27:6
+      ru: "Друг скажет правду в лицо, даже если неприятно. Это дороже сладких слов того, кому на тебя плевать."
+      en: "A friend tells you the truth, even when it stings. That beats the sweet talk of someone who doesn't care."
+      es: "Un amigo te dice la verdad, aunque duela. Eso vale más que las lindas palabras de quien no le importas."
+      uk: "Друг скаже правду в очі, навіть якщо неприємно. Це дорожче за солодкі слова того, кому на тебе байдуже."
+    - ref: prv 27:10
+      ru: "Не бросай старых друзей. Дружба как сад: не поливаешь — зарастает."
+      en: "Don't drop old friends. Friendship is like a garden — stop watering it and it grows over."
+      es: "No abandones a los viejos amigos. La amistad es como un jardín: si no la riegas, se llena de maleza."
+      uk: "Не кидай старих друзів. Дружба як сад: не поливаєш — заростає."
+    - ref: prv 27:9
+      ru: "Хороший разговор с другом лечит душу. Иногда это самое ценное, чем можно поделиться."
+      en: "A good talk with a friend heals you. Sometimes that's the most valuable thing you can share."
+      es: "Una buena charla con un amigo cura el alma. A veces es lo más valioso que puedes compartir."
+      uk: "Хороша розмова з другом лікує душу. Іноді це найцінніше, чим можна поділитися."
+    - ref: prv 17:9
+      ru: "Хочешь сохранить дружбу — не вспоминай старые обиды. Кто всё время ими тычет, теряет друзей."
+      en: "Want to keep a friendship? Let old grievances go. People who keep bringing them up lose friends."
+      es: "¿Quieres conservar una amistad? Olvida las viejas ofensas. Quien las repite todo el tiempo pierde amigos."
+      uk: "Хочеш зберегти дружбу — не згадуй старі образи. Хто весь час ними тицяє, втрачає друзів."
+    - ref: prv 16:28
+      ru: "Сплетни разрушают даже крепкую дружбу. Будь тем, кто соединяет людей, а не ссорит."
+      en: "Gossip wrecks even strong friendships. Be the one who brings people together, not the one who splits them."
+      es: "El chisme arruina hasta la amistad más fuerte. Sé de los que unen a la gente, no de los que la enemistan."
+      uk: "Плітки руйнують навіть міцну дружбу. Будь тим, хто з'єднує людей, а не сварить."
+  humility:
+    - ref: prv 16:18
+      ru: "Чем выше задираешь нос, тем больнее падать. Гордость всегда подводит."
+      en: "The higher you hold your nose, the harder you fall. Pride always lets you down."
+      es: "Cuanto más alto levantas la nariz, más dura es la caída. El orgullo siempre te falla."
+      uk: "Чим вище задираєш носа, тим боляче падати. Гордість завжди підводить."
+    - ref: prv 11:2
+      ru: "За гордостью приходит позор, а к скромным — мудрость. Скромность не унижает, а помогает учиться."
+      en: "Pride is followed by embarrassment; the humble get wisdom. Humility doesn't lower you — it helps you learn."
+      es: "Tras el orgullo viene la vergüenza; a los humildes les llega la sabiduría. La humildad no te rebaja, te ayuda a aprender."
+      uk: "За гордістю приходить ганьба, а до скромних — мудрість. Скромність не принижує, а допомагає вчитися."
+    - ref: prv 29:23
+      ru: "Гордеца жизнь опускает, скромного — поднимает. Уважают не тех, кто хвалится."
+      en: "Life brings the proud down and lifts the humble up. People respect those who don't brag."
+      es: "La vida humilla al orgulloso y levanta al sencillo. No se respeta al que se jacta."
+      uk: "Гордія життя опускає, скромного — піднімає. Поважають не тих, хто хизується."
+    - ref: prv 27:2
+      ru: "Пусть тебя хвалят другие, а не ты сам. Хорошее дело говорит само за себя."
+      en: "Let others praise you, not your own mouth. A good deed speaks for itself."
+      es: "Que te alaben otros, no tu propia boca. Una buena obra habla por sí sola."
+      uk: "Нехай тебе хвалять інші, а не ти сам. Добре діло говорить саме за себе."
+    - ref: prv 3:7
+      ru: "Не считай себя умнее всех. Признать, что чего-то не знаешь, — уже умно."
+      en: "Don't think you're smarter than everyone. Admitting you don't know something is already smart."
+      es: "No te creas más listo que todos. Reconocer que no sabes algo ya es de listos."
+      uk: "Не вважай себе розумнішим за всіх. Визнати, що чогось не знаєш, — уже розумно."
+    - ref: prv 18:12
+      ru: "Перед падением человек обычно зазнаётся. А перед успехом умеет быть скромным."
+      en: "People usually get cocky right before a fall. Before real success, they know how to stay humble."
+      es: "La gente suele engreírse justo antes de caer. Antes del verdadero éxito, sabe ser humilde."
+      uk: "Перед падінням людина зазвичай зазнається. А перед успіхом уміє бути скромною."
+    - ref: prv 22:4
+      ru: "Скромность приносит больше, чем гордость. То, чего не добьёшься напором, приходит к тихому человеку."
+      en: "Humility brings more than pride does. What you can't force often comes to a quiet person."
+      es: "La humildad trae más que el orgullo. Lo que no logras a la fuerza suele llegarle a la persona tranquila."
+      uk: "Скромність приносить більше, ніж гордість. Те, чого не доб'єшся напором, приходить до тихої людини."
+  wisdom_fear:
+    - ref: prv 1:7
+      ru: "Всё начинается с уважения к Богу. Без этого даже большие знания теряют главное."
+      en: "It all starts with respect for God. Without that, even great knowledge misses the main thing."
+      es: "Todo empieza con el respeto a Dios. Sin eso, hasta el mayor saber pierde lo esencial."
+      uk: "Усе починається з поваги до Бога. Без цього навіть великі знання втрачають головне."
+    - ref: prv 9:10
+      ru: "Мудрость начинается не с количества знаний, а с того, что ты помнишь о Боге."
+      en: "Wisdom doesn't start with how much you know, but with keeping God in mind."
+      es: "La sabiduría no empieza por cuánto sabes, sino por tener presente a Dios."
+      uk: "Мудрість починається не з кількості знань, а з того, що ти пам'ятаєш про Бога."
+    - ref: prv 15:33
+      ru: "Уважение к Богу учит мудрости. А скромность всегда идёт впереди успеха."
+      en: "Respect for God teaches you wisdom. And humility always comes before success."
+      es: "El respeto a Dios enseña sabiduría. Y la humildad siempre va antes del éxito."
+      uk: "Повага до Бога вчить мудрості. А скромність завжди йде попереду успіху."
+    - ref: prv 3:13
+      ru: "Кто нашёл мудрость — счастливый человек. И она доступна каждому, кто её ищет."
+      en: "Whoever finds wisdom is a lucky person. And it's within reach of anyone who looks for it."
+      es: "Quien halla la sabiduría es afortunado. Y está al alcance de todo el que la busca."
+      uk: "Хто знайшов мудрість — щаслива людина. І вона доступна кожному, хто її шукає."
+    - ref: prv 2:6
+      ru: "Мудрость — это не только то, что ты сам наработал. О ней можно просто попросить Бога."
+      en: "Wisdom isn't only something you build on your own. You can simply ask God for it."
+      es: "La sabiduría no es solo lo que tú mismo logras. Puedes simplemente pedírsela a Dios."
+      uk: "Мудрість — це не лише те, що ти сам напрацював. Про неї можна просто попросити Бога."
+    - ref: prv 14:27
+      ru: "Уважение к Богу удерживает от многих бед. Это не клетка, а защита."
+      en: "Respect for God keeps you out of a lot of trouble. It's not a cage — it's protection."
+      es: "El respeto a Dios te aparta de muchos males. No es una jaula, es protección."
+      uk: "Повага до Бога втримує від багатьох бід. Це не клітка, а захист."
+    - ref: job 28:28
+      ru: "Настоящая мудрость — не всё понять, а довериться Богу и держаться подальше от зла. Иов понял это в самой беде."
+      en: "Real wisdom isn't understanding everything — it's trusting God and steering clear of evil. Job figured that out in the middle of his worst pain."
+      es: "La verdadera sabiduría no es entenderlo todo, sino confiar en Dios y alejarte del mal. Job lo entendió en plena desgracia."
+      uk: "Справжня мудрість — не все зрозуміти, а довіритися Богові й триматися подалі від зла. Йов зрозумів це в самій біді."
+  honesty:
+    - ref: prv 12:22
+      ru: "Ложь отталкивает, правда располагает. Каждый честный шаг важен, даже если его никто не видит."
+      en: "Lies push people away; honesty draws them in. Every honest move matters, even when no one sees it."
+      es: "La mentira aleja; la verdad acerca. Cada paso honesto cuenta, aunque nadie lo vea."
+      uk: "Брехня відштовхує, правда привертає. Кожен чесний крок важливий, навіть якщо його ніхто не бачить."
+    - ref: prv 10:9
+      ru: "Кто живёт честно — живёт спокойно. Кто хитрит — рано или поздно попадётся."
+      en: "Live honestly and you live at peace. Play tricks and sooner or later you'll get caught."
+      es: "Quien vive con honradez vive tranquilo. Quien hace trampas, tarde o temprano cae."
+      uk: "Хто живе чесно — живе спокійно. Хто хитрує — рано чи пізно попадеться."
+    - ref: prv 11:3
+      ru: "Честность ведёт прямо, хитрость заводит в тупик. Честный путь не всегда лёгкий, но без обрыва."
+      en: "Honesty keeps you on track; cunning leads to a dead end. The honest road isn't always easy, but it doesn't drop off a cliff."
+      es: "La honradez lleva derecho; la astucia te mete en un callejón sin salida. El camino honesto no siempre es fácil, pero no te despeña."
+      uk: "Чесність веде прямо, хитрість заводить у глухий кут. Чесний шлях не завжди легкий, але без обриву."
+    - ref: prv 19:1
+      ru: "Лучше быть бедным, но честным, чем богатым лжецом. Человека ценят не по кошельку."
+      en: "Better to be poor and honest than rich and a liar. People aren't worth what's in their wallet."
+      es: "Mejor pobre y honrado que rico y mentiroso. A la persona no se la mide por la cartera."
+      uk: "Краще бути бідним, але чесним, ніж багатим брехуном. Людину цінують не за гаманцем."
+    - ref: prv 28:6
+      ru: "Лучше бедный и честный, чем богатый и нечистый на руку. Важно, как заработано, а не сколько."
+      en: "Better poor and honest than rich and crooked. It's how it was earned that matters, not how much."
+      es: "Mejor pobre y honrado que rico y tramposo. Importa cómo se ganó, no cuánto."
+      uk: "Краще бідний і чесний, ніж багатий і нечистий на руку. Важливо, як зароблено, а не скільки."
+    - ref: prv 11:1
+      ru: "Обманул на мелочи — всё равно обманул. То, что люди прощают себе легко, на самом деле важно."
+      en: "Cheat on something small and it's still cheating. The little dishonesty people excuse in themselves still counts."
+      es: "Engañar en algo pequeño sigue siendo engañar. Lo que la gente se perdona fácil, en realidad importa."
+      uk: "Обманув на дрібниці — все одно обманув. Те, що люди прощають собі легко, насправді важливо."
+    - ref: prv 13:5
+      ru: "Честный человек не выносит вранья. Любовь к правде видна в мелочах."
+      en: "An honest person can't stand lies. Love for the truth shows in the small things."
+      es: "El honesto no soporta la mentira. El amor a la verdad se nota en los detalles."
+      uk: "Чесна людина не виносить брехні. Любов до правди видно в дрібницях."
+  trust_god:
+    - ref: prv 3:5
+      ru: "Ты не можешь всё просчитать — и не надо. Сделай, что в твоих силах, остальное доверь Богу."
+      en: "You can't plan for everything — and you don't have to. Do what you can, and leave the rest to God."
+      es: "No puedes calcularlo todo, y no hace falta. Haz lo que esté en tu mano y deja el resto en manos de Dios."
+      uk: "Ти не можеш усе прорахувати — і не треба. Зроби, що в твоїх силах, решту довір Богові."
+    - ref: prv 3:6
+      ru: "Помни о Боге в обычных делах, не только в трудные минуты. Тогда и путь будет ровнее."
+      en: "Keep God in mind in everyday things, not just the hard moments. The road goes smoother that way."
+      es: "Ten presente a Dios en lo cotidiano, no solo en los momentos duros. Así el camino se hace más llano."
+      uk: "Пам'ятай про Бога в звичайних справах, не лише у важкі хвилини. Тоді й шлях буде рівнішим."
+    - ref: prv 16:9
+      ru: "Планировать — хорошо, но всё под контролем не удержишь. Строй планы, но будь готов их менять."
+      en: "Planning is good, but you can't control everything. Make plans, but be ready to change them."
+      es: "Planear está bien, pero no lo controlas todo. Haz planes, pero prepárate para cambiarlos."
+      uk: "Планувати — добре, але все під контролем не втримаєш. Будуй плани, але будь готовий їх міняти."
+    - ref: prv 16:3
+      ru: "Доверь своё дело Богу — и станет легче. Не тащи всё на себе в одиночку."
+      en: "Hand your plans over to God and it gets lighter. You don't have to carry it all alone."
+      es: "Encomienda a Dios lo que haces y se aligera la carga. No tienes que cargarlo todo tú solo."
+      uk: "Довір свою справу Богові — і стане легше. Не тягни все на собі наодинці."
+    - ref: prv 19:21
+      ru: "У нас куча планов, но всё идёт своим чередом. Это не повод опускать руки, а повод не паниковать."
+      en: "We make tons of plans, but life unfolds its own way. That's no reason to give up — it's a reason not to panic."
+      es: "Hacemos mil planes, pero todo sigue su curso. No es para rendirse, sino para no entrar en pánico."
+      uk: "У нас купа планів, але все йде своїм ходом. Це не привід опускати руки, а привід не панікувати."
+    - ref: prv 18:10
+      ru: "Когда тревожно, есть куда спрятаться — к Богу. Это надёжное укрытие."
+      en: "When you're anxious, there's somewhere to run — to God. It's a safe place."
+      es: "Cuando estás inquieto, hay dónde refugiarse: en Dios. Es un lugar seguro."
+      uk: "Коли тривожно, є куди сховатися — до Бога. Це надійний прихисток."
+    - ref: prv 29:25
+      ru: "Страх «что обо мне подумают» загоняет в ловушку. Меньше оглядывайся на чужое мнение."
+      en: "The fear of what people think traps you. Stop checking yourself against everyone's opinion so much."
+      es: "El miedo al 'qué dirán' es una trampa. Pendiente menos de la opinión de los demás."
+      uk: "Страх «що про мене подумають» заганяє в пастку. Менше озирайся на чужу думку."
+  time_meaning:
+    - ref: ec 3:1
+      ru: "Всему своё время. Если сейчас тяжело — это тоже пройдёт."
+      en: "Everything has its time. If it's hard right now, this will pass too."
+      es: "Todo tiene su momento. Si ahora cuesta, esto también pasará."
+      uk: "Усьому свій час. Якщо зараз важко — це теж мине."
+    - ref: ec 3:11
+      ru: "Внутри нас есть тяга к чему-то большему, и поэтому ничто земное не насыщает до конца. Это нормально."
+      en: "There's a pull inside us toward something bigger, so nothing here fully satisfies. That's normal."
+      es: "Llevamos dentro un anhelo de algo más grande, por eso nada de aquí llena del todo. Es normal."
+      uk: "Усередині нас є потяг до чогось більшого, і тому ніщо земне не насичує до кінця. Це нормально."
+    - ref: ec 7:8
+      ru: "Конец дела важнее его начала. Не суди по первым шагам — лучшее бывает в конце."
+      en: "How something ends matters more than how it starts. Don't judge by the first steps — the best can come at the end."
+      es: "Importa más cómo acaba algo que cómo empieza. No juzgues por los primeros pasos: lo mejor puede venir al final."
+      uk: "Кінець справи важливіший за її початок. Не суди за першими кроками — найкраще буває в кінці."
+    - ref: ec 12:13
+      ru: "Если коротко: уважай Бога и поступай по совести. Вот и весь смысл."
+      en: "In short: respect God and do the right thing. That's the whole point."
+      es: "En resumen: respeta a Dios y obra con conciencia. Ese es todo el sentido."
+      uk: "Якщо коротко: поважай Бога й чини по совісті. Ось і весь сенс."
+    - ref: ec 8:15
+      ru: "Умей радоваться простому — еде, отдыху, своему делу. Это тоже подарок."
+      en: "Learn to enjoy the simple stuff — food, rest, your work. That's a gift too."
+      es: "Aprende a disfrutar lo sencillo: la comida, el descanso, tu trabajo. Eso también es un regalo."
+      uk: "Умій радіти простому — їжі, відпочинку, своїй справі. Це теж подарунок."
+    - ref: ec 3:12
+      ru: "Нет ничего лучше, чем радоваться жизни и делать добро. Это не мелочь, это и есть жизнь."
+      en: "There's nothing better than enjoying life and doing good. That's not a small thing — that's what life is."
+      es: "No hay nada mejor que disfrutar la vida y hacer el bien. No es poca cosa: eso es la vida."
+      uk: "Немає нічого кращого, ніж радіти життю й робити добро. Це не дрібниця, це і є життя."
+    - ref: ec 7:14
+      ru: "В хорошие дни радуйся, в плохие — подумай. И то, и другое для чего-то нужно."
+      en: "On good days, enjoy them; on bad days, reflect. Both are there for a reason."
+      es: "En los días buenos, disfruta; en los malos, reflexiona. Ambos sirven para algo."
+      uk: "У хороші дні радій, у погані — подумай. І те, й інше для чогось потрібне."
+    - ref: ec 9:7
+      ru: "Ешь с удовольствием, отдыхай с лёгким сердцем. Уметь радоваться обычному — тоже важно."
+      en: "Eat with pleasure, rest with an easy heart. Knowing how to enjoy ordinary things matters too."
+      es: "Come con gusto, descansa con el corazón ligero. Saber disfrutar lo común también importa."
+      uk: "Їж із задоволенням, відпочивай із легким серцем. Уміти радіти звичайному — теж важливо."
+  endurance:
+    - ref: job 1:21
+      ru: "Иногда мы теряем то, что любим. Злость на весь мир потерю не вернёт, а умение отпустить помогает жить дальше. Так сделал Иов, потеряв всё."
+      en: "Sometimes we lose what we love. Being angry at the whole world won't bring it back, but learning to let go helps you go on. That's what Job did when he lost everything."
+      es: "A veces perdemos lo que amamos. Enojarse con el mundo no lo devuelve, pero saber soltar ayuda a seguir. Eso hizo Job al perderlo todo."
+      uk: "Іноді ми втрачаємо те, що любимо. Злість на весь світ втрату не поверне, а вміння відпустити допомагає жити далі. Так зробив Йов, втративши все."
+    - ref: job 19:25
+      ru: "Даже когда всё рухнуло, Иов держался за одно: «я знаю, что не один». Эта надежда не зависит от того, как идут дела."
+      en: "Even when everything fell apart, Job held on to one thing: 'I know I'm not alone.' That hope doesn't depend on how things are going."
+      es: "Aun cuando todo se vino abajo, Job se aferró a una cosa: 'sé que no estoy solo.' Esa esperanza no depende de cómo van las cosas."
+      uk: "Навіть коли все обвалилося, Йов тримався за одне: «я знаю, що не сам». Ця надія не залежить від того, як ідуть справи."
+    - ref: job 23:10
+      ru: "Трудности не ломают, а закаляют. Иов верил: пройду через это — стану крепче, как золото после огня."
+      en: "Hard times don't break you — they toughen you. Job believed: I'll come through this stronger, like gold after fire."
+      es: "Las dificultades no te rompen, te templan. Job creía: saldré de esto más fuerte, como el oro tras el fuego."
+      uk: "Труднощі не ламають, а загартовують. Йов вірив: пройду через це — стану міцнішим, як золото після вогню."
+    - ref: job 5:17
+      ru: "Иногда то, что бьёт по нам, на деле учит. Не спеши злиться на трудности — в них бывает польза."
+      en: "Sometimes what hits us is actually teaching us. Don't be quick to resent hard times — there can be something good in them."
+      es: "A veces lo que nos golpea en realidad nos enseña. No te apresures a odiar las dificultades: pueden traer algo bueno."
+      uk: "Іноді те, що б'є по нас, насправді вчить. Не поспішай злитися на труднощі — у них буває користь."
+    - ref: job 13:15
+      ru: "Иов потерял всё, но не отвернулся от Бога. Настоящая вера — это когда держишься, даже когда тяжело."
+      en: "Job lost everything but didn't turn away from God. Real faith is holding on even when it's hard."
+      es: "Job lo perdió todo, pero no le dio la espalda a Dios. La fe de verdad es aguantar aun cuando cuesta."
+      uk: "Йов втратив усе, але не відвернувся від Бога. Справжня віра — це коли тримаєшся, навіть коли важко."
+    - ref: prv 24:16
+      ru: "Хороший человек падает и встаёт снова. Дело не в падении, а в том, что ты поднимаешься."
+      en: "A good person falls and gets back up. It's not the fall that counts — it's that you stand up again."
+      es: "Una buena persona cae y se vuelve a levantar. No cuenta la caída, sino que te levantes de nuevo."
+      uk: "Хороша людина падає і встає знову. Справа не в падінні, а в тому, що ти підіймаєшся."
+    - ref: prv 24:10
+      ru: "Опустил руки в беде — значит, сил пока мало. Но их можно набрать. Трудности показывают, где надо окрепнуть."
+      en: "If you give up when things go bad, your strength is still small. But you can build it. Hard times show you where to get stronger."
+      es: "Si te rindes en la adversidad, tu fuerza aún es poca. Pero puedes ganarla. Las dificultades te muestran dónde fortalecerte."
+      uk: "Опустив руки в біді — отже, сил поки мало. Але їх можна набрати. Труднощі показують, де треба зміцніти."
+  kindness:
+    - ref: prv 19:17
+      ru: "Помог тому, кому трудно — это не пропадёт. Добро всегда возвращается."
+      en: "Help someone who's struggling and it won't go to waste. Kindness always comes back."
+      es: "Ayuda a quien lo pasa mal y no se perderá. La bondad siempre vuelve."
+      uk: "Допоміг тому, кому важко — це не пропаде. Добро завжди повертається."
+    - ref: prv 11:25
+      ru: "Кто щедр к другим, сам не останется в минусе. Отдавая, мы не пустеем."
+      en: "Be generous with others and you won't end up short. Giving doesn't leave you empty."
+      es: "Quien es generoso con los demás no se queda corto. Al dar no nos vaciamos."
+      uk: "Хто щедрий до інших, сам не залишиться в мінусі. Віддаючи, ми не порожніємо."
+    - ref: prv 21:21
+      ru: "Добро, которое ты делаешь, возвращается к тебе. Не всегда сразу — но возвращается."
+      en: "The good you do comes back to you. Not always right away — but it does."
+      es: "El bien que haces te vuelve. No siempre enseguida, pero vuelve."
+      uk: "Добро, яке ти робиш, повертається до тебе. Не завжди одразу — але повертається."
+    - ref: prv 14:31
+      ru: "Обидел слабого — поступил подло. Помог нуждающемуся — поступил по-человечески."
+      en: "Step on the weak and you've done something low. Help someone in need and you've done something human."
+      es: "Pisotear al débil es una bajeza. Ayudar al necesitado es ser humano."
+      uk: "Образив слабкого — вчинив підло. Допоміг нужденному — вчинив по-людськи."
+    - ref: prv 3:27
+      ru: "Можешь помочь — помоги сейчас, не откладывай. Часто помощь нужна именно сегодня."
+      en: "If you can help, help now — don't put it off. Often help is needed today, not tomorrow."
+      es: "Si puedes ayudar, ayuda ahora, no lo dejes para luego. Muchas veces la ayuda hace falta hoy."
+      uk: "Можеш допомогти — допоможи зараз, не відкладай. Часто допомога потрібна саме сьогодні."
+    - ref: prv 14:21
+      ru: "Смотреть свысока на других — стыдно. Помогать тем, кому трудно, — правильно."
+      en: "Looking down on others is shameful. Helping those who are struggling is the right thing."
+      es: "Mirar a los demás por encima del hombro es vergonzoso. Ayudar a quien sufre es lo correcto."
+      uk: "Дивитися згорда на інших — соромно. Допомагати тим, кому важко, — правильно."
+    - ref: prv 22:9
+      ru: "Кто делится с другими, тот живёт счастливее. Щедрость — это про открытость, а не про сумму."
+      en: "People who share live happier. Generosity is about being open, not about the amount."
+      es: "Quien comparte vive más feliz. La generosidad es cuestión de apertura, no de cantidad."
+      uk: "Хто ділиться з іншими, той живе щасливіше. Щедрість — це про відкритість, а не про суму."
+    - ref: prv 28:27
+      ru: "Кто помогает другим — не обеднеет. Жадность, наоборот, оставляет ни с чем."
+      en: "Help others and you won't go without. Stinginess is what leaves you with nothing."
+      es: "Quien ayuda a otros no quedará en la miseria. La avaricia, en cambio, te deja sin nada."
+      uk: "Хто допомагає іншим — не збідніє. Жадібність, навпаки, залишає ні з чим."
+  planning:
+    - ref: prv 15:22
+      ru: "Без совета планы рушатся. Не стесняйся спрашивать у тех, кто разбирается."
+      en: "Plans fall apart without advice. Don't be shy about asking people who know."
+      es: "Sin consejo, los planes se caen. No te dé vergüenza preguntar a quien sabe."
+      uk: "Без поради плани руйнуються. Не соромся питати в тих, хто розбирається."
+    - ref: prv 11:14
+      ru: "Один в поле не воин. Совет других часто спасает от ошибок."
+      en: "You can't do it all alone. Other people's input often saves you from mistakes."
+      es: "Solo no llegas lejos. El consejo de otros muchas veces te libra de errores."
+      uk: "Один у полі не воїн. Порада інших часто рятує від помилок."
+    - ref: prv 20:18
+      ru: "Важные решения не принимай впопыхах. Сначала подумай и посоветуйся."
+      en: "Don't make big decisions in a rush. Think it over and ask around first."
+      es: "No tomes decisiones importantes con prisa. Primero piénsalo y pide consejo."
+      uk: "Важливі рішення не приймай похапцем. Спершу подумай і порадься."
+    - ref: prv 16:1
+      ru: "Планируй, но будь готов, что жизнь внесёт поправки. Не всё в наших руках."
+      en: "Plan, but be ready for life to tweak it. Not everything is in our hands."
+      es: "Planea, pero prepárate para que la vida lo ajuste. No todo está en nuestras manos."
+      uk: "Плануй, але будь готовий, що життя внесе поправки. Не все в наших руках."
+    - ref: prv 19:20
+      ru: "Слушай советы и не отмахивайся от критики. Сегодня послушал — завтра поумнел."
+      en: "Listen to advice and don't brush off criticism. Hear it today, get wiser tomorrow."
+      es: "Escucha consejos y no rechaces la crítica. Lo que oyes hoy te hace más sabio mañana."
+      uk: "Слухай поради й не відмахуйся від критики. Сьогодні послухав — завтра порозумнішав."
+    - ref: prv 24:3
+      ru: "И дом, и семья строятся не на эмоциях, а на уме и терпении. Спешка тут только мешает."
+      en: "A house and a family are built on sense and patience, not on emotion. Rushing only gets in the way."
+      es: "Tanto una casa como una familia se construyen con cabeza y paciencia, no con emoción. Las prisas solo estorban."
+      uk: "І дім, і сім'я будуються не на емоціях, а на розумі й терпінні. Поспіх тут лише заважає."
+  family:
+    - ref: prv 1:8
+      ru: "Не отмахивайся от советов родителей. За ними часто стоит любовь, которую понимаешь позже."
+      en: "Don't wave off your parents' advice. There's often love behind it that you only get later."
+      es: "No descartes los consejos de tus padres. Detrás suele haber un amor que entiendes más tarde."
+      uk: "Не відмахуйся від порад батьків. За ними часто стоїть любов, яку розумієш пізніше."
+    - ref: prv 17:6
+      ru: "Семья — это связь поколений. Старики гордятся внуками, дети — родителями."
+      en: "Family is a link between generations. Grandparents are proud of the grandkids, kids of their parents."
+      es: "La familia une generaciones. Los mayores se enorgullecen de los nietos, los hijos de sus padres."
+      uk: "Сім'я — це зв'язок поколінь. Старі пишаються онуками, діти — батьками."
+    - ref: prv 31:10
+      ru: "Верный и добрый человек рядом — это богатство, которое не купишь."
+      en: "A faithful, kind person by your side is wealth money can't buy."
+      es: "Tener al lado a alguien fiel y bueno es una riqueza que no se compra."
+      uk: "Вірна й добра людина поруч — це багатство, якого не купиш."
+    - ref: prv 23:22
+      ru: "Не забывай родителей, особенно когда они стареют. Любовь к ним не заканчивается, когда вырос."
+      en: "Don't forget your parents, especially as they get older. Loving them doesn't end when you grow up."
+      es: "No olvides a tus padres, sobre todo cuando envejecen. El cariño hacia ellos no termina cuando creces."
+      uk: "Не забувай батьків, особливо коли вони старіють. Любов до них не закінчується, коли виріс."
+    - ref: prv 20:7
+      ru: "Лучшее, что можно оставить детям, — не деньги, а честный пример. Дети это перенимают."
+      en: "The best thing you can leave your kids isn't money — it's an honest example. Kids pick that up."
+      es: "Lo mejor que puedes dejar a tus hijos no es dinero, sino un ejemplo honesto. Los hijos lo imitan."
+      uk: "Найкраще, що можна залишити дітям, — не гроші, а чесний приклад. Діти це переймають."
+    - ref: prv 31:28
+      ru: "Тихая забота однажды возвращается тёплыми словами благодарности. Её замечают, даже если молчат."
+      en: "Quiet care eventually comes back as warm words of thanks. People notice it, even if they stay silent."
+      es: "El cuidado callado un día vuelve en cálidas palabras de gratitud. Lo notan, aunque no lo digan."
+      uk: "Тиха турбота колись повертається теплими словами вдячності. Її помічають, навіть якщо мовчать."
+    - ref: prv 13:24
+      ru: "Любить ребёнка — это не только обнимать, но и вовремя поправить. Без границ любви не бывает."
+      en: "Loving a child isn't just hugs — it's also correcting them in time. There's no love without boundaries."
+      es: "Amar a un hijo no es solo abrazarlo, también corregirlo a tiempo. No hay amor sin límites."
+      uk: "Любити дитину — це не лише обіймати, а й вчасно поправити. Без меж любові не буває."
+  guarding_heart:
+    - ref: prv 4:23
+      ru: "Следи за тем, что впускаешь в себя — мысли, людей, привычки. Из этого потом и складывается жизнь."
+      en: "Watch what you let in — thoughts, people, habits. That's what your life ends up being made of."
+      es: "Cuida lo que dejas entrar: pensamientos, personas, hábitos. De eso se acaba haciendo tu vida."
+      uk: "Стеж за тим, що впускаєш у себе — думки, людей, звички. З цього потім і складається життя."
+    - ref: prv 4:25
+      ru: "Держи цель перед глазами. Когда знаешь, куда идёшь, меньше плутаешь."
+      en: "Keep your goal in sight. When you know where you're going, you wander less."
+      es: "Mantén la meta a la vista. Cuando sabes a dónde vas, te pierdes menos."
+      uk: "Тримай мету перед очима. Коли знаєш, куди йдеш, менше блукаєш."
+    - ref: prv 4:26
+      ru: "Иногда стоит остановиться и спросить: куда меня ведёт привычная дорога? Не туда — поверни."
+      en: "Now and then it's worth stopping to ask: where is my usual path actually taking me? If it's the wrong way, turn."
+      es: "De vez en cuando vale la pena parar y preguntar: ¿a dónde me lleva el camino de siempre? Si no es bueno, gira."
+      uk: "Іноді варто спинитися й запитати: куди мене веде звична дорога? Не туди — поверни."
+    - ref: prv 21:2
+      ru: "Себе мы всегда кажемся правыми. Полезно честно проверить свои настоящие мотивы."
+      en: "We always look right to ourselves. It helps to be honest about what's really driving you."
+      es: "A uno mismo siempre le parece tener razón. Conviene revisar con honestidad tus verdaderos motivos."
+      uk: "Собі ми завжди здаємося правими. Корисно чесно перевірити свої справжні мотиви."
+    - ref: prv 16:2
+      ru: "Легко убедить себя, что всё делаешь правильно. Бог видит, что на самом деле движет тобой."
+      en: "It's easy to convince yourself you're doing everything right. God sees what's really driving you."
+      es: "Es fácil convencerte de que lo haces todo bien. Dios ve lo que de verdad te mueve."
+      uk: "Легко переконати себе, що все робиш правильно. Бог бачить, що насправді рухає тобою."
+  learning:
+    - ref: prv 9:9
+      ru: "Умному подскажешь — станет ещё умнее. Готовность учиться — признак силы, а не слабости."
+      en: "Give a smart person a tip and they get even smarter. Being willing to learn is a sign of strength, not weakness."
+      es: "Al listo le das una pista y se vuelve más listo. Estar dispuesto a aprender es señal de fuerza, no de debilidad."
+      uk: "Розумному підкажеш — стане ще розумнішим. Готовність учитися — ознака сили, а не слабкості."
+    - ref: prv 12:1
+      ru: "Кто принимает замечания — растёт, кто их терпеть не может — застревает. Критика бывает полезной."
+      en: "People who take feedback grow; those who can't stand it get stuck. Criticism can actually help."
+      es: "Quien acepta las correcciones crece; quien no las soporta se estanca. La crítica a veces ayuda."
+      uk: "Хто приймає зауваження — росте, хто їх терпіти не може — застрягає. Критика буває корисною."
+    - ref: prv 18:15
+      ru: "Умные люди не перестают учиться. Они учатся не ради оценок, а для жизни."
+      en: "Smart people never stop learning. They learn not for grades but for life."
+      es: "La gente inteligente nunca deja de aprender. Aprende no por las notas, sino para la vida."
+      uk: "Розумні люди не перестають учитися. Вони вчаться не заради оцінок, а для життя."
+    - ref: prv 1:5
+      ru: "Даже когда много знаешь, всегда есть чему поучиться. Умный это понимает."
+      en: "Even when you know a lot, there's always more to learn. Smart people get that."
+      es: "Aunque sepas mucho, siempre hay algo más que aprender. El listo lo entiende."
+      uk: "Навіть коли багато знаєш, завжди є чого повчитися. Розумний це розуміє."
+    - ref: prv 15:32
+      ru: "Отмахиваешься от замечаний — вредишь себе. Иногда резкое слово — это подсказка, которую не сразу оценишь."
+      en: "Brush off feedback and you're hurting yourself. Sometimes a blunt word is a tip you don't appreciate right away."
+      es: "Si ignoras las correcciones, te haces daño. A veces una palabra dura es un consejo que no valoras al instante."
+      uk: "Відмахуєшся від зауважень — шкодиш собі. Іноді різке слово — це підказка, яку не одразу оціниш."
+    - ref: prv 19:8
+      ru: "Развиваться — значит заботиться о себе. Учиться — это вложение в свою же жизнь."
+      en: "Growing is a way of taking care of yourself. Learning is an investment in your own life."
+      es: "Crecer es cuidar de ti mismo. Aprender es invertir en tu propia vida."
+      uk: "Розвиватися — означає дбати про себе. Учитися — це вкладення у власне життя."
+    - ref: prv 13:20
+      ru: "С кем поведёшься — от того и наберёшься. Окружение тихо делает нас такими же."
+      en: "You become like the people you hang out with. Your circle quietly shapes you."
+      es: "Te vuelves como aquellos con quienes andas. El entorno te moldea sin que te des cuenta."
+      uk: "З ким поведешся — від того й наберешся. Оточення тихо робить нас такими ж."
+  self_control:
+    - ref: prv 21:17
+      ru: "Живёшь только ради удовольствий — останешься ни с чем. Свобода не в том, чтобы ни в чём себе не отказывать, а в том, чтобы держать себя в руках."
+      en: "Live only for pleasure and you'll end up with nothing. Freedom isn't denying yourself nothing — it's keeping yourself in check."
+      es: "Vive solo por el placer y te quedarás sin nada. La libertad no es no negarte nada, sino saber controlarte."
+      uk: "Живеш лише заради задоволень — залишишся ні з чим. Свобода не в тому, щоб ні в чому собі не відмовляти, а в тому, щоб тримати себе в руках."
+    - ref: prv 14:16
+      ru: "Умный осторожен, глупый прёт напролом. Осторожность — это не страх, а здравый смысл."
+      en: "The smart are careful; fools just barge ahead. Caution isn't fear — it's common sense."
+      es: "El listo es cauto; el necio va de frente sin pensar. La cautela no es miedo, es sentido común."
+      uk: "Розумний обережний, дурний пре напролом. Обережність — це не страх, а здоровий глузд."
+    - ref: prv 23:20
+      ru: "Не залипай в компаниях, где только пьют и едят без меры. Это бьёт и по здоровью, и по голове."
+      en: "Don't get stuck in crowds where it's all drinking and overeating. It hits both your health and your head."
+      es: "No te quedes en grupos donde solo se bebe y se come sin medida. Eso golpea la salud y la cabeza."
+      uk: "Не залипай у компаніях, де тільки п'ють і їдять без міри. Це б'є і по здоров'ю, і по голові."
+    - ref: prv 20:1
+      ru: "Алкоголь обещает веселье, а потом тихо берёт над тобой власть. Будь умнее."
+      en: "Alcohol promises a good time, then quietly takes control of you. Be smarter than that."
+      es: "El alcohol promete diversión y luego, sin ruido, te domina. Sé más listo que eso."
+      uk: "Алкоголь обіцяє веселощі, а потім тихо бере над тобою владу. Будь розумнішим."
+    - ref: prv 13:3
+      ru: "Следишь за языком — меньше проблем. Болтаешь лишнее — сам себе создаёшь беду."
+      en: "Watch your mouth and you'll have fewer problems. Say too much and you make trouble for yourself."
+      es: "Cuida tu boca y tendrás menos problemas. Habla de más y te buscas líos tú solo."
+      uk: "Стежиш за язиком — менше проблем. Бовкаєш зайве — сам собі створюєш біду."

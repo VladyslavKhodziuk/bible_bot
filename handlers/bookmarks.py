@@ -174,12 +174,16 @@ async def _refresh_source_screen(
     return_to: 'vod' — стих дня, 'rnd' — рандом
     """
     # Импорты внутри функции, чтобы избежать циклических зависимостей
-    from handlers.verse import show_verse_of_day, show_random_verse
+    from handlers.verse import show_verse_of_day, show_random_verse, show_wisdom_of_day
 
     if return_to == "vod":
         # Симулируем повторный вход в "стих дня"
         callback.data = "verse_of_day"
         await show_verse_of_day(callback)
+    elif return_to == "wis":
+        # Мудрость дня детерминирована по дате — повторный вход покажет тот же стих
+        callback.data = "wisdom"
+        await show_wisdom_of_day(callback)
     elif return_to == "rnd":
         # Для рандома — просто перерисуем тот же стих, не новый
         # Для этого мы должны передать те же abbrev/chapter/verse

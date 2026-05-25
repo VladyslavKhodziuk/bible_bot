@@ -161,6 +161,60 @@ async def show_random_verse(callback: CallbackQuery):
     await _send_streak_extras(callback, streak_result, lang)
 
 
+@router.callback_query(F.data == "wisdom")
+async def show_wisdom_of_day(callback: CallbackQuery):
+    """Мудрость дня — практический стих из книг премудрости, один на сутки.
+    Засчитывает день серии."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+    translation = user.translation if user else "ru_synodal"
+
+    verse = BibleService.get_wisdom_of_day(translation, lang)
+    if not verse:
+        await callback.answer("⚠️", show_alert=True)
+        return
+
+    # Засчитываем день серии
+    streak_result = await StreakService.touch(callback.from_user.id)
+
+    is_bm = await BookmarkService.is_bookmarked(
+        callback.from_user.id, verse["abbrev"], verse["chapter"], verse["verse"]
+    )
+
+    theme_name = t(f"wisdom.theme.{verse['theme']}", lang)
+    book_name = BibleService.get_book_name(verse["abbrev"], lang)
+    reference = f"{book_name} {verse['chapter']}:{verse['verse']}"
+
+    # Заголовок + тема, затем сразу стих в цитате (как карточка стиха дня).
+    parts = [
+        t("wisdom.title", lang),
+        t("wisdom.theme_line", lang, theme=theme_name),
+        "",
+        f"<blockquote>«{verse['text']}»\n<i>{reference}</i></blockquote>",
+    ]
+    # Отступ, чтобы размышление не сливалось со стихом
+    if verse.get("reflection"):
+        parts.append("")
+        parts.append(verse["reflection"])
+    # Серия — в самый низ, чтобы не разрывать тему и стих
+    streak_line = format_streak_indicator(streak_result.current_streak, lang)
+    if streak_line:
+        parts.append("")
+        parts.append(streak_line)
+    text = "\n".join(parts)
+
+    await callback.message.edit_text(
+        text,
+        reply_markup=_build_verse_keyboard(
+            verse["abbrev"], verse["chapter"], verse["verse"],
+            lang, is_bm, return_to="wis", show_another=False,
+        )
+    )
+    await callback.answer()
+
+    await _send_streak_extras(callback, streak_result, lang)
+
+
 @router.callback_query(F.data == "streak:onboarding_done")
 async def close_streak_onboarding(callback: CallbackQuery):
     """Закрыть онбординг про серии — удаляем сообщение."""
