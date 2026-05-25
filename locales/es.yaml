@@ -197,6 +197,8 @@ verse:
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Otro"
   open_chapter: "📖 Abrir capítulo"
+  share: "📤 Compartir"
+  share_footer: "📖 Bible Way — lee la Palabra cada día"
 
 topics:
   title: "<b>💭 ¿Cómo te sientes ahora?</b>\n\nElige, y te buscaré palabras de la Escritura:"

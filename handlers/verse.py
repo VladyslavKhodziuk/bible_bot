@@ -1,3 +1,6 @@
+import re
+import urllib.parse
+
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -11,6 +14,43 @@ from services.i18n import t
 from keyboards.bookmarks import bookmark_toggle_button
 
 router = Router()
+
+# Username бота кэшируется после первого get_me() — нужен для ссылки в шаринге.
+_bot_username: str | None = None
+
+
+async def _get_bot_username(bot) -> str:
+    global _bot_username
+    if _bot_username is None:
+        me = await bot.get_me()
+        _bot_username = me.username
+    return _bot_username
+
+
+def _strip_html(s: str) -> str:
+    """Убирает HTML-теги — для plain-text заголовка в шаринге."""
+    return re.sub(r"<[^>]+>", "", s)
+
+
+def _build_share_text(
+    verse: dict,
+    reference: str,
+    lang: str,
+    header: str,
+    reflection: str | None = None,
+) -> str:
+    """Plain-text карточки для пересылки (t.me/share/url не сохраняет HTML)."""
+    lines = [header, "", f"«{verse['text']}»", f"— {reference}"]
+    if reflection:
+        lines += ["", reflection]
+    lines += ["", t("verse.share_footer", lang)]
+    return "\n".join(lines)
+
+
+def _build_share_url(share_text: str, bot_username: str) -> str:
+    bot_url = f"https://t.me/{bot_username}"
+    params = urllib.parse.urlencode({"url": bot_url, "text": share_text})
+    return f"https://t.me/share/url?{params}"
 
 
 def _format_verse(verse: dict, lang: str) -> str:
@@ -34,27 +74,39 @@ def _build_verse_keyboard(
     is_bookmarked: bool,
     return_to: str,
     show_another: bool = False,
+    share_url: str | None = None,
 ) -> InlineKeyboardMarkup:
     """Клавиатура под стихом (дня или рандомом)."""
     builder = InlineKeyboardBuilder()
+    rows = []
 
     bm_text, bm_cb = bookmark_toggle_button(
         abbrev, chapter, verse_num, is_bookmarked, lang, return_to
     )
     builder.button(text=bm_text, callback_data=bm_cb)
 
+    # «Поделиться» — в одном ряду с закладкой
+    if share_url:
+        builder.button(text=t("verse.share", lang), url=share_url)
+        rows.append(2)
+    else:
+        rows.append(1)
+
     if show_another:
         builder.button(text=t("verse.another", lang), callback_data="random")
+        rows.append(1)
 
     builder.button(
         text=t("verse.open_chapter", lang),
         callback_data=f"read:ch:{abbrev}:{chapter}"
     )
+    rows.append(1)
     builder.button(
         text=t("common.back_to_menu", lang),
         callback_data="open_menu"
     )
-    builder.adjust(1)
+    rows.append(1)
+    builder.adjust(*rows)
     return builder.as_markup()
 
 
@@ -117,11 +169,21 @@ async def show_verse_of_day(callback: CallbackQuery):
     parts.append(_format_verse(verse, lang))
     text = "\n".join(parts)
 
+    book_name = BibleService.get_book_name(verse["abbrev"], lang)
+    reference = f"{book_name} {verse['chapter']}:{verse['verse']}"
+    share_text = _build_share_text(
+        verse, reference, lang, _strip_html(t("verse.of_day_title", lang))
+    )
+    share_url = _build_share_url(
+        share_text, await _get_bot_username(callback.bot)
+    )
+
     await callback.message.edit_text(
         text,
         reply_markup=_build_verse_keyboard(
             verse["abbrev"], verse["chapter"], verse["verse"],
             lang, is_bm, return_to="vod", show_another=False,
+            share_url=share_url,
         )
     )
     await callback.answer()
@@ -149,11 +211,21 @@ async def show_random_verse(callback: CallbackQuery):
 
     text = f"{t('verse.random_title', lang)}\n\n{_format_verse(verse, lang)}"
 
+    book_name = BibleService.get_book_name(verse["abbrev"], lang)
+    reference = f"{book_name} {verse['chapter']}:{verse['verse']}"
+    share_text = _build_share_text(
+        verse, reference, lang, _strip_html(t("verse.random_title", lang))
+    )
+    share_url = _build_share_url(
+        share_text, await _get_bot_username(callback.bot)
+    )
+
     await callback.message.edit_text(
         text,
         reply_markup=_build_verse_keyboard(
             verse["abbrev"], verse["chapter"], verse["verse"],
             lang, is_bm, return_to="rnd", show_another=True,
+            share_url=share_url,
         )
     )
     await callback.answer()
@@ -203,11 +275,20 @@ async def show_wisdom_of_day(callback: CallbackQuery):
         parts.append(streak_line)
     text = "\n".join(parts)
 
+    share_header = f"{_strip_html(t('wisdom.title', lang))} — {theme_name}"
+    share_text = _build_share_text(
+        verse, reference, lang, share_header, reflection=verse.get("reflection")
+    )
+    share_url = _build_share_url(
+        share_text, await _get_bot_username(callback.bot)
+    )
+
     await callback.message.edit_text(
         text,
         reply_markup=_build_verse_keyboard(
             verse["abbrev"], verse["chapter"], verse["verse"],
             lang, is_bm, return_to="wis", show_another=False,
+            share_url=share_url,
         )
     )
     await callback.answer()

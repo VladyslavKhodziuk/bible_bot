@@ -185,13 +185,17 @@ async def _refresh_source_screen(
         callback.data = "wisdom"
         await show_wisdom_of_day(callback)
     elif return_to == "rnd":
-        # Для рандома — просто перерисуем тот же стих, не новый
-        # Для этого мы должны передать те же abbrev/chapter/verse
-        # Делаем через специальный callback, который покажет именно этот стих
+        # Для рандома — перерисуем тот же стих, не новый, передавая те же
+        # abbrev/chapter/verse (повторный вход в "random" дал бы новый стих).
         from services.bible_service import BibleService
         from services.i18n import t as _t
-        from keyboards.bookmarks import bookmark_toggle_button
-        from aiogram.utils.keyboard import InlineKeyboardBuilder
+        from handlers.verse import (
+            _build_verse_keyboard,
+            _build_share_text,
+            _build_share_url,
+            _get_bot_username,
+            _strip_html,
+        )
 
         user = await UserService.get(callback.from_user.id)
         lang = user.lang if user else "ru"
@@ -205,21 +209,22 @@ async def _refresh_source_screen(
         is_bm = await BookmarkService.is_bookmarked(
             callback.from_user.id, abbrev, chapter, verse
         )
-        bm_text, bm_cb = bookmark_toggle_button(
-            abbrev, chapter, verse, is_bm, lang, "rnd"
+
+        verse_dict = {
+            "abbrev": abbrev, "chapter": chapter, "verse": verse, "text": text_verse,
+        }
+        share_text = _build_share_text(
+            verse_dict, f"{book_name} {chapter}:{verse}", lang,
+            _strip_html(_t("verse.random_title", lang)),
+        )
+        share_url = _build_share_url(
+            share_text, await _get_bot_username(callback.bot)
         )
 
-        builder = InlineKeyboardBuilder()
-        builder.button(text=bm_text, callback_data=bm_cb)
-        builder.button(text=_t("verse.another", lang), callback_data="random")
-        builder.button(
-            text=_t("verse.open_chapter", lang),
-            callback_data=f"read:ch:{abbrev}:{chapter}"
+        await callback.message.edit_text(
+            text,
+            reply_markup=_build_verse_keyboard(
+                abbrev, chapter, verse, lang, is_bm,
+                return_to="rnd", show_another=True, share_url=share_url,
+            )
         )
-        builder.button(
-            text=_t("common.back_to_menu", lang),
-            callback_data="open_menu"
-        )
-        builder.adjust(1)
-
-        await callback.message.edit_text(text, reply_markup=builder.as_markup())

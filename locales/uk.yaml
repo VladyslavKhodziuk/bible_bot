@@ -160,6 +160,8 @@ verse:
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Ще один"
   open_chapter: "📖 Відкрити розділ"
+  share: "📤 Поділитися"
+  share_footer: "📖 Bible Way — читай Слово щодня"
 
 topics:
   title: "<b>💭 Як ти зараз почуваєшся?</b>\n\nОбери, і я підберу для тебе слова зі Святого Письма:"

@@ -194,6 +194,8 @@ verse:
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Another one"
   open_chapter: "📖 Open chapter"
+  share: "📤 Share"
+  share_footer: "📖 Bible Way — read the Word every day"
 
 topics:
   title: "<b>💭 How do you feel right now?</b>\n\nChoose, and I'll find words from Scripture for you:"
