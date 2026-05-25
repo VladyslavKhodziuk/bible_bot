@@ -44,6 +44,7 @@ def _after_answer_keyboard(lang: str, remaining: int):
     builder = InlineKeyboardBuilder()
     if remaining > 0:
         builder.button(text=t("ai_pastor.ask_more", lang), callback_data="ai_pastor:ask_more")
+    builder.button(text=t("feedback.support_button", lang), callback_data="donate")
     builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
     builder.adjust(1)
     return builder.as_markup()
@@ -134,14 +135,10 @@ async def cancel_input(callback: CallbackQuery, state: FSMContext):
 
     from keyboards.menu import main_menu_keyboard
     from services.menu_text import build_menu_text
-    from services.plan_service import PlanService
-
-    active = await PlanService.get_active(callback.from_user.id) if user else None
-    plan_day = active.current_day if active else None
 
     await callback.message.edit_text(
         build_menu_text(user, lang),
-        reply_markup=main_menu_keyboard(lang, plan_day=plan_day),
+        reply_markup=main_menu_keyboard(lang),
     )
     await callback.answer()
 

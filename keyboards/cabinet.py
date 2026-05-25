@@ -24,9 +24,13 @@ def cabinet_keyboard(lang: str) -> InlineKeyboardMarkup:
         callback_data="fb:start:review"
     )
     builder.button(
+        text=t("feedback.support_button", lang),
+        callback_data="donate"
+    )
+    builder.button(
         text=t("common.back_to_menu", lang),
         callback_data="open_menu"
     )
-    # Сетка 2 в ряд: закладки | планы, настройки | отзыв, в меню
-    builder.adjust(2, 2, 1)
+    # Сетка 2 в ряд: закладки | планы, настройки | отзыв, поддержать, в меню
+    builder.adjust(2, 2, 1, 1)
     return builder.as_markup()

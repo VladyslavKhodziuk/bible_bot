@@ -1,10 +1,10 @@
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
 from services.user_service import UserService
-from services.plan_service import PlanService
 from services.menu_text import build_menu_text
+from services.i18n import t
 from keyboards.menu import main_menu_keyboard
 
 
@@ -22,11 +22,16 @@ async def cmd_menu(message: Message):
     user = await UserService.get(message.from_user.id)
     lang = user.lang if user else "ru"
 
-    active = await PlanService.get_active(message.from_user.id) if user else None
-    plan_day = active.current_day if active else None
-
     await message.answer(
         build_menu_text(user, lang),
-        reply_markup=main_menu_keyboard(lang, plan_day=plan_day),
+        reply_markup=main_menu_keyboard(lang),
     )
+
+
+@router.callback_query(F.data == "wisdom")
+async def wisdom_stub(callback: CallbackQuery):
+    """Заглушка раздела «Мудрость дня» — функция в разработке."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+    await callback.answer(t("wisdom.coming_soon", lang), show_alert=True)
 

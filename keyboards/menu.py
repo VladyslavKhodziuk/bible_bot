@@ -23,30 +23,22 @@ def welcome_keyboard(lang: str) -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def main_menu_keyboard(lang: str, plan_day: int | None = None) -> InlineKeyboardMarkup:
-    """Главное меню с основными разделами бота.
-
-    plan_day: текущий день активного плана (None если плана нет).
-    """
+def main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Главное меню с основными разделами бота."""
     builder = InlineKeyboardBuilder()
 
-    # 1: Поговорить с пастырем
-    builder.button(text=t("menu.ai_pastor", lang), callback_data="ai_pastor")
-    # 2: Читать | Поиск
+    # 1: Читать Библию (главная кнопка)
     builder.button(text=t("menu.read", lang), callback_data="read")
-    builder.button(text=t("menu.search", lang), callback_data="search")
-    # 3: По настроению | Наугад
-    builder.button(text=t("menu.topics", lang), callback_data="topics")
+    # 2: План чтения | Случайный стих
+    builder.button(text=t("plan.menu_button", lang), callback_data="plan")
     builder.button(text=t("menu.random", lang), callback_data="random")
-    # 4: План чтения (с днём, если есть активный план)
-    if plan_day:
-        plan_text = t("plan.menu_button_active", lang, day=plan_day)
-    else:
-        plan_text = t("plan.menu_button", lang)
-    builder.button(text=plan_text, callback_data="plan")
-    # 5: Кабинет | Поддержать
+    # 3: Получить ответ · ИИ
+    builder.button(text=t("menu.ai_pastor", lang), callback_data="ai_pastor")
+    # 4: Помолиться | Мудрость дня
+    builder.button(text=t("menu.pray", lang), callback_data="pray")
+    builder.button(text=t("menu.wisdom", lang), callback_data="wisdom")
+    # 5: Мой кабинет
     builder.button(text=t("menu.cabinet", lang), callback_data="cabinet")
-    builder.button(text=t("menu.donate", lang), callback_data="donate")
 
-    builder.adjust(1, 2, 2, 1, 2)
+    builder.adjust(1, 2, 1, 2, 1)
     return builder.as_markup()

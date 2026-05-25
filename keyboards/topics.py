@@ -17,8 +17,8 @@ def topics_keyboard(lang: str) -> InlineKeyboardMarkup:
         )
 
     builder.button(
-        text=t("common.back_to_menu", lang),
-        callback_data="open_menu"
+        text=t("common.back", lang),
+        callback_data="pray"
     )
 
     # Раскладка: темы по 2 в ряд, кнопка "Назад" одна

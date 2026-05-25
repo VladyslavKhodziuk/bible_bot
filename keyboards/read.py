@@ -34,6 +34,10 @@ def testament_keyboard(lang: str, translation: str) -> InlineKeyboardMarkup:
         )
         layout.append(1)
 
+    # Поиск по слову — живёт внутри раздела чтения
+    builder.button(text=t("read.btn_search", lang), callback_data="search")
+    layout.append(1)
+
     builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
     layout.append(1)
 

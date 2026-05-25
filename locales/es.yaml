@@ -56,15 +56,16 @@ menu:
     - octubre
     - noviembre
     - diciembre
-  read: "📖 Leer"
+  read: "📖 Leer la Biblia"
   search: "🔍 Buscar"
   topics: "💭 Por ánimo"
   verse_of_day: "📅 Versículo del día"
-  random: "🎲 Al azar"
+  random: "🎲 Versículo al azar"
   plan: "📚 Plan de lectura"
-  ai_pastor: "🙋 Hablar con el pastor"
+  ai_pastor: "💬 Un amigo con la Biblia abierta · IA"
+  pray: "🙏 Orar"
+  wisdom: "💡 Sabiduría del día"
   cabinet: "👤 Mi cuenta"
-  donate: "❤️ Apoyar"
 
 search:
   prompt: |
@@ -174,6 +175,7 @@ settings:
 
 read:
   choose_testament: "<b>📖 Leer la Biblia</b>\n\nElige una sección:"
+  btn_search: "🔍 Buscar por palabra"
   btn_translation: "📚 Traducción · {translation}"
   old_testament: "📜 Antiguo Testamento"
   new_testament: "✝️ Nuevo Testamento"
@@ -200,6 +202,12 @@ topics:
   title: "<b>💭 ¿Cómo te sientes ahora?</b>\n\nElige, y te buscaré palabras de la Escritura:"
   reference: "<b>{book} {chapter}:{verse}</b>"
   back_to_topics: "← A los temas"
+
+pray:
+  title: "<b>🙏 Orar</b>\n\nElige lo que sientas más cercano ahora:"
+
+wisdom:
+  coming_soon: "¡Pronto! 🔧 En desarrollo"
 
 bookmarks:
   empty: "<b>⭐ Mis favoritos</b>\n\nAún no tienes favoritos.\n\nCuando leas un versículo que te conmueva — toca <b>⭐ Guardar</b>, y se guardará aquí."
@@ -503,9 +511,9 @@ greetings:
 
 ai_pastor:
   consent_text: |
-    🙋‍♂️ <b>Consejo del pastor</b>
+    💬 <b>Un amigo con la Biblia abierta</b>
 
-    Soy un compañero AI que te escuchará y te ofrecerá un versículo bíblico para reflexionar.
+    Soy un compañero IA que te escuchará y te ofrecerá un versículo bíblico para reflexionar.
 
     <b>Es importante entender:</b>
     • <b>No</b> soy pastor, sacerdote, médico ni psicólogo.
@@ -516,17 +524,17 @@ ai_pastor:
     Al pulsar «Acepto» confirmas que lo entiendes.
   consent_agree: "✅ Acepto, continuar"
   prompt: |
-    🙋‍♂️ <b>Cuéntame qué llevas en el corazón</b>
+    💬 <b>Cuéntame qué llevas en el corazón</b>
 
     Describe tu situación, pregunta o sentimiento en un solo mensaje.
     Intentaré ofrecerte un versículo y un pensamiento para reflexionar.
 
-    ⏳ <i>Preparar la respuesta suele tomar unos 30 segundos.</i>
+    ⏳ <i>Preparar la respuesta suele tomar unos 10 segundos.</i>
 
     <i>Consultas restantes hoy: {remaining} de {limit}</i>
   thinking: "🙏 Leyendo y preparando una respuesta para ti…"
   cancel: "← Cancelar"
-  ask_more: "🙋‍♂️ Hacer otra pregunta"
+  ask_more: "💬 Hacer otra pregunta"
   too_short: "⚠️ Por favor, escribe un poco más — al menos un par de frases."
   too_long: "⚠️ El mensaje es demasiado largo. Resume en menos de {max} caracteres."
   limit_reached: |

@@ -56,15 +56,16 @@ menu:
     - October
     - November
     - December
-  read: "📖 Read"
+  read: "📖 Read the Bible"
   search: "🔍 Search"
   topics: "💭 By mood"
   verse_of_day: "📅 Verse of the day"
-  random: "🎲 At random"
+  random: "🎲 Random verse"
   plan: "📚 Reading plan"
-  ai_pastor: "🙋 Talk to the pastor"
-  cabinet: "👤 Account"
-  donate: "❤️ Support"
+  ai_pastor: "💬 A friend with an open Bible · AI"
+  pray: "🙏 Pray"
+  wisdom: "💡 Wisdom of the day"
+  cabinet: "👤 My account"
 
 search:
   prompt: |
@@ -171,6 +172,7 @@ settings:
     en_web: "World English Bible (WEB)"
 read:
   choose_testament: "<b>📖 Read the Bible</b>\n\nChoose a section:"
+  btn_search: "🔍 Search by word"
   btn_translation: "📚 Translation · {translation}"
   old_testament: "📜 Old Testament"
   new_testament: "✝️ New Testament"
@@ -197,6 +199,12 @@ topics:
   title: "<b>💭 How do you feel right now?</b>\n\nChoose, and I'll find words from Scripture for you:"
   reference: "<b>{book} {chapter}:{verse}</b>"
   back_to_topics: "← To topics"
+
+pray:
+  title: "<b>🙏 Pray</b>\n\nChoose what's closest right now:"
+
+wisdom:
+  coming_soon: "Coming soon! 🔧 In development"
 
 bookmarks:
   empty: "<b>⭐ My bookmarks</b>\n\nYou don't have any bookmarks yet.\n\nWhen you read a verse that touches you — tap <b>⭐ Bookmark</b>, and it will be saved here."
@@ -500,7 +508,7 @@ greetings:
 
 ai_pastor:
   consent_text: |
-    🙋‍♂️ <b>Pastor's advice</b>
+    💬 <b>A friend with an open Bible</b>
 
     This is an AI companion who will listen and offer a relevant Bible verse to reflect on.
 
@@ -513,17 +521,17 @@ ai_pastor:
     By tapping "I agree" you confirm you understand this.
   consent_agree: "✅ I agree, continue"
   prompt: |
-    🙋‍♂️ <b>Tell me what's on your heart</b>
+    💬 <b>Tell me what's on your heart</b>
 
     Describe your situation, question or feeling in one message.
     I'll try to offer a verse and a thought to reflect on.
 
-    ⏳ <i>Preparing a response usually takes about 30 seconds.</i>
+    ⏳ <i>Preparing a response usually takes about 10 seconds.</i>
 
     <i>Requests left today: {remaining} of {limit}</i>
   thinking: "🙏 Reading and preparing a response for you…"
   cancel: "← Cancel"
-  ask_more: "🙋‍♂️ Ask another question"
+  ask_more: "💬 Ask another question"
   too_short: "⚠️ Please write a bit more — at least a couple of sentences."
   too_long: "⚠️ The message is too long. Please keep it under {max} characters."
   limit_reached: |

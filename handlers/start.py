@@ -5,7 +5,6 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery
 
 from services.user_service import UserService
-from services.plan_service import PlanService
 from services.menu_text import build_menu_text
 from services.i18n import t
 from keyboards.language import language_keyboard
@@ -56,11 +55,9 @@ async def cmd_start(message: Message):
         await message.answer(
             t("welcome_back", user.lang, name=name)
         )
-        active = await PlanService.get_active(user.tg_id)
-        plan_day = active.current_day if active else None
         await message.answer(
             build_menu_text(user, user.lang),
-            reply_markup=main_menu_keyboard(user.lang, plan_day=plan_day),
+            reply_markup=main_menu_keyboard(user.lang),
         )
 
 
@@ -153,11 +150,8 @@ async def open_menu(callback: CallbackQuery):
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
 
-    active = await PlanService.get_active(callback.from_user.id) if user else None
-    plan_day = active.current_day if active else None
-
     await callback.message.edit_text(
         build_menu_text(user, lang),
-        reply_markup=main_menu_keyboard(lang, plan_day=plan_day),
+        reply_markup=main_menu_keyboard(lang),
     )
     await callback.answer()
