@@ -399,3 +399,72 @@ re:
   en: "Revelation"
   es: "Apocalipsis"
   uk: "Об'явлення"
+
+# ===== ВТОРОКАНОНИЧЕСКИЕ КНИГИ =====
+
+2esd:
+  testament: dc
+  ru: "2 Ездры"
+  en: "2 Esdras"
+  es: "2 Esdras"
+  uk: "2 Ездри"
+tob:
+  testament: dc
+  ru: "Товит"
+  en: "Tobit"
+  es: "Tobías"
+  uk: "Товит"
+jdt:
+  testament: dc
+  ru: "Иудифь"
+  en: "Judith"
+  es: "Judit"
+  uk: "Юдита"
+wis:
+  testament: dc
+  ru: "Премудрость Соломона"
+  en: "Wisdom of Solomon"
+  es: "Sabiduría"
+  uk: "Премудрість Соломона"
+sir:
+  testament: dc
+  ru: "Сирах"
+  en: "Sirach"
+  es: "Eclesiástico"
+  uk: "Сирах"
+epjr:
+  testament: dc
+  ru: "Послание Иеремии"
+  en: "Letter of Jeremiah"
+  es: "Carta de Jeremías"
+  uk: "Лист Єремії"
+bar:
+  testament: dc
+  ru: "Варух"
+  en: "Baruch"
+  es: "Baruc"
+  uk: "Варух"
+1mac:
+  testament: dc
+  ru: "1 Маккавейская"
+  en: "1 Maccabees"
+  es: "1 Macabeos"
+  uk: "1 Макавеїв"
+2mac:
+  testament: dc
+  ru: "2 Маккавейская"
+  en: "2 Maccabees"
+  es: "2 Macabeos"
+  uk: "2 Макавеїв"
+3mac:
+  testament: dc
+  ru: "3 Маккавейская"
+  en: "3 Maccabees"
+  es: "3 Macabeos"
+  uk: "3 Макавеїв"
+3esd:
+  testament: dc
+  ru: "3 Ездры"
+  en: "3 Esdras"
+  es: "3 Esdras"
+  uk: "3 Ездри"

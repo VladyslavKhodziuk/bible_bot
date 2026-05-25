@@ -141,7 +141,16 @@ settings:
   current_translation: "📖 Translation: <b>{translation}</b>"
   change_language: "🌐 Change language"
   change_translation: "📖 Change Bible translation"
-  choose_translation: "<b>📖 Choose Bible translation:</b>"
+  choose_translation: |-
+    <b>📚 Choose a Bible translation</b>
+
+    We are all Christians, united in our love for God's Word. Each translation has its own character — choose the one closest to your heart:
+
+    • <b>King James Version</b> — the classic, majestic traditional English.
+    • <b>American Standard Version</b> — a precise, literal early-1900s translation.
+    • <b>World English Bible</b> — modern, clear English for everyday reading.
+    ————————————
+    <i>You can change the translation anytime</i>
   translation_changed: "✅ Translation changed"
   notifications: "🔔 Notifications: <b>{status}</b>"
   notifications_on: "on, {time}"
@@ -157,21 +166,15 @@ settings:
     es: "Español"
     uk: "Українська"
   translation_names:
-    ru_synodal: "Synodal"
-    ru_nrt: "New Russian Translation (NRT)"
     en_kjv: "King James Version (KJV)"
     en_asv: "American Standard Version (ASV)"
     en_web: "World English Bible (WEB)"
-    es_rvr: "Reina-Valera Antigua (1909)"
-    es_rvr1865: "Reina-Valera (1865)"
-    es_torres: "Biblia Torres Amat (1825)"
-    es_sagradas: "Sagradas Escrituras 1569"
-    uk_ogienko: "Огієнко"
 read:
   choose_testament: "<b>📖 Read the Bible</b>\n\nChoose a section:"
-  btn_translation: "📖 {translation}"
+  btn_translation: "📚 Translation · {translation}"
   old_testament: "📜 Old Testament"
   new_testament: "✝️ New Testament"
+  deuterocanonical: "📖 Deuterocanonical Books"
   choose_book: "<b>{testament}</b>\n\nChoose a book:"
   choose_chapter: "<b>{book}</b>\n\nChoose a chapter:"
   chapter_header: "<b>{book} {chapter}</b>"

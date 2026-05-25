@@ -76,25 +76,31 @@ async def apply_translation(callback: CallbackQuery):
 
 # ============ Экран 2: Список книг ============
 
-@router.callback_query(F.data.startswith("read:ot:") | F.data.startswith("read:nt:"))
+@router.callback_query(
+    F.data.startswith("read:ot:")
+    | F.data.startswith("read:nt:")
+    | F.data.startswith("read:dc:")
+)
 async def show_books(callback: CallbackQuery):
     """Показать список книг с пагинацией.
-    Callback: read:ot:0  или  read:nt:1
+    Callback: read:ot:0, read:nt:1 или read:dc:0
     """
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
+    translation = user.translation if user else "ru_synodal"
 
     _, testament, page_str = callback.data.split(":")
     page = int(page_str)
 
-    testament_name = (
-        t("read.old_testament", lang) if testament == "ot"
-        else t("read.new_testament", lang)
-    )
+    testament_name = {
+        "ot": t("read.old_testament", lang),
+        "nt": t("read.new_testament", lang),
+        "dc": t("read.deuterocanonical", lang),
+    }.get(testament, "")
 
     await callback.message.edit_text(
         t("read.choose_book", lang, testament=testament_name),
-        reply_markup=books_keyboard(testament, page, lang)
+        reply_markup=books_keyboard(testament, page, lang, translation)
     )
     await callback.answer()
 

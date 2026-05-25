@@ -145,7 +145,15 @@ settings:
   current_translation: "📖 Перевод: <b>{translation}</b>"
   change_language: "🌐 Изменить язык"
   change_translation: "📖 Изменить перевод Библии"
-  choose_translation: "<b>📖 Выбери перевод Библии:</b>"
+  choose_translation: |-
+    <b>📚 Выбери перевод Библии</b>
+
+    Все мы — христиане, едины в любви к Слову Божьему. У каждого перевода свой характер — выбери тот, что ближе твоему сердцу:
+
+    • <b>Синодальный</b> — классический, привычный для большинства, проверенный временем.
+    • <b>Новый русский перевод</b> — современный язык, проще для первого знакомства и ежедневного чтения.
+    ————————————
+    <i>Перевод можно изменить в любое время</i>
   translation_changed: "✅ Перевод изменён"
   notifications: "🔔 Уведомления: <b>{status}</b>"
   notifications_on: "вкл, {time}"
@@ -163,20 +171,13 @@ settings:
   translation_names:
     ru_synodal: "Синодальный"
     ru_nrt: "Новый русский перевод"
-    en_kjv: "King James Version"
-    en_asv: "American Standard Version"
-    en_web: "World English Bible"
-    es_rvr: "Reina-Valera Antigua (1909)"
-    es_rvr1865: "Reina-Valera (1865)"
-    es_torres: "Biblia Torres Amat (1825)"
-    es_sagradas: "Sagradas Escrituras 1569"
-    uk_ogienko: "Огієнко"
 
 read:
   choose_testament: "<b>📖 Читать Библию</b>\n\nВыбери раздел:"
-  btn_translation: "📖 {translation}"
+  btn_translation: "📚 Перевод · {translation}"
   old_testament: "📜 Ветхий Завет"
   new_testament: "✝️ Новый Завет"
+  deuterocanonical: "📖 Второканонические книги"
   choose_book: "<b>{testament}</b>\n\nВыбери книгу:"
   choose_chapter: "<b>{book}</b>\n\nВыбери главу:"
   chapter_header: "<b>{book} {chapter}</b>"

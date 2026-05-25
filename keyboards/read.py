@@ -18,6 +18,13 @@ def testament_keyboard(lang: str, translation: str) -> InlineKeyboardMarkup:
     builder.button(text=t("read.new_testament", lang), callback_data="read:nt:0")
     layout = [1, 1]
 
+    # Раздел второканонических книг — только если они есть в этом переводе
+    if BibleService.translation_has_testament(translation, "dc"):
+        builder.button(
+            text=t("read.deuterocanonical", lang), callback_data="read:dc:0"
+        )
+        layout.append(1)
+
     # Кнопка выбора перевода — только если на языке больше одного перевода
     if len(BibleService.get_translations_for_lang(lang)) > 1:
         translation_name = t(f"settings.translation_names.{translation}", lang)
@@ -45,14 +52,17 @@ def translation_keyboard(lang: str) -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def books_keyboard(testament: str, page: int, lang: str) -> InlineKeyboardMarkup:
+def books_keyboard(
+    testament: str, page: int, lang: str, translation: str
+) -> InlineKeyboardMarkup:
     """
     Список книг с пагинацией.
-    testament: 'ot' или 'nt'
+    testament: 'ot', 'nt' или 'dc'
     page: номер страницы с 0
+    Показываются только книги, реально присутствующие в переводе.
     """
     builder = InlineKeyboardBuilder()
-    books = BibleService.get_books(testament)
+    books = BibleService.get_books_for_translation(translation, testament)
 
     start = page * BOOKS_PER_PAGE
     end = start + BOOKS_PER_PAGE

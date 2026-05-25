@@ -25,6 +25,9 @@ TRANSLATIONS = {
     "es_torres":    {"file": "es_torres.json",     "lang": "es"},
     "es_sagradas":  {"file": "es_sagradas.json",  "lang": "es"},
     "uk_ogienko":   {"file": "uk_ogienko.json", "lang": "uk"},
+    "uk_kulish":    {"file": "uk_kulish.json",   "lang": "uk"},
+    "uk_turkoniak": {"file": "uk_turkoniak.json", "lang": "uk"},
+    "uk_khomenko":  {"file": "uk_khomenko.json",  "lang": "uk"},
 }
 
 # Какой перевод по умолчанию для какого языка
@@ -43,6 +46,10 @@ class BibleService:
     """
 
     _bibles: dict[str, list] = {}
+    # Поиск книги по аббревиатуре внутри перевода: {translation: {abbrev: book}}
+    # Переводы имеют разный состав книг (второканонические у Турконяка/Хоменко),
+    # поэтому выравнивание идёт по abbrev, а не по позиции в списке.
+    _book_lookup: dict[str, dict[str, dict]] = {}
     _books_meta: dict[str, dict] = {}
     _book_order: list[str] = []
     _daily_pool: list[tuple[str, int, int]] = []
@@ -69,6 +76,9 @@ class BibleService:
                 continue
             with open(path, "r", encoding="utf-8-sig") as f:
                 cls._bibles[code] = json.load(f)
+            cls._book_lookup[code] = {
+                book["abbrev"]: book for book in cls._bibles[code]
+            }
             logger.info(f"  {code}: {len(cls._bibles[code])} книг")
 
         cls._load_daily_pool()
@@ -107,6 +117,36 @@ class BibleService:
         return result
 
     @classmethod
+    def get_books_for_translation(
+        cls, translation: str, testament: str | None = None
+    ) -> list[dict]:
+        """Книги, реально присутствующие в данном переводе (опц. по завету).
+
+        Протестантские переводы содержат только 66 канонических книг;
+        Турконяк/Хоменко — ещё и второканонические (testament == 'dc').
+        Порядок — как в books.yaml.
+        """
+        present = cls._book_lookup.get(translation, {})
+        result = []
+        for abbrev in cls._book_order:
+            if abbrev not in present:
+                continue
+            meta = cls._books_meta[abbrev]
+            if testament and meta["testament"] != testament:
+                continue
+            result.append({"abbrev": abbrev, **meta})
+        return result
+
+    @classmethod
+    def translation_has_testament(cls, translation: str, testament: str) -> bool:
+        """Есть ли в переводе хотя бы одна книга указанного завета."""
+        present = cls._book_lookup.get(translation, {})
+        return any(
+            cls._books_meta.get(ab, {}).get("testament") == testament
+            for ab in present
+        )
+
+    @classmethod
     def get_book_name(cls, abbrev: str, lang: str) -> str:
         """Локализованное название книги."""
         meta = cls._books_meta.get(abbrev)
@@ -131,15 +171,12 @@ class BibleService:
     @classmethod
     def get_chapter(cls, abbrev: str, chapter: int, translation: str) -> list[str] | None:
         """Возвращает список стихов главы (без номеров, просто текст)."""
-        bible = cls._bibles.get(translation)
-        if not bible:
+        book = cls._get_book_data(abbrev, translation)
+        if not book:
             return None
-        for book_idx, book in enumerate(bible):
-            if cls._book_order[book_idx] == abbrev:
-                chapters = book.get("chapters", [])
-                if 0 <= chapter - 1 < len(chapters):
-                    return chapters[chapter - 1]
-                return None
+        chapters = book.get("chapters", [])
+        if 0 <= chapter - 1 < len(chapters):
+            return chapters[chapter - 1]
         return None
 
     @classmethod
@@ -171,14 +208,12 @@ class BibleService:
 
     @classmethod
     def _get_book_data(cls, abbrev: str, translation: str) -> dict | None:
-        """Внутренний метод: достать сырую книгу из JSON по аббревиатуре."""
-        bible = cls._bibles.get(translation)
-        if not bible:
-            return None
-        idx = cls.get_book_index(abbrev)
-        if idx is None or idx >= len(bible):
-            return None
-        return bible[idx]
+        """Внутренний метод: достать сырую книгу из JSON по аббревиатуре.
+
+        Перевод может не содержать книгу (например, второканоническую) —
+        тогда вернётся None.
+        """
+        return cls._book_lookup.get(translation, {}).get(abbrev)
 
     @classmethod
     def get_random_verse(cls, translation: str) -> dict | None:
@@ -193,7 +228,7 @@ class BibleService:
         # Выбираем случайную книгу
         book_idx = random.randrange(len(bible))
         book = bible[book_idx]
-        abbrev = cls._book_order[book_idx]
+        abbrev = book["abbrev"]
 
         # Случайную главу
         chapter_idx = random.randrange(len(book["chapters"]))
@@ -246,7 +281,7 @@ class BibleService:
             return None
         rng = random.Random(target_date.toordinal())
         book_idx = rng.randrange(len(bible))
-        abbrev = cls._book_order[book_idx]
+        abbrev = bible[book_idx]["abbrev"]
         chapter_idx = rng.randrange(len(bible[book_idx]["chapters"]))
         chapter_verses = bible[book_idx]["chapters"][chapter_idx]
         verse_idx = rng.randrange(len(chapter_verses))
@@ -328,8 +363,8 @@ class BibleService:
             return []
 
         results = []
-        for book_idx, book in enumerate(bible):
-            abbrev = cls._book_order[book_idx]
+        for book in bible:
+            abbrev = book["abbrev"]
             for chapter_idx, chapter_verses in enumerate(book["chapters"]):
                 for verse_idx, text in enumerate(chapter_verses):
                     if query_clean in text.lower():
@@ -395,6 +430,9 @@ TRANSLATION_ALPHABETS = {
     "ru_synodal":  "cyrillic",
     "ru_nrt":      "cyrillic",
     "uk_ogienko":  "cyrillic",
+    "uk_kulish":   "cyrillic",
+    "uk_turkoniak":"cyrillic",
+    "uk_khomenko": "cyrillic",
     "en_kjv":      "latin",
     "en_asv":      "latin",
     "en_web":      "latin",
