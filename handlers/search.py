@@ -63,7 +63,7 @@ async def cancel_search(callback: CallbackQuery, state: FSMContext):
     from services.menu_text import build_menu_text
 
     await callback.message.edit_text(
-        build_menu_text(user, lang),
+        await build_menu_text(user, lang, callback.bot),
         reply_markup=main_menu_keyboard(lang),
     )
     await callback.answer()

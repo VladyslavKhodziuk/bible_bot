@@ -7,11 +7,6 @@ from services.menu_text import build_menu_text
 from keyboards.menu import main_menu_keyboard
 
 
-# Оставлено для обратной совместимости с handlers/ai_pastor.py
-def _menu_text(user, lang: str) -> str:
-    return build_menu_text(user, lang)
-
-
 router = Router()
 
 
@@ -22,7 +17,7 @@ async def cmd_menu(message: Message):
     lang = user.lang if user else "ru"
 
     await message.answer(
-        build_menu_text(user, lang),
+        await build_menu_text(user, lang, message.bot),
         reply_markup=main_menu_keyboard(lang),
     )
 

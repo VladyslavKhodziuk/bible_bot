@@ -2,7 +2,7 @@ import re
 import urllib.parse
 
 from aiogram import Router, F
-from aiogram.types import CallbackQuery, InlineKeyboardMarkup
+from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.user_service import UserService
@@ -110,11 +110,13 @@ def _build_verse_keyboard(
     return builder.as_markup()
 
 
-async def _send_streak_extras(callback, streak_result, lang: str):
+async def _send_streak_extras(message, user_id: int, streak_result, lang: str):
     """
     Отправляет дополнительные сообщения после засчитанного дня:
     - Onboarding при первой серии (с кнопкой "Понятно" — закрывает сообщение)
     - Поздравление при милстоуне
+
+    ``message`` — любой объект с .answer() (Message или CallbackQuery.message).
     """
     # Onboarding (первый раз серия началась)
     if streak_result.is_first_time:
@@ -123,11 +125,11 @@ async def _send_streak_extras(callback, streak_result, lang: str):
             text=t("streak.onboarding_button", lang),
             callback_data="streak:onboarding_done"
         )
-        await callback.message.answer(
+        await message.answer(
             t("streak.onboarding", lang),
             reply_markup=builder.as_markup(),
         )
-        await StreakService.mark_explained(callback.from_user.id)
+        await StreakService.mark_explained(user_id)
 
     # Поздравление с милстоуном — с кнопкой "Понятно", которая его удаляет
     if streak_result.milestone_reached:
@@ -138,7 +140,7 @@ async def _send_streak_extras(callback, streak_result, lang: str):
                 text=t("streak.onboarding_button", lang),
                 callback_data="streak:onboarding_done"
             )
-            await callback.message.answer(msg, reply_markup=builder.as_markup())
+            await message.answer(msg, reply_markup=builder.as_markup())
 
 
 @router.callback_query(F.data == "verse_of_day")
@@ -188,7 +190,56 @@ async def show_verse_of_day(callback: CallbackQuery):
     )
     await callback.answer()
 
-    await _send_streak_extras(callback, streak_result, lang)
+    await _send_streak_extras(callback.message, callback.from_user.id, streak_result, lang)
+
+
+async def deliver_verse_of_day(message: Message, user_id: int):
+    """Прислать карточку стиха дня НОВЫМ сообщением.
+
+    Используется при заходе по deep-link (t.me/бот?start=verse) из текстовой
+    ссылки в меню. ``message`` — Message, в чат которого отправляем ответ;
+    ``user_id`` — кто инициировал (для серии/закладок)."""
+    user = await UserService.get(user_id)
+    lang = user.lang if user else "ru"
+    translation = user.translation if user else "ru_synodal"
+
+    verse = BibleService.get_verse_of_day(translation)
+    if not verse:
+        return
+
+    streak_result = await StreakService.touch(user_id)
+
+    is_bm = await BookmarkService.is_bookmarked(
+        user_id, verse["abbrev"], verse["chapter"], verse["verse"]
+    )
+
+    streak_line = format_streak_indicator(streak_result.current_streak, lang)
+    parts = [t("verse.of_day_title", lang)]
+    if streak_line:
+        parts.append(streak_line)
+    parts.append("")
+    parts.append(_format_verse(verse, lang))
+    text = "\n".join(parts)
+
+    book_name = BibleService.get_book_name(verse["abbrev"], lang)
+    reference = f"{book_name} {verse['chapter']}:{verse['verse']}"
+    share_text = _build_share_text(
+        verse, reference, lang, _strip_html(t("verse.of_day_title", lang))
+    )
+    share_url = _build_share_url(
+        share_text, await _get_bot_username(message.bot)
+    )
+
+    await message.answer(
+        text,
+        reply_markup=_build_verse_keyboard(
+            verse["abbrev"], verse["chapter"], verse["verse"],
+            lang, is_bm, return_to="vod", show_another=False,
+            share_url=share_url,
+        )
+    )
+
+    await _send_streak_extras(message, user_id, streak_result, lang)
 
 
 @router.callback_query(F.data == "random")
@@ -230,7 +281,7 @@ async def show_random_verse(callback: CallbackQuery):
     )
     await callback.answer()
 
-    await _send_streak_extras(callback, streak_result, lang)
+    await _send_streak_extras(callback.message, callback.from_user.id, streak_result, lang)
 
 
 @router.callback_query(F.data == "wisdom")
@@ -293,7 +344,7 @@ async def show_wisdom_of_day(callback: CallbackQuery):
     )
     await callback.answer()
 
-    await _send_streak_extras(callback, streak_result, lang)
+    await _send_streak_extras(callback.message, callback.from_user.id, streak_result, lang)
 
 
 @router.callback_query(F.data == "streak:onboarding_done")

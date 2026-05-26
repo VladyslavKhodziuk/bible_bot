@@ -42,6 +42,9 @@ menu:
   greeting: "PEACE BE WITH YOU 🕊️"
   subtitle: "What are you seeking in the Word today?"
   verse_card_title: "Verse of the day · {date}"
+  open_verse_of_day: "📖 Open verse of the day"
+  share_verse: "📤 Share"
+  share_header: "📖 Verse of the day"
   date_format: "{month} {day}"
   months:
     - January

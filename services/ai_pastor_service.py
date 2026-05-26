@@ -377,6 +377,11 @@ class AIPastorService:
             system_instruction=SYSTEM_PROMPT,
             temperature=0.7,
             max_output_tokens=2000,
+            # gemini-2.5-flash по умолчанию тратит часть max_output_tokens на
+            # внутренние "размышления"; при большом размышлении на сам ответ не
+            # остаётся бюджета и он обрывается на полуслове. Отключаем — промпт
+            # жёстко структурирован, chain-of-thought тут не нужен.
+            thinking_config=types.ThinkingConfig(thinking_budget=0),
             safety_settings=safety_settings,
         )
 
@@ -441,6 +446,26 @@ class AIPastorService:
                 retry_delay *= 2  # экспоненциальная задержка: 1, 2, 4
 
         if response is None:
+            return _get_fallback_message(lang), False
+
+        # Защита от обрыва на полуслове: если модель упёрлась в лимит токенов —
+        # лучше отдать fallback, чем показать незаконченную фразу.
+        finish_reason = None
+        try:
+            finish_reason = response.candidates[0].finish_reason
+        except (AttributeError, IndexError, TypeError):
+            pass
+        if finish_reason == types.FinishReason.MAX_TOKENS:
+            logger.warning(f"Gemini ответ обрезан по лимиту токенов для {user_id}")
+            await AlertService.alert_error(
+                key="gemini_truncated",
+                title="Gemini: ответ обрезан",
+                detail="finish_reason=MAX_TOKENS — показан fallback вместо обрыва",
+            )
+            return _get_fallback_message(lang), False
+
+        if not response.text:
+            logger.warning(f"Gemini вернул пустой ответ для {user_id}")
             return _get_fallback_message(lang), False
 
         full_text = response.text.strip()

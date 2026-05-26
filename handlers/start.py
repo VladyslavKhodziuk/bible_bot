@@ -1,7 +1,7 @@
 import html
 
 from aiogram import Router, F
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, CommandObject
 from aiogram.types import Message, CallbackQuery
 
 from services.user_service import UserService
@@ -38,8 +38,12 @@ def _welcome_text(user, lang: str) -> str:
 
 
 @router.message(CommandStart())
-async def cmd_start(message: Message):
-    """Обработка /start: новому юзеру — выбор языка, старому — приветствие."""
+async def cmd_start(message: Message, command: CommandObject):
+    """Обработка /start: новому юзеру — выбор языка, старому — приветствие.
+
+    Поддерживает deep-link payload: /start verse → сразу карточка стиха дня
+    (ссылка из текста меню), без показа самого меню.
+    """
     user = await UserService.get(message.from_user.id)
 
     if user is None:
@@ -49,16 +53,23 @@ async def cmd_start(message: Message):
             t("language.choose"),
             reply_markup=language_keyboard()
         )
-    else:
-        # Вернувшийся пользователь — короткое приветствие и сразу меню
-        name = html.escape(user.first_name or "друг")
-        await message.answer(
-            t("welcome_back", user.lang, name=name)
-        )
-        await message.answer(
-            build_menu_text(user, user.lang),
-            reply_markup=main_menu_keyboard(user.lang),
-        )
+        return
+
+    # Deep-link «стих дня» — отдаём карточку вместо меню
+    if command.args == "verse":
+        from handlers.verse import deliver_verse_of_day
+        await deliver_verse_of_day(message, message.from_user.id)
+        return
+
+    # Вернувшийся пользователь — короткое приветствие и сразу меню
+    name = html.escape(user.first_name or "друг")
+    await message.answer(
+        t("welcome_back", user.lang, name=name)
+    )
+    await message.answer(
+        await build_menu_text(user, user.lang, message.bot),
+        reply_markup=main_menu_keyboard(user.lang),
+    )
 
 
 @router.callback_query(F.data.startswith("setlang:"))
@@ -151,7 +162,7 @@ async def open_menu(callback: CallbackQuery):
     lang = user.lang if user else "ru"
 
     await callback.message.edit_text(
-        build_menu_text(user, lang),
+        await build_menu_text(user, lang, callback.bot),
         reply_markup=main_menu_keyboard(lang),
     )
     await callback.answer()
