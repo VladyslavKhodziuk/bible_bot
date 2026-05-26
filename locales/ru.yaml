@@ -42,7 +42,6 @@ menu:
   greeting: "МИР ТЕБЕ 🕊️"
   subtitle: "Что ищешь сегодня в Слове?"
   verse_card_title: "Стих дня · {date}"
-  open_verse_of_day: "📖 Открыть стих дня"
   share_verse: "📤 Поделиться"
   share_header: "📖 Стих дня"
   date_format: "{day} {month}"

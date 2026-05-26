@@ -1,7 +1,7 @@
 import html
 
 from aiogram import Router, F
-from aiogram.filters import CommandStart, CommandObject
+from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery
 
 from services.user_service import UserService
@@ -38,12 +38,8 @@ def _welcome_text(user, lang: str) -> str:
 
 
 @router.message(CommandStart())
-async def cmd_start(message: Message, command: CommandObject):
-    """Обработка /start: новому юзеру — выбор языка, старому — приветствие.
-
-    Поддерживает deep-link payload: /start verse → сразу карточка стиха дня
-    (ссылка из текста меню), без показа самого меню.
-    """
+async def cmd_start(message: Message):
+    """Обработка /start: новому юзеру — выбор языка, старому — приветствие."""
     user = await UserService.get(message.from_user.id)
 
     if user is None:
@@ -53,12 +49,6 @@ async def cmd_start(message: Message, command: CommandObject):
             t("language.choose"),
             reply_markup=language_keyboard()
         )
-        return
-
-    # Deep-link «стих дня» — отдаём карточку вместо меню
-    if command.args == "verse":
-        from handlers.verse import deliver_verse_of_day
-        await deliver_verse_of_day(message, message.from_user.id)
         return
 
     # Вернувшийся пользователь — короткое приветствие и сразу меню

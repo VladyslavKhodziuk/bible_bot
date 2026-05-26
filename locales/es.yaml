@@ -42,7 +42,6 @@ menu:
   greeting: "LA PAZ SEA CONTIGO 🕊️"
   subtitle: "¿Qué buscas hoy en la Palabra?"
   verse_card_title: "Versículo del día · {date}"
-  open_verse_of_day: "📖 Abrir versículo del día"
   share_verse: "📤 Compartir"
   share_header: "📖 Versículo del día"
   date_format: "{day} de {month}"

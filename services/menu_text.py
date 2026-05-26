@@ -52,9 +52,8 @@ async def build_menu_text(user: User | None, lang: str, bot=None) -> str:
     """
     Текст главного меню: приветствие + подзаголовок + карточка стиха дня + streak.
 
-    Если передан ``bot`` — под карточкой добавляется строка с текстовыми
-    ссылками «Открыть стих дня» (deep-link t.me/бот?start=verse) и «Поделиться»
-    (deep-link t.me/share/url с текущим стихом дня).
+    Если передан ``bot`` — под карточкой добавляется текстовая ссылка
+    «Поделиться» (deep-link t.me/share/url с текущим стихом дня).
     """
     greeting = t("menu.greeting", lang)
     subtitle = t("menu.subtitle", lang)
@@ -64,7 +63,7 @@ async def build_menu_text(user: User | None, lang: str, bot=None) -> str:
 
     parts = [f"<b>{greeting}</b>", f"<i>{subtitle}</i>"]
 
-    links_line: str | None = None
+    share_link: str | None = None
     if verse:
         book_name = BibleService.get_book_name(verse["abbrev"], lang)
         date_str = _format_today(lang)
@@ -79,18 +78,11 @@ async def build_menu_text(user: User | None, lang: str, bot=None) -> str:
         parts.append(card)
 
         if bot is not None:
-            bot_username = await _get_bot_username(bot)
-
-            open_href = html.escape(
-                f"https://t.me/{bot_username}?start=verse", quote=True
+            share_url = _build_share_url(
+                verse, reference, lang, await _get_bot_username(bot)
             )
-            open_link = f'<a href="{open_href}">{t("menu.open_verse_of_day", lang)}</a>'
-
-            share_url = _build_share_url(verse, reference, lang, bot_username)
             share_href = html.escape(share_url, quote=True)
             share_link = f'<a href="{share_href}">{t("menu.share_verse", lang)}</a>'
-
-            links_line = f"{open_link}     {share_link}"
 
     if user is not None:
         streak_line = format_streak_indicator(user.current_streak, lang)
@@ -98,8 +90,8 @@ async def build_menu_text(user: User | None, lang: str, bot=None) -> str:
             parts.append("")
             parts.append(streak_line)
 
-    if links_line:
+    if share_link:
         parts.append("")
-        parts.append(links_line)
+        parts.append(share_link)
 
     return "\n".join(parts)
