@@ -193,6 +193,30 @@ read:
   back_to_testaments: "← A las secciones"
   page_indicator: "{current}/{total}"
 
+help:
+  text: |
+    📖 <b>Bible Way — Ayuda</b>
+
+    <b>Comandos:</b>
+    /start — iniciar el bot
+    /menu — menú principal
+    /verse — versículo del día
+    /settings — ajustes
+    /help — esta pantalla
+
+    <b>Qué puede hacer el bot:</b>
+    📖 Leer la Biblia en distintas traducciones
+    🔍 Buscar versículos por palabras
+    💭 Encontrar la Palabra según cómo te sientes
+    🎲 Versículo al azar y versículo del día
+    📚 Planes de lectura con recordatorios
+    🔥 Racha diaria con la Palabra
+    ⭐ Guardar pasajes favoritos
+    💬 Un amigo con la Biblia abierta (IA) — escucha y busca un versículo
+    🙏 Oraciones
+    💡 Sabiduría del día
+    ⚙️ Ajustes: idioma, traducción, zona horaria y notificaciones
+
 verse:
   of_day_title: "📅 <b>Versículo del día</b>"
   random_title: "🎲 <b>Versículo al azar</b>"

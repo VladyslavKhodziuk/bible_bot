@@ -1,8 +1,10 @@
 from aiogram import Router, F
-from aiogram.types import CallbackQuery
+from aiogram.filters import Command
+from aiogram.types import CallbackQuery, Message
 
 from services.user_service import UserService
 from services.i18n import t
+from keyboards.language import language_keyboard
 from keyboards.settings import (
     settings_keyboard,
     language_settings_keyboard,
@@ -33,6 +35,21 @@ def _build_settings_text(user, lang: str) -> str:
     lines.append(t("settings.feedback_section", lang))
 
     return "\n".join(lines)
+
+
+@router.message(Command("settings"))
+async def cmd_settings(message: Message):
+    """Команда /settings — открыть настройки откуда угодно."""
+    user = await UserService.get(message.from_user.id)
+    if user is None:
+        # Не делал /start — отправляем на онбординг (выбор языка)
+        await message.answer(t("language.choose"), reply_markup=language_keyboard())
+        return
+
+    await message.answer(
+        _build_settings_text(user, user.lang),
+        reply_markup=settings_keyboard(user, user.lang),
+    )
 
 
 @router.callback_query(F.data == "settings")

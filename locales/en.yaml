@@ -190,6 +190,30 @@ read:
   back_to_testaments: "← To sections"
   page_indicator: "{current}/{total}"
 
+help:
+  text: |
+    📖 <b>Bible Way — Help</b>
+
+    <b>Commands:</b>
+    /start — launch the bot
+    /menu — main menu
+    /verse — verse of the day
+    /settings — settings
+    /help — this screen
+
+    <b>What the bot can do:</b>
+    📖 Read the Bible in different translations
+    🔍 Search verses by words
+    💭 Find the Word for how you feel
+    🎲 Random verse and verse of the day
+    📚 Reading plans with reminders
+    🔥 Daily streak with the Word
+    ⭐ Bookmark favorite passages
+    💬 A friend with an open Bible (AI) — listens and finds a verse
+    🙏 Prayers
+    💡 Wisdom of the day
+    ⚙️ Settings: language, translation, timezone and notifications
+
 verse:
   of_day_title: "📅 <b>Verse of the day</b>"
   random_title: "🎲 <b>Random verse</b>"

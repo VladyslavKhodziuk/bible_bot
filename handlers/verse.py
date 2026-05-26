@@ -2,7 +2,8 @@ import re
 import urllib.parse
 
 from aiogram import Router, F
-from aiogram.types import CallbackQuery, InlineKeyboardMarkup
+from aiogram.filters import Command
+from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.user_service import UserService
@@ -143,23 +144,21 @@ async def _send_streak_extras(message, user_id: int, streak_result, lang: str):
             await message.answer(msg, reply_markup=builder.as_markup())
 
 
-@router.callback_query(F.data == "verse_of_day")
-async def show_verse_of_day(callback: CallbackQuery):
-    """Стих дня — один на сутки. Засчитывает день серии."""
-    user = await UserService.get(callback.from_user.id)
-    lang = user.lang if user else "ru"
-    translation = user.translation if user else "ru_synodal"
+async def _render_verse_of_day(tg_id: int, lang: str, translation: str, bot):
+    """Готовит стих дня: засчитывает серию и собирает текст + клавиатуру.
 
+    Возвращает ``(text, keyboard, streak_result)`` либо ``None``, если стих
+    получить не удалось. Общий рендер для callback-кнопки и команды /verse.
+    """
     verse = BibleService.get_verse_of_day(translation)
     if not verse:
-        await callback.answer("⚠️", show_alert=True)
-        return
+        return None
 
     # Засчитываем день серии
-    streak_result = await StreakService.touch(callback.from_user.id)
+    streak_result = await StreakService.touch(tg_id)
 
     is_bm = await BookmarkService.is_bookmarked(
-        callback.from_user.id, verse["abbrev"], verse["chapter"], verse["verse"]
+        tg_id, verse["abbrev"], verse["chapter"], verse["verse"]
     )
 
     # Формируем текст с индикатором серии
@@ -176,21 +175,54 @@ async def show_verse_of_day(callback: CallbackQuery):
     share_text = _build_share_text(
         verse, reference, lang, _strip_html(t("verse.of_day_title", lang))
     )
-    share_url = _build_share_url(
-        share_text, await _get_bot_username(callback.bot)
-    )
+    share_url = _build_share_url(share_text, await _get_bot_username(bot))
 
-    await callback.message.edit_text(
-        text,
-        reply_markup=_build_verse_keyboard(
-            verse["abbrev"], verse["chapter"], verse["verse"],
-            lang, is_bm, return_to="vod", show_another=False,
-            share_url=share_url,
-        )
+    keyboard = _build_verse_keyboard(
+        verse["abbrev"], verse["chapter"], verse["verse"],
+        lang, is_bm, return_to="vod", show_another=False,
+        share_url=share_url,
     )
+    return text, keyboard, streak_result
+
+
+@router.callback_query(F.data == "verse_of_day")
+async def show_verse_of_day(callback: CallbackQuery):
+    """Стих дня — один на сутки. Засчитывает день серии."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+    translation = user.translation if user else "ru_synodal"
+
+    rendered = await _render_verse_of_day(
+        callback.from_user.id, lang, translation, callback.bot
+    )
+    if rendered is None:
+        await callback.answer("⚠️", show_alert=True)
+        return
+    text, keyboard, streak_result = rendered
+
+    await callback.message.edit_text(text, reply_markup=keyboard)
     await callback.answer()
 
     await _send_streak_extras(callback.message, callback.from_user.id, streak_result, lang)
+
+
+@router.message(Command("verse"))
+async def cmd_verse(message: Message):
+    """Команда /verse — стих дня откуда угодно."""
+    user = await UserService.get(message.from_user.id)
+    lang = user.lang if user else "ru"
+    translation = user.translation if user else "ru_synodal"
+
+    rendered = await _render_verse_of_day(
+        message.from_user.id, lang, translation, message.bot
+    )
+    if rendered is None:
+        await message.answer("⚠️")
+        return
+    text, keyboard, streak_result = rendered
+
+    await message.answer(text, reply_markup=keyboard)
+    await _send_streak_extras(message, message.from_user.id, streak_result, lang)
 
 
 @router.callback_query(F.data == "random")

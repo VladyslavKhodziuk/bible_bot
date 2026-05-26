@@ -9,6 +9,7 @@ from aiogram.types import BotCommand
 from config import BOT_TOKEN
 from database import init_db
 from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications, cabinet, feedback, search, plan, donate, ai_pastor, chatid
+from handlers import help as help_cmd
 from services.plan_service import PlanService
 from services.scheduler import setup_scheduler
 from services.bible_service import BibleService
@@ -27,8 +28,11 @@ logger = logging.getLogger(__name__)
 async def set_bot_commands(bot: Bot):
     """Устанавливает список команд, отображаемых в меню Telegram (синяя кнопка)."""
     commands = [
-        BotCommand(command="start", description="Начать / Start / Iniciar"),
-        BotCommand(command="menu", description="Меню / Menu / Menú"),
+        BotCommand(command="start", description="Iniciar / Почати / Начать"),
+        BotCommand(command="menu", description="Menú / Меню / Меню"),
+        BotCommand(command="verse", description="Versículo del día / Вірш дня / Стих дня"),
+        BotCommand(command="settings", description="Ajustes / Налаштування / Настройки"),
+        BotCommand(command="help", description="Ayuda / Допомога / Помощь"),
     ]
     await bot.set_my_commands(commands)
 
@@ -58,6 +62,7 @@ async def main():
     dp.include_router(donate.router)
     dp.include_router(start.router)
     dp.include_router(menu.router)
+    dp.include_router(help_cmd.router)
     dp.include_router(settings.router)
     dp.include_router(read.router)
     dp.include_router(verse.router)
