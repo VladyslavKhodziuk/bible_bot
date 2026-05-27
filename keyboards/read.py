@@ -34,9 +34,11 @@ def testament_keyboard(lang: str, translation: str) -> InlineKeyboardMarkup:
         )
         layout.append(1)
 
-    # Поиск по слову — живёт внутри раздела чтения
+    # «По настроению» + «Поиск по слову» — в один ряд: оба про подбор/поиск
+    # стихов, а не про навигацию по заветам.
+    builder.button(text=t("menu.topics", lang), callback_data="topics")
     builder.button(text=t("read.btn_search", lang), callback_data="search")
-    layout.append(1)
+    layout.append(2)
 
     builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
     layout.append(1)

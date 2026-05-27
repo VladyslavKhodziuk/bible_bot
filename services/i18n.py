@@ -51,3 +51,23 @@ def t(key: str, lang: str = DEFAULT_LANG, **kwargs) -> str:
             return data
 
     return data
+
+
+def t_list(key: str, lang: str = DEFAULT_LANG) -> list:
+    """Получить локализованный список по ключу с точечной нотацией.
+
+    Возвращает [] если ключ не найден или указывает не на список.
+    Нужно для таблиц типа месяцев, где элементы индексируются по позиции.
+    """
+    if lang not in SUPPORTED_LANGS:
+        lang = DEFAULT_LANG
+
+    data = _load_lang(lang)
+
+    for part in key.split("."):
+        if isinstance(data, dict) and part in data:
+            data = data[part]
+        else:
+            return []
+
+    return data if isinstance(data, list) else []

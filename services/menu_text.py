@@ -6,7 +6,6 @@ from datetime import date
 from models import User
 from services.bible_service import BibleService
 from services.i18n import t, _load_lang
-from services.streak_display import format_streak_indicator
 
 
 _bot_username: str | None = None
@@ -85,13 +84,41 @@ async def build_menu_text(user: User | None, lang: str, bot=None) -> str:
             share_link = f'<a href="{share_href}">{t("menu.share_verse", lang)}</a>'
 
     if user is not None:
-        streak_line = format_streak_indicator(user.current_streak, lang)
-        if streak_line:
+        progress_lines = _build_progress_block(user, lang)
+        if progress_lines:
             parts.append("")
-            parts.append(streak_line)
+            parts.extend(progress_lines)
 
     if share_link:
         parts.append("")
         parts.append(share_link)
 
     return "\n".join(parts)
+
+
+def _build_progress_block(user: User, lang: str) -> list[str]:
+    """Блок «Мой прогресс»: стрик чтения Библии + стрик молитвы.
+
+    Показываем всегда (включая 0 дней) — пользователь видит свой стартовый
+    статус и понимает, что эти счётчики существуют.
+    """
+    bible = user.current_streak or 0
+    prayer = user.current_prayer_streak or 0
+
+    lines = [t("menu.progress.title", lang)]
+
+    if bible <= 0:
+        lines.append(t("menu.progress.bible_zero", lang))
+    elif bible == 1:
+        lines.append(t("menu.progress.bible_single", lang))
+    else:
+        lines.append(t("menu.progress.bible_multi", lang, days=bible))
+
+    if prayer <= 0:
+        lines.append(t("menu.progress.prayer_zero", lang))
+    elif prayer == 1:
+        lines.append(t("menu.progress.prayer_single", lang))
+    else:
+        lines.append(t("menu.progress.prayer_multi", lang, days=prayer))
+
+    return lines

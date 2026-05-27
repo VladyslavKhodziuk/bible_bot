@@ -18,6 +18,10 @@ class User(Base):
     translation: Mapped[str] = mapped_column(String(20), default="ru_synodal")
     notifications_enabled: Mapped[bool] = mapped_column(default=True)  # стих дня вкл по умолчанию
     notification_time: Mapped[str] = mapped_column(String(5), default="09:00")  # формат "HH:MM"
+    # Напоминание о «молитве на сегодня» — отдельное от стиха дня. Опт-ин:
+    # по умолчанию выключено, юзер сам включает с карточки «Помолиться».
+    prayer_notifications_enabled: Mapped[bool] = mapped_column(default=False)
+    prayer_notification_time: Mapped[str] = mapped_column(String(5), default="08:00")
     timezone: Mapped[str] = mapped_column(String(64), default=DEFAULT_TZ)  # IANA-зона юзера
     # Серии (streaks)
     current_streak: Mapped[int] = mapped_column(Integer, default=0)
@@ -25,6 +29,11 @@ class User(Base):
     last_activity_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     freezes_available: Mapped[int] = mapped_column(Integer, default=2)
     streak_explained: Mapped[bool] = mapped_column(default=False)
+    # Молитвенный стрик — отдельный счётчик, растёт только по нажатию «Аминь»
+    # на карточке молитвы дня. Без заморозок: пропуск дня = сброс в 1.
+    current_prayer_streak: Mapped[int] = mapped_column(Integer, default=0)
+    longest_prayer_streak: Mapped[int] = mapped_column(Integer, default=0)
+    last_prayer_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
     def __repr__(self) -> str:

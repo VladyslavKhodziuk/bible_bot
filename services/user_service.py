@@ -92,6 +92,26 @@ class UserService:
             await session.commit()
 
     @staticmethod
+    async def set_prayer_notifications(
+            tg_id: int,
+            enabled: bool | None = None,
+            time: str | None = None,
+    ) -> None:
+        """Включить/выключить напоминание о молитве и/или изменить время."""
+        async with async_session() as session:
+            result = await session.execute(
+                select(User).where(User.tg_id == tg_id)
+            )
+            user = result.scalar_one_or_none()
+            if not user:
+                return
+            if enabled is not None:
+                user.prayer_notifications_enabled = enabled
+            if time is not None:
+                user.prayer_notification_time = time
+            await session.commit()
+
+    @staticmethod
     async def set_timezone(tg_id: int, tz_name: str) -> None:
         """Сменить часовой пояс пользователя (IANA-имя)."""
         async with async_session() as session:

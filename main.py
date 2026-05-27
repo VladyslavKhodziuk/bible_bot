@@ -8,12 +8,13 @@ from aiogram.types import BotCommand
 
 from config import BOT_TOKEN
 from database import init_db
-from handlers import start, menu, settings, read, verse, topics, bookmarks, notifications, cabinet, feedback, search, plan, donate, ai_pastor, chatid
+from handlers import start, menu, settings, read, verse, topics, pray, prayer_notifications, bookmarks, notifications, cabinet, feedback, search, plan, donate, ai_pastor, chatid
 from handlers import help as help_cmd
 from services.plan_service import PlanService
 from services.scheduler import setup_scheduler
 from services.bible_service import BibleService
 from services.topic_service import TopicService
+from services.prayer_service import PrayerService
 from services.alert_service import AlertService
 from services.analytics_service import AnalyticsService
 from middlewares.analytics import AnalyticsMiddleware
@@ -44,6 +45,7 @@ async def main():
     BibleService.load()
     TopicService.load()
     PlanService.load()
+    PrayerService.load()
 
     bot = Bot(
         token=BOT_TOKEN,
@@ -67,6 +69,8 @@ async def main():
     dp.include_router(read.router)
     dp.include_router(verse.router)
     dp.include_router(topics.router)
+    dp.include_router(pray.router)
+    dp.include_router(prayer_notifications.router)
     dp.include_router(bookmarks.router)
     dp.include_router(notifications.router)
     dp.include_router(cabinet.router)

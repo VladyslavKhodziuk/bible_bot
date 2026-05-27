@@ -21,12 +21,14 @@ welcome:
 
     🙋 Escucharte y apoyarte con la Palabra — habla con el pastor
     📖 Leer la Biblia en diferentes traducciones
+    🙏 Enviarte una oración para cada día — con el botón «Amén»
+    🔔 Recordarte la oración a tu hora elegida
     🔍 Buscar versículos por palabras y temas
     💭 Encontrar la Palabra para cualquier situación de la vida
-    🎲 Mostrarte un versículo al azar
+    🎲 Mostrarte un versículo al azar y la sabiduría del día
     ⭐ Guardar tus pasajes favoritos
     📚 Guiarte por un plan de lectura
-    🔥 Ayudarte a mantener una racha diaria con la Palabra
+    🔥 Llevar tu racha — en la Palabra y en la oración
 
     <i>«Lámpara es a mis pies tu palabra, y lumbrera a mi camino» (Salmo 119:105)</i>
 
@@ -44,6 +46,14 @@ menu:
   verse_card_title: "Versículo del día · {date}"
   share_verse: "📤 Compartir"
   share_header: "📖 Versículo del día"
+  progress:
+    title: "<b>Mi progreso</b>"
+    bible_zero: "📖 Leyendo la Biblia — 0 días"
+    bible_single: "📖 Leyendo la Biblia — 1 día"
+    bible_multi: "📖 Leyendo la Biblia — {days} días seguidos"
+    prayer_zero: "🙏 Tiempo de oración — 0 días"
+    prayer_single: "🙏 Tiempo de oración — 1 día"
+    prayer_multi: "🙏 Tiempo de oración — {days} días"
   date_format: "{day} de {month}"
   months:
     - enero
@@ -124,17 +134,23 @@ search:
 
 cabinet:
   title: "<b>👤 Mi Cuenta</b>"
-  greeting: "¡Hola, {name}!"
-  streak_current: "🔥 Racha: <b>{days} días</b>"
-  streak_current_single: "🔥 Racha: <b>1 día</b>"
+  greeting: "Hola, {name} 🕊️"
+  days_with_bot_first: "<i>Hoy es tu primer día conmigo 🌱</i>"
+  days_with_bot_one: "<i>Llevamos juntos 1 día</i>"
+  days_with_bot: "<i>Llevamos juntos {days} días</i>"
+  word_section: "📖 <b>Con la Palabra</b>"
+  prayer_section: "🙏 <b>En oración</b>"
   streak_none: "🔥 La racha aún no ha comenzado"
-  streak_longest: "🏆 Mejor racha: <b>{days} días</b>"
-  freezes: "🛡 Protecciones: <b>{count} / {max}</b>"
-  bookmarks_count: "⭐ Favoritos: <b>{count}</b>"
-  days_in_bot: "📅 Con nosotros: <b>{days} días</b>"
+  streak_record_match: "🔥 Racha: <b>{current}</b> · tu récord 🏆"
+  streak_with_record: "🔥 Racha: <b>{current}</b> · récord: {longest}"
+  day_count_single: "1 día"
+  day_count: "{days} días"
+  freezes: "🛡 Protecciones: <b>{count}</b> / {max}"
+  bookmarks: "⭐ Favoritos: <b>{count}</b>"
+  plans_completed: "📚 Planes completados: <b>{count}</b>"
+  footer_motto: "<i>La Palabra y la oración — dos alas de un mismo vuelo 🕊️</i>"
   bookmarks_button: "⭐ Mis favoritos"
   my_plans_button: "📊 Mis planes"
-  completed_plans_count: "🏆 Planes completados: <b>{count}</b>"
   settings_button: "⚙️ Ajustes"
   back_to_cabinet: "← A mi cuenta"
 
@@ -176,7 +192,7 @@ settings:
     es_sagradas: "Sagradas Escrituras 1569"
 
 read:
-  choose_testament: "<b>📖 Leer la Biblia</b>\n\nElige una sección:"
+  choose_testament: "<b>📖 Leer la Biblia</b>\n\n<i>Abre la Palabra — ella sabe lo que necesitas hoy.</i>\n\n¿Por dónde empezamos?"
   btn_search: "🔍 Buscar por palabra"
   btn_translation: "📚 Traducción · {translation}"
   old_testament: "📜 Antiguo Testamento"
@@ -232,7 +248,67 @@ topics:
   back_to_topics: "← A los temas"
 
 pray:
-  title: "<b>🙏 Orar</b>\n\nElige lo que sientas más cercano ahora:"
+  title: "<b>🙏 Orar</b>"
+  card_title: "ORACIÓN PARA HOY · {date}"
+  verse_line: "📖 {book} {chapter}:{verse} · «{verse_text}»"
+  amen_btn: "🙏 Amén"
+  amen_title: "🕊️ <b>¡Dios escucha tus oraciones!</b>"
+  share_link: "📤 Compartir"
+  share_header: "🙏 Oración para hoy"
+  share_footer: "🙏 Bible Way — ora cada día"
+  btn_topics: "📁 Por temas"
+  btn_my: "📌 Mis oraciones"
+  btn_remind: "🔔 Recordar"
+  topics_soon: "<b>📁 Por temas</b>\n\nSección en desarrollo.\n\nPronto habrá una selección de oraciones para distintas situaciones de la vida."
+  my_soon: "<b>📌 Mis oraciones</b>\n\nSección en desarrollo.\n\nPronto podrás guardar tus oraciones favoritas — como marcadores para versículos de la Biblia."
+  back_to_card: "← A la tarjeta"
+  empty: "Aún no hay oración para hoy. Vuelve mañana 🙏"
+  streak:
+    indicator: "🙏 {days} días de oración"
+    indicator_single: "🙏 1 día de oración"
+    onboarding: |
+      🙏 <b>¡Tu racha de oración ha comenzado!</b>
+
+      Cada día que pulsas «Amén» bajo una oración — ese día cuenta. Así la oración se convierte en tu ritmo diario.
+
+      Dios escucha cada palabra. Vuelve 🕊️
+    onboarding_button: "Entendido 🙌"
+    milestones:
+      "3": "🎉 ¡Tres días de oración seguidos!"
+      "7": "🔥 ¡Una semana entera de oración!"
+      "14": "✨ Dos semanas de oración."
+      "30": "🏆 ¡Un mes de oración seguido!"
+      "50": "💎 Cincuenta días de oración."
+      "100": "👑 ¡CIEN DÍAS DE ORACIÓN!"
+      "200": "🌟 Doscientos días. La oración es tu ritmo."
+      "365": "🕊️ ¡UN AÑO DE ORACIÓN!"
+  notif:
+    title: "<b>🔔 Recordatorio de oración</b>\n\n{status}\n\n🙏 La oración del día llegará a la hora elegida."
+    status_enabled: "✅ Recordatorio activado\n🕐 Hora: <b>{time}</b>"
+    status_disabled: "❌ Recordatorio desactivado"
+    choose_time: "<b>🕐 Elige una hora</b>\n\n¿A qué hora enviar la oración del día?"
+    time_changed: "✅ Hora cambiada a {time}"
+    enabled_message: "🔔 Recordatorio activado"
+    disabled_message: "🔕 Recordatorio desactivado"
+    btn_enable: "🔔 Activar"
+    btn_disable: "🔕 Desactivar"
+    btn_time: "🕐 Hora: {time}"
+    push_greeting: "🙏 <b>Oración para hoy</b>"
+    push_open: "📖 Abrir en el bot"
+  months:
+    short:
+      - "ene"
+      - "feb"
+      - "mar"
+      - "abr"
+      - "may"
+      - "jun"
+      - "jul"
+      - "ago"
+      - "sep"
+      - "oct"
+      - "nov"
+      - "dic"
 
 wisdom:
   title: "💡 <b>Sabiduría del día</b>"

@@ -1,0 +1,100 @@
+# Пул молитв на каждый день. Выбор детерминирован по дате
+# (random.seed(date.toordinal())) — все пользователи в один день
+# видят одну и ту же молитву на своём языке.
+#
+# Поля:
+#   id     — стабильный slug (для аналитики/закладок в будущем)
+#   title  — короткий заголовок молитвы на 4 языках
+#   text   — собственно текст молитвы на 4 языках
+#   ref    — опциональная ссылка на стих «abbrev:chapter:verse»
+
+- id: peace_in_heart
+  title:
+    ru: "О мире в сердце"
+    en: "For peace in the heart"
+    es: "Por la paz en el corazón"
+    uk: "Про мир у серці"
+  text:
+    ru: "Господи, утиши тревогу мою, как утишил Ты бурю на море Галилейском. Дай сердцу моему пребывать в Тебе, и да воцарится мир Твой во мне сегодня."
+    en: "Lord, calm my anxiety as You calmed the storm on the Sea of Galilee. Let my heart abide in You, and may Your peace reign in me today."
+    es: "Señor, calma mi inquietud como calmaste la tormenta en el mar de Galilea. Que mi corazón permanezca en Ti, y reine Tu paz en mí hoy."
+    uk: "Господи, втиш тривогу мою, як утишив Ти бурю на морі Галилейському. Нехай серце моє перебуває в Тобі, і нехай мир Твій запанує в мені сьогодні."
+  ref: "mk:4:39"
+
+- id: morning_thanksgiving
+  title:
+    ru: "Утренняя благодарность"
+    en: "Morning thanksgiving"
+    es: "Gratitud matinal"
+    uk: "Ранкова подяка"
+  text:
+    ru: "Благодарю Тебя, Господи, за этот новый день. За дыхание, за свет, за хлеб и за людей вокруг. Веди меня по путям Твоим и научи замечать милость Твою."
+    en: "I thank You, Lord, for this new day. For breath, for light, for bread, and for the people around me. Lead me in Your ways and teach me to notice Your mercy."
+    es: "Te doy gracias, Señor, por este nuevo día. Por el aliento, por la luz, por el pan y por las personas a mi alrededor. Guíame por Tus caminos y enséñame a percibir Tu misericordia."
+    uk: "Дякую Тобі, Господи, за цей новий день. За подих, за світло, за хліб і за людей навколо. Веди мене Твоїми шляхами і навчи помічати милість Твою."
+  ref: "ps:118:24"
+
+- id: for_loved_ones
+  title:
+    ru: "О близких"
+    en: "For loved ones"
+    es: "Por los seres queridos"
+    uk: "Про близьких"
+  text:
+    ru: "Господи, благослови сегодня тех, кого Ты дал мне любить. Сохрани их в мире, дай здравие душе и телу, и пусть свет Твой светит на их путях."
+    en: "Lord, bless today those You have given me to love. Keep them in peace, grant health to soul and body, and let Your light shine on their paths."
+    es: "Señor, bendice hoy a quienes me has dado para amar. Guárdalos en paz, concede salud a su alma y cuerpo, y que Tu luz ilumine sus caminos."
+    uk: "Господи, благослови сьогодні тих, кого Ти дав мені любити. Збережи їх у мирі, даруй здоров'я душі й тілу, і нехай світло Твоє світить на їхніх шляхах."
+  ref: "nu:6:24"
+
+- id: in_difficulty
+  title:
+    ru: "В трудный день"
+    en: "On a hard day"
+    es: "En un día difícil"
+    uk: "У важкий день"
+  text:
+    ru: "Господи, Ты знаешь, как мне тяжело. Дай сил пройти этот день, не теряя надежды. Напомни, что Ты рядом — даже когда я не чувствую."
+    en: "Lord, You know how hard this is for me. Give me strength to walk through this day without losing hope. Remind me that You are near — even when I do not feel it."
+    es: "Señor, Tú sabes lo difícil que me resulta esto. Dame fuerzas para atravesar este día sin perder la esperanza. Recuérdame que estás cerca, incluso cuando no lo siento."
+    uk: "Господи, Ти знаєш, як мені важко. Дай сил пройти цей день, не втрачаючи надії. Нагадай, що Ти поруч — навіть коли я цього не відчуваю."
+  ref: "ps:34:18"
+
+- id: forgiveness
+  title:
+    ru: "О прощении"
+    en: "For forgiveness"
+    es: "Por el perdón"
+    uk: "Про прощення"
+  text:
+    ru: "Господи, прости мне всё, чем я согрешил сегодня — словом, делом, мыслью и неделанием. И научи меня прощать так же, как Ты прощаешь меня."
+    en: "Lord, forgive me for all the wrongs of this day — in word, in deed, in thought, and in things left undone. And teach me to forgive as You forgive me."
+    es: "Señor, perdóname todo lo que hoy he hecho mal — de palabra, de obra, de pensamiento y de omisión. Y enséñame a perdonar como Tú me perdonas."
+    uk: "Господи, прости мені все, чим я сьогодні згрішив — словом, ділом, думкою і недіянням. І навчи мене прощати так, як Ти прощаєш мені."
+  ref: "mt:6:12"
+
+- id: evening_rest
+  title:
+    ru: "Вечерний покой"
+    en: "Evening rest"
+    es: "Descanso vespertino"
+    uk: "Вечірній спокій"
+  text:
+    ru: "Господи, день закрывается. Ты видел всё — и доброе, и трудное. Прими этот вечер в руки Свои, дай покой сердцу моему и сон мирный."
+    en: "Lord, the day is closing. You have seen it all — the good and the hard. Take this evening into Your hands, give peace to my heart and restful sleep."
+    es: "Señor, el día termina. Tú lo has visto todo — lo bueno y lo difícil. Recibe esta tarde en Tus manos, da paz a mi corazón y un sueño tranquilo."
+    uk: "Господи, день завершується. Ти бачив усе — і добре, і важке. Прийми цей вечір у руки Свої, даруй спокій серцю моєму і мирний сон."
+  ref: "ps:4:8"
+
+- id: for_guidance
+  title:
+    ru: "О водительстве"
+    en: "For guidance"
+    es: "Por la guía"
+    uk: "Про провід"
+  text:
+    ru: "Господи, не знаю, куда идти. Открой мне путь Твой и дай мужества ступить на него. Не дай свернуть туда, где меня нет в Твоей воле."
+    en: "Lord, I do not know which way to go. Open Your path to me and give me courage to step onto it. Keep me from turning where I would be outside Your will."
+    es: "Señor, no sé hacia dónde ir. Ábreme Tu camino y dame valor para entrar en él. Que no me desvíe hacia donde estaría fuera de Tu voluntad."
+    uk: "Господи, не знаю, куди йти. Відкрий мені шлях Твій і дай мужності ступити на нього. Не дай звернути туди, де мене немає у волі Твоїй."
+  ref: "ps:25:4"

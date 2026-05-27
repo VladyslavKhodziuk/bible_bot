@@ -6,22 +6,8 @@ from services.bible_service import BibleService
 from services.topic_service import TopicService
 from services.i18n import t
 from keyboards.topics import topics_keyboard, topic_view_keyboard
-from keyboards.pray import pray_keyboard
 
 router = Router()
-
-
-@router.callback_query(F.data == "pray")
-async def show_pray(callback: CallbackQuery):
-    """Раздел «Помолиться» — обёртка над подбором стихов по настроению."""
-    user = await UserService.get(callback.from_user.id)
-    lang = user.lang if user else "ru"
-
-    await callback.message.edit_text(
-        t("pray.title", lang),
-        reply_markup=pray_keyboard(lang)
-    )
-    await callback.answer()
 
 
 @router.callback_query(F.data == "topics")

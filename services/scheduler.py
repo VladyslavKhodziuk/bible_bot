@@ -15,6 +15,7 @@ from database import async_session
 from models import User, PlanProgress
 from services.bible_service import BibleService
 from services.plan_service import PlanService
+from services.prayer_service import PrayerService
 from services.streak_service import StreakService
 from services.streak_display import format_streak_indicator, get_milestone_message
 from services.analytics_service import AnalyticsService
@@ -169,6 +170,74 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
                 )
             except Exception as e:
                 logger.warning(f"Не удалось отправить милстоун юзеру {user.tg_id}: {e}")
+
+
+# ============ Отправка молитвы дня ============
+
+async def _send_prayer_to_user(bot: Bot, user: User) -> None:
+    """Отправить юзеру карточку «молитвы на сегодня» с кнопкой «Аминь» и share-ссылкой."""
+    # Локальный импорт — иначе циклический (handlers/pray импортирует services/i18n,
+    # а scheduler не нуждается в pray до этой точки).
+    from handlers.pray import _get_bot_username, _share_link_html
+
+    prayer = PrayerService.get_prayer_of_day(user.lang, user.translation)
+    if not prayer:
+        return
+
+    greeting = t("pray.notif.push_greeting", user.lang)
+    bot_username = await _get_bot_username(bot)
+
+    parts = [
+        greeting,
+        "",
+        f"<b>{html.escape(prayer['title'])}</b>",
+        "",
+        f"<i>«{prayer['text']}»</i>",
+    ]
+    if prayer.get("ref"):
+        ref = prayer["ref"]
+        parts.append("")
+        parts.append(t(
+            "pray.verse_line",
+            user.lang,
+            book=ref["book"],
+            chapter=ref["chapter"],
+            verse=ref["verse"],
+            verse_text=ref["text"],
+        ))
+    parts.append("")
+    parts.append(_share_link_html(prayer, user.lang, bot_username))
+    text_body = "\n".join(parts)
+
+    builder = InlineKeyboardBuilder()
+    builder.button(
+        text=t("pray.amen_btn", user.lang),
+        callback_data="pray:amen",
+    )
+    builder.button(
+        text=t("pray.notif.push_open", user.lang),
+        callback_data="pray",
+    )
+    builder.button(
+        text=t("common.back_to_menu", user.lang),
+        callback_data="open_menu",
+    )
+    builder.adjust(1)
+
+    try:
+        await bot.send_message(
+            chat_id=user.tg_id,
+            text=text_body,
+            reply_markup=builder.as_markup(),
+            parse_mode="HTML",
+            disable_web_page_preview=True,
+        )
+        logger.info(f"Молитва дня отправлена юзеру {user.tg_id}")
+        AnalyticsService.record(user.tg_id, "notif_prayer", "notif")
+    except Exception as e:
+        logger.warning(f"Не удалось отправить молитву дня юзеру {user.tg_id}: {e}")
+        AnalyticsService.record(user.tg_id, "notif_prayer", "error")
+        await _alert_if_infra(e, "рассылка молитвы дня")
 
 
 # ============ Отправка плана чтения ============
@@ -337,13 +406,38 @@ async def send_daily_verses(bot: Bot):
         except Exception as e:
             logger.warning(f"Ошибка плана для {user.tg_id}: {e}")
 
-    # === 3. Аналитика: сбрасываем буфер событий в БД ===
+    # === 3. Молитва дня (по часовому поясу пользователя) ===
+    prayer_users = []
+    async with async_session() as session:
+        tzs = (await session.execute(
+            select(User.timezone)
+            .where(User.prayer_notifications_enabled == True)
+            .distinct()
+        )).scalars().all()
+        for tz in tzs:
+            local_time = local_hhmm(tz)
+            rows = (await session.execute(
+                select(User).where(
+                    User.prayer_notifications_enabled == True,
+                    User.timezone == tz,
+                    User.prayer_notification_time == local_time,
+                )
+            )).scalars().all()
+            prayer_users.extend(rows)
+
+    for user in prayer_users:
+        try:
+            await _send_prayer_to_user(bot, user)
+        except Exception as e:
+            logger.warning(f"Ошибка молитвы дня для {user.tg_id}: {e}")
+
+    # === 4. Аналитика: сбрасываем буфер событий в БД ===
     await AnalyticsService.flush()
 
-    # === 3.5. Health-check ресурсов сервера ===
+    # === 4.5. Health-check ресурсов сервера ===
     await _health_check()
 
-    # === 4. Отчёты и обслуживание (раз в сутки, в REPORT_TIME) ===
+    # === 5. Отчёты и обслуживание (раз в сутки, в REPORT_TIME) ===
     if current_time == REPORT_TIME:
         today = datetime.now().day
         await send_activity_report(bot)  # ежедневный за 24ч

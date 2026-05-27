@@ -132,7 +132,7 @@ async def show_chapters(callback: CallbackQuery):
 
     # Дополнительные сообщения (onboarding, милстоуны)
     from handlers.verse import _send_streak_extras
-    await _send_streak_extras(callback, streak_result, lang)
+    await _send_streak_extras(callback.message, callback.from_user.id, streak_result, lang)
 
 
 # ============ Экран 4: Текст главы ============

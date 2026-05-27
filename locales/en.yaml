@@ -21,12 +21,14 @@ welcome:
 
     🙋 Listen and support you with the Word — talk to the pastor
     📖 Read the Bible in different translations
+    🙏 Send you a prayer for every day — with an «Amen» button
+    🔔 Remind you to pray at your chosen time
     🔍 Search verses by words and topics
     💭 Find the Word for any life situation
-    🎲 Show you a random verse
+    🎲 Show you a random verse and the wisdom of the day
     ⭐ Save your favorite passages
     📚 Guide you through a reading plan
-    🔥 Help you keep a daily streak with the Word
+    🔥 Track your streak — in the Word and in prayer
 
     <i>"Your word is a lamp for my feet, a light on my path" (Psalm 119:105)</i>
 
@@ -44,6 +46,14 @@ menu:
   verse_card_title: "Verse of the day · {date}"
   share_verse: "📤 Share"
   share_header: "📖 Verse of the day"
+  progress:
+    title: "<b>My progress</b>"
+    bible_zero: "📖 Reading the Bible — 0 days"
+    bible_single: "📖 Reading the Bible — 1 day"
+    bible_multi: "📖 Reading the Bible — {days} days in a row"
+    prayer_zero: "🙏 Time in prayer — 0 days"
+    prayer_single: "🙏 Time in prayer — 1 day"
+    prayer_multi: "🙏 Time in prayer — {days} days"
   date_format: "{month} {day}"
   months:
     - January
@@ -124,17 +134,23 @@ search:
 
 cabinet:
   title: "<b>👤 My Account</b>"
-  greeting: "Hello, {name}!"
-  streak_current: "🔥 Streak: <b>{days} days</b>"
-  streak_current_single: "🔥 Streak: <b>1 day</b>"
+  greeting: "Hi, {name} 🕊️"
+  days_with_bot_first: "<i>Today is your first day with me 🌱</i>"
+  days_with_bot_one: "<i>You've been with me 1 day</i>"
+  days_with_bot: "<i>You've been with me {days} days</i>"
+  word_section: "📖 <b>In the Word</b>"
+  prayer_section: "🙏 <b>In prayer</b>"
   streak_none: "🔥 Streak not started yet"
-  streak_longest: "🏆 Best streak: <b>{days} days</b>"
-  freezes: "🛡 Freezes: <b>{count} / {max}</b>"
-  bookmarks_count: "⭐ Bookmarks: <b>{count}</b>"
-  days_in_bot: "📅 With us for: <b>{days} days</b>"
+  streak_record_match: "🔥 Streak: <b>{current}</b> · your record 🏆"
+  streak_with_record: "🔥 Streak: <b>{current}</b> · record: {longest}"
+  day_count_single: "1 day"
+  day_count: "{days} days"
+  freezes: "🛡 Freezes: <b>{count}</b> / {max}"
+  bookmarks: "⭐ Bookmarks: <b>{count}</b>"
+  plans_completed: "📚 Plans completed: <b>{count}</b>"
+  footer_motto: "<i>The Word and prayer — two wings of one flight 🕊️</i>"
   bookmarks_button: "⭐ My bookmarks"
   my_plans_button: "📊 My plans"
-  completed_plans_count: "🏆 Plans completed: <b>{count}</b>"
   settings_button: "⚙️ Settings"
   back_to_cabinet: "← To my account"
 
@@ -173,7 +189,7 @@ settings:
     en_asv: "American Standard Version (ASV)"
     en_web: "World English Bible (WEB)"
 read:
-  choose_testament: "<b>📖 Read the Bible</b>\n\nChoose a section:"
+  choose_testament: "<b>📖 Read the Bible</b>\n\n<i>Open the Word — it knows what you need today.</i>\n\nWhere shall we begin?"
   btn_search: "🔍 Search by word"
   btn_translation: "📚 Translation · {translation}"
   old_testament: "📜 Old Testament"
@@ -229,7 +245,67 @@ topics:
   back_to_topics: "← To topics"
 
 pray:
-  title: "<b>🙏 Pray</b>\n\nChoose what's closest right now:"
+  title: "<b>🙏 Pray</b>"
+  card_title: "PRAYER FOR TODAY · {date}"
+  verse_line: "📖 {book} {chapter}:{verse} · «{verse_text}»"
+  amen_btn: "🙏 Amen"
+  amen_title: "🕊️ <b>God hears your prayers!</b>"
+  share_link: "📤 Share"
+  share_header: "🙏 Prayer for today"
+  share_footer: "🙏 Bible Way — pray every day"
+  btn_topics: "📁 By topic"
+  btn_my: "📌 My prayers"
+  btn_remind: "🔔 Remind me"
+  topics_soon: "<b>📁 By topic</b>\n\nThis section is in development.\n\nA selection of prayers for life situations is coming soon."
+  my_soon: "<b>📌 My prayers</b>\n\nThis section is in development.\n\nSoon you'll be able to save your favorite prayers — like bookmarks for Bible verses."
+  back_to_card: "← Back to card"
+  empty: "No prayer for today yet. Come back tomorrow 🙏"
+  streak:
+    indicator: "🙏 {days} days of prayer"
+    indicator_single: "🙏 1 day of prayer"
+    onboarding: |
+      🙏 <b>Your prayer streak has begun!</b>
+
+      Every day you tap «Amen» on a prayer — that day counts. This is how prayer becomes your daily rhythm.
+
+      God hears every word. Come back 🕊️
+    onboarding_button: "Got it 🙌"
+    milestones:
+      "3": "🎉 Three days of prayer in a row!"
+      "7": "🔥 A whole week of prayer!"
+      "14": "✨ Two weeks of prayer."
+      "30": "🏆 A month of prayer in a row!"
+      "50": "💎 Fifty days of prayer."
+      "100": "👑 ONE HUNDRED DAYS OF PRAYER!"
+      "200": "🌟 Two hundred days. Prayer is your rhythm."
+      "365": "🕊️ A YEAR OF PRAYER!"
+  notif:
+    title: "<b>🔔 Prayer reminder</b>\n\n{status}\n\n🙏 The prayer for today will arrive at the chosen time."
+    status_enabled: "✅ Reminder enabled\n🕐 Time: <b>{time}</b>"
+    status_disabled: "❌ Reminder disabled"
+    choose_time: "<b>🕐 Choose a time</b>\n\nWhen should we send the prayer for today?"
+    time_changed: "✅ Time changed to {time}"
+    enabled_message: "🔔 Reminder enabled"
+    disabled_message: "🔕 Reminder disabled"
+    btn_enable: "🔔 Enable"
+    btn_disable: "🔕 Disable"
+    btn_time: "🕐 Time: {time}"
+    push_greeting: "🙏 <b>Prayer for today</b>"
+    push_open: "📖 Open in the bot"
+  months:
+    short:
+      - "Jan"
+      - "Feb"
+      - "Mar"
+      - "Apr"
+      - "May"
+      - "Jun"
+      - "Jul"
+      - "Aug"
+      - "Sep"
+      - "Oct"
+      - "Nov"
+      - "Dec"
 
 wisdom:
   title: "💡 <b>Wisdom of the Day</b>"

@@ -16,61 +16,77 @@ router = Router()
 MAX_FREEZES = 2
 
 
+def _format_day_count(days: int, lang: str) -> str:
+    """«1 день» / «{N} дн.» — общий формат счётчиков дней в кабинете."""
+    if days == 1:
+        return t("cabinet.day_count_single", lang)
+    return t("cabinet.day_count", lang, days=days)
+
+
+def _format_streak_line(current: int, longest: int, lang: str) -> str:
+    """Одна строка серии: «🔥 Серия пока не начата» либо «🔥 Серия: X · …».
+
+    Если текущая = лучшая (и > 0), подчёркиваем «твой рекорд» — мотивация
+    превзойти. Иначе показываем оба значения, чтобы было видно, к чему стремиться.
+    """
+    if current <= 0:
+        return t("cabinet.streak_none", lang)
+
+    current_str = _format_day_count(current, lang)
+    if current >= longest:
+        return t("cabinet.streak_record_match", lang, current=current_str)
+
+    longest_str = _format_day_count(longest, lang)
+    return t("cabinet.streak_with_record", lang, current=current_str, longest=longest_str)
+
+
 async def _build_cabinet_text(user, lang: str) -> str:
-    """Сформировать текст личного кабинета с сводкой."""
+    """Сформировать текст личного кабинета: приветствие + два блока статистики."""
     name = html.escape(user.first_name or "друг")
 
-    # Серия — текущая
-    if user.current_streak == 0:
-        streak_line = t("cabinet.streak_none", lang)
-    elif user.current_streak == 1:
-        streak_line = t("cabinet.streak_current_single", lang)
-    else:
-        streak_line = t("cabinet.streak_current", lang, days=user.current_streak)
-
-    # Серия — рекорд (только если есть)
-    longest_line = None
-    if user.longest_streak > 0:
-        longest_line = t("cabinet.streak_longest", lang, days=user.longest_streak)
-
-    # Заморозки
-    freezes_line = t(
-        "cabinet.freezes",
-        lang,
-        count=user.freezes_available,
-        max=MAX_FREEZES,
-    )
-
-    # Дней в боте
     days_in_bot = (date.today() - user.created_at.date()).days
-    if days_in_bot == 0:
-        days_in_bot = 1
-    days_line = t("cabinet.days_in_bot", lang, days=days_in_bot)
+    if days_in_bot <= 0:
+        days_line = t("cabinet.days_with_bot_first", lang)
+    elif days_in_bot == 1:
+        days_line = t("cabinet.days_with_bot_one", lang)
+    else:
+        days_line = t("cabinet.days_with_bot", lang, days=days_in_bot)
 
-    # Количество закладок
     bookmarks_count = await BookmarkService.count_for_user(user.tg_id)
-    bookmarks_line = t("cabinet.bookmarks_count", lang, count=bookmarks_count)
-
-    # Количество завершённых планов
     history = await PlanService.get_history(user.tg_id)
     completed_plans_count = sum(1 for p in history if p.status == "completed")
-    completed_line = t("cabinet.completed_plans_count", lang, count=completed_plans_count)
 
-    # Собираем
+    # Блок «Со Словом»: чтение Библии + закладки + завершённые планы
+    word_lines = [
+        t("cabinet.word_section", lang),
+        _format_streak_line(user.current_streak, user.longest_streak, lang),
+        t("cabinet.freezes", lang, count=user.freezes_available, max=MAX_FREEZES),
+        t("cabinet.bookmarks", lang, count=bookmarks_count),
+        t("cabinet.plans_completed", lang, count=completed_plans_count),
+    ]
+    word_card = "<blockquote>" + "\n".join(word_lines) + "</blockquote>"
+
+    # Блок «В молитве»: молитвенный стрик
+    prayer_lines = [
+        t("cabinet.prayer_section", lang),
+        _format_streak_line(
+            user.current_prayer_streak, user.longest_prayer_streak, lang
+        ),
+    ]
+    prayer_card = "<blockquote>" + "\n".join(prayer_lines) + "</blockquote>"
+
     parts = [
         t("cabinet.title", lang),
         "",
         t("cabinet.greeting", lang, name=name),
+        days_line,
         "",
-        streak_line,
+        word_card,
+        "",
+        prayer_card,
+        "",
+        t("cabinet.footer_motto", lang),
     ]
-    if longest_line:
-        parts.append(longest_line)
-    parts.append(freezes_line)
-    parts.append(days_line)
-    parts.append(bookmarks_line)
-    parts.append(completed_line)
-
     return "\n".join(parts)
 
 
