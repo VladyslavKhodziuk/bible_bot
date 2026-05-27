@@ -270,6 +270,7 @@ pray:
 
       God hears every word. Come back 🕊️
     onboarding_button: "Got it 🙌"
+    daily_progress: "🙏 Day {streak} of prayer. God hears you."
     milestones:
       "3": "🎉 Three days of prayer in a row!"
       "7": "🔥 A whole week of prayer!"
@@ -384,6 +385,9 @@ streak:
     God doesn't count days. He simply rejoices over every return.
 
     Shall we start again? 🙏
+  daily_progress: "🔥 Day {streak} in a row with the Word!"
+  donate_addendum: "If you enjoy this bot, support the project so it can keep growing 🙏"
+  donate_button: "💛 Support the project"
   milestones:
     "3": "🎉 Three days in a row with the Word! A habit is forming."
     "7": "🔥 A whole week! This is becoming a rhythm of life."

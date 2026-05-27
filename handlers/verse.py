@@ -10,7 +10,14 @@ from services.user_service import UserService
 from services.bible_service import BibleService
 from services.bookmark_service import BookmarkService
 from services.streak_service import StreakService
-from services.streak_display import format_streak_indicator, get_milestone_message
+from services.streak_display import (
+    format_streak_indicator,
+    get_milestone_message,
+    get_daily_progress_message,
+    build_dismiss_keyboard,
+    build_milestone_keyboard,
+    with_donate_addendum,
+)
 from services.i18n import t
 from keyboards.bookmarks import bookmark_toggle_button
 
@@ -115,33 +122,38 @@ async def _send_streak_extras(message, user_id: int, streak_result, lang: str):
     """
     Отправляет дополнительные сообщения после засчитанного дня:
     - Onboarding при первой серии (с кнопкой "Понятно" — закрывает сообщение)
-    - Поздравление при милстоуне
+    - Поздравление при милстоуне + блок поддержки проекта
+    - Daily-progress в обычные дни роста серии
 
     ``message`` — любой объект с .answer() (Message или CallbackQuery.message).
     """
     # Onboarding (первый раз серия началась)
     if streak_result.is_first_time:
-        builder = InlineKeyboardBuilder()
-        builder.button(
-            text=t("streak.onboarding_button", lang),
-            callback_data="streak:onboarding_done"
-        )
         await message.answer(
             t("streak.onboarding", lang),
-            reply_markup=builder.as_markup(),
+            reply_markup=build_dismiss_keyboard(lang, dismiss_key="streak.onboarding_button"),
         )
         await StreakService.mark_explained(user_id)
+        return
 
-    # Поздравление с милстоуном — с кнопкой "Понятно", которая его удаляет
+    # Milestone — текст milestone + блок поддержки проекта + 2 кнопки
     if streak_result.milestone_reached:
         msg = get_milestone_message(streak_result.milestone_reached, lang)
         if msg:
-            builder = InlineKeyboardBuilder()
-            builder.button(
-                text=t("streak.onboarding_button", lang),
-                callback_data="streak:onboarding_done"
+            await message.answer(
+                with_donate_addendum(msg, lang),
+                reply_markup=build_milestone_keyboard(
+                    lang, dismiss_key="streak.onboarding_button"
+                ),
             )
-            await message.answer(msg, reply_markup=builder.as_markup())
+        return
+
+    # Обычный день роста серии — короткое daily-progress сообщение
+    if streak_result.streak_grew:
+        await message.answer(
+            get_daily_progress_message(streak_result.current_streak, lang),
+            reply_markup=build_dismiss_keyboard(lang, dismiss_key="streak.onboarding_button"),
+        )
 
 
 async def _render_verse_of_day(tg_id: int, lang: str, translation: str, bot):

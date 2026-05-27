@@ -273,6 +273,7 @@ pray:
 
       Dios escucha cada palabra. Vuelve 🕊️
     onboarding_button: "Entendido 🙌"
+    daily_progress: "🙏 Día {streak} de oración. Dios te escucha."
     milestones:
       "3": "🎉 ¡Tres días de oración seguidos!"
       "7": "🔥 ¡Una semana entera de oración!"
@@ -387,6 +388,9 @@ streak:
     Dios no cuenta los días. Simplemente se alegra de cada regreso.
 
     ¿Volvemos a empezar? 🙏
+  daily_progress: "🔥 ¡Día {streak} seguido con la Palabra!"
+  donate_addendum: "Si te gusta este bot, apoya el proyecto para que pueda seguir creciendo 🙏"
+  donate_button: "💛 Apoyar el proyecto"
   milestones:
     "3": "🎉 ¡Tres días seguidos con la Palabra! Se está formando un hábito."
     "7": "🔥 ¡Una semana entera! Esto se está volviendo un ritmo de vida."

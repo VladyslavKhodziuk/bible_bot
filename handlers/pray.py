@@ -5,7 +5,6 @@ from datetime import date
 
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.user_service import UserService
 from services.prayer_service import PrayerService
@@ -16,6 +15,10 @@ from services.prayer_streak_service import (
 from services.streak_display import (
     format_prayer_streak_indicator,
     get_prayer_milestone_message,
+    get_prayer_daily_progress_message,
+    build_dismiss_keyboard,
+    build_milestone_keyboard,
+    with_donate_addendum,
 )
 from services.timezones import local_today
 from services.i18n import t, t_list
@@ -144,32 +147,39 @@ def _build_after_amen_text(
 
 
 async def _send_prayer_extras(message, streak_result: PrayerStreakResult, lang: str) -> None:
-    """Отдельные сообщения после «Аминь»: onboarding в первый раз + милстоуны.
+    """Отдельные сообщения после «Аминь»: onboarding, милстоуны, daily-progress.
 
     Зеркало handlers.verse._send_streak_extras, но для молитвенного стрика.
     Поскольку у нас нет prayer_streak_explained-флага, онбординг показывается
     при каждом is_first_time (т.е. и при сбросе стрика).
     """
     if streak_result.is_first_time:
-        builder = InlineKeyboardBuilder()
-        builder.button(
-            text=t("pray.streak.onboarding_button", lang),
-            callback_data="streak:onboarding_done",
-        )
         await message.answer(
             t("pray.streak.onboarding", lang),
-            reply_markup=builder.as_markup(),
+            reply_markup=build_dismiss_keyboard(
+                lang, dismiss_key="pray.streak.onboarding_button"
+            ),
         )
+        return
 
     if streak_result.milestone_reached:
         msg = get_prayer_milestone_message(streak_result.milestone_reached, lang)
         if msg:
-            builder = InlineKeyboardBuilder()
-            builder.button(
-                text=t("pray.streak.onboarding_button", lang),
-                callback_data="streak:onboarding_done",
+            await message.answer(
+                with_donate_addendum(msg, lang),
+                reply_markup=build_milestone_keyboard(
+                    lang, dismiss_key="pray.streak.onboarding_button"
+                ),
             )
-            await message.answer(msg, reply_markup=builder.as_markup())
+        return
+
+    if streak_result.streak_grew:
+        await message.answer(
+            get_prayer_daily_progress_message(streak_result.current_streak, lang),
+            reply_markup=build_dismiss_keyboard(
+                lang, dismiss_key="pray.streak.onboarding_button"
+            ),
+        )
 
 
 @router.callback_query(F.data == "pray")

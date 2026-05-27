@@ -17,7 +17,14 @@ from services.bible_service import BibleService
 from services.plan_service import PlanService
 from services.prayer_service import PrayerService
 from services.streak_service import StreakService
-from services.streak_display import format_streak_indicator, get_milestone_message
+from services.streak_display import (
+    format_streak_indicator,
+    get_milestone_message,
+    get_daily_progress_message,
+    build_dismiss_keyboard,
+    build_milestone_keyboard,
+    with_donate_addendum,
+)
 from services.analytics_service import AnalyticsService
 from services.alert_service import AlertService
 from services.ai_pastor_service import AIPastorService
@@ -153,23 +160,34 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
         await _alert_if_infra(e, "рассылка стиха дня")
 
     # === Поздравление с милстоуном (отдельным сообщением) ===
+    # На milestone-днях к тексту добавляется блок поддержки проекта + кнопка.
     if streak_result.milestone_reached:
         msg = get_milestone_message(streak_result.milestone_reached, user.lang)
         if msg:
-            builder = InlineKeyboardBuilder()
-            builder.button(
-                text=t("streak.onboarding_button", user.lang),
-                callback_data="streak:onboarding_done"
-            )
             try:
                 await bot.send_message(
                     chat_id=user.tg_id,
-                    text=msg,
-                    reply_markup=builder.as_markup(),
+                    text=with_donate_addendum(msg, user.lang),
+                    reply_markup=build_milestone_keyboard(
+                        user.lang, dismiss_key="streak.onboarding_button"
+                    ),
                     parse_mode="HTML",
                 )
             except Exception as e:
                 logger.warning(f"Не удалось отправить милстоун юзеру {user.tg_id}: {e}")
+    # === Daily-progress в обычные дни роста серии ===
+    elif streak_result.streak_grew and not streak_result.is_first_time:
+        try:
+            await bot.send_message(
+                chat_id=user.tg_id,
+                text=get_daily_progress_message(streak_result.current_streak, user.lang),
+                reply_markup=build_dismiss_keyboard(
+                    user.lang, dismiss_key="streak.onboarding_button"
+                ),
+                parse_mode="HTML",
+            )
+        except Exception as e:
+            logger.warning(f"Не удалось отправить daily-progress юзеру {user.tg_id}: {e}")
 
 
 # ============ Отправка молитвы дня ============
