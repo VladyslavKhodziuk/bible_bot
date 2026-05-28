@@ -8,6 +8,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.user_service import UserService
 from services.bible_service import BibleService
+from services.bot_meta import get_bot_username
 from services.bookmark_service import BookmarkService
 from services.streak_service import StreakService
 from services.streak_display import (
@@ -22,17 +23,6 @@ from services.i18n import t
 from keyboards.bookmarks import bookmark_toggle_button
 
 router = Router()
-
-# Username бота кэшируется после первого get_me() — нужен для ссылки в шаринге.
-_bot_username: str | None = None
-
-
-async def _get_bot_username(bot) -> str:
-    global _bot_username
-    if _bot_username is None:
-        me = await bot.get_me()
-        _bot_username = me.username
-    return _bot_username
 
 
 def _strip_html(s: str) -> str:
@@ -55,7 +45,11 @@ def _build_share_text(
     return "\n".join(lines)
 
 
-def _build_share_url(share_text: str, bot_username: str) -> str:
+def _build_share_url(share_text: str, bot_username: str | None) -> str | None:
+    """Ссылка t.me/share/url. None, если username бота недоступен (сетевой сбой)
+    — тогда клавиатура просто не покажет кнопку «Поделиться»."""
+    if not bot_username:
+        return None
     bot_url = f"https://t.me/{bot_username}"
     params = urllib.parse.urlencode({"url": bot_url, "text": share_text})
     return f"https://t.me/share/url?{params}"
@@ -187,7 +181,7 @@ async def _render_verse_of_day(tg_id: int, lang: str, translation: str, bot):
     share_text = _build_share_text(
         verse, reference, lang, _strip_html(t("verse.of_day_title", lang))
     )
-    share_url = _build_share_url(share_text, await _get_bot_username(bot))
+    share_url = _build_share_url(share_text, await get_bot_username(bot))
 
     keyboard = _build_verse_keyboard(
         verse["abbrev"], verse["chapter"], verse["verse"],
@@ -263,7 +257,7 @@ async def show_random_verse(callback: CallbackQuery):
         verse, reference, lang, _strip_html(t("verse.random_title", lang))
     )
     share_url = _build_share_url(
-        share_text, await _get_bot_username(callback.bot)
+        share_text, await get_bot_username(callback.bot)
     )
 
     await callback.message.edit_text(
@@ -326,7 +320,7 @@ async def show_wisdom_of_day(callback: CallbackQuery):
         verse, reference, lang, share_header, reflection=verse.get("reflection")
     )
     share_url = _build_share_url(
-        share_text, await _get_bot_username(callback.bot)
+        share_text, await get_bot_username(callback.bot)
     )
 
     await callback.message.edit_text(

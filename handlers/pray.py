@@ -7,6 +7,7 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
 from services.user_service import UserService
+from services.bot_meta import get_bot_username
 from services.prayer_service import PrayerService
 from services.prayer_streak_service import (
     PrayerStreakService,
@@ -29,18 +30,6 @@ from keyboards.pray import (
 )
 
 router = Router()
-
-
-_bot_username: str | None = None
-
-
-async def _get_bot_username(bot) -> str:
-    """Username бота (кэш на процесс) — нужен для t.me/share/url-ссылки."""
-    global _bot_username
-    if _bot_username is None:
-        me = await bot.get_me()
-        _bot_username = me.username
-    return _bot_username
 
 
 def _format_date(d: date, lang: str) -> str:
@@ -76,8 +65,13 @@ def _build_share_url(prayer: dict, lang: str, bot_username: str) -> str:
     return f"https://t.me/share/url?{params}"
 
 
-def _share_link_html(prayer: dict, lang: str, bot_username: str) -> str:
-    """HTML-анкор «📤 Поделиться» — встраивается в текст сообщения."""
+def _share_link_html(prayer: dict, lang: str, bot_username: str | None) -> str | None:
+    """HTML-анкор «📤 Поделиться» — встраивается в текст сообщения.
+
+    None, если username бота недоступен (сетевой сбой) — тогда ссылка просто
+    не добавляется, а карточка молитвы показывается без неё."""
+    if not bot_username:
+        return None
     url = _build_share_url(prayer, lang, bot_username)
     href = html.escape(url, quote=True)
     return f'<a href="{href}">{t("pray.share_link", lang)}</a>'
@@ -117,8 +111,10 @@ def _build_card_text(prayer: dict, lang: str, bot_username: str) -> str:
     """Карточка «Молитва на сегодня» с заголовком раздела и share-ссылкой."""
     parts = [t("pray.title", lang), ""]
     parts.extend(_prayer_card_block(prayer, lang))
-    parts.append("")
-    parts.append(_share_link_html(prayer, lang, bot_username))
+    share = _share_link_html(prayer, lang, bot_username)
+    if share:
+        parts.append("")
+        parts.append(share)
     return "\n".join(parts)
 
 
@@ -141,8 +137,10 @@ def _build_after_amen_text(
 
     parts.append("")
     parts.extend(_prayer_card_block(prayer, lang))
-    parts.append("")
-    parts.append(_share_link_html(prayer, lang, bot_username))
+    share = _share_link_html(prayer, lang, bot_username)
+    if share:
+        parts.append("")
+        parts.append(share)
     return "\n".join(parts)
 
 
@@ -201,7 +199,7 @@ async def show_pray(callback: CallbackQuery):
         await callback.answer()
         return
 
-    bot_username = await _get_bot_username(callback.bot)
+    bot_username = await get_bot_username(callback.bot)
 
     if user and user.last_prayer_date == local_today(user.timezone):
         # Уже молились сегодня — показываем благодарность с тем же стриком
@@ -242,7 +240,7 @@ async def amen(callback: CallbackQuery):
         await callback.answer()
         return
 
-    bot_username = await _get_bot_username(callback.bot)
+    bot_username = await get_bot_username(callback.bot)
     await callback.message.edit_text(
         _build_after_amen_text(prayer, lang, streak_result, bot_username),
         reply_markup=pray_after_amen_keyboard(lang),

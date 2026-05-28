@@ -5,19 +5,8 @@ from datetime import date
 
 from models import User
 from services.bible_service import BibleService
+from services.bot_meta import get_bot_username
 from services.i18n import t, _load_lang
-
-
-_bot_username: str | None = None
-
-
-async def _get_bot_username(bot) -> str:
-    """Username бота (кэшируется на процесс) — нужен для t.me/share-ссылки."""
-    global _bot_username
-    if _bot_username is None:
-        me = await bot.get_me()
-        _bot_username = me.username
-    return _bot_username
 
 
 def _build_share_url(verse: dict, reference: str, lang: str, bot_username: str) -> str:
@@ -77,11 +66,11 @@ async def build_menu_text(user: User | None, lang: str, bot=None) -> str:
         parts.append(card)
 
         if bot is not None:
-            share_url = _build_share_url(
-                verse, reference, lang, await _get_bot_username(bot)
-            )
-            share_href = html.escape(share_url, quote=True)
-            share_link = f'<a href="{share_href}">{t("menu.share_verse", lang)}</a>'
+            bot_username = await get_bot_username(bot)
+            if bot_username:
+                share_url = _build_share_url(verse, reference, lang, bot_username)
+                share_href = html.escape(share_url, quote=True)
+                share_link = f'<a href="{share_href}">{t("menu.share_verse", lang)}</a>'
 
     if user is not None:
         progress_lines = _build_progress_block(user, lang)

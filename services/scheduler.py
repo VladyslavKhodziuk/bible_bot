@@ -196,14 +196,15 @@ async def _send_prayer_to_user(bot: Bot, user: User) -> None:
     """Отправить юзеру карточку «молитвы на сегодня» с кнопкой «Аминь» и share-ссылкой."""
     # Локальный импорт — иначе циклический (handlers/pray импортирует services/i18n,
     # а scheduler не нуждается в pray до этой точки).
-    from handlers.pray import _get_bot_username, _share_link_html
+    from handlers.pray import _share_link_html
+    from services.bot_meta import get_bot_username
 
     prayer = PrayerService.get_prayer_of_day(user.lang, user.translation)
     if not prayer:
         return
 
     greeting = t("pray.notif.push_greeting", user.lang)
-    bot_username = await _get_bot_username(bot)
+    bot_username = await get_bot_username(bot)
 
     parts = [
         greeting,
@@ -223,8 +224,10 @@ async def _send_prayer_to_user(bot: Bot, user: User) -> None:
             verse=ref["verse"],
             verse_text=ref["text"],
         ))
-    parts.append("")
-    parts.append(_share_link_html(prayer, user.lang, bot_username))
+    share = _share_link_html(prayer, user.lang, bot_username)
+    if share:
+        parts.append("")
+        parts.append(share)
     text_body = "\n".join(parts)
 
     builder = InlineKeyboardBuilder()

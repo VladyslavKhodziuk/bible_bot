@@ -17,6 +17,7 @@ from services.topic_service import TopicService
 from services.prayer_service import PrayerService
 from services.alert_service import AlertService
 from services.analytics_service import AnalyticsService
+from services import bot_meta
 from middlewares.analytics import AnalyticsMiddleware
 
 logging.basicConfig(
@@ -80,8 +81,16 @@ async def main():
     # chatid — последним, чтобы не перехватывать обычные сообщения/пересылки
     dp.include_router(chatid.router)
 
-    await set_bot_commands(bot)
-    logger.info("Команды бота установлены")
+    # Команды и username — best-effort: кратковременный сетевой обрыв на старте
+    # не должен мешать боту подняться (start_polling сам переподключится).
+    try:
+        await set_bot_commands(bot)
+        logger.info("Команды бота установлены")
+    except Exception as e:
+        logger.warning(f"Не удалось установить команды бота (сеть?): {type(e).__name__}: {e}")
+
+    # Прогреваем кэш username для share-ссылок (не бросает при сбое).
+    await bot_meta.prewarm(bot)
 
     # Запускаем планировщик ДО старта polling
     scheduler = setup_scheduler(bot)

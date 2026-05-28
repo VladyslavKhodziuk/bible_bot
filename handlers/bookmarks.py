@@ -191,9 +191,9 @@ async def _refresh_source_screen(
             _build_verse_keyboard,
             _build_share_text,
             _build_share_url,
-            _get_bot_username,
             _strip_html,
         )
+        from services.bot_meta import get_bot_username
 
         user = await UserService.get(callback.from_user.id)
         lang = user.lang if user else "ru"
@@ -216,7 +216,7 @@ async def _refresh_source_screen(
             _strip_html(_t("verse.random_title", lang)),
         )
         share_url = _build_share_url(
-            share_text, await _get_bot_username(callback.bot)
+            share_text, await get_bot_username(callback.bot)
         )
 
         await callback.message.edit_text(
