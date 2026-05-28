@@ -13,6 +13,10 @@ BIBLES_DIR = DATA_DIR / "bibles"
 BOOKS_FILE = DATA_DIR / "books.yaml"
 VERSES_OF_DAY_FILE = DATA_DIR / "verses_of_day.yaml"
 WISDOM_OF_DAY_FILE = DATA_DIR / "wisdom_of_day.yaml"
+VERSIFICATION_MAP_FILE = DATA_DIR / "versification_map.json"
+# Ручные коррекции версификации, которые авто-генератор вывести не может
+# (в частности — сдвиги в самом якоре ru_synodal). Сливаются поверх авто-карты.
+VERSIFICATION_MAP_MANUAL_FILE = DATA_DIR / "versification_map_manual.json"
 
 # Поддерживаемые переводы: код → имя файла
 TRANSLATIONS = {
@@ -56,6 +60,10 @@ class BibleService:
     _daily_pool: list[tuple[str, int, int]] = []
     # Пул «мудрости дня»: (abbrev, chapter, verse, theme_key, reflections_by_lang)
     _wisdom_pool: list[tuple[str, int, int, str, dict]] = []
+    # Карта версификации: {translation: {"<abbrev> <ch>:<v>": [mapped_ch, mapped_v]}}
+    # Канонический (масоретский) reference общих подборок -> фактический номер
+    # стиха в переводах с другой версификацией (ru_nrt, uk_khomenko/turkoniak…).
+    _versification_map: dict[str, dict[str, list[int]]] = {}
     _loaded: bool = False
 
     @classmethod
@@ -86,6 +94,7 @@ class BibleService:
 
         cls._load_daily_pool()
         cls._load_wisdom_pool()
+        cls._load_versification_map()
 
         cls._loaded = True
         logger.info("Библии загружены")
@@ -133,6 +142,54 @@ class BibleService:
         random.Random(20240202).shuffle(pool)
         cls._wisdom_pool = pool
         logger.info(f"  Пул мудрости дня: {len(pool)} стихов")
+
+    @classmethod
+    def _load_versification_map(cls) -> None:
+        """Загружает карту версификации (см. scripts/build_versification_map.py).
+
+        Курируемые подборки (стих/мудрость дня, темы) хранят ОДИН канонический
+        reference в масоретской/протестантской нумерации. В переводах с другой
+        традицией (ru_nrt — греческая нумерация псалмов; uk_khomenko —
+        надписание псалма как стих; uk_turkoniak — Септуагинта) тот же номер
+        указывает на другой стих. Карта переводит канонический номер в
+        фактический для таких переводов. Отсутствие записи == номер совпадает.
+        """
+        if not VERSIFICATION_MAP_FILE.exists():
+            logger.warning(f"  Карта версификации не найдена: {VERSIFICATION_MAP_FILE}")
+            return
+        with open(VERSIFICATION_MAP_FILE, "r", encoding="utf-8") as f:
+            cls._versification_map = json.load(f)
+
+        # Сливаем ручные коррекции поверх авто-карты (ручные имеют приоритет).
+        if VERSIFICATION_MAP_MANUAL_FILE.exists():
+            with open(VERSIFICATION_MAP_MANUAL_FILE, "r", encoding="utf-8") as f:
+                manual = json.load(f)
+            for code, entries in manual.items():
+                if code.startswith("_"):  # служебные ключи (_comment) пропускаем
+                    continue
+                cls._versification_map.setdefault(code, {}).update(entries)
+
+        total = sum(len(v) for v in cls._versification_map.values())
+        logger.info(
+            f"  Карта версификации: {total} соответствий "
+            f"в {len(cls._versification_map)} переводах"
+        )
+
+    @classmethod
+    def resolve_shared(
+        cls, abbrev: str, chapter: int, verse: int, translation: str
+    ) -> tuple[int, int, str | None]:
+        """Резолвит КАНОНИЧЕСКИЙ reference общей подборки в конкретном переводе.
+
+        Применяет карту версификации, затем достаёт текст. Возвращает
+        (фактическая_глава, фактический_стих, текст | None) — фактические номера
+        соответствуют Библии пользователя, поэтому подпись ссылки и переход
+        «открыть главу» остаются корректными. Книга (abbrev) никогда не меняется.
+        """
+        mapped = cls._versification_map.get(translation, {}).get(f"{abbrev} {chapter}:{verse}")
+        if mapped:
+            chapter, verse = mapped[0], mapped[1]
+        return chapter, verse, cls.get_verse(abbrev, chapter, verse, translation)
 
     @classmethod
     def get_books(cls, testament: str | None = None) -> list[dict]:
@@ -296,9 +353,9 @@ class BibleService:
         start = (target_date.timetuple().tm_yday - 1) % len(pool)
         for offset in range(len(pool)):
             abbrev, chapter, verse = pool[(start + offset) % len(pool)]
-            text = cls.get_verse(abbrev, chapter, verse, translation)
+            r_ch, r_v, text = cls.resolve_shared(abbrev, chapter, verse, translation)
             if text is not None:
-                return {"abbrev": abbrev, "chapter": chapter, "verse": verse, "text": text}
+                return {"abbrev": abbrev, "chapter": r_ch, "verse": r_v, "text": text}
 
         return cls._random_verse(translation, target_date)
 
@@ -335,13 +392,13 @@ class BibleService:
         start = (target_date.timetuple().tm_yday - 1) % len(pool)
         for offset in range(len(pool)):
             abbrev, chapter, verse, theme, reflections = pool[(start + offset) % len(pool)]
-            text = cls.get_verse(abbrev, chapter, verse, translation)
+            r_ch, r_v, text = cls.resolve_shared(abbrev, chapter, verse, translation)
             if text is not None:
                 reflection = reflections.get(lang) or reflections.get("ru", "")
                 return {
                     "abbrev": abbrev,
-                    "chapter": chapter,
-                    "verse": verse,
+                    "chapter": r_ch,
+                    "verse": r_v,
                     "text": text,
                     "theme": theme,
                     "reflection": reflection,

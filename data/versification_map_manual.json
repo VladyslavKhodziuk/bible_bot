@@ -1,0 +1,19 @@
+{
+  "_comment": "Hand-curated versification corrections the auto-generator (scripts/build_versification_map.py) cannot derive, merged OVER the auto map at load time. Two reasons: (1) ru_synodal IS the Russian anchor, yet its data merges the superscription / short verses in 12 titled psalms, so some curated (English/Masoretic-numbered) refs land a verse or more off — the generator never corrects its own anchor. (2) Because ru_nrt was auto-aligned TO that shifted anchor, its entries for the same psalms inherited the shift and are corrected here too. All verified by hand (bilingual EN<->RU). NOTE: ps 32:8 and ps 91:2 are simply ABSENT from ru_synodal source data (Greek verses 31:8-9 and 90:2 are missing) and cannot be mapped.",
+  "ru_synodal": {
+    "ps 55:22": [55, 21],
+    "ps 71:14": [71, 13],
+    "ps 90:12": [90, 11],
+    "ps 91:11": [91, 9],
+    "ps 126:5": [126, 4],
+    "ps 139:14": [139, 13]
+  },
+  "ru_nrt": {
+    "ps 55:22": [54, 23],
+    "ps 71:14": [70, 14],
+    "ps 90:12": [89, 12],
+    "ps 91:11": [90, 11],
+    "ps 126:5": [125, 5],
+    "ps 139:14": [138, 14]
+  }
+}

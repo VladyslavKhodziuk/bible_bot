@@ -97,7 +97,11 @@ class TopicService:
             logger.warning(f"Невозможно распарсить ссылку на стих: {ref}")
             return None
 
-        text = BibleService.get_verse(abbrev, chapter, verse_num, translation)
+        # resolve_shared применяет карту версификации: канонический (масоретский)
+        # номер -> фактический в переводе пользователя (ru_nrt/uk_khomenko/…).
+        chapter, verse_num, text = BibleService.resolve_shared(
+            abbrev, chapter, verse_num, translation
+        )
         if text is None:
             logger.warning(f"Стих не найден: {ref} в переводе {translation}")
             return None
