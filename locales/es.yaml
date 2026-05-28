@@ -19,7 +19,7 @@ welcome:
 
     Esto es lo que puedo hacer:
 
-    🙋 Escucharte y apoyarte con la Palabra — habla con el pastor
+    🙋 Escucharte y apoyarte con la Palabra — tu compañero espiritual
     📖 Leer la Biblia en diferentes traducciones
     🙏 Enviarte una oración para cada día — con el botón «Amén»
     🔔 Recordarte la oración a tu hora elegida
@@ -51,9 +51,9 @@ menu:
     bible_zero: "📖 Leyendo la Biblia — 0 días"
     bible_single: "📖 Leyendo la Biblia — 1 día"
     bible_multi: "📖 Leyendo la Biblia — {days} días seguidos"
-    prayer_zero: "🙏 Tiempo de oración — 0 días"
-    prayer_single: "🙏 Tiempo de oración — 1 día"
-    prayer_multi: "🙏 Tiempo de oración — {days} días"
+    prayer_zero: "🙏 En oración — 0 días"
+    prayer_single: "🙏 En oración — 1 día"
+    prayer_multi: "🙏 En oración — {days} días"
   date_format: "{day} de {month}"
   months:
     - enero
@@ -74,7 +74,7 @@ menu:
   verse_of_day: "📅 Versículo del día"
   random: "🎲 Versículo al azar"
   plan: "📚 Plan de lectura"
-  ai_pastor: "💬 Un amigo con la Biblia abierta · IA"
+  ai_pastor: "🕊️ Compañero espiritual"
   pray: "🙏 Orar"
   wisdom: "💡 Sabiduría del día"
   cabinet: "👤 Mi cuenta"
@@ -228,7 +228,7 @@ help:
     📚 Planes de lectura con recordatorios
     🔥 Racha diaria con la Palabra
     ⭐ Guardar pasajes favoritos
-    💬 Un amigo con la Biblia abierta (IA) — escucha y busca un versículo
+    🕊️ Compañero espiritual (IA) — escucha y busca un versículo
     🙏 Oraciones
     💡 Sabiduría del día
     ⚙️ Ajustes: idioma, traducción, zona horaria y notificaciones
@@ -638,13 +638,13 @@ greetings:
 
 ai_pastor:
   consent_text: |
-    💬 <b>Un amigo con la Biblia abierta</b>
+    🕊️ <b>Compañero espiritual</b>
 
     Soy un compañero IA que te escuchará y te ofrecerá un versículo bíblico para reflexionar.
 
     <b>Es importante entender:</b>
     • <b>No</b> soy pastor, sacerdote, médico ni psicólogo.
-    • Soy un amigo con la Biblia abierta, buscando una Palabra para tu situación.
+    • Soy tu compañero espiritual, buscando una Palabra para tu situación.
     • Para temas serios (salud, crisis, violencia) — acude a un especialista o a una línea de ayuda.
     • Límite — <b>3 consultas al día</b>.
 

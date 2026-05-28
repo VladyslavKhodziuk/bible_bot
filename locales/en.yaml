@@ -19,7 +19,7 @@ welcome:
 
     Here's what I can do:
 
-    🙋 Listen and support you with the Word — talk to the pastor
+    🙋 Listen and support you with the Word — your spiritual companion
     📖 Read the Bible in different translations
     🙏 Send you a prayer for every day — with an «Amen» button
     🔔 Remind you to pray at your chosen time
@@ -51,9 +51,9 @@ menu:
     bible_zero: "📖 Reading the Bible — 0 days"
     bible_single: "📖 Reading the Bible — 1 day"
     bible_multi: "📖 Reading the Bible — {days} days in a row"
-    prayer_zero: "🙏 Time in prayer — 0 days"
-    prayer_single: "🙏 Time in prayer — 1 day"
-    prayer_multi: "🙏 Time in prayer — {days} days"
+    prayer_zero: "🙏 In prayer — 0 days"
+    prayer_single: "🙏 In prayer — 1 day"
+    prayer_multi: "🙏 In prayer — {days} days"
   date_format: "{month} {day}"
   months:
     - January
@@ -74,7 +74,7 @@ menu:
   verse_of_day: "📅 Verse of the day"
   random: "🎲 Random verse"
   plan: "📚 Reading plan"
-  ai_pastor: "💬 A friend with an open Bible · AI"
+  ai_pastor: "🕊️ Spiritual companion"
   pray: "🙏 Pray"
   wisdom: "💡 Wisdom of the day"
   cabinet: "👤 My account"
@@ -225,7 +225,7 @@ help:
     📚 Reading plans with reminders
     🔥 Daily streak with the Word
     ⭐ Bookmark favorite passages
-    💬 A friend with an open Bible (AI) — listens and finds a verse
+    🕊️ Spiritual companion (AI) — listens and finds a verse
     🙏 Prayers
     💡 Wisdom of the day
     ⚙️ Settings: language, translation, timezone and notifications
@@ -635,13 +635,13 @@ greetings:
 
 ai_pastor:
   consent_text: |
-    💬 <b>A friend with an open Bible</b>
+    🕊️ <b>Spiritual companion</b>
 
     This is an AI companion who will listen and offer a relevant Bible verse to reflect on.
 
     <b>Please understand:</b>
     • I am <b>not</b> a pastor, priest, doctor, or psychologist.
-    • I am a friend with an open Bible, looking for a Word that fits your situation.
+    • I am your spiritual companion, looking for a Word that fits your situation.
     • For serious matters (health, crisis, abuse) — reach out to a specialist or a helpline.
     • Limit — <b>3 requests per day</b>.
 
