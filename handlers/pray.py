@@ -61,7 +61,11 @@ def _build_share_url(prayer: dict, lang: str, bot_username: str) -> str:
     share_text = "\n".join(lines)
 
     bot_url = f"https://t.me/{bot_username}"
-    params = urllib.parse.urlencode({"url": bot_url, "text": share_text})
+    # quote (а не quote_plus): пробел -> %20, не "+". t.me/share/url декодирует
+    # только %xx и оставляет "+" буквально — иначе в части клиентов вылезают плюсы.
+    params = urllib.parse.urlencode(
+        {"url": bot_url, "text": share_text}, quote_via=urllib.parse.quote
+    )
     return f"https://t.me/share/url?{params}"
 
 
