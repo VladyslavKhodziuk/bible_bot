@@ -325,10 +325,10 @@
 - id: gratitude_praise_20
   ref: hb:13:15
   title:
-    ru: Жертва хвалы
-    en: Sacrifice of Praise
-    es: Sacrificio de Alabanza
-    uk: Жертва хвали
+    ru: Уста, что славят
+    en: Lips That Praise
+    es: Labios que alaban
+    uk: Уста, що славлять
   text:
     ru: Небесный Отец, через Иисуса я приношу Тебе жертву хвалы. Мои уста провозглашают
       Твое имя и Твои дивные дела. Благодарю Тебя за радость поклонения Тебе.
@@ -359,10 +359,10 @@
 - id: gratitude_praise_22
   ref: 1ts:5:18
   title:
-    ru: За все благодарю
-    en: Thanks for Everything
-    es: Gracias por Todo
-    uk: За все дякую
+    ru: Твоя рука во всём
+    en: Your Hand in All
+    es: Tu mano en todo
+    uk: Твоя рука в усьому
   text:
     ru: Боже мой, учусь благодарить Тебя во всем, ибо в этом воля Твоя. Помоги мне
       видеть Твою руку в каждом событии и быть всегда благодарным.
@@ -423,10 +423,10 @@
 - id: gratitude_praise_26
   ref: ps:100:4
   title:
-    ru: Благодарность за доброту
-    en: Gratitude for Your Goodness
-    es: Gratitud por tu Bondad
-    uk: Вдячність за доброту
+    ru: Окружён добротой
+    en: Surrounded by His Goodness
+    es: Rodeado de su bondad
+    uk: Оточений добротою
   text:
     ru: Господь, вхожу в Твои врата с благодарностью и в дворы Твои с хвалой. Благодарю
       Тебя за Твою безмерную доброту, милость и верность, которые окружают меня каждый
@@ -442,10 +442,10 @@
 - id: gratitude_praise_27
   ref: lm:3:22
   title:
-    ru: Хвала за верность
-    en: Praise for Your Faithfulness
-    es: Alabanza por tu Fidelidad
-    uk: Хвала за вірність
+    ru: Милость не иссякает
+    en: Mercies Never Cease
+    es: Misericordias que no cesan
+    uk: Милість не вичерпується
   text:
     ru: Господи, Твоя великая милость и сострадание никогда не иссякают. Благодарю
       Тебя за Твою верность, которая обновляется каждое утро. Твоя любовь неизменна,
@@ -478,10 +478,10 @@
 - id: gratitude_praise_29
   ref: prv:3:5
   title:
-    ru: Хвала за мудрость
-    en: Praise for Your Wisdom
-    es: Alabanza por tu Sabiduría
-    uk: Хвала за мудрість
+    ru: Надёжный Путеводитель
+    en: My Reliable Guide
+    es: Mi Guía fiel
+    uk: Надійний Провідник
   text:
     ru: Господь, я доверяю Тебе всем своим сердцем и не полагаюсь на свой разум. Благодарю
       Тебя за Твою мудрость, которая направляет меня и указывает верный путь. Ты —
@@ -498,10 +498,10 @@
 - id: gratitude_praise_30
   ref: 1ts:5:18
   title:
-    ru: Благодарность за всё
-    en: Thanks for Everything
-    es: Gracias por Todo
-    uk: Вдячність за все
+    ru: Хвала в любых обстоятельствах
+    en: Praise in All Circumstances
+    es: Alabanza en toda circunstancia
+    uk: Хвала в усіх обставинах
   text:
     ru: Боже, благодарю Тебя за все обстоятельства моей жизни, ведь это Твоя воля.
       Я признаю Твою руку во всём, и за каждую мелочь, за радости и испытания, я приношу
@@ -660,7 +660,7 @@
     uk: Господи, я віддаю Тобі всі свої тривоги. Навчи мене молитися з вдячністю,
       знаючи, що Твій мир перевершує всяке розуміння і береже моє серце.
 - id: faith_trust_10
-  ref: ps:55:22
+  ref: 1pe:5:7
   title:
     ru: Отдай бремя
     en: Cast Your Burden
@@ -1155,10 +1155,10 @@
 - id: peace_rest_10
   ref: ps:23:2
   title:
-    ru: Тихие воды
-    en: Quiet Waters
-    es: Aguas de Reposo
-    uk: Тихі води
+    ru: Зелёные пажити
+    en: Green Pastures
+    es: Verdes pastos
+    uk: Зелені пасовища
   text:
     ru: Боже, веди меня к тихим водам Твоей благодати. Дай мне отдохнуть на Твоих
       зеленых пажитях и восстанови мою уставшую душу.
@@ -1233,7 +1233,7 @@
     uk: Бог надії, наповни мене радістю та миром у вірі, щоб силою Духа Святого я
       мав надлишок надії кожного нового дня.
 - id: peace_rest_15
-  ref: ps:29:11
+  ref: 2ts:3:16
   title:
     ru: Сила и благословение
     en: Strength and Blessing
@@ -1249,7 +1249,7 @@
     uk: Господи, даруй силу Твоєму народові та благослови мене Своїм миром. Нехай
       Твоя присутність зміцнює мене в усіх випробуваннях.
 - id: peace_rest_16
-  ref: ps:119:165
+  ref: jo:14:27
   title:
     ru: Любовь к Слову
     en: Love for the Word
@@ -1329,7 +1329,7 @@
     uk: Духу Святий, спрямовуй мої думки до життя та миру. Визволи мій розум від плотських
       турбот і наповни його Твоєю божественною тишею.
 - id: peace_rest_21
-  ref: ps:116:7
+  ref: mt:11:28
   title:
     ru: Возвращение души
     en: Return of the Soul
@@ -1427,10 +1427,10 @@
 - id: peace_rest_27
   ref: jo:14:27
   title:
-    ru: Твой дар мира
-    en: Your Gift of Peace
-    es: Tu regalo de paz
-    uk: Твій дарунок миру
+    ru: Сердце без страха
+    en: Heart Without Fear
+    es: Corazón sin temor
+    uk: Серце без страху
   text:
     ru: Иисус, я принимаю Твой мир, который Ты оставил нам. Помоги моему сердцу не
       смущаться и не бояться, ведь Ты всегда рядом со мной.
@@ -1459,10 +1459,10 @@
 - id: peace_rest_29
   ref: is:26:3
   title:
-    ru: Совершенный мир
-    en: Perfect Peace
-    es: Paz perfecta
-    uk: Досконалий мир
+    ru: Разум, укреплённый в Тебе
+    en: Mind Anchored in You
+    es: Mente firme en Ti
+    uk: Розум, укріплений у Тобі
   text:
     ru: Отец, укрепи мой разум в Тебе. Я доверяю Твоей любви и верю, что Ты сохранишь
       меня в совершенном мире посреди любых жизненных бурь.
@@ -1475,10 +1475,10 @@
 - id: peace_rest_30
   ref: ps:23:2
   title:
-    ru: Тихие воды
-    en: Still Waters
-    es: Aguas de reposo
-    uk: Тихі води
+    ru: Мой Добрый Пастырь
+    en: My Good Shepherd
+    es: Mi Buen Pastor
+    uk: Мій Добрий Пастир
   text:
     ru: Мой Добрый Пастырь, поведи меня к тихим водам и уложи на зеленых пажитях.
       Обнови мои силы и наполни мою душу Своим тихим присутствием.
@@ -1523,10 +1523,10 @@
 - id: hope_confidence_03
   ref: hb:11:1
   title:
-    ru: Основа веры
-    en: Assurance of Hope
-    es: Certeza de fe
-    uk: Основа віри
+    ru: Уверенность в невидимом
+    en: Confidence in the Unseen
+    es: Certeza de lo invisible
+    uk: Певність невидимого
   text:
     ru: Отец, укрепи мою веру, чтобы я ясно видел Твои невидимые обещания и твердо
       стоял на них, ожидая Твоего благословения.
@@ -1587,10 +1587,10 @@
 - id: hope_confidence_07
   ref: is:26:3
   title:
-    ru: Твердый духом
-    en: Perfect Peace
-    es: Paz perfecta
-    uk: Твердий духом
+    ru: Мысли, устремлённые к Тебе
+    en: Thoughts Fixed on You
+    es: Pensamientos en Ti
+    uk: Думки, спрямовані до Тебе
   text:
     ru: Господи, сохрани мое сердце в совершенном мире, когда я направляю свои мысли
       к Тебе и полностью доверяю Твоей воле.
@@ -1667,10 +1667,10 @@
 - id: hope_confidence_12
   ref: prv:3:5
   title:
-    ru: Полное доверие
-    en: Wholehearted Trust
-    es: Confianza total
-    uk: Повна довіра
+    ru: Доверяю всем сердцем
+    en: Trusting with All My Heart
+    es: Confío de todo corazón
+    uk: Довіряю всім серцем
   text:
     ru: Боже, научи меня доверять Тебе всем сердцем и не полагаться на свой разум.
       Веди меня Своим путем истины и блага.
@@ -1681,7 +1681,7 @@
     uk: Боже, навчи мене довіряти Тобі всім серцем і не покладатися на власний розум.
       Веди мене Твоїм шляхом істини та добра.
 - id: hope_confidence_13
-  ref: ps:130:5
+  ref: lm:3:25
   title:
     ru: Ожидание Господа
     en: Waiting in Hope
@@ -1729,12 +1729,12 @@
     uk: Господи, навчи мене радіти надією, бути терплячим у скорботі та постійним
       у молитві. Дай сил проходити будь-які часи.
 - id: hope_confidence_16
-  ref: ps:119:114
+  ref: prv:30:5
   title:
-    ru: Мое убежище
-    en: My Hiding Place
-    es: Mi refugio
-    uk: Моє сховище
+    ru: Под крылом Твоим
+    en: Under Your Wing
+    es: Bajo tus alas
+    uk: Під крилом Твоїм
   text:
     ru: Ты — мой покров и щит, Господи; на слово Твое я уповаю. Укрой меня от жизненных
       бурь под крылом Твоей любви.
@@ -1891,10 +1891,10 @@
 - id: hope_confidence_26
   ref: lm:3:24
   title:
-    ru: Моя часть
-    en: My Portion
-    es: Mi Porción
-    uk: Моя частка
+    ru: Моё наследие
+    en: My Inheritance
+    es: Mi herencia
+    uk: Моя спадщина
   text:
     ru: Господи, Ты — моя доля и наследие. Моя душа твердо знает это, поэтому я буду
       уповать на Тебя во всех жизненных трудностях и испытаниях.
@@ -1907,10 +1907,10 @@
 - id: hope_confidence_27
   ref: ps:62:5
   title:
-    ru: Покой в Боге
-    en: Rest in God
-    es: Reposo en Dios
-    uk: Спокій у Бозі
+    ru: Только в Тебе покой
+    en: In You Alone
+    es: Solo en Ti
+    uk: Тільки в Тобі спокій
   text:
     ru: Боже, даруй моей душе покой только в Тебе. Избавь меня от тревоги, ведь от
       Тебя исходит моя надежда, спасение и крепкое основание.
@@ -1939,10 +1939,10 @@
 - id: hope_confidence_29
   ref: 1pe:1:3
   title:
-    ru: Живая надежда
-    en: Living Hope
-    es: Esperanza Viva
-    uk: Жива надія
+    ru: Надежда воскресения
+    en: Hope of the Resurrection
+    es: Esperanza de la resurrección
+    uk: Надія воскресіння
   text:
     ru: Слава Тебе, Боже, за Твою великую милость! Через воскресение Иисуса Христа
       Ты возродил меня к живой надежде, которая побеждает смерть.
@@ -1955,10 +1955,10 @@
 - id: hope_confidence_30
   ref: ps:71:5
   title:
-    ru: Моя опора
-    en: My Support
-    es: Mi Apoyo
-    uk: Моя опора
+    ru: Надежда от юности
+    en: My Hope Since Youth
+    es: Mi esperanza desde la juventud
+    uk: Надія від юності
   text:
     ru: Господи, Ты — моя надежда от самой юности. Твоя любовь хранит меня на протяжении
       всей жизни, и я полностью доверяю Твоему руководству.
@@ -2193,7 +2193,7 @@
     uk: Боже вірний, Ти бережеш Свій завіт любові до тисячі родів. Я покладаюся на
       Твою вірність і знаю, що Твоя милість ніколи не залишить мене.
 - id: love_mercy_15
-  ref: ps:86:15
+  ref: ex:34:6
   title:
     ru: Милосердный Господь
     en: Merciful Lord
@@ -2307,10 +2307,10 @@
 - id: love_mercy_22
   ref: 1jo:4:19
   title:
-    ru: Источник любви
-    en: Source of Love
-    es: Fuente de amor
-    uk: Джерело любові
+    ru: Любим, потому что Он возлюбил
+    en: We Love Because He First Loved
+    es: Amamos porque Él nos amó
+    uk: Любимо, бо Він полюбив
   text:
     ru: Отец, я люблю Тебя, потому что Ты первым возлюбил меня. Пусть Твоя безусловная
       любовь наполняет мое сердце и изливается на всех вокруг.
@@ -2339,10 +2339,10 @@
 - id: love_mercy_24
   ref: eph:2:4
   title:
-    ru: Богатство милости
-    en: Rich in Mercy
-    es: Rico en misericordia
-    uk: Багатство милості
+    ru: Оживлённый благодатью
+    en: Made Alive by Grace
+    es: Vivificados por gracia
+    uk: Оживлений благодаттю
   text:
     ru: Боже, Твое милосердие безгранично, а Твоя любовь велика. Спасибо, что Ты оживил
       мою душу и поднял меня из пепла Своей благодатью.
@@ -2387,10 +2387,10 @@
 - id: love_mercy_27
   ref: 1co:13:4
   title:
-    ru: Терпеливая любовь
-    en: Patient Love
-    es: Amor paciente
-    uk: Терпелива любов
+    ru: Любовь без зависти
+    en: Love Without Envy
+    es: Amor sin envidia
+    uk: Любов без заздрості
   text:
     ru: Господи, Твоя любовь долготерпит и милосердствует. Преобрази мой характер,
       чтобы я мог любить людей искренне, без зависти и гордости.
@@ -2401,7 +2401,7 @@
     uk: Господи, Твоя любов довготерпить і милосердствує. Переобрази мій характер,
       щоб я міг любити людей щиро, без заздрості та гордості.
 - id: love_mercy_28
-  ref: ps:86:15
+  ref: ex:34:6
   title:
     ru: Истинная милость
     en: True Mercy
@@ -2547,10 +2547,10 @@
 - id: strength_trials_07
   ref: ps:46:1
   title:
-    ru: Моё убежище
-    en: My Refuge
-    es: Mi refugio
-    uk: Моє сховище
+    ru: Скорый помощник
+    en: A Present Help
+    es: Pronto auxilio
+    uk: Скорий помічник
   text:
     ru: Боже, Ты — моё прибежище и сила, скорый помощник в бедах. Помоги мне доверять
       Тебе, когда вокруг рушится мир.
@@ -2673,7 +2673,7 @@
     uk: Отче, я відчуваю втому, але Ти даєш силу втомленому і даруєш міць безсилому.
       Віднови мої душевні та фізичні сили.
 - id: strength_trials_15
-  ref: ps:119:50
+  ref: rm:15:4
   title:
     ru: Утешение в слове
     en: Comfort in the Word
@@ -2691,10 +2691,10 @@
 - id: strength_trials_16
   ref: 2ts:3:3
   title:
-    ru: Верность Бога
-    en: God's Faithfulness
-    es: Fidelidad de Dios
-    uk: Вірність Бога
+    ru: Утверди в истине
+    en: Established in Truth
+    es: Firmes en la verdad
+    uk: Утверди в істині
   text:
     ru: Господь, Ты верен Своим обещаниям. Утверди меня в истине и защити от всякого
       зла, которое пытается сокрушить мою душу.
@@ -2723,10 +2723,10 @@
 - id: strength_trials_18
   ref: js:1:9
   title:
-    ru: Твердость духа
-    en: Steadfast Spirit
-    es: Firmeza de espíritu
-    uk: Твердість духу
+    ru: Будь твёрд и мужествен
+    en: Strong and Courageous
+    es: Esfuérzate y sé valiente
+    uk: Будь сильний і мужній
   text:
     ru: Боже, Твое повеление — быть твердым и мужественным. Помоги мне не унывать,
       ведь Ты пребываешь со мной везде, куда бы я ни пошел.
@@ -2819,10 +2819,10 @@
 - id: strength_trials_24
   ref: 2co:12:9
   title:
-    ru: Сила в немощи
-    en: Strength in Weakness
-    es: Fuerza en debilidad
-    uk: Сила в немочі
+    ru: Благодати довольно
+    en: My Grace Is Sufficient
+    es: Mi gracia te basta
+    uk: Досить тобі благодаті
   text:
     ru: Боже, когда я слаб, Твоя благодать становится моей опорой. Пусть Твоя совершенная
       сила проявится через мою немощь в этот трудный день.
@@ -2851,10 +2851,10 @@
 - id: strength_trials_26
   ref: ps:46:1
   title:
-    ru: Моё убежище
-    en: My Refuge
-    es: Mi refugio
-    uk: Моє притулок
+    ru: Бегу к Тебе
+    en: I Run to You
+    es: Corro a Ti
+    uk: Біжу до Тебе
   text:
     ru: Боже, Ты — моё убежище и сила в минуты тревоги. Бегу к Тебе за защитой и верю,
       что Ты всегда рядом, чтобы помочь и утешить меня.
@@ -2883,10 +2883,10 @@
 - id: strength_trials_28
   ref: 1co:10:13
   title:
-    ru: Верность Бога
-    en: God's Faithfulness
-    es: Fidelidad de Dios
-    uk: Вірність Бога
+    ru: Выход из испытания
+    en: A Way Out
+    es: La salida
+    uk: Вихід з випробування
   text:
     ru: Господи, спасибо за Твою верность. Ты не допустишь испытаний сверх моих сил
       и всегда укажешь выход, чтобы я мог всё перенести.
@@ -2977,7 +2977,7 @@
     uk: Господи, у всіх справах моїх я визнаю Твою владу. Направ мої кроки сьогодні
       і зроби рівними дороги, якими я піду.
 - id: guidance_wisdom_04
-  ref: ps:119:105
+  ref: prv:6:23
   title:
     ru: Светильник ноге
     en: Lamp to My Feet
@@ -3233,7 +3233,7 @@
     uk: Боже, молю Тебе, щоб моя любовь зростала у пізнанні та всілякому відчутті,
       допомагаючи мені безпомилково обирати найкраще та чисте.
 - id: guidance_wisdom_20
-  ref: ps:73:24
+  ref: prv:3:6
   title:
     ru: Твой совет
     en: Your Counsel
@@ -3246,7 +3246,7 @@
       receive me into Your eternal heavenly glory.
     es: Padre, guíame con Tu sabio consejo a lo largo de mi vida terrenal, y después
       recíbeme en Tu eterna gloria celestial.
-    uk: Отче, керовай мною Своєю мудрою порадою протягом усього мого земного життя,
+    uk: Отче, кероваpй мною Своєю мудрою порадою протягом усього мого земного життя,
       а потім прийми мене у Твою вічну небесну славу.
 - id: guidance_wisdom_21
   ref: jm:1:5
@@ -3283,10 +3283,10 @@
 - id: guidance_wisdom_23
   ref: ps:32:8
   title:
-    ru: Божье наставление
-    en: God's Instruction
-    es: Instrucción divina
-    uk: Боже наставляння
+    ru: Око Твоё ведёт
+    en: Your Watchful Eye
+    es: Tu ojo me guía
+    uk: Твоє око веде
   text:
     ru: Господь, научи меня пути, по которому мне идти. Пусть Твое любящее око всегда
       направляет меня и хранит от ошибок.
@@ -3313,12 +3313,12 @@
     uk: У всіх дорогах моїх пізнаю Тебе, Господи. Вірю, що Ти направиш мої кроки та
       зробиш мої життєві стежки прямими.
 - id: guidance_wisdom_25
-  ref: ps:119:105
+  ref: prv:6:23
   title:
-    ru: Светильник для ног
-    en: Lamp to My Feet
-    es: Lámpara a mis pies
-    uk: Світильник для ніг
+    ru: Свет на тропе
+    en: Light on My Path
+    es: Luz en mi senda
+    uk: Світло на стежці
   text:
     ru: Твое Слово, Господи, — светильник для ног моих и свет для моей тропы. Помоги
       мне идти при Твоем божественном сиянии.
@@ -3347,10 +3347,10 @@
 - id: guidance_wisdom_27
   ref: jm:3:17
   title:
-    ru: Мудрость свыше
-    en: Wisdom from Above
-    es: Sabiduría de lo alto
-    uk: Мудрість згори
+    ru: Мудрость чистая и мирная
+    en: Pure and Peaceable
+    es: Pura y pacífica
+    uk: Чиста й мирна мудрість
   text:
     ru: Господь, наполни меня мудростью свыше — чистой, мирной, послушной и полной
       милосердия. Пусть она направляет мои дела.
@@ -3363,10 +3363,10 @@
 - id: guidance_wisdom_28
   ref: ps:25:4
   title:
-    ru: Покажи мне пути
-    en: Show Me Your Ways
-    es: Muéstrame Tus caminos
-    uk: Покажи мені дороги
+    ru: Научи стезям Твоим
+    en: Teach Me Your Paths
+    es: Enséñame tus sendas
+    uk: Навчи стежок Твоїх
   text:
     ru: Укажи мне, Господи, пути Твои и научи меня Твоим стезям. Позволь мне ходить
       в Твоей истине каждый день моей жизни.
@@ -3395,10 +3395,10 @@
 - id: guidance_wisdom_30
   ref: cl:1:9
   title:
-    ru: Познание воли
-    en: Knowing His Will
-    es: Conocer Su voluntad
-    uk: Пізнання волі
+    ru: Угождать Тебе во всём
+    en: Pleasing You in All
+    es: Agradarte en todo
+    uk: Догоджати Тобі в усьому
   text:
     ru: Господи, исполни меня познанием Твоей воли во всякой премудрости и разумении
       духовном, чтобы мне угождать Тебе во всем.
@@ -3539,10 +3539,10 @@
 - id: family_relationships_09
   ref: 1pe:4:8
   title:
-    ru: Покрывающая любовь
-    en: Covering Love
-    es: Amor que cubre
-    uk: Любов, що покриває
+    ru: Любовь, что исцеляет
+    en: Love That Heals
+    es: Amor que sana
+    uk: Любов, що зціляє
   text:
     ru: Отец, наполни наши сердца глубокой любовью, способной покрывать ошибки и залечивать
       раны в отношениях.
@@ -3555,10 +3555,10 @@
 - id: family_relationships_10
   ref: 1jo:4:19
   title:
-    ru: Источник любви
-    en: Source of Love
-    es: Fuente de amor
-    uk: Джерело любові
+    ru: Делиться любовью
+    en: Sharing His Love
+    es: Compartir su amor
+    uk: Ділитися любов'ю
   text:
     ru: Господь, Твоя любовь первой коснулась нас. Помоги нам щедро делиться этой
       безусловной любовью с нашими близкими.
@@ -3731,10 +3731,10 @@
 - id: family_relationships_21
   ref: prv:17:17
   title:
-    ru: Верность в дружбе
-    en: Faithful Friendship
-    es: Amistad Fiel
-    uk: Вірність у дружбі
+    ru: Надёжный друг
+    en: A Reliable Friend
+    es: Un amigo fiel
+    uk: Надійний друг
   text:
     ru: Господи, научи меня быть верным другом и надежной опорой для моих близких
       в любые времена. Пусть моя любовь к ним будет крепкой и искренней в дни испытаний.
@@ -3764,10 +3764,10 @@
 - id: family_relationships_23
   ref: cl:3:14
   title:
-    ru: Союз любви
-    en: Bond of Love
-    es: Vínculo de Amor
-    uk: Союз любові
+    ru: Совершенная любовь связует
+    en: Perfect Love Binds Us
+    es: El amor que une
+    uk: Досконала любов єднає
   text:
     ru: Господи, облеки нашу семью в совершенную любовь, которая связывает нас воедино.
       Пусть Твоя забота будет главным основанием наших отношений каждый день.
@@ -3780,10 +3780,10 @@
 - id: family_relationships_24
   ref: 1co:13:4
   title:
-    ru: Терпеливая любовь
-    en: Patient Love
-    es: Amor Paciente
-    uk: Терпелива любов
+    ru: Нежность в трудный час
+    en: Tenderness in Hard Moments
+    es: Ternura en momentos difíciles
+    uk: Ніжність у важку хвилину
   text:
     ru: Боже, научи меня любить моих близких долготерпеливо и милосердно. Удали из
       моего сердца раздражение и помоги проявлять нежность даже в трудные минуты.
@@ -3796,10 +3796,10 @@
 - id: family_relationships_25
   ref: 1pe:4:8
   title:
-    ru: Покрывающая любовь
-    en: Covering Love
-    es: Amor que Cubre
-    uk: Любов, що покриває
+    ru: Единство в доме
+    en: Unity at Home
+    es: Unidad en el hogar
+    uk: Єдність у домі
   text:
     ru: Отец, помоги мне любить родных глубоко и искренне. Пусть Твоя любовь во мне
       покрывает любые промахи и помогает нам сохранять единство и мир в семье.
@@ -3812,10 +3812,10 @@
 - id: family_relationships_26
   ref: ps:127:3
   title:
-    ru: Дар детей
-    en: Gift of Children
-    es: El Regalo de los Hijos
-    uk: Дар дітей
+    ru: Наследие от Господа
+    en: A Heritage from the Lord
+    es: Herencia del Señor
+    uk: Спадщина від Господа
   text:
     ru: Господи, благодарю Тебя за детей, которых Ты доверил нам. Помоги мне ценить
       это наследие, воспитывать их в Твоей истине и быть для них добрым примером.
@@ -3890,7 +3890,7 @@
     uk: Господи, ми любимо один одного, бо Ти першим полюбив нас. Нехай Твоя безумовна
       любов тече через нас, зігріваючи та зцілюючи наші сімейні зв'язки.
 - id: humility_repentance_01
-  ref: ps:51:19
+  ref: lk:18:13
   title:
     ru: Сокрушенное сердце
     en: A broken heart
@@ -4278,7 +4278,7 @@
     uk: Господи, впокорюю своє серце перед Тобою. Прошу, даруй мені Твою благодать,
       щоб я міг бачити світ Твоїми очима і слідувати за Тобою в лагідності й любові.
 - id: humility_repentance_22
-  ref: ps:51:19
+  ref: lk:18:13
   title:
     ru: Чистое сердце
     en: A pure heart
@@ -4518,7 +4518,7 @@
     uk: Отче, зціли моє серце. Замість смутку дай мені олію радості, а замість зневіри
       — одяг хвали. Нехай Твоя розрада оновить мій дух для життя з Тобою щодня.
 - id: joy_comfort_06
-  ref: ps:94:19
+  ref: ph:4:7
   title:
     ru: Твои утешения
     en: Your Consolations
@@ -4538,10 +4538,10 @@
 - id: joy_comfort_07
   ref: rm:15:13
   title:
-    ru: Бог упования
-    en: God of Hope
-    es: Dios de esperanza
-    uk: Бог надії
+    ru: Изобилую надеждой
+    en: Abounding in Hope
+    es: Rebosar de esperanza
+    uk: Сповнений надії
   text:
     ru: Боже, наполни меня всякой радостью и миром в вере. Пусть силой Духа Святого
       я буду изобиловать надеждой, находя в Тебе утешение для каждого моего дня и
@@ -4572,7 +4572,7 @@
     uk: Господи, хоч я не бачу Тебе очима, я вірю і люблю Тебе. Наповни мене радістю
       невимовною і славною, яка стає моєю головною розрадою в усьому.
 - id: joy_comfort_09
-  ref: ps:119:50
+  ref: rm:15:4
   title:
     ru: Слово утешения
     en: Word of Comfort
@@ -4660,10 +4660,10 @@
 - id: joy_comfort_14
   ref: ph:4:7
   title:
-    ru: Божий мир
-    en: God's Peace
-    es: La paz de Dios
-    uk: Божий мир
+    ru: Мир превыше ума
+    en: Peace Beyond Understanding
+    es: Paz que sobrepasa
+    uk: Мир понад розум
   text:
     ru: Боже, пусть Твой мир, превыше всякого ума, соблюдет мое сердце и мысли в Христе
       Иисусе. Это мой покой, мое утешение и основа моей неиссякаемой радости.
@@ -4774,10 +4774,10 @@
 - id: joy_comfort_21
   ref: ps:16:11
   title:
-    ru: Полнота радости
-    en: Fullness of Joy
-    es: Plenitud de gozo
-    uk: Повнота радості
+    ru: Радость в присутствии
+    en: Joy in Your Presence
+    es: Gozo en tu presencia
+    uk: Радість у присутності
   text:
     ru: Господь, благодарю за Твое присутствие. Ты наполняешь меня радостью и вечным
       блаженством. Помоги мне всегда пребывать в Твоем свете и доверять Тебе во всем.
@@ -4790,10 +4790,10 @@
 - id: joy_comfort_22
   ref: ne:8:10
   title:
-    ru: Сила в радости
-    en: Strength in Joy
-    es: Fortaleza en el gozo
-    uk: Сила в радості
+    ru: Радость Господа — сила
+    en: The Joy of the Lord
+    es: El gozo del Señor
+    uk: Радість Господня — сила
   text:
     ru: Отец, когда я слаб, напомни мне, что радость о Тебе — моя сила. Пусть Твой
       мир утешает мое сердце и дает мне мужество идти вперед, несмотря на любые трудности.
@@ -4825,10 +4825,10 @@
 - id: joy_comfort_24
   ref: ps:30:6
   title:
-    ru: Утро радости
-    en: Morning Joy
-    es: Gozo de mañana
-    uk: Радість ранку
+    ru: Радость приходит утром
+    en: Joy Comes in the Morning
+    es: El gozo llega de mañana
+    uk: Радість приходить уранці
   text:
     ru: Господь, даже если ночью приходят печали, я верю, что утром наступает радость.
       Благодарю за Твою верность, которая обновляется для меня каждый новый день.
@@ -4871,7 +4871,7 @@
     uk: Ісусе, дякую за Твою любов. Ти обіцяв радість, яку ніхто не зможе відібрати.
       Зміцни мою віру, щоб я завжди відчував Твоє втішення у своєму серці.
 - id: joy_comfort_27
-  ref: ps:94:19
+  ref: ph:4:7
   title:
     ru: Утешение в тревоге
     en: Comfort in Anxiety
@@ -4889,10 +4889,10 @@
 - id: joy_comfort_28
   ref: is:61:3
   title:
-    ru: Елей радости
-    en: Oil of Joy
-    es: Aceite de gozo
-    uk: Олія радості
+    ru: Вместо пепла — красота
+    en: Beauty for Ashes
+    es: Belleza en vez de ceniza
+    uk: Окраса замість попелу
   text:
     ru: Господь, исцели мое сердце. Вместо пепла дай мне украшение, вместо плача —
       елей радости. Пусть Твой Дух наполнит меня надеждой на этот день.
@@ -4905,10 +4905,10 @@
 - id: joy_comfort_29
   ref: 2co:1:3
   title:
-    ru: Отец утешения
-    en: Father of Comfort
-    es: Padre de consuelo
-    uk: Батько втішення
+    ru: Бог всякого утешения
+    en: God of All Comfort
+    es: Dios de toda consolación
+    uk: Бог усякої потіхи
   text:
     ru: Отец милосердия и Бог всякого утешения, благодарю, что Ты рядом в моих скорбях.
       Помоги мне доверять Тебе и нести Твой свет тем, кто сейчас нуждается в поддержке.
@@ -4920,12 +4920,12 @@
     uk: Отче милосердя і Боже всякого втішення, дякую, що Ти поруч у моїх скорботах.
       Допоможи мені довіряти Тобі та нести Твоє світло тим, хто зараз потребує підтримки.
 - id: joy_comfort_30
-  ref: ps:119:50
+  ref: rm:15:4
   title:
-    ru: Слово утешает
-    en: Word of Comfort
-    es: La Palabra consuela
-    uk: Слово втішає
+    ru: Свет обещаний
+    en: Light of His Promises
+    es: Luz de sus promesas
+    uk: Світло обітниць
   text:
     ru: Господь, Твое Слово — мое главное утешение в жизни. Оно оживляет меня, когда
       я падаю духом. Пусть Твои обещания всегда будут светом на моем пути.
@@ -5356,10 +5356,10 @@
 - id: service_witness_27
   ref: 1pe:3:15
   title:
-    ru: Готовность отвечать
-    en: Readiness to answer
-    es: Disposición a responder
-    uk: Готовність відповідати
+    ru: Надежда во мне
+    en: The Hope Within Me
+    es: La esperanza en mí
+    uk: Надія в мені
   text:
     ru: Господи, помоги мне всегда быть готовым рассказать о надежде, которая живет
       во мне. Пусть мой ответ будет кротким, уважительным и направленным к Тебе.
@@ -5372,10 +5372,10 @@
 - id: service_witness_28
   ref: 2co:5:20
   title:
-    ru: Послы Христа
-    en: Ambassadors for Christ
-    es: Embajadores de Cristo
-    uk: Посли Христа
+    ru: Примиритесь с Богом
+    en: Be Reconciled to God
+    es: Reconciliaos con Dios
+    uk: Примиріться з Богом
   text:
     ru: Отец, спасибо за честь быть Твоим послом. Помоги мне сегодня представлять
       Твое Царство с достоинством, призывая людей примириться с Тобой через Христа.
@@ -5388,10 +5388,10 @@
 - id: service_witness_29
   ref: is:6:8
   title:
-    ru: Вот я, пошли меня
-    en: Here am I, send me
-    es: Heme aquí, envíame
-    uk: Ось я, пошли мене
+    ru: Сердце, открытое к призыву
+    en: A Heart Open to Your Call
+    es: Corazón abierto a tu llamado
+    uk: Серце, відкрите до поклику
   text:
     ru: Господь, мое сердце открыто для Твоего призыва. Вот я, пошли меня туда, где
       Ты хочешь видеть меня сегодня, чтобы я мог послужить людям во имя Твое.
@@ -5562,7 +5562,7 @@
     uk: Господи, допоможи мені відкласти всякий гріх і тягар. Дай сил терпляче бігти
       дистанцію, яку Ти визначив для мене, дивлячись тільки на Тебе. Амінь.
 - id: spiritual_growth_10
-  ref: ps:119:105
+  ref: prv:6:23
   title:
     ru: Твой верный свет
     en: Your Faithful Light
@@ -5708,10 +5708,10 @@
 - id: spiritual_growth_19
   ref: gl:5:22
   title:
-    ru: Плод Духа
-    en: Fruit of the Spirit
-    es: Fruto del Espíritu
-    uk: Плід Духа
+    ru: Возрастать в Духе
+    en: Growing in the Spirit
+    es: Crecer en el Espíritu
+    uk: Зростати в Дусі
   text:
     ru: Господь, наполни меня Своим Духом. Пусть в моей жизни прорастает любовь, радость,
       мир и долготерпение, чтобы люди видели Твой свет. Аминь.
@@ -5788,10 +5788,10 @@
 - id: spiritual_growth_24
   ref: rm:12:2
   title:
-    ru: Преображение разума
-    en: Renewing the Mind
-    es: Transformar la mente
-    uk: Перетворення розуму
+    ru: Различать волю Божью
+    en: Discerning God's Will
+    es: Discernir la voluntad de Dios
+    uk: Розпізнавати волю Божу
   text:
     ru: Отец, не позволь мне подстраиваться под этот мир. Преображай мой разум, чтобы
       я мог ясно различать Твою добрую и совершенную волю для моей жизни.
@@ -5836,10 +5836,10 @@
 - id: spiritual_growth_27
   ref: 1ts:5:23
   title:
-    ru: Освящение во всем
-    en: Sanctification in All
-    es: Santificación total
-    uk: Освячення в усьому
+    ru: Дух, душа и тело
+    en: Spirit, Soul, and Body
+    es: Espíritu, alma y cuerpo
+    uk: Дух, душа і тіло
   text:
     ru: Отец, освяти меня целиком. Пусть мой дух, душа и тело будут сохранены в чистоте
       до пришествия Господа Иисуса. Будь моим светом и хранителем.
@@ -5914,12 +5914,12 @@
     uk: Отче, я маю надію на зустріч із Тобою. Допоможи мені очищати себе, як Ти чистий,
       щоб я міг з радістю очікувати на Твій славний прихід.
 - id: spiritual_growth_32
-  ref: ps:51:12
+  ref: 2co:5:17
   title:
-    ru: Чистое сердце
-    en: A Clean Heart
-    es: Un corazón limpio
-    uk: Чисте серце
+    ru: Обнови дух мой
+    en: Renew My Spirit
+    es: Renueva mi espíritu
+    uk: Онови мій дух
   text:
     ru: Боже, сотвори во мне чистое сердце и обнови внутри меня верный дух. Не отлучай
       меня от Своего лица и поддержи меня Своей благодатной силой.
@@ -5932,10 +5932,10 @@
 - id: spiritual_growth_33
   ref: 1ts:4:3
   title:
-    ru: Твоя воля
-    en: Your Will
-    es: Tu voluntad
-    uk: Твоя воля
+    ru: Возрастать в святости
+    en: Growing in Holiness
+    es: Crecer en santidad
+    uk: Зростати у святості
   text:
     ru: Господь, я хочу исполнять Твою волю. Помоги мне возрастать в святости, избегая
       всякого греха и посвящая свою жизнь исключительно Тебе.
