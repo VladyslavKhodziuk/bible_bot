@@ -257,8 +257,50 @@ pray:
   btn_topics: "📁 By topic"
   btn_my: "📌 My prayers"
   btn_remind: "🔔 Remind me"
+  repentance:
+    teaser: "🕊️ <b>The Prayer of Repentance</b> is the first sincere step toward God, in which a person admits their sins and receives Jesus Christ as Lord and Savior. If you want to begin a new life with God, go to the prayer of repentance and turn to Him right now."
+    button: "🙏 Prayer of repentance"
+    done_button: "🙏 I have prayed"
+    card: |-
+      <b>🙏 Prayer of Repentance</b>
+
+      <blockquote>Lord Jesus Christ, I come to You just as I am. I confess that I have sinned against You, and I ask You to forgive me for all my sins. I believe that You died for me on the cross and rose again for my justification.
+
+      Today I open my heart to You and receive You as my Lord and Savior. Come into my life, change me, teach me to follow You and to do Your will. Thank You for forgiveness, salvation, and the gift of eternal life.
+
+      In the name of Jesus Christ. Amen.</blockquote>
+
+      📖 Romans 10:13 · «For whosoever shall call upon the name of the Lord shall be saved.»
+    congrats: |-
+      🎉 <b>Congratulations!</b>
+
+      If you have sincerely turned to the Lord Jesus Christ, you have taken the most important step of your life. God hears everyone who comes to Him with faith and repentance.
+
+      <i>«For whosoever shall call upon the name of the Lord shall be saved.» (Romans 10:13)</i>
+
+      Now your journey of following Christ begins. Here are a few important steps:
+
+      📖 <b>Read the Bible every day</b>
+      Start with the Gospel of John to get to know Jesus Christ and His teaching better.
+
+      🙏 <b>Pray to God regularly</b>
+      Tell Him about what you are going through, thank Him, and ask for wisdom each day.
+
+      ⛪ <b>Find a Bible-believing church</b>
+      Fellowship with other believers will help you grow spiritually and be strengthened in faith.
+
+      🛡️ <b>Don't be surprised by hardships</b>
+      After repentance, doubts and temptations may come. Trust God's Word rather than your feelings.
+
+      ❤️ <b>Seek to live by God's will</b>
+      Don't try to change by your own strength. Ask the Lord every day to transform your heart and character.
+
+      🌱 <b>Keep growing spiritually</b>
+      The Christian life is a journey. Take it step by step, trusting God and following Him.
+
+      May the Lord bless you, strengthen you in faith, and fill your life with His peace and joy!
   topics_title: "<b>📁 Prayers by topic</b>"
-  topics_intro: "Choose what to pray about."
+  topics_intro: "📖 Ready prayers for different life situations.\n\nChoose a topic below:"
   back_to_topics: "← To topics"
   btn_another_in_topic: "🎲 Another"
   btn_random: "🎲 Random"
@@ -274,7 +316,7 @@ pray:
   my_empty: "<b>📌 My prayers</b>\n\nYou don't have any saved prayers yet.\n\nWhen a prayer touches you — tap <b>⭐ Add to favorites</b>, and it'll appear here.\n\nYou can save up to 10 prayers."
   my_delete: "🗑 Delete"
   back_to_list: "← Back to list"
-  back_to_card: "← Back to card"
+  back_to_card: "← Back"
   empty: "No prayer for today yet. Come back tomorrow 🙏"
   streak:
     indicator: "🙏 {days} days of prayer"

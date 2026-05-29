@@ -30,9 +30,10 @@ def pray_keyboard(lang: str, prayer_id: str, is_fav: bool) -> InlineKeyboardMark
 
     Раскладка:
       🙏 Аминь
-      ⭐ В избранное   🎲 Случайная
-      📁 По темам      📌 Мои молитвы
-      🔔 Напомнить
+      ⭐ В избранное      🎲 Случайная
+      📁 По темам
+      🔔 Напомнить        📌 Мои молитвы
+      🙏 Молитва покаяния
       ← В меню
     """
     builder = InlineKeyboardBuilder()
@@ -41,10 +42,11 @@ def pray_keyboard(lang: str, prayer_id: str, is_fav: bool) -> InlineKeyboardMark
     builder.button(text=fav_text, callback_data=fav_data)
     builder.button(text=t("pray.btn_random", lang), callback_data="pray:random")
     builder.button(text=t("pray.btn_topics", lang), callback_data="pray:topics")
-    builder.button(text=t("pray.btn_my", lang), callback_data="pray:my")
     builder.button(text=t("pray.btn_remind", lang), callback_data="pray_notif:open")
+    builder.button(text=t("pray.btn_my", lang), callback_data="pray:my")
+    builder.button(text=t("pray.repentance.button", lang), callback_data="pray:repentance")
     builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
-    builder.adjust(1, 2, 2, 1, 1)
+    builder.adjust(1, 2, 1, 2, 1, 1)
     return builder.as_markup()
 
 
@@ -57,10 +59,34 @@ def pray_after_amen_keyboard(
     builder.button(text=fav_text, callback_data=fav_data)
     builder.button(text=t("pray.btn_random", lang), callback_data="pray:random")
     builder.button(text=t("pray.btn_topics", lang), callback_data="pray:topics")
-    builder.button(text=t("pray.btn_my", lang), callback_data="pray:my")
     builder.button(text=t("pray.btn_remind", lang), callback_data="pray_notif:open")
+    builder.button(text=t("pray.btn_my", lang), callback_data="pray:my")
+    builder.button(text=t("pray.repentance.button", lang), callback_data="pray:repentance")
     builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
-    builder.adjust(2, 2, 1, 1)
+    builder.adjust(2, 1, 2, 1, 1)
+    return builder.as_markup()
+
+
+def pray_repentance_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Экран молитвы покаяния. Без избранного — её нельзя сохранять.
+
+      🙏 Я помолился
+      ← Назад            ← В меню
+    """
+    builder = InlineKeyboardBuilder()
+    builder.button(text=t("pray.repentance.done_button", lang), callback_data="pray:repentance:done")
+    builder.button(text=t("pray.back_to_card", lang), callback_data="pray")
+    builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
+    builder.adjust(1, 2)
+    return builder.as_markup()
+
+
+def pray_repentance_congrats_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Поздравительный экран после молитвы покаяния."""
+    builder = InlineKeyboardBuilder()
+    builder.button(text=t("pray.back_to_card", lang), callback_data="pray")
+    builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
+    builder.adjust(2)
     return builder.as_markup()
 
 
@@ -104,7 +130,7 @@ def pray_topics_menu_keyboard(sections: list[dict], lang: str) -> InlineKeyboard
 
     builder.button(text=t("pray.back_to_card", lang), callback_data="pray")
     builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
-    rows.extend([1, 1])
+    rows.append(2)
 
     builder.adjust(*rows)
     return builder.as_markup()

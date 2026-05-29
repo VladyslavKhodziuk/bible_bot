@@ -22,6 +22,8 @@ class PrayerService:
     _topic_by_id: dict[str, dict] = {}
     # Сырые карточки фиксированных тем по их id (= topic_id) для get_prayer_by_id / избранного.
     _fixed_by_id: dict[str, dict] = {}
+    # Молитвы инлайн-пулов тем (kind=pool с собственным списком prayers) по их id.
+    _pool_prayer_by_id: dict[str, dict] = {}
     _loaded: bool = False
 
     @classmethod
@@ -63,6 +65,12 @@ class PrayerService:
                     raw = dict(topic.get("prayer") or {})
                     raw["id"] = topic_id  # id фикс-молитвы = id темы (для избранного)
                     cls._fixed_by_id[topic_id] = raw
+                elif topic.get("kind") == "pool":
+                    # Инлайн-пул темы: индексируем по id для избранного / перерисовки.
+                    for prayer in topic.get("prayers") or []:
+                        pid = prayer.get("id")
+                        if pid:
+                            cls._pool_prayer_by_id[pid] = prayer
 
         topic_count = sum(len(s.get("topics", [])) for s in cls._sections)
         logger.info(
@@ -145,6 +153,10 @@ class PrayerService:
         if fixed:
             return cls._build_prayer_dict(fixed, lang, translation)
 
+        pooled = cls._pool_prayer_by_id.get(prayer_id)
+        if pooled:
+            return cls._build_prayer_dict(pooled, lang, translation)
+
         for prayer in cls._prayers:
             if prayer.get("id") == prayer_id:
                 return cls._build_prayer_dict(prayer, lang, translation)
@@ -193,11 +205,16 @@ class PrayerService:
             raw = cls._fixed_by_id.get(topic_id)
             return cls._build_prayer_dict(raw, lang, translation) if raw else None
 
-        themes = set(topic.get("themes") or [])
-        candidates = [
-            p for p in cls._prayers
-            if p.get("id") and p["id"].rsplit("_", 1)[0] in themes
-        ]
+        # Инлайн-пул темы имеет приоритет; иначе — фолбэк по темам из пула дня.
+        inline = topic.get("prayers")
+        if inline:
+            candidates = [p for p in inline if p.get("id")]
+        else:
+            themes = set(topic.get("themes") or [])
+            candidates = [
+                p for p in cls._prayers
+                if p.get("id") and p["id"].rsplit("_", 1)[0] in themes
+            ]
         if not candidates:
             return None
 

@@ -32,6 +32,8 @@ from keyboards.pray import (
     pray_stub_keyboard,
     pray_topics_menu_keyboard,
     pray_topic_card_keyboard,
+    pray_repentance_keyboard,
+    pray_repentance_congrats_keyboard,
 )
 
 router = Router()
@@ -137,6 +139,8 @@ def _build_card_text(prayer: dict, lang: str, bot_username: str) -> str:
     if share:
         parts.append("")
         parts.append(share)
+    parts.append("")
+    parts.append(t("pray.repentance.teaser", lang))
     return "\n".join(parts)
 
 
@@ -176,6 +180,8 @@ def _build_after_amen_text(
     if share:
         parts.append("")
         parts.append(share)
+    parts.append("")
+    parts.append(t("pray.repentance.teaser", lang))
     return "\n".join(parts)
 
 
@@ -289,6 +295,32 @@ async def amen(callback: CallbackQuery):
     await _send_prayer_extras(callback.message, streak_result, lang)
 
 
+@router.callback_query(F.data == "pray:repentance")
+async def show_repentance_prayer(callback: CallbackQuery):
+    """Экран молитвы покаяния (фиксированный текст, без избранного)."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+    await callback.message.edit_text(
+        t("pray.repentance.card", lang),
+        reply_markup=pray_repentance_keyboard(lang),
+        disable_web_page_preview=True,
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data == "pray:repentance:done")
+async def repentance_done(callback: CallbackQuery):
+    """Поздравительный экран после молитвы покаяния."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+    await callback.message.edit_text(
+        t("pray.repentance.congrats", lang),
+        reply_markup=pray_repentance_congrats_keyboard(lang),
+        disable_web_page_preview=True,
+    )
+    await callback.answer()
+
+
 @router.callback_query(F.data == "pray:random")
 async def show_random_prayer(callback: CallbackQuery):
     """Случайная молитва из пула — без «Аминь», только просмотр и сохранение."""
@@ -312,14 +344,9 @@ async def show_random_prayer(callback: CallbackQuery):
     await callback.answer()
 
 
-def _topics_menu_text(lang: str, sections: list[dict]) -> str:
-    """Текст меню «По темам»: заголовок, интро и подзаголовки секций списком."""
-    parts = [t("pray.topics_title", lang), "", t("pray.topics_intro", lang), ""]
-    for section in sections:
-        name = (section.get("names") or {}).get(lang) or (section.get("names") or {}).get("en", "")
-        if name:
-            parts.append(f"• {name}")
-    return "\n".join(parts)
+def _topics_menu_text(lang: str) -> str:
+    """Текст меню «По темам»: заголовок и интро (кнопки тем — ниже)."""
+    return f'{t("pray.topics_title", lang)}\n\n{t("pray.topics_intro", lang)}'
 
 
 def _build_topic_text(
@@ -375,7 +402,7 @@ async def open_prayer_topics(callback: CallbackQuery):
         return
 
     await callback.message.edit_text(
-        _topics_menu_text(lang, sections),
+        _topics_menu_text(lang),
         reply_markup=pray_topics_menu_keyboard(sections, lang),
         disable_web_page_preview=True,
     )

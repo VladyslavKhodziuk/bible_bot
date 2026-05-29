@@ -260,8 +260,50 @@ pray:
   btn_topics: "📁 Por temas"
   btn_my: "📌 Mis oraciones"
   btn_remind: "🔔 Recordar"
+  repentance:
+    teaser: "🕊️ <b>La oración de arrepentimiento</b> es el primer paso sincero hacia Dios, en el que la persona reconoce sus pecados y recibe a Jesucristo como Señor y Salvador. Si quieres comenzar una nueva vida con Dios, ve a la oración de arrepentimiento y vuélvete a Él ahora mismo."
+    button: "🙏 Oración de arrepentimiento"
+    done_button: "🙏 Ya oré"
+    card: |-
+      <b>🙏 Oración de arrepentimiento</b>
+
+      <blockquote>Señor Jesucristo, vengo a Ti tal como soy. Reconozco que he pecado contra Ti y te pido que me perdones todos mis pecados. Creo que moriste por mí en la cruz y resucitaste para mi justificación.
+
+      Hoy te abro mi corazón y te recibo como mi Señor y Salvador. Entra en mi vida, cámbiame, enséñame a seguirte y a hacer Tu voluntad. Gracias por el perdón, la salvación y el don de la vida eterna.
+
+      En el nombre de Jesucristo. Amén.</blockquote>
+
+      📖 Romanos 10:13 · «Porque todo aquel que invocare el nombre del Señor, será salvo.»
+    congrats: |-
+      🎉 <b>¡Felicidades!</b>
+
+      Si te has vuelto con sinceridad al Señor Jesucristo, has dado el paso más importante de tu vida. Dios escucha a todo el que viene a Él con fe y arrepentimiento.
+
+      <i>«Porque todo aquel que invocare el nombre del Señor, será salvo.» (Romanos 10:13)</i>
+
+      Ahora comienza tu camino de seguir a Cristo. Aquí tienes algunos pasos importantes:
+
+      📖 <b>Lee la Biblia cada día</b>
+      Empieza con el Evangelio de Juan para conocer mejor a Jesucristo y Su enseñanza.
+
+      🙏 <b>Ora a Dios con regularidad</b>
+      Cuéntale lo que estás viviendo, dale gracias y pídele sabiduría cada día.
+
+      ⛪ <b>Encuentra una iglesia fiel a la Biblia</b>
+      La comunión con otros creyentes te ayudará a crecer espiritualmente y a fortalecerte en la fe.
+
+      🛡️ <b>No te sorprendas ante las dificultades</b>
+      Después del arrepentimiento pueden venir dudas y tentaciones. Confía en la Palabra de Dios y no en tus sentimientos.
+
+      ❤️ <b>Procura vivir conforme a la voluntad de Dios</b>
+      No intentes cambiar con tus propias fuerzas. Pídele al Señor cada día que transforme tu corazón y tu carácter.
+
+      🌱 <b>Sigue creciendo espiritualmente</b>
+      La vida cristiana es un camino. Hazlo paso a paso, confiando en Dios y siguiéndole.
+
+      ¡Que el Señor te bendiga, te fortalezca en la fe y llene tu vida de Su paz y alegría!
   topics_title: "<b>📁 Oraciones por temas</b>"
-  topics_intro: "Elige sobre qué orar."
+  topics_intro: "📖 Oraciones listas para distintas situaciones de la vida.\n\nElige un tema abajo:"
   back_to_topics: "← A los temas"
   btn_another_in_topic: "🎲 Otra"
   btn_random: "🎲 Aleatoria"
@@ -277,7 +319,7 @@ pray:
   my_empty: "<b>📌 Mis oraciones</b>\n\nAún no tienes oraciones guardadas.\n\nCuando una oración te toque — pulsa <b>⭐ A favoritos</b>, y aparecerá aquí.\n\nPuedes guardar hasta 10 oraciones."
   my_delete: "🗑 Eliminar"
   back_to_list: "← A la lista"
-  back_to_card: "← A la tarjeta"
+  back_to_card: "← Atrás"
   empty: "Aún no hay oración para hoy. Vuelve mañana 🙏"
   streak:
     indicator: "🙏 {days} días de oración"

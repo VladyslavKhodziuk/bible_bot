@@ -10,9 +10,10 @@
 #       id     — стабильный slug (в callback `pray:tp:<id>`; для kind=fixed это же id молитвы)
 #       emoji  — эмодзи кнопки
 #       names  — название темы на 4 языках
-#       kind   — fixed (одна заданная молитва) | pool (выборка из пула prayers_of_day по темам)
+#       kind   — fixed (одна заданная молитва) | pool (выборка из нескольких молитв)
 #       prayer — (kind=fixed) {title, text, ref?} как в prayers_of_day.yaml
-#       themes — (kind=pool) список префиксов id из prayers_of_day.yaml
+#       prayers — (kind=pool) свой инлайн-список молитв темы [{id, title, text, ref?}, ...]
+#       themes — (kind=pool, фолбэк) список префиксов id из prayers_of_day.yaml (если нет prayers)
 
 sections:
   - id: daily
@@ -21,7 +22,7 @@ sections:
       en: Daily
       es: Diarias
       uk: Щоденні
-    layout: [2, 1]
+    layout: [2, 2]
     topics:
       - id: morning
         emoji: "🌅"
@@ -95,6 +96,75 @@ sections:
               para bien de mi cuerpo y sacia a quienes hoy no tienen pan.
             uk: Господи, дякую Тобі за цю їжу і за руки, що її приготували. Благослови її
               на добро тілу й нагодуй тих, хто сьогодні не має хліба.
+      - id: sinned
+        emoji: "💔"
+        names:
+          ru: Согрешил
+          en: I have sinned
+          es: He pecado
+          uk: Згрішив
+        kind: pool
+        prayers:
+          - id: tp_sinned_01
+            ref: 1jo:1:9
+            title:
+              ru: "Я виноват перед Тобой"
+              en: "I've done wrong"
+              es: "He hecho mal"
+              uk: "Я завинив перед Тобою"
+            text:
+              ru: "Господи, я согрешил и не хочу больше это прятать. Ты обещал: если честно признаю свой грех, Ты простишь и очистишь меня. Вот, я называю всё своими именами и не ищу себе оправданий. Прими моё покаяние, прости меня и верни спокойную совесть. И дай сил больше не возвращаться к тому, о чём сейчас жалею. Аминь."
+              en: "Lord, I've sinned, and I don't want to hide it anymore. You promised that if I honestly admit my sin, You'll forgive me and clean me up. So here I am, calling it what it is, without making excuses. Accept my repentance, forgive me, and give me back a clear conscience. And give me strength not to go back to what I now regret. Amen."
+              es: "Señor, he pecado, y ya no quiero esconderlo. Prometiste que si reconozco mi pecado con sinceridad, me perdonarás y me limpiarás. Aquí estoy, llamando las cosas por su nombre, sin buscar excusas. Acepta mi arrepentimiento, perdóname y devuélveme una conciencia tranquila. Y dame fuerzas para no volver a lo que ahora lamento. Amén."
+              uk: "Господи, я згрішив і не хочу більше це ховати. Ти обіцяв: якщо чесно визнаю свій гріх, Ти простиш і очистиш мене. Ось, я називаю все своїми іменами й не шукаю собі виправдань. Прийми моє покаяння, прости мене й поверни спокійну совість. І дай сил більше не вертатися до того, про що зараз шкодую. Амінь."
+          - id: tp_sinned_02
+            ref: lk:18:13
+            title:
+              ru: "Будь милостив ко мне"
+              en: "Have mercy on me"
+              es: "Ten misericordia de mí"
+              uk: "Будь милостивий до мене"
+            text:
+              ru: "Боже, мне даже стыдно поднять глаза. Я не могу принести Тебе ничего, чем мог бы гордиться — только своё сокрушённое сердце. Будь милостив ко мне, грешнику. Я знаю, что Ты не отворачиваешься от тех, кто приходит вот так, со склонённой головой. Прости меня по Твоей большой милости и подними прощённым. Аминь."
+              en: "God, I'm even ashamed to lift my eyes. I can't bring You anything to be proud of — only my broken heart. Have mercy on me, a sinner. I know You don't turn away from those who come like this, with their head bowed. Forgive me in Your great mercy, and lift me up forgiven. Amen."
+              es: "Dios, hasta me da vergüenza levantar la mirada. No puedo traerte nada de qué enorgullecerme — solo mi corazón quebrantado. Ten misericordia de mí, pecador. Sé que no le das la espalda a quien viene así, con la cabeza inclinada. Perdóname por Tu gran misericordia y levántame perdonado. Amén."
+              uk: "Боже, мені навіть соромно підвести очі. Я не можу принести Тобі нічого, чим міг би пишатися — лише своє скрушене серце. Будь милостивий до мене, грішника. Я знаю, що Ти не відвертаєшся від тих, хто приходить отак, зі схиленою головою. Прости мене з Твоєї великої милості й підніми прощеним. Амінь."
+          - id: tp_sinned_03
+            ref: lk:15:18
+            title:
+              ru: "Возвращаюсь к Тебе"
+              en: "Coming back to You"
+              es: "Vuelvo a Ti"
+              uk: "Повертаюся до Тебе"
+            text:
+              ru: "Отче, я ушёл далеко и растратил то, что Ты мне дал. Теперь я возвращаюсь и говорю Тебе честно: я виноват и перед небом, и перед Тобой. Я не достоин называться Твоим сыном. Но я знаю, что Ты выходишь навстречу тому, кто возвращается, и обнимаешь его. Прими меня обратно. Я иду домой — встреть меня. Аминь."
+              en: "Father, I went far away and wasted what You gave me. Now I'm coming back, and I'll tell You honestly: I've done wrong, against heaven and against You. I don't deserve to be called Your son. But I know that You go out to meet the one who comes home, and You wrap Your arms around him. Take me back. I'm coming home — meet me. Amen."
+              es: "Padre, me fui lejos y desperdicié lo que me diste. Ahora vuelvo y te lo digo con sinceridad: he hecho mal, contra el cielo y contra Ti. No merezco que me llamen Tu hijo. Pero sé que Tú sales al encuentro del que regresa y lo abrazas. Recíbeme de vuelta. Vuelvo a casa — recíbeme. Amén."
+              uk: "Отче, я пішов далеко й розтратив те, що Ти мені дав. Тепер я повертаюся й кажу Тобі чесно: я завинив і перед небом, і перед Тобою. Я не гідний зватися Твоїм сином. Але я знаю, що Ти виходиш назустріч тому, хто повертається, і обіймаєш його. Прийми мене назад. Я йду додому — зустрінь мене. Амінь."
+          - id: tp_sinned_04
+            ref: prv:28:13
+            title:
+              ru: "Больше не прятать"
+              en: "No more hiding"
+              es: "No esconderlo más"
+              uk: "Більше не ховати"
+            text:
+              ru: "Господи, я слишком долго прятал этот грех, и внутри от него становилось только хуже. Я знаю: пока скрываю — не будет покоя, а если признаю и оставлю — найду милость. Сегодня выношу всё на свет перед Тобой. Помоги мне не просто признаться, но и по-настоящему уйти от этого. Помилуй меня и дай начать заново. Аминь."
+              en: "Lord, I've hidden this sin for too long, and inside it only made things worse. I know that as long as I cover it up there'll be no peace, but if I admit it and leave it behind I'll find mercy. Today I'm bringing it all into the light before You. Help me not just to confess it, but to truly walk away from it. Have mercy on me and let me start over. Amen."
+              es: "Señor, he escondido este pecado demasiado tiempo, y por dentro solo empeoraba. Sé que mientras lo encubra no habrá paz, pero si lo reconozco y lo dejo, hallaré misericordia. Hoy lo saco todo a la luz delante de Ti. Ayúdame no solo a confesarlo, sino a alejarme de verdad de él. Ten misericordia de mí y déjame empezar de nuevo. Amén."
+              uk: "Господи, я надто довго ховав цей гріх, і всередині від нього ставало тільки гірше. Я знаю: поки приховую — не буде спокою, а якщо визнаю й залишу — знайду милість. Сьогодні виношу все на світло перед Тобою. Допоможи мені не просто визнати, а й по-справжньому піти від цього. Помилуй мене й дай почати заново. Амінь."
+          - id: tp_sinned_05
+            ref: 1jo:2:1
+            title:
+              ru: "Снова упал"
+              en: "I fell again"
+              es: "Caí otra vez"
+              uk: "Знову впав"
+            text:
+              ru: "Иисус, я снова упал, и мне стыдно стоять перед Тобой. Но я помню, что Ты на моей стороне перед Отцом и заступаешься за меня. Ты пришёл не осудить, а спасти, и Твоя любовь сильнее моего греха. Прими меня таким, какой я есть, и не дай мне опустить руки и отойти от Тебя. Подними меня и веди дальше. Спасибо. Аминь."
+              en: "Jesus, I've fallen again, and I'm ashamed to stand before You. But I remember that You're on my side before the Father, standing up for me. You came not to condemn but to save, and Your love is stronger than my sin. Take me as I am, and don't let me give up and walk away from You. Lift me up and lead me on. Thank You. Amen."
+              es: "Jesús, caí otra vez, y me da vergüenza estar ante Ti. Pero recuerdo que estás de mi lado ante el Padre, intercediendo por mí. No viniste a condenar, sino a salvar, y Tu amor es más fuerte que mi pecado. Recíbeme tal como soy, y no dejes que me rinda y me aleje de Ti. Levántame y guíame adelante. Gracias. Amén."
+              uk: "Ісусе, я знову впав, і мені соромно стояти перед Тобою. Але я пам'ятаю, що Ти на моєму боці перед Отцем і заступаєшся за мене. Ти прийшов не засудити, а спасти, і Твоя любов сильніша за мій гріх. Прийми мене таким, який я є, і не дай мені опустити руки й відійти від Тебе. Підніми мене й веди далі. Дякую. Амінь."
 
   - id: hard
     names:
@@ -102,7 +172,7 @@ sections:
       en: When it's hard
       es: Cuando es difícil
       uk: Коли важко
-    layout: [1, 1, 1, 1]
+    layout: [2, 1, 1]
     topics:
       - id: anxiety_fear
         emoji: "😟"
@@ -112,7 +182,67 @@ sections:
           es: En ansiedad y miedo
           uk: У тривозі та страху
         kind: pool
-        themes: [strength_trials, peace_rest]
+        prayers:
+          - id: tp_anxiety_fear_01
+            ref: ph:4:6
+            title:
+              ru: "Когда тревожно"
+              en: "When I'm anxious"
+              es: "Cuando tengo ansiedad"
+              uk: "Коли тривожно"
+            text:
+              ru: "Господи, мне тревожно. В голове крутятся мысли, и я не знаю, как со всем этим справиться. Я приношу Тебе всё, что меня пугает — прямо сейчас, как есть. Помоги мне отпустить это и довериться Тебе. Дай мне Твой покой, который я даже не могу объяснить, и побудь рядом, чтобы я наконец выдохнул. Аминь."
+              en: "Lord, I'm anxious. My thoughts keep spinning, and I don't know how to handle all of this. I bring You everything that scares me — right now, just as it is. Help me let it go and trust You. Give me Your peace that I can't even explain, and stay close so I can finally breathe. Amen."
+              es: "Señor, estoy angustiado. Mis pensamientos no paran, y no sé cómo manejar todo esto. Te traigo todo lo que me asusta — ahora mismo, tal como está. Ayúdame a soltarlo y a confiar en Ti. Dame Tu paz que ni siquiera puedo explicar, y quédate cerca para que por fin pueda respirar. Amén."
+              uk: "Господи, мені тривожно. Думки крутяться в голові, і я не знаю, як з усім цим впоратися. Я приношу Тобі все, що мене лякає — просто зараз, як є. Допоможи мені відпустити це й довіритися Тобі. Дай мені Твій спокій, якого я навіть не можу пояснити, і побудь поруч, щоб я нарешті видихнув. Амінь."
+          - id: tp_anxiety_fear_02
+            ref: 1pe:5:7
+            title:
+              ru: "Я больше не могу один"
+              en: "I can't carry it alone"
+              es: "No puedo cargarlo solo"
+              uk: "Я більше не можу сам"
+            text:
+              ru: "Отче, я устал нести это один. Тревога давит, и сил уже не хватает. Ты сказал, что я могу отдать Тебе всё, что меня мучает, потому что Ты обо мне заботишься. Вот я и отдаю — то, что не могу изменить и не могу проконтролировать. Напомни мне, что я не один и что Ты рядом сегодня ночью. Аминь."
+              en: "Father, I'm tired of carrying this alone. The anxiety weighs on me, and I'm running out of strength. You said I can hand You everything that troubles me, because You care about me. So that's what I'm doing — handing over what I can't change or control. Remind me that I'm not alone, and that You're near tonight. Amen."
+              es: "Padre, estoy cansado de cargar esto solo. La angustia me pesa y ya casi no me quedan fuerzas. Dijiste que puedo entregarte todo lo que me inquieta, porque Tú te preocupas por mí. Así que eso hago — te entrego lo que no puedo cambiar ni controlar. Recuérdame que no estoy solo y que estás cerca esta noche. Amén."
+              uk: "Отче, я втомився нести це сам. Тривога тисне, і сил уже не вистачає. Ти сказав, що я можу віддати Тобі все, що мене мучить, бо Ти про мене дбаєш. Ось я й віддаю — те, чого не можу змінити й не можу проконтролювати. Нагадай мені, що я не один і що Ти поруч сьогодні вночі. Амінь."
+          - id: tp_anxiety_fear_03
+            ref: jo:14:27
+            title:
+              ru: "Дай мне Твой мир"
+              en: "Give me Your peace"
+              es: "Dame Tu paz"
+              uk: "Дай мені Твій мир"
+            text:
+              ru: "Иисус, Ты обещал оставить нам мир — не такой, как даёт этот мир, а настоящий. Мне сейчас очень нужен этот покой. Внутри буря, и сердце не находит места. Успокой меня, как Ты когда-то успокоил волны на море. Помоги не паниковать, а просто дышать рядом с Тобой. Я выбираю довериться Тебе. Аминь."
+              en: "Jesus, You promised to leave us peace — not the kind the world gives, but real peace. I really need that calm right now. There's a storm inside me, and my heart can't settle. Steady me the way You once calmed the waves on the sea. Help me stop panicking and just breathe beside You. I choose to trust You. Amen."
+              es: "Jesús, prometiste dejarnos paz — no la que da el mundo, sino una paz verdadera. Ahora mismo necesito mucho esa calma. Hay una tormenta dentro de mí y mi corazón no encuentra reposo. Cálmame como una vez calmaste las olas del mar. Ayúdame a dejar de entrar en pánico y solo respirar junto a Ti. Elijo confiar en Ti. Amén."
+              uk: "Ісусе, Ти обіцяв залишити нам мир — не такий, як дає цей світ, а справжній. Мені зараз дуже потрібен цей спокій. Усередині буря, і серце не знаходить місця. Заспокой мене, як Ти колись заспокоїв хвилі на морі. Допоможи не панікувати, а просто дихати поруч із Тобою. Я обираю довіритися Тобі. Амінь."
+          - id: tp_anxiety_fear_04
+            ref: mt:6:34
+            title:
+              ru: "Не загадывать наперёд"
+              en: "Not racing ahead"
+              es: "No adelantarme"
+              uk: "Не забігати наперед"
+            text:
+              ru: "Господи, мои мысли вечно убегают в завтра и придумывают то, чего ещё даже нет. Ты сказал не переживать о завтрашнем дне — на сегодня хватает своих забот. Помоги мне остаться в этом дне и поверить, что Ты уже там, впереди, и всё приготовил. Забери мой страх перед неизвестным. Дай прожить спокойно хотя бы сегодня. Аминь."
+              en: "Lord, my mind keeps running off into tomorrow, inventing problems that aren't even here yet. You told me not to worry about tomorrow — today already has enough of its own. Help me stay in this day and believe that You're already up ahead, with everything ready. Take away my fear of the unknown. Let me live this one day in peace. Amen."
+              es: "Señor, mi mente siempre se va al mañana e inventa cosas que ni siquiera existen aún. Me dijiste que no me preocupe por el día de mañana — a hoy ya le basta su propio afán. Ayúdame a quedarme en este día y a creer que Tú ya estás más adelante, con todo preparado. Quita mi miedo a lo desconocido. Déjame vivir en paz al menos hoy. Amén."
+              uk: "Господи, мої думки вічно тікають у завтра й вигадують те, чого ще навіть немає. Ти сказав не хвилюватися про завтрашній день — на сьогодні досить своїх турбот. Допоможи мені лишитися в цьому дні й повірити, що Ти вже там, попереду, і все приготував. Забери мій страх перед невідомим. Дай прожити спокійно хоча б сьогодні. Амінь."
+          - id: tp_anxiety_fear_05
+            ref: 2tm:1:7
+            title:
+              ru: "Не страх, а сила"
+              en: "Not fear, but strength"
+              es: "No miedo, sino fuerza"
+              uk: "Не страх, а сила"
+            text:
+              ru: "Боже, Ты дал мне не дух страха, а дух силы, любви и трезвого ума. А я снова позволил страху командовать мной. Прости меня и наполни заново. Там, где паника — дай мне ясность; там, где трясёт — дай твёрдость. Напомни, что Ты больше всего, что меня пугает, и что Ты рядом. Я не хочу больше бояться. Аминь."
+              en: "God, You gave me a spirit not of fear, but of strength, love, and a clear mind. Yet again I've let fear take over. Forgive me and fill me up again. Where there's panic, give me clarity; where I'm shaking, give me steadiness. Remind me that You're bigger than anything that scares me, and that You're right here. I don't want to live afraid anymore. Amen."
+              es: "Dios, me diste un espíritu no de miedo, sino de fuerza, amor y mente clara. Y otra vez dejé que el miedo me dominara. Perdóname y lléname de nuevo. Donde hay pánico, dame claridad; donde tiemblo, dame firmeza. Recuérdame que Tú eres más grande que todo lo que me asusta, y que estás aquí. Ya no quiero vivir con miedo. Amén."
+              uk: "Боже, Ти дав мені не дух страху, а дух сили, любові й тверезого розуму. А я знову дозволив страхові командувати мною. Прости мене й наповни заново. Там, де паніка — дай мені ясність; там, де трясе — дай твердість. Нагадай, що Ти більший за все, що мене лякає, і що Ти поруч. Я не хочу більше боятися. Амінь."
       - id: for_the_sick
         emoji: "🤒"
         names:
@@ -145,16 +275,136 @@ sections:
           es: En duelo y pérdida
           uk: У скорботі та втраті
         kind: pool
-        themes: [joy_comfort]
+        prayers:
+          - id: tp_grief_loss_01
+            ref: mt:5:4
+            title:
+              ru: "Мне очень больно"
+              en: "I'm in so much pain"
+              es: "Me duele tanto"
+              uk: "Мені дуже боляче"
+            text:
+              ru: "Господи, мне очень больно, и слёзы не останавливаются. Я даже не знаю, как молиться — просто прихожу к Тебе таким, какой есть. Ты не отворачиваешься от тех, кто плачет, Ты обещал их утешить. Я не тороплю себя и не делаю вид, что всё хорошо. Просто будь рядом в этой темноте и держи меня, когда нет сил. Аминь."
+              en: "Lord, I'm hurting so much, and the tears won't stop. I don't even know how to pray — I'm just coming to You as I am. You don't turn away from those who cry; You promised to comfort them. I won't rush myself or pretend I'm fine. Just be near me in this darkness and hold me when I have no strength left. Amen."
+              es: "Señor, me duele tanto, y las lágrimas no paran. Ni siquiera sé cómo orar — solo vengo a Ti tal como estoy. Tú no te apartas de los que lloran; prometiste consolarlos. No me voy a apurar ni a fingir que estoy bien. Solo quédate cerca en esta oscuridad y sostenme cuando no me queden fuerzas. Amén."
+              uk: "Господи, мені дуже боляче, і сльози не зупиняються. Я навіть не знаю, як молитися — просто приходжу до Тебе таким, який є. Ти не відвертаєшся від тих, хто плаче, Ти обіцяв їх утішити. Я не кваплю себе й не вдаю, що все добре. Просто будь поруч у цій темряві й тримай мене, коли немає сил. Амінь."
+          - id: tp_grief_loss_02
+            ref: jo:11:25
+            title:
+              ru: "Ты сильнее смерти"
+              en: "You're stronger than death"
+              es: "Eres más fuerte que la muerte"
+              uk: "Ти сильніший за смерть"
+            text:
+              ru: "Иисус, сейчас смерть кажется последним словом, и от этого так тяжело. Но Ты Сам плакал у могилы друга — значит, Ты понимаешь мою боль. И Ты сильнее смерти. Помоги мне держаться за надежду, что эта разлука не навсегда и что мы ещё встретимся. Согрей моё застывшее сердце. Я очень по нему скучаю. Аминь."
+              en: "Jesus, right now death feels like the final word, and it's so heavy. But You wept at Your own friend's grave, so You understand my pain. And You are stronger than death. Help me hold on to the hope that this goodbye isn't forever, and that we'll meet again. Warm my frozen heart. I miss them so much. Amen."
+              es: "Jesús, ahora la muerte parece la última palabra, y eso pesa tanto. Pero Tú mismo lloraste ante la tumba de Tu amigo, así que entiendes mi dolor. Y eres más fuerte que la muerte. Ayúdame a aferrarme a la esperanza de que esta despedida no es para siempre y de que nos volveremos a ver. Calienta mi corazón helado. Lo extraño muchísimo. Amén."
+              uk: "Ісусе, зараз смерть здається останнім словом, і від цього так важко. Але Ти Сам плакав біля могили друга — отже, Ти розумієш мій біль. І Ти сильніший за смерть. Допоможи мені триматися за надію, що ця розлука не назавжди і що ми ще зустрінемось. Зігрій моє застигле серце. Я дуже за ним сумую. Амінь."
+          - id: tp_grief_loss_03
+            ref: re:21:4
+            title:
+              ru: "Дожить до утра"
+              en: "Make it to morning"
+              es: "Llegar a la mañana"
+              uk: "Дожити до ранку"
+            text:
+              ru: "Отче, Ты обещал, что однажды Сам вытрешь каждую слезу и не будет больше ни смерти, ни боли. Я держусь за это обещание, потому что сейчас не вижу конца этой ночи. Дай мне сил просто дожить до утра, опираясь на Тебя. Пусть надежда, что Ты всё исправишь, будет маленьким светом в моей темноте. Я жду Тебя. Аминь."
+              en: "Father, You promised that one day You'll wipe away every tear Yourself, and there will be no more death or pain. I'm holding on to that promise, because right now I can't see the end of this night. Give me strength just to make it to morning, leaning on You. Let the hope that You'll set everything right be a small light in my dark. I'm waiting for You. Amen."
+              es: "Padre, prometiste que un día Tú mismo enjugarás cada lágrima y ya no habrá muerte ni dolor. Me aferro a esa promesa, porque ahora no veo el final de esta noche. Dame fuerzas solo para llegar a la mañana, apoyándome en Ti. Que la esperanza de que lo arreglarás todo sea una pequeña luz en mi oscuridad. Te espero. Amén."
+              uk: "Отче, Ти обіцяв, що одного дня Сам витреш кожну сльозу й не буде більше ні смерті, ні болю. Я тримаюся за цю обітницю, бо зараз не бачу кінця цієї ночі. Дай мені сил просто дожити до ранку, спираючись на Тебе. Хай надія, що Ти все виправиш, буде маленьким світлом у моїй темряві. Я чекаю на Тебе. Амінь."
+          - id: tp_grief_loss_04
+            ref: 2co:1:3
+            title:
+              ru: "Мне нужно утешение"
+              en: "I need comfort"
+              es: "Necesito consuelo"
+              uk: "Мені потрібна втіха"
+            text:
+              ru: "Боже, Ты — Тот, Кто умеет по-настоящему утешать. Я прихожу за этим утешением сегодня. Не прошу, чтобы боль ушла мгновенно — знаю, что так не бывает. Но прошу: будь со мной в каждой её волне, когда снова накрывает. А когда мне станет хоть чуть легче, помоги однажды поддержать того, кто тоже потерял. Аминь."
+              en: "God, You're the One who truly knows how to comfort. I come for that comfort today. I'm not asking the pain to disappear instantly — I know it doesn't work that way. But I ask: be with me in every wave of it, when it crashes over me again. And when it eases even a little, help me one day comfort someone else who's grieving too. Amen."
+              es: "Dios, Tú eres el que de verdad sabe consolar. Vengo hoy por ese consuelo. No te pido que el dolor desaparezca al instante — sé que no funciona así. Pero te pido: está conmigo en cada ola, cuando me vuelve a cubrir. Y cuando alivie aunque sea un poco, ayúdame algún día a sostener a alguien que también ha perdido. Amén."
+              uk: "Боже, Ти — Той, Хто вміє по-справжньому втішати. Я приходжу по цю втіху сьогодні. Не прошу, щоб біль зник умить — знаю, що так не буває. Але прошу: будь зі мною в кожній його хвилі, коли знову накриває. А коли мені стане хоч трохи легше, допоможи колись підтримати того, хто теж втратив. Амінь."
+          - id: tp_grief_loss_05
+            ref: 1ts:4:13
+            title:
+              ru: "Скучаю, но с надеждой"
+              en: "Missing them, but with hope"
+              es: "Lo extraño, pero con esperanza"
+              uk: "Сумую, але з надією"
+            text:
+              ru: "Господи, мне грустно, я скучаю — и всё же это не та печаль, у которой нет никакой надежды. Я верю, что тот, кого я люблю, не потерян для Тебя навсегда. Прими мою грусть, не упрекая, и добавь в неё тихий свет надежды. Помоги помнить хорошее и доверить дорогого мне человека Твоим рукам. Ты не отпустишь его. Аминь."
+              en: "Lord, I'm sad, I miss them — and yet this isn't the kind of grief that has no hope at all. I believe the one I love isn't lost to You forever. Receive my sadness without scolding it, and add a quiet light of hope to it. Help me remember the good, and entrust the person I love to Your hands. You won't let them go. Amen."
+              es: "Señor, estoy triste, lo extraño — y aun así esta no es la tristeza que no tiene ninguna esperanza. Creo que aquel a quien amo no está perdido para Ti para siempre. Recibe mi tristeza sin reprenderla, y añádele una luz callada de esperanza. Ayúdame a recordar lo bueno y a confiar a la persona que amo en Tus manos. No la soltarás. Amén."
+              uk: "Господи, мені сумно, я сумую — і все ж це не той смуток, у якого немає жодної надії. Я вірю, що той, кого я люблю, не втрачений для Тебе назавжди. Прийми мій смуток, не докоряючи, і додай у нього тихе світло надії. Допоможи пам'ятати хороше й довірити дорогу мені людину Твоїм рукам. Ти не відпустиш його. Амінь."
       - id: hard_decision
-        emoji: "🤔"
+        emoji: "⚖️"
         names:
           ru: Перед трудным решением
           en: Before a hard decision
           es: Ante una decisión difícil
           uk: Перед важким рішенням
         kind: pool
-        themes: [guidance_wisdom]
+        prayers:
+          - id: tp_hard_decision_01
+            ref: jm:1:5
+            title:
+              ru: "Не знаю, как поступить"
+              en: "I don't know what to do"
+              es: "No sé qué hacer"
+              uk: "Не знаю, як вчинити"
+            text:
+              ru: "Господи, передо мной выбор, и я правда не знаю, как поступить. Ты сказал, что если мне не хватает мудрости, можно просто попросить — и Ты дашь, не упрекая. Вот я и прошу. Помоги мне разобраться, где здесь страх, где гордость, а где Твоя воля. Я хочу не настоять на своём, а сделать как лучше. Веди меня. Аминь."
+              en: "Lord, I have a choice in front of me, and I honestly don't know what to do. You said that if I lack wisdom, I can just ask — and You'll give it without scolding me. So I'm asking. Help me see what here is fear, what is pride, and what is Your will. I don't want to get my own way; I want to do what's right. Lead me. Amen."
+              es: "Señor, tengo una decisión delante y de verdad no sé qué hacer. Dijiste que si me falta sabiduría, solo tengo que pedir — y Tú me la darás sin reprocharme. Así que te pido. Ayúdame a ver qué hay aquí de miedo, qué de orgullo y qué de Tu voluntad. No quiero salirme con la mía; quiero hacer lo correcto. Guíame. Amén."
+              uk: "Господи, переді мною вибір, і я справді не знаю, як вчинити. Ти сказав, що коли мені бракує мудрості, можна просто попросити — і Ти даси, не докоряючи. Ось я й прошу. Допоможи мені розібратися, де тут страх, де гордість, а де Твоя воля. Я хочу не наполягти на своєму, а зробити як краще. Веди мене. Амінь."
+          - id: tp_hard_decision_02
+            ref: prv:3:5
+            title:
+              ru: "Доверяю Тебе"
+              en: "I trust You"
+              es: "Confío en Ti"
+              uk: "Довіряю Тобі"
+            text:
+              ru: "Отче, я привык всё просчитывать сам и полагаться на свою голову. Но Ты зовёшь довериться Тебе по-настоящему, а не только своему уму. Помоги мне в этом решении помнить о Тебе, а не действовать в одиночку. Забери страх ошибиться. Я хочу опереться на Того, Кто видит всю картину, а не только этот момент. Аминь."
+              en: "Father, I'm used to figuring everything out myself and leaning on my own thinking. But You call me to really trust You, not just my own mind. Help me to keep You in mind in this decision, instead of going it alone. Take away the fear of making a mistake. I want to lean on the One who sees the whole picture, not just this moment. Amen."
+              es: "Padre, estoy acostumbrado a calcularlo todo yo mismo y a apoyarme en mi propia cabeza. Pero Tú me llamas a confiar de verdad en Ti, no solo en mi mente. Ayúdame a tenerte presente en esta decisión, en vez de actuar solo. Quita el miedo a equivocarme. Quiero apoyarme en Aquel que ve el cuadro completo, no solo este momento. Amén."
+              uk: "Отче, я звик усе прораховувати сам і покладатися на свою голову. Але Ти кличеш довіритися Тобі по-справжньому, а не лише своєму розуму. Допоможи мені в цьому рішенні пам'ятати про Тебе, а не діяти наодинці. Забери страх помилитися. Я хочу опертися на Того, Хто бачить усю картину, а не лише цю мить. Амінь."
+          - id: tp_hard_decision_03
+            ref: jo:16:13
+            title:
+              ru: "Покажи мне путь"
+              en: "Show me the way"
+              es: "Muéstrame el camino"
+              uk: "Покажи мені шлях"
+            text:
+              ru: "Святой Дух, я стою на распутье, и доводы тянут в разные стороны. Мне нужен Твой свет. Утиши лишний шум — чужие советы и мои собственные страхи, — чтобы я расслышал Тебя. Где правильный путь — дай мир в сердце; где неправильный — пусть будет неспокойно. Я хочу идти за Тобой, а не бежать впереди. Аминь."
+              en: "Holy Spirit, I'm standing at a crossroads, and the arguments pull me in different directions. I need Your light. Quiet the extra noise — other people's advice and my own fears — so I can hear You. Where the path is right, give me peace in my heart; where it's wrong, let me feel uneasy. I want to follow You, not run ahead. Amen."
+              es: "Espíritu Santo, estoy en una encrucijada, y los argumentos me jalan en direcciones distintas. Necesito Tu luz. Calla el ruido de más — los consejos ajenos y mis propios miedos — para que pueda oírte. Donde el camino sea el correcto, dame paz en el corazón; donde sea el equivocado, que me sienta inquieto. Quiero seguirte, no adelantarme. Amén."
+              uk: "Святий Душе, я стою на роздоріжжі, і докази тягнуть у різні боки. Мені потрібне Твоє світло. Утихомир зайвий шум — чужі поради й мої власні страхи, — щоб я розчув Тебе. Де правильний шлях — дай мир у серці; де неправильний — хай буде неспокійно. Я хочу йти за Тобою, а не бігти попереду. Амінь."
+          - id: tp_hard_decision_04
+            ref: rm:12:2
+            title:
+              ru: "Проверь моё сердце"
+              en: "Search my heart"
+              es: "Examina mi corazón"
+              uk: "Перевір моє серце"
+            text:
+              ru: "Господи, помоги мне не плыть просто по течению, как все вокруг, а думать иначе — так, как хочешь Ты. Перед этим решением честно покажи мне моё сердце: я ищу, как лучше для Тебя, или как удобнее для меня? Меняй мои желания, пока то, чего хочешь Ты, не станет тем, чего хочу я. Тогда и решать будет проще. Аминь."
+              en: "Lord, help me not to just drift along like everyone around me, but to think differently — the way You want. Before this decision, honestly show me my own heart: am I looking for what's best for You, or what's easiest for me? Reshape my desires until what You want becomes what I want. Then the decision will be simpler. Amen."
+              es: "Señor, ayúdame a no dejarme llevar por la corriente como todos a mi alrededor, sino a pensar distinto — como Tú quieres. Antes de esta decisión, muéstrame con sinceridad mi corazón: ¿busco lo mejor para Ti o lo más cómodo para mí? Cambia mis deseos hasta que lo que Tú quieres sea lo que yo quiero. Entonces decidir será más fácil. Amén."
+              uk: "Господи, допоможи мені не пливти просто за течією, як усі навколо, а думати інакше — так, як хочеш Ти. Перед цим рішенням чесно покажи мені моє серце: я шукаю, як краще для Тебе, чи як зручніше для мене? Зміни мої бажання, доки те, чого хочеш Ти, не стане тим, чого хочу я. Тоді й вирішувати буде простіше. Амінь."
+          - id: tp_hard_decision_05
+            ref: prv:16:9
+            title:
+              ru: "Последнее слово за Тобой"
+              en: "The final word is Yours"
+              es: "La última palabra es Tuya"
+              uk: "Останнє слово за Тобою"
+            text:
+              ru: "Отче, я строю планы, взвешиваю «за» и «против» — и всё равно оставляю последнее слово за Тобой. Если я иду не туда — закрой передо мной эту дверь; если верно — укрепи мои шаги. Мне трудно отпустить желание всё контролировать, но я доверяю Тебе исход. Иди впереди меня, и я пойду следом. Аминь."
+              en: "Father, I make plans, I weigh the pros and cons — and still I leave the final word to You. If I'm heading the wrong way, close that door in front of me; if it's right, steady my steps. It's hard for me to let go of wanting to control everything, but I trust You with how it turns out. Go ahead of me, and I'll follow. Amen."
+              es: "Padre, hago planes, sopeso los pros y los contras — y aun así dejo la última palabra a Ti. Si voy por el camino equivocado, cierra esa puerta delante de mí; si es el correcto, afirma mis pasos. Me cuesta soltar las ganas de controlarlo todo, pero confío en Ti el resultado. Ve delante de mí, y yo te seguiré. Amén."
+              uk: "Отче, я будую плани, зважую «за» і «проти» — і все одно лишаю останнє слово за Тобою. Якщо я йду не туди — зачини переді мною ці двері; якщо правильно — зміцни мої кроки. Мені важко відпустити бажання все контролювати, але я довіряю Тобі результат. Іди переді мною, і я піду слідом. Амінь."
 
   - id: others
     names:
@@ -172,7 +422,67 @@ sections:
           es: Por la familia
           uk: За родину
         kind: pool
-        themes: [family_relationships]
+        prayers:
+          - id: tp_family_01
+            ref: js:24:15
+            title:
+              ru: "За мою семью"
+              en: "For my family"
+              es: "Por mi familia"
+              uk: "За мою родину"
+            text:
+              ru: "Господи, я хочу, чтобы наша семья принадлежала Тебе. Благослови каждого, кто живёт со мной под одной крышей — храни их, укрепляй, защищай. Где между нами выросли стены, помоги нам помириться; где ушло тепло, верни его. Пусть наш дом будет местом, где спокойно, где умеют прощать и где каждый чувствует себя любимым. Аминь."
+              en: "Lord, I want our family to belong to You. Bless everyone who lives with me under one roof — protect them, strengthen them, keep them safe. Where walls have grown between us, help us make peace; where the warmth has faded, bring it back. Let our home be a place that's calm, where we know how to forgive and where everyone feels loved. Amen."
+              es: "Señor, quiero que nuestra familia te pertenezca. Bendice a cada uno que vive conmigo bajo un mismo techo — protégelos, fortalécelos, guárdalos. Donde han crecido muros entre nosotros, ayúdanos a hacer las paces; donde se ha enfriado el cariño, devuélvelo. Que nuestro hogar sea un lugar tranquilo, donde sabemos perdonar y donde cada uno se siente amado. Amén."
+              uk: "Господи, я хочу, щоб наша родина належала Тобі. Благослови кожного, хто живе зі мною під одним дахом — бережи їх, зміцнюй, захищай. Де між нами виросли стіни, допоможи нам помиритися; де пішло тепло, поверни його. Хай наш дім буде місцем, де спокійно, де вміють прощати і де кожен почувається любим. Амінь."
+          - id: tp_family_02
+            ref: eph:6:4
+            title:
+              ru: "О моих детях"
+              en: "For my children"
+              es: "Por mis hijos"
+              uk: "За моїх дітей"
+            text:
+              ru: "Отче, мои дети — это Твой дар, а не моя собственность. Помоги мне растить их с любовью и показывать им Тебя своей жизнью, а не только словами. Дай мне терпения, когда они не слушаются, мудрости на их вопросы и нежности, когда им плохо. Там, где я ошибаюсь как родитель, восполни Ты. И веди их к Себе. Аминь."
+              en: "Father, my children are Your gift, not my possession. Help me to raise them with love and to show them who You are by my life, not just my words. Give me patience when they don't listen, wisdom for their questions, and tenderness when they're hurting. Where I fail as a parent, please make up for it. And draw them to Yourself. Amen."
+              es: "Padre, mis hijos son Tu regalo, no mi posesión. Ayúdame a criarlos con amor y a mostrarles quién eres con mi vida, no solo con mis palabras. Dame paciencia cuando no obedecen, sabiduría para sus preguntas y ternura cuando lo están pasando mal. Donde fallo como padre, suple Tú, por favor. Y atráelos a Ti. Amén."
+              uk: "Отче, мої діти — це Твій дар, а не моя власність. Допоможи мені ростити їх з любов'ю й показувати їм Тебе своїм життям, а не лише словами. Дай мені терпіння, коли вони не слухаються, мудрості на їхні запитання й ніжності, коли їм погано. Там, де я помиляюся як батько, восполни Ти. І веди їх до Себе. Амінь."
+          - id: tp_family_03
+            ref: eph:4:32
+            title:
+              ru: "Меньше резких слов"
+              en: "Fewer harsh words"
+              es: "Menos palabras ásperas"
+              uk: "Менше різких слів"
+            text:
+              ru: "Господи, в нашей семье накопилось столько мелких обид и резких слов. Помоги нам быть добрее друг к другу и прощать, как Ты прощаешь нас. Смягчи моё сердце к самым близким — тем, кого я и люблю сильнее всех, и раню чаще всех. Дай мне первым сделать шаг и сказать «прости». Пусть в доме будет больше доброты. Аминь."
+              en: "Lord, so many small hurts and sharp words have piled up in our family. Help us be kinder to each other and to forgive, the way You forgive us. Soften my heart toward the people closest to me — the ones I love the most and hurt the most. Let me be the first to take a step and say I'm sorry. Let there be more kindness in our home. Amen."
+              es: "Señor, en nuestra familia se han acumulado tantas pequeñas heridas y palabras ásperas. Ayúdanos a ser más amables unos con otros y a perdonar, como Tú nos perdonas. Ablanda mi corazón hacia los más cercanos — a quienes más amo y a quienes más hiero. Que sea yo el primero en dar el paso y pedir perdón. Que haya más bondad en nuestro hogar. Amén."
+              uk: "Господи, у нашій родині накопичилося стільки дрібних образ і різких слів. Допоможи нам бути добрішими одне до одного й прощати, як Ти прощаєш нас. Пом'якши моє серце до найближчих — тих, кого я і люблю найдужче, і раню найчастіше. Дай мені першим зробити крок і сказати «вибач». Хай у домі буде більше доброти. Амінь."
+          - id: tp_family_04
+            ref: 1tm:5:8
+            title:
+              ru: "Не забывать близких"
+              en: "Not forgetting my own"
+              es: "No olvidar a los míos"
+              uk: "Не забувати близьких"
+            text:
+              ru: "Отче, в делах и усталости я иногда забываю о тех, кто рядом каждый день. Помоги мне заботиться о близких не только тем, что приношу домой, но и вниманием, временем, добрым словом. Дай сил тащить всё это без раздражения и радоваться своей семье, а не воспринимать её как груз. Восполни наши нужды. Держи нас вместе. Аминь."
+              en: "Father, in all the busyness and tiredness I sometimes forget the people who are right beside me every day. Help me to care for them not only with what I bring home, but with attention, time, and a kind word. Give me strength to carry it all without getting irritable, and to enjoy my family instead of treating it like a weight. Meet our needs. Keep us together. Amen."
+              es: "Padre, entre las ocupaciones y el cansancio a veces olvido a los que están a mi lado cada día. Ayúdame a cuidar a los míos no solo con lo que traigo a casa, sino con atención, tiempo y una palabra amable. Dame fuerzas para llevarlo todo sin irritarme y para disfrutar de mi familia en vez de verla como una carga. Suple nuestras necesidades. Mantennos unidos. Amén."
+              uk: "Отче, у справах і втомі я іноді забуваю про тих, хто поруч щодня. Допоможи мені дбати про близьких не лише тим, що приношу додому, а й увагою, часом, добрим словом. Дай сил тягнути все це без роздратування й радіти своїй родині, а не сприймати її як тягар. Восполни наші потреби. Тримай нас разом. Амінь."
+          - id: tp_family_05
+            ref: cl:3:14
+            title:
+              ru: "Связь любви"
+              en: "Held by love"
+              es: "Unidos por amor"
+              uk: "Зв'язок любові"
+            text:
+              ru: "Господи, больше всего нашей семье нужна любовь — та, что держит всё вместе. Мы разные и часто спорим; помоги нам не побеждать друг друга, а любить. Научи терпеть, прощать и проходить трудности вместе. Пусть наш дом будет не местом, где доказывают свою правоту, а местом, где сначала любят. Соедини нас в Тебе. Аминь."
+              en: "Lord, more than anything our family needs love — the kind that holds everything together. We're different and we argue a lot; help us not to defeat each other, but to love. Teach us to be patient, to forgive, and to get through hard times together. Let our home not be a place for proving who's right, but a place where we love first. Bind us together in You. Amen."
+              es: "Señor, más que nada nuestra familia necesita amor — del que mantiene todo unido. Somos distintos y discutimos mucho; ayúdanos a no vencernos unos a otros, sino a amarnos. Enséñanos a tener paciencia, a perdonar y a atravesar juntos los momentos difíciles. Que nuestro hogar no sea un lugar para probar quién tiene razón, sino donde amamos primero. Únenos en Ti. Amén."
+              uk: "Господи, найбільше нашій родині потрібна любов — та, що тримає все разом. Ми різні й часто сперечаємось; допоможи нам не перемагати одне одного, а любити. Навчи терпіти, прощати й проходити труднощі разом. Хай наш дім буде не місцем, де доводять свою правоту, а місцем, де спершу люблять. Поєднай нас у Тобі. Амінь."
       - id: nation
         emoji: "🌍"
         names:
@@ -205,7 +515,67 @@ sections:
           es: Por los enemigos
           uk: За ворогів
         kind: pool
-        themes: [love_mercy]
+        prayers:
+          - id: tp_enemies_01
+            ref: mt:5:44
+            title:
+              ru: "Меня обидели"
+              en: "I've been hurt"
+              es: "Me han herido"
+              uk: "Мене скривдили"
+            text:
+              ru: "Иисус, Ты сказал любить врагов и молиться за тех, кто причинил боль. Это очень трудно — обида ещё свежа, и внутри всё сопротивляется. Но я выбираю послушаться Тебя: благослови этого человека. Не дай горечи прорасти во мне и отравить сердце. Забери желание отомстить и помоги увидеть его так, как видишь его Ты. Аминь."
+              en: "Jesus, You told me to love my enemies and to pray for those who hurt me. This is really hard — the wound is still fresh, and everything in me resists. But I choose to obey You: bless this person. Don't let bitterness grow in me and poison my heart. Take away my desire for revenge, and help me see them the way You see them. Amen."
+              es: "Jesús, me dijiste que amara a mis enemigos y orara por los que me hieren. Esto es muy difícil — la herida sigue fresca y todo en mí se resiste. Pero elijo obedecerte: bendice a esta persona. No dejes que la amargura crezca en mí y envenene mi corazón. Quita mi deseo de venganza y ayúdame a verla como Tú la ves. Amén."
+              uk: "Ісусе, Ти сказав любити ворогів і молитися за тих, хто завдав болю. Це дуже важко — образа ще свіжа, і всередині все опирається. Але я обираю послухатися Тебе: благослови цю людину. Не дай гіркоті прорости в мені й отруїти серце. Забери бажання помститися й допоможи побачити її так, як бачиш її Ти. Амінь."
+          - id: tp_enemies_02
+            ref: lk:6:27
+            title:
+              ru: "Не отвечать злом"
+              en: "Not paying back evil"
+              es: "No devolver el mal"
+              uk: "Не відповідати злом"
+            text:
+              ru: "Господи, Ты зовёшь делать добро тем, кто меня не любит, и не отвечать на зло злом. Сам я этого не чувствую — помоги мне начать хотя бы с поступка. Удержи мой язык от резких слов, а руки — от ответного удара. Дай мне молиться за этого человека по имени, пока злость не отпустит. Сделай меня похожим на Тебя. Аминь."
+              en: "Lord, You call me to be good to those who don't love me, and not to answer evil with evil. I don't feel it on my own — help me at least start with an action. Hold my tongue back from sharp words, and my hands from striking back. Let me pray for this person by name, until the anger loosens its grip. Make me more like You. Amen."
+              es: "Señor, me llamas a hacer bien a los que no me quieren y a no responder al mal con mal. Yo solo no lo siento — ayúdame a comenzar al menos con un gesto. Contén mi lengua de las palabras hirientes, y mis manos de devolver el golpe. Déjame orar por esta persona por su nombre, hasta que el enojo me suelte. Hazme más parecido a Ti. Amén."
+              uk: "Господи, Ти кличеш робити добро тим, хто мене не любить, і не відповідати на зло злом. Сам я цього не відчуваю — допоможи мені почати хоча б із вчинку. Стримай мій язик від різких слів, а руки — від удару у відповідь. Дай мені молитися за цю людину на ім'я, доки злість не відпустить. Зроби мене схожим на Тебе. Амінь."
+          - id: tp_enemies_03
+            ref: rm:12:14
+            title:
+              ru: "Отпустить обиду"
+              en: "Letting go of the grudge"
+              es: "Soltar el rencor"
+              uk: "Відпустити образу"
+            text:
+              ru: "Отче, во мне борются желание справедливости и Твой призыв прощать. Помоги мне благословлять, а не проклинать — даже когда хочется обратного. Убери из моих слов всё злое и научи отпускать долг, как Ты отпустил мне. Я больше не хочу таскать с собой этот груз обиды. Сними его с меня и дай идти дальше свободно. Аминь."
+              en: "Father, the desire for justice and Your call to forgive are fighting inside me. Help me to bless and not to curse — even when I want the opposite. Take all the spite out of my words, and teach me to release the debt, like You released mine. I don't want to drag this weight of resentment around anymore. Lift it off me and let me move on, free. Amen."
+              es: "Padre, dentro de mí pelean el deseo de justicia y Tu llamado a perdonar. Ayúdame a bendecir y no a maldecir — aunque quiera lo contrario. Quita de mis palabras todo lo hiriente y enséñame a soltar la deuda, como Tú soltaste la mía. Ya no quiero arrastrar este peso de rencor. Quítamelo y déjame seguir adelante, libre. Amén."
+              uk: "Отче, у мені борються бажання справедливості й Твій заклик прощати. Допоможи мені благословляти, а не проклинати — навіть коли хочеться навпаки. Прибери з моїх слів усе зле й навчи відпускати борг, як Ти відпустив мені. Я більше не хочу тягати з собою цей тягар образи. Зніми його з мене й дай іти далі вільно. Амінь."
+          - id: tp_enemies_04
+            ref: cl:3:13
+            title:
+              ru: "Простить, как Ты простил"
+              en: "Forgive as You forgave"
+              es: "Perdonar como Tú perdonaste"
+              uk: "Простити, як Ти простив"
+            text:
+              ru: "Господи, Ты прощаешь меня снова и снова и просишь меня так же прощать других. А я держу эту обиду в сердце и прокручиваю её опять и опять. Дай мне смелости отпустить её — не потому, что человек этого заслужил, а потому, что Ты простил меня даром. Исцели рану, чтобы на её месте была не злоба, а милость. Аминь."
+              en: "Lord, You forgive me again and again, and You ask me to forgive others the same way. But I keep this hurt in my heart and replay it over and over. Give me the courage to let it go — not because the person deserves it, but because You forgave me for free. Heal the wound, so that in its place there's mercy instead of bitterness. Amen."
+              es: "Señor, Tú me perdonas una y otra vez, y me pides perdonar a los demás igual. Pero guardo esta herida en el corazón y la repaso una y otra vez. Dame el valor de soltarla — no porque la persona lo merezca, sino porque Tú me perdonaste gratis. Sana la herida, para que en su lugar haya misericordia en vez de amargura. Amén."
+              uk: "Господи, Ти прощаєш мене знову і знову й просиш мене так само прощати інших. А я тримаю цю образу в серці й прокручую її знову й знову. Дай мені сміливості відпустити її — не тому, що людина цього заслужила, а тому, що Ти простив мене даром. Зціли рану, щоб на її місці була не злоба, а милість. Амінь."
+          - id: tp_enemies_05
+            ref: rm:12:21
+            title:
+              ru: "Не дать злу победить"
+              en: "Not letting evil win"
+              es: "Que el mal no gane"
+              uk: "Не дати злу перемогти"
+            text:
+              ru: "Боже, то, что мне сделали, тянет ответить тем же. Но Ты учишь не давать злу победить, а отвечать на него добром. Не дай мне стать таким же, как тот, кто меня ранил. Дай терпения там, где хочется ударить, и доброты там, где растёт холод. Пусть моим ответом будет молитва, а не месть. Сохрани моё сердце чистым. Аминь."
+              en: "God, what was done to me pulls me to do the same back. But You teach me not to let evil win, but to answer it with good. Don't let me become just like the one who hurt me. Give me patience where I want to lash out, and kindness where coldness is creeping in. Let my answer be prayer, not revenge. Keep my heart clean. Amen."
+              es: "Dios, lo que me hicieron me empuja a devolver lo mismo. Pero Tú me enseñas a no dejar que el mal gane, sino a responderle con bien. No dejes que me vuelva igual que el que me hirió. Dame paciencia donde quiero arremeter, y bondad donde se va metiendo la frialdad. Que mi respuesta sea oración, no venganza. Guarda limpio mi corazón. Amén."
+              uk: "Боже, те, що мені зробили, тягне відповісти тим самим. Але Ти вчиш не давати злу перемогти, а відповідати на нього добром. Не дай мені стати таким самим, як той, хто мене поранив. Дай терпіння там, де хочеться вдарити, і доброти там, де росте холод. Хай моєю відповіддю буде молитва, а не помста. Збережи моє серце чистим. Амінь."
 
   - id: core
     names:
@@ -213,8 +583,59 @@ sections:
       en: Essential
       es: Esenciales
       uk: Основні
-    layout: [1, 1]
+    layout: [2, 2]
     topics:
+      - id: psalm_22
+        emoji: "📜"
+        names:
+          ru: Псалом 22
+          en: Psalm 23
+          es: Salmo 23
+          uk: Псалом 22
+        kind: fixed
+        prayer:
+          title:
+            ru: Псалом 22 (Пастырь мой)
+            en: Psalm 23 (The Lord is my Shepherd)
+            es: Salmo 23 (El Señor es mi pastor)
+            uk: Псалом 22 (Пастир мій)
+          text:
+            ru: "Господь — Пастырь мой; я ни в чём не буду нуждаться: Он покоит меня на злачных пажитях и водит меня к водам тихим, подкрепляет душу мою, направляет меня на стези правды ради имени Своего. Если я пойду и долиною смертной тени, не убоюсь зла, потому что Ты со мной; Твой жезл и Твой посох — они успокаивают меня. Ты приготовил предо мною трапезу в виду врагов моих, умастил елеем голову мою; чаша моя преисполнена. Так, благость и милость да сопровождают меня во все дни жизни моей, и я пребуду в доме Господнем многие дни."
+            en: "The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake. Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me. Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over. Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever."
+            es: "Jehová es mi pastor; nada me faltará. En lugares de delicados pastos me hará descansar; junto a aguas de reposo me pastoreará. Confortará mi alma; me guiará por sendas de justicia por amor de su nombre. Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo; tu vara y tu cayado me infundirán aliento. Aderezas mesa delante de mí en presencia de mis angustiadores; unges mi cabeza con aceite; mi copa está rebosando. Ciertamente el bien y la misericordia me seguirán todos los días de mi vida, y en la casa de Jehová moraré por largos días."
+            uk: "Господь — то мій Пастир, тому в недостатку не буду, на пасовиськах зелених Він мене випасає, до тихої води Він мене провадить. Він душу мою відживляє, провадить мене ради Ймення Свого по стежках справедливости. Коли я піду хоча б навіть долиною смертної темряви, то не буду боятися злого, бо Ти при мені, Твоє жезло й Твій посох — вони мене втішать! Ти передо мною трапезу зготовив при моїх ворогах, мою голову Ти намастив був оливою, моя чаша то повня! Тільки добро й милосердя мене супроводити будуть по всі дні мого життя, а я пробуватиму в домі Господньому довгі часи!"
+      - id: psalm_50
+        emoji: "📜"
+        names:
+          ru: Псалом 50
+          en: Psalm 51
+          es: Salmo 51
+          uk: Псалом 50
+        kind: fixed
+        prayer:
+          title:
+            ru: Псалом 50 (покаянный)
+            en: Psalm 51 (Penitential)
+            es: Salmo 51 (Penitencial)
+            uk: Псалом 50 (покаянний)
+          text:
+            ru: Помилуй меня, Боже, по великой милости Твоей, и по множеству щедрот Твоих
+              изгладь беззакония мои. Сердце чистое сотвори во мне, Боже, и дух правый обнови
+              внутри меня. Не отвергни меня от лица Твоего и Духа Твоего Святого не отними
+              от меня. Возврати мне радость спасения Твоего.
+            en: Have mercy upon me, O God, according to thy lovingkindness; according unto
+              the multitude of thy tender mercies blot out my transgressions. Create in me
+              a clean heart, O God, and renew a right spirit within me. Cast me not away
+              from thy presence, and take not thy holy spirit from me. Restore unto me the
+              joy of thy salvation.
+            es: Ten piedad de mí, oh Dios, conforme a tu misericordia; conforme a la multitud
+              de tus piedades borra mis rebeliones. Crea en mí, oh Dios, un corazón limpio,
+              y renueva un espíritu recto dentro de mí. No me eches de delante de ti, y no
+              quites de mí tu santo espíritu. Vuélveme el gozo de tu salvación.
+            uk: Помилуй мене, Боже, з великої милости Твоєї, і з великого милосердя Свого
+              загладь беззаконня мої. Серце чисте створи мені, Боже, і тривалого духа в моєму
+              нутрі віднови. Не відкинь мене від Свого лиця, й не бери Свого Духа Святого
+              від мене. Верни мені радість спасіння Твого.
       - id: lords_prayer
         emoji: "✝️"
         names:
@@ -250,35 +671,22 @@ sections:
               нам сьогодні. І прости нам довги наші, як і ми прощаємо винуватцям нашим. І
               не введи нас у випробовування, але визволи нас від лукавого. Бо Твоє є Царство,
               і сила, і слава навіки. Амінь.
-      - id: psalm_50
+      - id: psalm_90
         emoji: "📜"
         names:
-          ru: Псалом 50 (покаянный)
-          en: Psalm 51 (penitential)
-          es: Salmo 51 (penitencial)
-          uk: Псалом 50 (покаянний)
+          ru: Псалом 90
+          en: Psalm 91
+          es: Salmo 91
+          uk: Псалом 90
         kind: fixed
         prayer:
           title:
-            ru: Псалом 50 (покаянный)
-            en: Psalm 51 (Penitential)
-            es: Salmo 51 (Penitencial)
-            uk: Псалом 50 (покаянний)
+            ru: Псалом 90 (Живущий под кровом)
+            en: Psalm 91 (He Who Dwells in Shelter)
+            es: Salmo 91 (El que Habita al Abrigo)
+            uk: Псалом 90 (Хто живе під покровом)
           text:
-            ru: Помилуй меня, Боже, по великой милости Твоей, и по множеству щедрот Твоих
-              изгладь беззакония мои. Сердце чистое сотвори во мне, Боже, и дух правый обнови
-              внутри меня. Не отвергни меня от лица Твоего и Духа Твоего Святого не отними
-              от меня. Возврати мне радость спасения Твоего.
-            en: Have mercy upon me, O God, according to thy lovingkindness; according unto
-              the multitude of thy tender mercies blot out my transgressions. Create in me
-              a clean heart, O God, and renew a right spirit within me. Cast me not away
-              from thy presence, and take not thy holy spirit from me. Restore unto me the
-              joy of thy salvation.
-            es: Ten piedad de mí, oh Dios, conforme a tu misericordia; conforme a la multitud
-              de tus piedades borra mis rebeliones. Crea en mí, oh Dios, un corazón limpio,
-              y renueva un espíritu recto dentro de mí. No me eches de delante de ti, y no
-              quites de mí tu santo espíritu. Vuélveme el gozo de tu salvación.
-            uk: Помилуй мене, Боже, з великої милости Твоєї, і з великого милосердя Свого
-              загладь беззаконня мої. Серце чисте створи мені, Боже, і тривалого духа в моєму
-              нутрі віднови. Не відкинь мене від Свого лиця, й не бери Свого Духа Святого
-              від мене. Верни мені радість спасіння Твого.
+            ru: "Живущий под кровом Всевышнего под сенью Всемогущего покоится. Говорит Господу: «прибежище моё и защита моя, Бог мой, на Которого я уповаю!» Ибо Ты сказал: «Господь — упование моё»; Всевышнего избрал ты прибежищем твоим; не приключится тебе зло, и язва не приблизится к жилищу твоему; ибо Ангелам Своим заповедает о тебе — охранять тебя на всех путях твоих."
+            en: "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty. I will say of the LORD, He is my refuge and my fortress: my God; in him will I trust. Because thou hast made the LORD, which is my refuge, even the most High, thy habitation; there shall no evil befall thee, neither shall any plague come nigh thy dwelling. For he shall give his angels charge over thee, to keep thee in all thy ways."
+            es: "El que habita al abrigo del Altísimo morará bajo la sombra del Omnipotente. Diré yo a Jehová: Esperanza mía, y castillo mío; mi Dios, en quien confiaré. Por cuanto has puesto a Jehová, que es mi esperanza, al Altísimo por tu habitación, no te sobrevendrá mal, ni plaga tocará tu morada. Pues a sus ángeles mandará acerca de ti, que te guarden en todos tus caminos."
+            uk: "Хто живе під покровом Всевишнього, хто в тіні Всемогутнього мешкає, той скаже до Господа: «Охороно моя та твердине моя, Боже мій, я надіюсь на Нього!» Бо Ти Господа, охорону мою, Всевишнього вмістом своїм учинив. Тебе зло не спіткає, і до намету твого вдар не наблизиться, бо Своїм Анголам Він накаже про тебе, щоб тебе пильнували на всіх дорогах твоїх!"
