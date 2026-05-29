@@ -8,7 +8,7 @@ from aiogram.types import BotCommand
 
 from config import BOT_TOKEN
 from database import init_db
-from handlers import start, menu, settings, read, verse, topics, pray, prayer_notifications, prayer_favorites, bookmarks, notifications, cabinet, feedback, search, plan, donate, ai_pastor, chatid
+from handlers import start, menu, settings, read, verse, topics, pray, prayer_notifications, prayer_favorites, bookmarks, notifications, cabinet, feedback, search, plan, donate, ai_pastor, chatid, freetext
 from handlers import help as help_cmd
 from services.plan_service import PlanService
 from services.scheduler import setup_scheduler
@@ -79,8 +79,10 @@ async def main():
     dp.include_router(search.router)
     dp.include_router(plan.router)
     dp.include_router(ai_pastor.router)
-    # chatid — последним, чтобы не перехватывать обычные сообщения/пересылки
+    # chatid — перед freetext, чтобы первым ловить пересылки (F.forward_origin)
     dp.include_router(chatid.router)
+    # freetext — самым последним: ловит весь необработанный ввод (catch-all)
+    dp.include_router(freetext.router)
 
     # Команды и username — best-effort: кратковременный сетевой обрыв на старте
     # не должен мешать боту подняться (start_polling сам переподключится).

@@ -11,6 +11,7 @@ from aiogram.types import Update
 
 from services.analytics_service import AnalyticsService
 from services.alert_service import AlertService
+from handlers.freetext import reset_strikes
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +38,14 @@ class AnalyticsMiddleware(BaseMiddleware):
         else:
             # Прочие апдейты (pre_checkout, edited и т.п.) не трекаем.
             return await handler(event, data)
+
+        # Юзер нажал кнопку или ввёл команду → пользуется ботом правильно,
+        # сбрасываем счётчик «настойчивости» свободного ввода (handlers/freetext).
+        if tg_id is not None and (
+            callback is not None
+            or (message is not None and (message.text or "").startswith("/"))
+        ):
+            reset_strikes(tg_id)
 
         if tg_id is None or event_type is None:
             return await handler(event, data)

@@ -462,6 +462,12 @@ common:
   back: "← Back"
   in_development: "🔧 In development. Coming soon!"
 
+freetext:
+  reply_1: "🙂 I work with buttons, not chat.\n\nIf you'd like to talk things through or ask about faith, write to the spiritual companion — it will listen."
+  reply_2: "Like I said — typing here won't help 🙂\nPick a button below: the spiritual companion will listen, or head back to the menu."
+  reply_3: "You're persistent 🙂\nIf so — maybe the bot is missing something? Suggest an idea and I'll pass it on to the author."
+  reply_4: "Alright, I give up 🙂\nHere's the main menu — pick what you need:"
+
 feedback:
   cabinet_idea: "💡 Suggest an idea"
   cabinet_bug: "🐞 Report a problem"

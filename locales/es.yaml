@@ -465,6 +465,12 @@ common:
   back: "← Atrás"
   in_development: "🔧 En desarrollo. ¡Pronto estará disponible!"
 
+freetext:
+  reply_1: "🙂 Funciono con botones, no con mensajes.\n\nSi quieres desahogarte o preguntar sobre la fe, escribe al compañero espiritual: te escuchará."
+  reply_2: "Te lo dije: escribir aquí no sirve 🙂\nElige un botón abajo: el compañero espiritual te escuchará, o vuelve al menú."
+  reply_3: "Qué insistente 🙂\nSi es así, ¿quizás al bot le falta algo? Propón una idea y se la pasaré al autor."
+  reply_4: "Está bien, me rindo 🙂\nAquí tienes el menú principal, elige lo que necesites:"
+
 feedback:
   cabinet_idea: "💡 Sugerir una idea"
   cabinet_bug: "🐞 Reportar un problema"
