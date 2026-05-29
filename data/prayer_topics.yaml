@@ -1,0 +1,284 @@
+# Молитвы по темам (раздел «По темам»).
+# Категории — по жизненным ситуациям (не по богословию).
+#
+# Структура:
+#   sections — упорядоченный список секций
+#     id      — slug секции
+#     names   — заголовок секции на 4 языках (печатается в тексте сообщения)
+#     layout  — размеры рядов кнопок для builder.adjust (порядок = порядок topics)
+#     topics  — темы внутри секции
+#       id     — стабильный slug (в callback `pray:tp:<id>`; для kind=fixed это же id молитвы)
+#       emoji  — эмодзи кнопки
+#       names  — название темы на 4 языках
+#       kind   — fixed (одна заданная молитва) | pool (выборка из пула prayers_of_day по темам)
+#       prayer — (kind=fixed) {title, text, ref?} как в prayers_of_day.yaml
+#       themes — (kind=pool) список префиксов id из prayers_of_day.yaml
+
+sections:
+  - id: daily
+    names:
+      ru: Ежедневные
+      en: Daily
+      es: Diarias
+      uk: Щоденні
+    layout: [2, 1]
+    topics:
+      - id: morning
+        emoji: "🌅"
+        names:
+          ru: Утренняя молитва
+          en: Morning prayer
+          es: Oración de la mañana
+          uk: Ранкова молитва
+        kind: fixed
+        prayer:
+          ref: ps:143:8
+          title:
+            ru: Утренняя молитва
+            en: Morning Prayer
+            es: Oración de la Mañana
+            uk: Ранкова молитва
+          text:
+            ru: Господь, благодарю Тебя за новое утро. Освяти этот день — пусть мои мысли,
+              слова и дела будут угодны Тебе. Веди меня Твоим путём и храни до вечера.
+            en: Lord, thank You for this new morning. Set this day apart — may my thoughts,
+              words, and deeds please You. Lead me in Your way and keep me until evening.
+            es: Señor, gracias por esta nueva mañana. Santifica este día — que mis pensamientos,
+              palabras y obras te agraden. Guíame por Tu camino y guárdame hasta la noche.
+            uk: Господи, дякую Тобі за новий ранок. Освяти цей день — нехай мої думки,
+              слова й діла будуть Тобі до вподоби. Веди мене Твоєю дорогою і бережи до вечора.
+      - id: evening
+        emoji: "🌙"
+        names:
+          ru: Вечерняя молитва
+          en: Evening prayer
+          es: Oración de la noche
+          uk: Вечірня молитва
+        kind: fixed
+        prayer:
+          ref: mt:11:28
+          title:
+            ru: Вечерняя молитва
+            en: Evening Prayer
+            es: Oración de la Noche
+            uk: Вечірня молитва
+          text:
+            ru: Отче, благодарю Тебя за прожитый день. Прости, в чём согрешил, успокой
+              моё сердце и дай мирный сон. Доверяю Тебе себя и тех, кого люблю.
+            en: Father, thank You for this day now ending. Forgive where I have sinned,
+              calm my heart, and grant me peaceful sleep. I entrust to You myself and those I love.
+            es: Padre, gracias por el día que termina. Perdona lo que hice mal, calma mi
+              corazón y dame un sueño tranquilo. Te confío mi vida y a los que amo.
+            uk: Отче, дякую Тобі за прожитий день. Прости, де согрішив, заспокой моє серце
+              і дай мирний сон. Довіряю Тобі себе і тих, кого люблю.
+      - id: before_meal
+        emoji: "🍽"
+        names:
+          ru: Перед едой
+          en: Before a meal
+          es: Antes de comer
+          uk: Перед їжею
+        kind: fixed
+        prayer:
+          ref: ps:145:15
+          title:
+            ru: Перед едой
+            en: Before a Meal
+            es: Antes de Comer
+            uk: Перед їжею
+          text:
+            ru: Господь, благодарю Тебя за эту пищу и за руки, что её приготовили. Благослови
+              её во благо тела и насыть тех, у кого сегодня нет хлеба.
+            en: Lord, thank You for this food and for the hands that prepared it. Bless it
+              for the good of my body, and feed those who have no bread today.
+            es: Señor, gracias por este alimento y por las manos que lo prepararon. Bendícelo
+              para bien de mi cuerpo y sacia a quienes hoy no tienen pan.
+            uk: Господи, дякую Тобі за цю їжу і за руки, що її приготували. Благослови її
+              на добро тілу й нагодуй тих, хто сьогодні не має хліба.
+
+  - id: hard
+    names:
+      ru: Когда трудно
+      en: When it's hard
+      es: Cuando es difícil
+      uk: Коли важко
+    layout: [1, 1, 1, 1]
+    topics:
+      - id: anxiety_fear
+        emoji: "😟"
+        names:
+          ru: В тревоге и страхе
+          en: In anxiety and fear
+          es: En ansiedad y miedo
+          uk: У тривозі та страху
+        kind: pool
+        themes: [strength_trials, peace_rest]
+      - id: for_the_sick
+        emoji: "🤒"
+        names:
+          ru: О болеющем
+          en: For the sick
+          es: Por los enfermos
+          uk: За хворого
+        kind: fixed
+        prayer:
+          ref: ps:103:3
+          title:
+            ru: О болеющем
+            en: For the Sick
+            es: Por los Enfermos
+            uk: За хворого
+          text:
+            ru: Милостивый Боже, прикоснись к тому, кто болеет. Облегчи боль, укрепи тело
+              и дух, дай мудрость врачам. Да будет на всё Твоя добрая воля.
+            en: Merciful God, touch the one who is sick. Ease the pain, strengthen body and
+              spirit, and give wisdom to those who care for them. Let Your good will be done.
+            es: Dios misericordioso, toca a quien está enfermo. Alivia el dolor, fortalece
+              el cuerpo y el espíritu, y da sabiduría a los médicos. Hágase Tu buena voluntad.
+            uk: Милостивий Боже, торкнися того, хто хворіє. Полегши біль, зміцни тіло і дух,
+              дай мудрість лікарям. Нехай буде на все Твоя добра воля.
+      - id: grief_loss
+        emoji: "🕊"
+        names:
+          ru: В скорби и утрате
+          en: In grief and loss
+          es: En duelo y pérdida
+          uk: У скорботі та втраті
+        kind: pool
+        themes: [joy_comfort]
+      - id: hard_decision
+        emoji: "🤔"
+        names:
+          ru: Перед трудным решением
+          en: Before a hard decision
+          es: Ante una decisión difícil
+          uk: Перед важким рішенням
+        kind: pool
+        themes: [guidance_wisdom]
+
+  - id: others
+    names:
+      ru: О других
+      en: For others
+      es: Por los demás
+      uk: Про інших
+    layout: [2, 1]
+    topics:
+      - id: family
+        emoji: "👨‍👩‍👧"
+        names:
+          ru: О семье
+          en: For family
+          es: Por la familia
+          uk: За родину
+        kind: pool
+        themes: [family_relationships]
+      - id: nation
+        emoji: "🌍"
+        names:
+          ru: О мире и стране
+          en: For peace and nation
+          es: Por la paz y la nación
+          uk: За мир і країну
+        kind: fixed
+        prayer:
+          ref: ps:33:12
+          title:
+            ru: О мире и стране
+            en: For Peace and Nation
+            es: Por la Paz y la Nación
+            uk: За мир і країну
+          text:
+            ru: Господь, молюсь о моей стране и о всём мире. Даруй мир там, где война,
+              мудрость — правителям и милость — каждому народу. Блажен народ, у которого Ты Бог.
+            en: Lord, I pray for my country and for the whole world. Grant peace where there
+              is war, wisdom to those who govern, and mercy to every nation. Blessed is the people whose God is the Lord.
+            es: Señor, oro por mi país y por todo el mundo. Concede paz donde hay guerra,
+              sabiduría a los que gobiernan y misericordia a cada nación. Bienaventurado el pueblo cuyo Dios es el Señor.
+            uk: Господи, молюся за мою країну і за весь світ. Даруй мир там, де війна,
+              мудрість — правителям і милість — кожному народові. Блаженний народ, що Богом у нього Господь.
+      - id: enemies
+        emoji: "🤲"
+        names:
+          ru: О врагах и обидевших
+          en: For enemies
+          es: Por los enemigos
+          uk: За ворогів
+        kind: pool
+        themes: [love_mercy]
+
+  - id: core
+    names:
+      ru: Основные
+      en: Essential
+      es: Esenciales
+      uk: Основні
+    layout: [1, 1]
+    topics:
+      - id: lords_prayer
+        emoji: "✝️"
+        names:
+          ru: Отче наш
+          en: The Lord's Prayer
+          es: Padre Nuestro
+          uk: Отче наш
+        kind: fixed
+        prayer:
+          title:
+            ru: Отче наш
+            en: The Lord's Prayer
+            es: Padre Nuestro
+            uk: Отче наш
+          text:
+            ru: Отче наш, сущий на небесах! Да святится имя Твоё; да приидет Царствие Твоё;
+              да будет воля Твоя и на земле, как на небе. Хлеб наш насущный дай нам на сей
+              день; и прости нам долги наши, как и мы прощаем должникам нашим; и не введи
+              нас в искушение, но избавь нас от лукавого. Ибо Твоё есть Царство и сила и
+              слава во веки. Аминь.
+            en: Our Father which art in heaven, hallowed be thy name. Thy kingdom come. Thy
+              will be done in earth, as it is in heaven. Give us this day our daily bread.
+              And forgive us our debts, as we forgive our debtors. And lead us not into
+              temptation, but deliver us from evil. For thine is the kingdom, and the power,
+              and the glory, for ever. Amen.
+            es: Padre nuestro que estás en los cielos, santificado sea tu nombre. Venga tu
+              reino. Hágase tu voluntad, como en el cielo, así también en la tierra. Danos
+              hoy nuestro pan de cada día. Y perdónanos nuestras deudas, como también nosotros
+              perdonamos a nuestros deudores. Y no nos metas en tentación, mas líbranos del
+              mal; porque tuyo es el reino, y el poder, y la gloria, por todos los siglos. Amén.
+            uk: Отче наш, що на небі! Нехай святиться Ім'я Твоє, нехай прийде Царство Твоє,
+              нехай буде воля Твоя, як на небі, так і на землі. Хліба нашого щоденного дай
+              нам сьогодні. І прости нам довги наші, як і ми прощаємо винуватцям нашим. І
+              не введи нас у випробовування, але визволи нас від лукавого. Бо Твоє є Царство,
+              і сила, і слава навіки. Амінь.
+      - id: psalm_50
+        emoji: "📜"
+        names:
+          ru: Псалом 50 (покаянный)
+          en: Psalm 51 (penitential)
+          es: Salmo 51 (penitencial)
+          uk: Псалом 50 (покаянний)
+        kind: fixed
+        prayer:
+          title:
+            ru: Псалом 50 (покаянный)
+            en: Psalm 51 (Penitential)
+            es: Salmo 51 (Penitencial)
+            uk: Псалом 50 (покаянний)
+          text:
+            ru: Помилуй меня, Боже, по великой милости Твоей, и по множеству щедрот Твоих
+              изгладь беззакония мои. Сердце чистое сотвори во мне, Боже, и дух правый обнови
+              внутри меня. Не отвергни меня от лица Твоего и Духа Твоего Святого не отними
+              от меня. Возврати мне радость спасения Твоего.
+            en: Have mercy upon me, O God, according to thy lovingkindness; according unto
+              the multitude of thy tender mercies blot out my transgressions. Create in me
+              a clean heart, O God, and renew a right spirit within me. Cast me not away
+              from thy presence, and take not thy holy spirit from me. Restore unto me the
+              joy of thy salvation.
+            es: Ten piedad de mí, oh Dios, conforme a tu misericordia; conforme a la multitud
+              de tus piedades borra mis rebeliones. Crea en mí, oh Dios, un corazón limpio,
+              y renueva un espíritu recto dentro de mí. No me eches de delante de ti, y no
+              quites de mí tu santo espíritu. Vuélveme el gozo de tu salvación.
+            uk: Помилуй мене, Боже, з великої милости Твоєї, і з великого милосердя Свого
+              загладь беззаконня мої. Серце чисте створи мені, Боже, і тривалого духа в моєму
+              нутрі віднови. Не відкинь мене від Свого лиця, й не бери Свого Духа Святого
+              від мене. Верни мені радість спасіння Твого.

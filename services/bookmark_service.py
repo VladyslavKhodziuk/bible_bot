@@ -3,16 +3,26 @@ from sqlalchemy import select, delete, func
 from database import async_session
 from models import Bookmark
 
+MAX_BOOKMARKS = 10
+
 
 class BookmarkService:
     """Работа с закладками пользователя."""
 
     @staticmethod
-    async def add(user_id: int, abbrev: str, chapter: int, verse: int) -> Bookmark:
-        """Добавить закладку. Если уже есть — вернёт существующую."""
+    async def add(
+        user_id: int, abbrev: str, chapter: int, verse: int
+    ) -> Bookmark | None:
+        """Добавить закладку. Если уже есть — вернёт существующую.
+
+        None — если достигнут лимит MAX_BOOKMARKS (новую не сохраняем).
+        """
         existing = await BookmarkService.get(user_id, abbrev, chapter, verse)
         if existing:
             return existing
+
+        if await BookmarkService.count_for_user(user_id) >= MAX_BOOKMARKS:
+            return None
 
         async with async_session() as session:
             bookmark = Bookmark(

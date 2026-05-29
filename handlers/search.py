@@ -381,13 +381,17 @@ async def toggle_bookmark_from_detail(callback: CallbackQuery, state: FSMContext
             user.tg_id, verse["abbrev"], verse["chapter"], verse["verse"]
         )
         await callback.answer(t("bookmarks.removed", lang))
+        new_is_bm = False
     else:
-        await BookmarkService.add(
+        result = await BookmarkService.add(
             user.tg_id, verse["abbrev"], verse["chapter"], verse["verse"]
         )
-        await callback.answer(t("bookmarks.added", lang))
-
-    new_is_bm = not is_bm
+        if result is None:
+            await callback.answer(t("bookmarks.limit_reached", lang), show_alert=True)
+            new_is_bm = False
+        else:
+            await callback.answer(t("bookmarks.added", lang))
+            new_is_bm = True
     book_name = BibleService.get_book_name(verse["abbrev"], lang)
     ref = t("search.result_header", lang, book=book_name,
             chapter=verse["chapter"], verse=verse["verse"])

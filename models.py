@@ -56,6 +56,19 @@ class Bookmark(Base):
         return f"<Bookmark user={self.user_id} ref={self.abbrev} {self.chapter}:{self.verse}>"
 
 
+class PrayerFavorite(Base):
+    """Сохранённая пользователем молитва из пула молитв дня."""
+    __tablename__ = "prayer_favorites"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, index=True)  # tg_id юзера
+    prayer_id: Mapped[str] = mapped_column(String(50))  # id молитвы из prayers_of_day.yaml
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    def __repr__(self) -> str:
+        return f"<PrayerFavorite user={self.user_id} prayer={self.prayer_id}>"
+
+
 class Feedback(Base):
     """Обратная связь от пользователей: идеи, баги, отзывы."""
     __tablename__ = "feedback"

@@ -137,8 +137,11 @@ async def toggle_add_bookmark(callback: CallbackQuery):
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
 
-    await BookmarkService.add(callback.from_user.id, abbrev, chapter, verse)
-    await callback.answer(t("bookmarks.added", lang), show_alert=False)
+    result = await BookmarkService.add(callback.from_user.id, abbrev, chapter, verse)
+    if result is None:
+        await callback.answer(t("bookmarks.limit_reached", lang), show_alert=True)
+    else:
+        await callback.answer(t("bookmarks.added", lang), show_alert=False)
 
     # Перерисовываем исходный экран с обновлённой кнопкой
     await _refresh_source_screen(callback, return_to, abbrev, chapter, verse)
