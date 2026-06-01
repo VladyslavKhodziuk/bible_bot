@@ -10,6 +10,11 @@ BOOKS_PER_PAGE = 12
 # Сколько кнопок-глав в одном ряду
 CHAPTERS_PER_ROW = 5
 
+# Сколько глав на одной странице. Telegram ограничивает инлайн-клавиатуру 100
+# кнопками, а в Псалтири 150 глав. 75 даёт ровно две страницы для Псалтири
+# (1–75 и 76–150); все остальные книги (≤66 глав) умещаются на одной странице.
+CHAPTERS_PER_PAGE = 75
+
 
 def testament_keyboard(lang: str, translation: str) -> InlineKeyboardMarkup:
     """Выбор Ветхий / Новый Завет. Плюс кнопка перевода, если их больше одного."""
@@ -111,16 +116,39 @@ def books_keyboard(
     return builder.as_markup()
 
 
-def chapters_keyboard(abbrev: str, translation: str, lang: str) -> InlineKeyboardMarkup:
-    """Сетка глав книги."""
+def chapters_keyboard(
+    abbrev: str, translation: str, lang: str, page: int = 0
+) -> InlineKeyboardMarkup:
+    """Сетка глав книги с пагинацией (нужна только для Псалтири — 150 глав)."""
     builder = InlineKeyboardBuilder()
 
     total = BibleService.get_chapters_count(abbrev, translation)
-    for ch in range(1, total + 1):
+    total_pages = (total + CHAPTERS_PER_PAGE - 1) // CHAPTERS_PER_PAGE
+    if page < 0 or page >= total_pages:
+        page = 0
+
+    start = page * CHAPTERS_PER_PAGE + 1
+    end = min(total, start + CHAPTERS_PER_PAGE - 1)
+    page_count = end - start + 1
+    for ch in range(start, end + 1):
         builder.button(text=str(ch), callback_data=f"read:ch:{abbrev}:{ch}")
 
-    # Кнопка возврата
-    # Сначала вернёмся к списку книг того же завета
+    # Пагинация: ◀️  страница X/Y  ▶️ (только если страниц больше одной)
+    nav_count = 0
+    if total_pages > 1:
+        if page > 0:
+            builder.button(text="◀️", callback_data=f"read:book:{abbrev}:{page - 1}")
+            nav_count += 1
+        builder.button(
+            text=t("read.page_indicator", lang, current=page + 1, total=total_pages),
+            callback_data="noop"
+        )
+        nav_count += 1
+        if page < total_pages - 1:
+            builder.button(text="▶️", callback_data=f"read:book:{abbrev}:{page + 1}")
+            nav_count += 1
+
+    # Кнопка возврата — к списку книг того же завета
     book = BibleService._books_meta.get(abbrev, {})
     testament = book.get("testament", "ot")
     builder.button(
@@ -128,11 +156,13 @@ def chapters_keyboard(abbrev: str, translation: str, lang: str) -> InlineKeyboar
         callback_data=f"read:{testament}:0"
     )
 
-    # Раскладка: главы по CHAPTERS_PER_ROW в ряд, потом "Назад" отдельно
-    rows = [CHAPTERS_PER_ROW] * (total // CHAPTERS_PER_ROW)
-    remainder = total % CHAPTERS_PER_ROW
+    # Раскладка: главы по CHAPTERS_PER_ROW в ряд, потом навигация, потом "Назад"
+    rows = [CHAPTERS_PER_ROW] * (page_count // CHAPTERS_PER_ROW)
+    remainder = page_count % CHAPTERS_PER_ROW
     if remainder:
         rows.append(remainder)
+    if nav_count > 0:
+        rows.append(nav_count)
     rows.append(1)  # кнопка "Назад"
     builder.adjust(*rows)
 

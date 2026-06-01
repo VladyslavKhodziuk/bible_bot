@@ -111,7 +111,7 @@ async def show_books(callback: CallbackQuery):
 async def show_chapters(callback: CallbackQuery):
     """Показать сетку глав книги.
     Callback: read:book:gn:0
-    Третий параметр (0) — зарезервирован для пагинации, пока не используется.
+    Третий параметр — номер страницы (с 0); нужен для Псалтири (150 глав).
     """
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
@@ -121,12 +121,13 @@ async def show_chapters(callback: CallbackQuery):
 
     parts = callback.data.split(":")
     abbrev = parts[2]
+    page = int(parts[3]) if len(parts) > 3 else 0
 
     book_name = BibleService.get_book_name(abbrev, lang)
 
     await callback.message.edit_text(
         t("read.choose_chapter", lang, book=book_name),
-        reply_markup=chapters_keyboard(abbrev, translation, lang)
+        reply_markup=chapters_keyboard(abbrev, translation, lang, page=page)
     )
     await callback.answer()
 
