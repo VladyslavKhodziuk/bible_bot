@@ -213,6 +213,12 @@ def main() -> None:
         anchor = ANCHOR[lang]
         if code == anchor:
             continue
+        # Russian is handled by scripts/build_ru_synodal_versification.py: ru_synodal now
+        # uses authentic Synodal (Septuagint) psalm numbering, so it is NOT a Masoretic
+        # anchor and this token-aligner would mis-map it (and wipe ru_nrt's psalm entries,
+        # since both Russian translations share that numbering). Skip and preserve on write.
+        if lang == "ru":
+            continue
         tb, ab_books = bibles[code], bibles[anchor]
         per: dict[str, list[int]] = {}
         for ab, refpairs in refs_by_book.items():
@@ -257,8 +263,14 @@ def main() -> None:
     print("\n".join(review))
 
     if write:
+        # preserve the Russian blocks (maintained by build_ru_synodal_versification.py)
+        if OUT.exists():
+            existing = json.loads(OUT.read_text("utf-8"))
+            for code in ("ru_synodal", "ru_nrt"):
+                if code in existing:
+                    result[code] = existing[code]
         OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True), "utf-8")
-        print(f"\nWrote {OUT}")
+        print(f"\nWrote {OUT} (Russian blocks preserved)")
     else:
         print("\n(report only; pass --write to save)")
 

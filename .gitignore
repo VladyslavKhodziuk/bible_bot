@@ -10,4 +10,5 @@ venv/
 .vscode/.env
 .claude/
 data/*.log
+scripts/_cache/
 
