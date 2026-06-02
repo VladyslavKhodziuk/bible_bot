@@ -47,7 +47,7 @@ _CALLBACK_CATEGORY = {
     "fb": "feedback",
     "notif": "settings", "settings": "settings", "setlang": "settings",
     "changelang": "settings", "changetrans": "settings",
-    "streak": "streak",
+    "counter": "counter",
     "cabinet": "menu", "open_menu": "menu", "menu": "menu",
 }
 
@@ -63,7 +63,7 @@ _CATEGORY_LABEL = {
     "donate": "⭐ Донаты",
     "feedback": "💬 Фидбек",
     "settings": "⚙️ Настройки",
-    "streak": "🔥 Серии",
+    "counter": "📖 Счётчик",
     "menu": "🏠 Меню",
     "start": "🚀 /start",
     "text": "✍️ Текст",

@@ -28,7 +28,7 @@ welcome:
     🎲 Mostrarte un versículo al azar y la sabiduría del día
     ⭐ Guardar tus pasajes favoritos
     📚 Guiarte por un plan de lectura
-    🔥 Llevar tu racha — en la Palabra y en la oración
+    📖 Contar tus días con la Palabra y en la oración
 
     <i>«Lámpara es a mis pies tu palabra, y lumbrera a mi camino» (Salmo 119:105)</i>
 
@@ -48,9 +48,9 @@ menu:
   share_header: "📖 Versículo del día"
   progress:
     title: "<b>Mi progreso</b>"
-    bible_zero: "📖 Leyendo la Biblia — 0 días"
-    bible_single: "📖 Leyendo la Biblia — 1 día"
-    bible_multi: "📖 Leyendo la Biblia — {days} días seguidos"
+    bible_zero: "📖 Con la Palabra — 0 días"
+    bible_single: "📖 Con la Palabra — 1 día"
+    bible_multi: "📖 Con la Palabra — {days} días"
     prayer_zero: "🙏 En oración — 0 días"
     prayer_single: "🙏 En oración — 1 día"
     prayer_multi: "🙏 En oración — {days} días"
@@ -140,12 +140,10 @@ cabinet:
   days_with_bot: "<i>Llevamos juntos {days} días</i>"
   word_section: "📖 <b>Con la Palabra</b>"
   prayer_section: "🙏 <b>En oración</b>"
-  streak_none: "🔥 La racha aún no ha comenzado"
-  streak_record_match: "🔥 Racha: <b>{current}</b> · tu récord 🏆"
-  streak_with_record: "🔥 Racha: <b>{current}</b> · récord: {longest}"
+  counter_zero: "Aún no — empieza hoy 🌱"
+  counter: "<b>{count}</b> en total"
   day_count_single: "1 día"
   day_count: "{days} días"
-  freezes: "🛡 Protecciones: <b>{count}</b> / {max}"
   bookmarks: "⭐ Favoritos: <b>{count}</b>"
   plans_completed: "📚 Planes completados: <b>{count}</b>"
   footer_motto: "<i>La Palabra y la oración — dos alas de un mismo vuelo 🕊️</i>"
@@ -229,7 +227,7 @@ help:
     💭 Encontrar la Palabra según cómo te sientes
     🎲 Versículo al azar y versículo del día
     📚 Planes de lectura con recordatorios
-    🔥 Racha diaria con la Palabra
+    📖 Contador de días con la Palabra
     ⭐ Guardar pasajes favoritos
     🕊️ Compañero espiritual (IA) — escucha y busca un versículo
     🙏 Oraciones
@@ -326,26 +324,26 @@ pray:
   back_to_list: "← A la lista"
   back_to_card: "← Atrás"
   empty: "Aún no hay oración para hoy. Vuelve mañana 🙏"
-  streak:
-    indicator: "🙏 {days} días de oración"
-    indicator_single: "🙏 1 día de oración"
+  counter:
+    indicator: "🙏 {days} días en oración"
+    indicator_single: "🙏 1 día en oración"
     onboarding: |
-      🙏 <b>¡Tu racha de oración ha comenzado!</b>
+      🙏 <b>¡Tu primer día en oración está contado!</b>
 
-      Cada día que pulsas «Amén» bajo una oración — ese día cuenta. Así la oración se convierte en tu ritmo diario.
+      Cada día que pulsas «Amén» bajo una oración suma a tu contador. Solo crece — los días perdidos no reinician nada.
 
-      Dios escucha cada palabra. Vuelve 🕊️
+      Dios escucha cada palabra. Vuelve cuando quieras 🕊️
     onboarding_button: "Entendido 🙌"
-    daily_progress: "🙏 Día {streak} de oración. Dios te escucha."
+    daily_progress: "🙏 Ya {streak} días en oración. Dios te escucha."
     milestones:
-      "3": "🎉 ¡Tres días de oración seguidos!"
-      "7": "🔥 ¡Una semana entera de oración!"
-      "14": "✨ Dos semanas de oración."
-      "30": "🏆 ¡Un mes de oración seguido!"
-      "50": "💎 Cincuenta días de oración."
+      "3": "🎉 ¡Tres días en oración!"
+      "7": "✨ ¡Una semana entera de oración!"
+      "30": "🏆 ¡Un mes de oración!"
       "100": "👑 ¡CIEN DÍAS DE ORACIÓN!"
-      "200": "🌟 Doscientos días. La oración es tu ritmo."
+      "200": "🌟 Doscientos días. La oración se ha vuelto tu ritmo."
       "365": "🕊️ ¡UN AÑO DE ORACIÓN!"
+      "500": "💎 Quinientos días en oración. Admirable."
+      "1000": "🌅 ¡MIL DÍAS DE ORACIÓN!"
   notif:
     title: "<b>🔔 Recordatorio de oración</b>\n\n{status}\n\n🙏 La oración del día llegará a la hora elegida."
     status_enabled: "✅ Recordatorio activado\n🕐 Hora: <b>{time}</b>"
@@ -423,47 +421,28 @@ notifications:
   timezone_line: "🌍 Zona horaria: <b>{timezone}</b>"
   timezone_changed: "✅ Zona horaria: {timezone}"
 
-streak:
-  indicator: "🔥 {days} días seguidos"
-  indicator_single: "🔥 1 día con la Palabra"
-  none: ""
+counter:
+  indicator: "📖 {days} días con la Palabra"
+  indicator_single: "📖 1 día con la Palabra"
   onboarding: |
-    🔥 <b>¡Tu racha ha comenzado!</b>
+    📖 <b>¡Tu primer día con la Palabra está contado!</b>
 
-    Cada día que lees el versículo del día o abres un capítulo de la Biblia — cuenta como un día. Así se forma el hábito de volver a la Escritura cada día.
+    Cada día que lees el versículo del día o abres un capítulo de la Biblia suma a tu contador. Solo crece — los días perdidos no reinician nada.
 
-    🛡 Tienes <b>2 protecciones</b> — te cuidarán la racha si pierdes un día. La protección se activa automáticamente. Las protecciones se renuevan a medida que crece tu racha.
-
-    No te rindas, estoy contigo 🙏
+    Sin carreras ni presión. Vuelve a la Palabra cuando quieras 🙏
   onboarding_button: "Entendido 🙌"
-  freeze_used: |
-    🛡 <b>Racha preservada</b>
-
-    Ayer perdiste un día — usé una protección para conservar tu racha.
-    🔥 Racha: <b>{streak} días</b>
-    🛡 Protecciones restantes: <b>{freezes}</b>
-
-    No pierdas el ritmo — la Palabra te espera.
-  encouragement: |
-    🕊 <b>Hola, {name}.</b>
-
-    Noté que no nos vimos por un tiempo. Es normal — la vida está llena de circunstancias.
-
-    Dios no cuenta los días. Simplemente se alegra de cada regreso.
-
-    ¿Volvemos a empezar? 🙏
-  daily_progress: "🔥 ¡Día {streak} seguido con la Palabra!"
+  daily_progress: "📖 ¡Ya {streak} días con la Palabra!"
   donate_addendum: "Si te gusta este bot, apoya el proyecto para que pueda seguir creciendo 🙏"
   donate_button: "💛 Apoyar el proyecto"
   milestones:
-    "3": "🎉 ¡Tres días seguidos con la Palabra! Se está formando un hábito."
-    "7": "🔥 ¡Una semana entera! Esto se está volviendo un ritmo de vida."
-    "14": "✨ ¡Dos semanas! La Palabra se está volviendo tu pan."
-    "30": "🏆 ¡Un mes entero! Esto no es coincidencia."
-    "50": "💎 ¡Cincuenta días! Constancia notable."
-    "100": "👑 ¡CIEN DÍAS! Increíble. Dios ve tu corazón."
-    "200": "🌟 ¡Doscientos días! Eres inspiración para otros."
+    "3": "🎉 ¡Tres días con la Palabra! Un buen comienzo."
+    "7": "✨ ¡Una semana entera con la Palabra!"
+    "30": "🏆 ¡Treinta días con la Palabra!"
+    "100": "👑 ¡CIEN DÍAS! Dios ve tu corazón."
+    "200": "🌟 ¡Doscientos días con la Palabra! Eres inspiración para otros."
     "365": "🕊️ ¡UN AÑO CON LA PALABRA! Esto ya es un estilo de vida."
+    "500": "💎 Quinientos días con la Palabra. Constancia admirable."
+    "1000": "🌅 ¡MIL DÍAS CON LA PALABRA!"
 
 common:
   back_to_menu: "← Al menú"
@@ -552,7 +531,6 @@ plan:
 
   active_title: "{emoji} <b>{name}</b>"
   active_progress: "📊 Progreso: <b>{completed} / {total} días</b> ({percent}%)"
-  active_streak: "🔥 Racha: <b>{days} días</b>"
   active_today_title: "<b>📖 Hoy — día {day}:</b>"
   active_today_reading: "• {book} {chapter}"
   active_open_chapter: "📖 {book} {chapter}"

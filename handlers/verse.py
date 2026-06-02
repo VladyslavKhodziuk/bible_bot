@@ -10,14 +10,10 @@ from services.user_service import UserService
 from services.bible_service import BibleService
 from services.bot_meta import get_bot_username
 from services.bookmark_service import BookmarkService
-from services.streak_service import StreakService
-from services.streak_display import (
-    format_streak_indicator,
-    get_milestone_message,
-    get_daily_progress_message,
-    build_dismiss_keyboard,
-    build_milestone_keyboard,
-    with_donate_addendum,
+from services.counter_service import CounterService
+from services.counter_display import (
+    format_counter_indicator,
+    build_counter_extra,
 )
 from services.i18n import t
 from keyboards.bookmarks import bookmark_toggle_button
@@ -116,66 +112,46 @@ def _build_verse_keyboard(
     return builder.as_markup()
 
 
-async def _send_streak_extras(message, user_id: int, streak_result, lang: str):
+async def _send_counter_extras(message, user_id: int, counter_result, lang: str):
     """
-    Отправляет дополнительные сообщения после засчитанного дня:
-    - Onboarding при первой серии (с кнопкой "Понятно" — закрывает сообщение)
-    - Поздравление при милстоуне + блок поддержки проекта
-    - Daily-progress в обычные дни роста серии
+    Отправляет доп. сообщение после засчитанного дня (онбординг / веха /
+    обычный день роста). Что именно показать решает общий билдер
+    ``build_counter_extra`` — те же ветки используются и в рассылке стиха
+    (services.scheduler), чтобы логика не расходилась.
 
     ``message`` — любой объект с .answer() (Message или CallbackQuery.message).
     """
-    # Onboarding (первый раз серия началась)
-    if streak_result.is_first_time:
-        await message.answer(
-            t("streak.onboarding", lang),
-            reply_markup=build_dismiss_keyboard(lang, dismiss_key="streak.onboarding_button"),
-        )
-        await StreakService.mark_explained(user_id)
+    extra = build_counter_extra(counter_result, lang)
+    if not extra:
         return
-
-    # Milestone — текст milestone + блок поддержки проекта + 2 кнопки
-    if streak_result.milestone_reached:
-        msg = get_milestone_message(streak_result.milestone_reached, lang)
-        if msg:
-            await message.answer(
-                with_donate_addendum(msg, lang),
-                reply_markup=build_milestone_keyboard(
-                    lang, dismiss_key="streak.onboarding_button"
-                ),
-            )
-        return
-
-    # Обычный день роста серии — короткое daily-progress сообщение
-    if streak_result.streak_grew:
-        await message.answer(
-            get_daily_progress_message(streak_result.current_streak, lang),
-            reply_markup=build_dismiss_keyboard(lang, dismiss_key="streak.onboarding_button"),
-        )
+    text, keyboard, is_onboarding = extra
+    await message.answer(text, reply_markup=keyboard)
+    if is_onboarding:
+        await CounterService.mark_explained(user_id)
 
 
 async def _render_verse_of_day(tg_id: int, lang: str, translation: str, bot):
     """Готовит стих дня: засчитывает серию и собирает текст + клавиатуру.
 
-    Возвращает ``(text, keyboard, streak_result)`` либо ``None``, если стих
+    Возвращает ``(text, keyboard, counter_result)`` либо ``None``, если стих
     получить не удалось. Общий рендер для callback-кнопки и команды /verse.
     """
     verse = BibleService.get_verse_of_day(translation)
     if not verse:
         return None
 
-    # Засчитываем день серии
-    streak_result = await StreakService.touch(tg_id)
+    # Засчитываем день со Словом
+    counter_result = await CounterService.touch(tg_id)
 
     is_bm = await BookmarkService.is_bookmarked(
         tg_id, verse["abbrev"], verse["chapter"], verse["verse"]
     )
 
-    # Формируем текст с индикатором серии
-    streak_line = format_streak_indicator(streak_result.current_streak, lang)
+    # Формируем текст с индикатором счётчика
+    counter_line = format_counter_indicator(counter_result.count, lang)
     parts = [t("verse.of_day_title", lang)]
-    if streak_line:
-        parts.append(streak_line)
+    if counter_line:
+        parts.append(counter_line)
     parts.append("")
     parts.append(_format_verse(verse, lang))
     text = "\n".join(parts)
@@ -192,12 +168,12 @@ async def _render_verse_of_day(tg_id: int, lang: str, translation: str, bot):
         lang, is_bm, return_to="vod", show_another=False,
         share_url=share_url,
     )
-    return text, keyboard, streak_result
+    return text, keyboard, counter_result
 
 
 @router.callback_query(F.data == "verse_of_day")
 async def show_verse_of_day(callback: CallbackQuery):
-    """Стих дня — один на сутки. Засчитывает день серии."""
+    """Стих дня — один на сутки. Засчитывает день со Словом."""
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
     translation = user.translation if user else "ru_synodal"
@@ -208,12 +184,12 @@ async def show_verse_of_day(callback: CallbackQuery):
     if rendered is None:
         await callback.answer("⚠️", show_alert=True)
         return
-    text, keyboard, streak_result = rendered
+    text, keyboard, counter_result = rendered
 
     await callback.message.edit_text(text, reply_markup=keyboard)
     await callback.answer()
 
-    await _send_streak_extras(callback.message, callback.from_user.id, streak_result, lang)
+    await _send_counter_extras(callback.message, callback.from_user.id, counter_result, lang)
 
 
 @router.message(Command("verse"))
@@ -229,15 +205,15 @@ async def cmd_verse(message: Message):
     if rendered is None:
         await message.answer("⚠️")
         return
-    text, keyboard, streak_result = rendered
+    text, keyboard, counter_result = rendered
 
     await message.answer(text, reply_markup=keyboard)
-    await _send_streak_extras(message, message.from_user.id, streak_result, lang)
+    await _send_counter_extras(message, message.from_user.id, counter_result, lang)
 
 
 @router.callback_query(F.data == "random")
 async def show_random_verse(callback: CallbackQuery):
-    """Случайный стих — каждый клик новый. Засчитывает день серии."""
+    """Случайный стих — каждый клик новый. Засчитывает день со Словом."""
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
     translation = user.translation if user else "ru_synodal"
@@ -247,7 +223,7 @@ async def show_random_verse(callback: CallbackQuery):
         await callback.answer("⚠️", show_alert=True)
         return
 
-    streak_result = await StreakService.touch(callback.from_user.id)
+    counter_result = await CounterService.touch(callback.from_user.id)
 
     is_bm = await BookmarkService.is_bookmarked(
         callback.from_user.id, verse["abbrev"], verse["chapter"], verse["verse"]
@@ -274,13 +250,13 @@ async def show_random_verse(callback: CallbackQuery):
     )
     await callback.answer()
 
-    await _send_streak_extras(callback.message, callback.from_user.id, streak_result, lang)
+    await _send_counter_extras(callback.message, callback.from_user.id, counter_result, lang)
 
 
 @router.callback_query(F.data == "wisdom")
 async def show_wisdom_of_day(callback: CallbackQuery):
     """Мудрость дня — практический стих из книг премудрости, один на сутки.
-    Засчитывает день серии."""
+    Засчитывает день со Словом."""
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
     translation = user.translation if user else "ru_synodal"
@@ -290,8 +266,8 @@ async def show_wisdom_of_day(callback: CallbackQuery):
         await callback.answer("⚠️", show_alert=True)
         return
 
-    # Засчитываем день серии
-    streak_result = await StreakService.touch(callback.from_user.id)
+    # Засчитываем день со Словом
+    counter_result = await CounterService.touch(callback.from_user.id)
 
     is_bm = await BookmarkService.is_bookmarked(
         callback.from_user.id, verse["abbrev"], verse["chapter"], verse["verse"]
@@ -313,10 +289,10 @@ async def show_wisdom_of_day(callback: CallbackQuery):
         parts.append("")
         parts.append(verse["reflection"])
     # Серия — в самый низ, чтобы не разрывать тему и стих
-    streak_line = format_streak_indicator(streak_result.current_streak, lang)
-    if streak_line:
+    counter_line = format_counter_indicator(counter_result.count, lang)
+    if counter_line:
         parts.append("")
-        parts.append(streak_line)
+        parts.append(counter_line)
     text = "\n".join(parts)
 
     share_header = f"{_strip_html(t('wisdom.title', lang))} — {theme_name}"
@@ -337,12 +313,12 @@ async def show_wisdom_of_day(callback: CallbackQuery):
     )
     await callback.answer()
 
-    await _send_streak_extras(callback.message, callback.from_user.id, streak_result, lang)
+    await _send_counter_extras(callback.message, callback.from_user.id, counter_result, lang)
 
 
-@router.callback_query(F.data == "streak:onboarding_done")
-async def close_streak_onboarding(callback: CallbackQuery):
-    """Закрыть онбординг про серии — удаляем сообщение."""
+@router.callback_query(F.data == "counter:onboarding_done")
+async def close_counter_onboarding(callback: CallbackQuery):
+    """Закрыть онбординг про счётчик — удаляем сообщение."""
     try:
         await callback.message.delete()
     except Exception:

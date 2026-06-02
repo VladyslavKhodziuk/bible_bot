@@ -8,8 +8,8 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from services.user_service import UserService
 from services.plan_service import PlanService, render_progress_bar
 from services.bible_service import BibleService
-from services.streak_service import StreakService
-from services.streak_display import format_streak_indicator, get_plan_milestone_message
+from services.counter_service import CounterService
+from services.counter_display import format_counter_indicator, get_plan_milestone_message
 from services.timezones import local_today
 from services.bot_meta import get_bot_username
 from services.share import build_share_url
@@ -159,7 +159,7 @@ async def _show_active_plan(callback: CallbackQuery, progress, lang: str):
 
     user = await UserService.get(callback.from_user.id)
     tz = user.timezone if user else "UTC"
-    streak_line = format_streak_indicator(user.current_streak, lang) if user else ""
+    counter_line = format_counter_indicator(user.current_streak, lang) if user else ""
 
     # День уже отмечен сегодня? Тогда экран в состоянии «на сегодня всё»,
     # а чтения current_day относятся уже к следующему дню — их не показываем.
@@ -183,8 +183,8 @@ async def _show_active_plan(callback: CallbackQuery, progress, lang: str):
         f"<code>{progress_bar}</code>",
         t("plan.active_eta", lang, date=finish_str),
     ]
-    if streak_line:
-        parts.append(streak_line)
+    if counter_line:
+        parts.append(counter_line)
 
     parts.append("")
 
@@ -381,8 +381,8 @@ async def mark_done(callback: CallbackQuery):
         )
         return
 
-    # День реально засчитан — теперь засчитываем серию
-    await StreakService.touch(callback.from_user.id)
+    # День реально засчитан — теперь засчитываем день со Словом
+    await CounterService.touch(callback.from_user.id)
 
     if result == "plan_finished":
         # Поздравление с завершением плана

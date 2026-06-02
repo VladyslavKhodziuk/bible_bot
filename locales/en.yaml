@@ -28,7 +28,7 @@ welcome:
     🎲 Show you a random verse and the wisdom of the day
     ⭐ Save your favorite passages
     📚 Guide you through a reading plan
-    🔥 Track your streak — in the Word and in prayer
+    📖 Count your days in the Word and in prayer
 
     <i>"Your word is a lamp for my feet, a light on my path" (Psalm 119:105)</i>
 
@@ -48,9 +48,9 @@ menu:
   share_header: "📖 Verse of the day"
   progress:
     title: "<b>My progress</b>"
-    bible_zero: "📖 Reading the Bible — 0 days"
-    bible_single: "📖 Reading the Bible — 1 day"
-    bible_multi: "📖 Reading the Bible — {days} days in a row"
+    bible_zero: "📖 In the Word — 0 days"
+    bible_single: "📖 In the Word — 1 day"
+    bible_multi: "📖 In the Word — {days} days"
     prayer_zero: "🙏 In prayer — 0 days"
     prayer_single: "🙏 In prayer — 1 day"
     prayer_multi: "🙏 In prayer — {days} days"
@@ -140,12 +140,10 @@ cabinet:
   days_with_bot: "<i>You've been with me {days} days</i>"
   word_section: "📖 <b>In the Word</b>"
   prayer_section: "🙏 <b>In prayer</b>"
-  streak_none: "🔥 Streak not started yet"
-  streak_record_match: "🔥 Streak: <b>{current}</b> · your record 🏆"
-  streak_with_record: "🔥 Streak: <b>{current}</b> · record: {longest}"
+  counter_zero: "Not yet — start today 🌱"
+  counter: "<b>{count}</b> in total"
   day_count_single: "1 day"
   day_count: "{days} days"
-  freezes: "🛡 Freezes: <b>{count}</b> / {max}"
   bookmarks: "⭐ Bookmarks: <b>{count}</b>"
   plans_completed: "📚 Plans completed: <b>{count}</b>"
   footer_motto: "<i>The Word and prayer — two wings of one flight 🕊️</i>"
@@ -226,7 +224,7 @@ help:
     💭 Find the Word for how you feel
     🎲 Random verse and verse of the day
     📚 Reading plans with reminders
-    🔥 Daily streak with the Word
+    📖 Day counter with the Word
     ⭐ Bookmark favorite passages
     🕊️ Spiritual companion (AI) — listens and finds a verse
     🙏 Prayers
@@ -323,26 +321,26 @@ pray:
   back_to_list: "← Back to list"
   back_to_card: "← Back"
   empty: "No prayer for today yet. Come back tomorrow 🙏"
-  streak:
-    indicator: "🙏 {days} days of prayer"
-    indicator_single: "🙏 1 day of prayer"
+  counter:
+    indicator: "🙏 {days} days in prayer"
+    indicator_single: "🙏 1 day in prayer"
     onboarding: |
-      🙏 <b>Your prayer streak has begun!</b>
+      🙏 <b>Your first day in prayer is counted!</b>
 
-      Every day you tap «Amen» on a prayer — that day counts. This is how prayer becomes your daily rhythm.
+      Every day you tap «Amen» on a prayer adds to your counter. It only grows — missed days reset nothing.
 
-      God hears every word. Come back 🕊️
+      God hears every word. Come back whenever you like 🕊️
     onboarding_button: "Got it 🙌"
-    daily_progress: "🙏 Day {streak} of prayer. God hears you."
+    daily_progress: "🙏 {streak} days in prayer already. God hears you."
     milestones:
-      "3": "🎉 Three days of prayer in a row!"
-      "7": "🔥 A whole week of prayer!"
-      "14": "✨ Two weeks of prayer."
-      "30": "🏆 A month of prayer in a row!"
-      "50": "💎 Fifty days of prayer."
+      "3": "🎉 Three days in prayer!"
+      "7": "✨ A whole week of prayer!"
+      "30": "🏆 A month of prayer!"
       "100": "👑 ONE HUNDRED DAYS OF PRAYER!"
-      "200": "🌟 Two hundred days. Prayer is your rhythm."
+      "200": "🌟 Two hundred days. Prayer has become your rhythm."
       "365": "🕊️ A YEAR OF PRAYER!"
+      "500": "💎 Five hundred days in prayer. Remarkable."
+      "1000": "🌅 ONE THOUSAND DAYS OF PRAYER!"
   notif:
     title: "<b>🔔 Prayer reminder</b>\n\n{status}\n\n🙏 The prayer for today will arrive at the chosen time."
     status_enabled: "✅ Reminder enabled\n🕐 Time: <b>{time}</b>"
@@ -420,47 +418,28 @@ notifications:
   timezone_line: "🌍 Time zone: <b>{timezone}</b>"
   timezone_changed: "✅ Time zone: {timezone}"
 
-streak:
-  indicator: "🔥 {days} days in a row"
-  indicator_single: "🔥 1 day with the Word"
-  none: ""
+counter:
+  indicator: "📖 {days} days with the Word"
+  indicator_single: "📖 1 day with the Word"
   onboarding: |
-    🔥 <b>Your streak has begun!</b>
+    📖 <b>Your first day with the Word is counted!</b>
 
-    Every day you read the verse of the day or open a chapter of the Bible — counts as a day. This is how a habit of returning to Scripture forms.
+    Every day you read the verse of the day or open a chapter of the Bible adds to your counter. It only grows — missed days reset nothing.
 
-    🛡 You have <b>2 freezes</b> — they will protect your streak if you miss a day. Protection activates automatically. Freezes are replenished as your streak grows.
-
-    Don't give up, I'm with you 🙏
+    No race, no pressure. Come back to the Word whenever you like 🙏
   onboarding_button: "Got it 🙌"
-  freeze_used: |
-    🛡 <b>Streak preserved</b>
-
-    You missed yesterday — I used one freeze to preserve your streak.
-    🔥 Streak: <b>{streak} days</b>
-    🛡 Freezes left: <b>{freezes}</b>
-
-    Don't lose the rhythm — the Word is waiting for you.
-  encouragement: |
-    🕊 <b>Hi, {name}.</b>
-
-    I noticed you've been away for a while. That's normal — life is full of circumstances.
-
-    God doesn't count days. He simply rejoices over every return.
-
-    Shall we start again? 🙏
-  daily_progress: "🔥 Day {streak} in a row with the Word!"
+  daily_progress: "📖 {streak} days with the Word already!"
   donate_addendum: "If you enjoy this bot, support the project so it can keep growing 🙏"
   donate_button: "💛 Support the project"
   milestones:
-    "3": "🎉 Three days in a row with the Word! A habit is forming."
-    "7": "🔥 A whole week! This is becoming a rhythm of life."
-    "14": "✨ Two weeks! The Word is becoming your bread."
-    "30": "🏆 A whole month! This is no coincidence."
-    "50": "💎 Fifty days! Remarkable consistency."
-    "100": "👑 ONE HUNDRED DAYS! Incredible. God sees your heart."
-    "200": "🌟 Two hundred days! You're an inspiration to others."
+    "3": "🎉 Three days with the Word! A good start."
+    "7": "✨ A whole week with the Word!"
+    "30": "🏆 Thirty days with the Word!"
+    "100": "👑 ONE HUNDRED DAYS! God sees your heart."
+    "200": "🌟 Two hundred days with the Word! You're an inspiration to others."
     "365": "🕊️ A YEAR WITH THE WORD! This is now a way of life."
+    "500": "💎 Five hundred days with the Word. Remarkable consistency."
+    "1000": "🌅 ONE THOUSAND DAYS WITH THE WORD!"
 
 common:
   back_to_menu: "← To menu"
@@ -549,7 +528,6 @@ plan:
 
   active_title: "{emoji} <b>{name}</b>"
   active_progress: "📊 Progress: <b>{completed} / {total} days</b> ({percent}%)"
-  active_streak: "🔥 Streak: <b>{days} days</b>"
   active_today_title: "<b>📖 Today — day {day}:</b>"
   active_today_reading: "• {book} {chapter}"
   active_open_chapter: "📖 {book} {chapter}"

@@ -23,16 +23,16 @@ class User(Base):
     prayer_notifications_enabled: Mapped[bool] = mapped_column(default=False)
     prayer_notification_time: Mapped[str] = mapped_column(String(5), default="08:00")
     timezone: Mapped[str] = mapped_column(String(64), default=DEFAULT_TZ)  # IANA-зона юзера
-    # Серии (streaks)
+    # Накопительный счётчик «дней со Словом» — только растёт, без сброса
     current_streak: Mapped[int] = mapped_column(Integer, default=0)
-    longest_streak: Mapped[int] = mapped_column(Integer, default=0)
+    longest_streak: Mapped[int] = mapped_column(Integer, default=0)  # deprecated (no-migration): больше не используется
     last_activity_date: Mapped[date | None] = mapped_column(Date, nullable=True)
-    freezes_available: Mapped[int] = mapped_column(Integer, default=2)
-    streak_explained: Mapped[bool] = mapped_column(default=False)
-    # Молитвенный стрик — отдельный счётчик, растёт только по нажатию «Аминь»
-    # на карточке молитвы дня. Без заморозок: пропуск дня = сброс в 1.
+    freezes_available: Mapped[int] = mapped_column(Integer, default=2)  # deprecated (no-migration): больше не используется
+    streak_explained: Mapped[bool] = mapped_column(default=False)  # онбординг счётчика показан (имя колонки историческое, no-migration)
+    # Молитвенный счётчик — отдельный, растёт только по нажатию «Аминь»
+    # на карточке молитвы дня. Тоже только растёт, без сброса.
     current_prayer_streak: Mapped[int] = mapped_column(Integer, default=0)
-    longest_prayer_streak: Mapped[int] = mapped_column(Integer, default=0)
+    longest_prayer_streak: Mapped[int] = mapped_column(Integer, default=0)  # deprecated (no-migration): больше не используется
     last_prayer_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 

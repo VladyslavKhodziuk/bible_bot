@@ -11,17 +11,13 @@ from services.user_service import UserService
 from services.bot_meta import get_bot_username
 from services.prayer_service import PrayerService
 from services.prayer_favorite_service import PrayerFavoriteService
-from services.prayer_streak_service import (
-    PrayerStreakService,
-    PrayerStreakResult,
+from services.prayer_counter_service import (
+    PrayerCounterService,
+    PrayerCounterResult,
 )
-from services.streak_display import (
-    format_prayer_streak_indicator,
-    get_prayer_milestone_message,
-    get_prayer_daily_progress_message,
-    build_dismiss_keyboard,
-    build_milestone_keyboard,
-    with_donate_addendum,
+from services.counter_display import (
+    format_prayer_counter_indicator,
+    build_prayer_extra,
 )
 from services.timezones import local_today
 from services.i18n import t, t_list
@@ -160,19 +156,19 @@ def _build_random_text(prayer: dict, lang: str, bot_username: str) -> str:
 def _build_after_amen_text(
     prayer: dict,
     lang: str,
-    streak_result: PrayerStreakResult,
+    counter_result: PrayerCounterResult,
     bot_username: str,
 ) -> str:
-    """Экран после «Аминь»: благодарность + стрик + та же карточка + share.
+    """Экран после «Аминь»: благодарность + счётчик + та же карточка + share.
 
-    Onboarding и милстоуны идут отдельными сообщениями (см. _send_prayer_extras),
+    Онбординг и вехи идут отдельными сообщениями (см. _send_prayer_extras),
     чтобы не дублировать их в основной карточке.
     """
     parts = [t("pray.amen_title", lang)]
 
-    streak_line = format_prayer_streak_indicator(streak_result.current_streak, lang)
-    if streak_line:
-        parts.append(streak_line)
+    counter_line = format_prayer_counter_indicator(counter_result.count, lang)
+    if counter_line:
+        parts.append(counter_line)
 
     parts.append("")
     parts.append(t("pray.year_headline", lang))
@@ -187,40 +183,20 @@ def _build_after_amen_text(
     return "\n".join(parts)
 
 
-async def _send_prayer_extras(message, streak_result: PrayerStreakResult, lang: str) -> None:
-    """Отдельные сообщения после «Аминь»: onboarding, милстоуны, daily-progress.
+async def _send_prayer_extras(message, counter_result: PrayerCounterResult, lang: str) -> None:
+    """Отдельное сообщение после «Аминь»: онбординг / веха / день роста.
 
-    Зеркало handlers.verse._send_streak_extras, но для молитвенного стрика.
-    Поскольку у нас нет prayer_streak_explained-флага, онбординг показывается
-    при каждом is_first_time (т.е. и при сбросе стрика).
+    Зеркало handlers.verse._send_counter_extras для молитвы. Что показать решает
+    общий билдер build_prayer_extra. Онбординг гейтится на is_first_time:
+    у молитвы единственное место touch() и оно всегда зовёт эту функцию,
+    поэтому отдельного флага не нужно (после сброса счётчика онбординг
+    покажется снова один раз — это и нужно).
     """
-    if streak_result.is_first_time:
-        await message.answer(
-            t("pray.streak.onboarding", lang),
-            reply_markup=build_dismiss_keyboard(
-                lang, dismiss_key="pray.streak.onboarding_button"
-            ),
-        )
+    extra = build_prayer_extra(counter_result, lang)
+    if not extra:
         return
-
-    if streak_result.milestone_reached:
-        msg = get_prayer_milestone_message(streak_result.milestone_reached, lang)
-        if msg:
-            await message.answer(
-                with_donate_addendum(msg, lang),
-                reply_markup=build_milestone_keyboard(
-                    lang, dismiss_key="pray.streak.onboarding_button"
-                ),
-            )
-        return
-
-    if streak_result.streak_grew:
-        await message.answer(
-            get_prayer_daily_progress_message(streak_result.current_streak, lang),
-            reply_markup=build_dismiss_keyboard(
-                lang, dismiss_key="pray.streak.onboarding_button"
-            ),
-        )
+    text, keyboard, _is_onboarding = extra
+    await message.answer(text, reply_markup=keyboard)
 
 
 @router.callback_query(F.data == "pray")
@@ -246,13 +222,12 @@ async def show_pray(callback: CallbackQuery):
     is_fav = await PrayerFavoriteService.is_favorite(callback.from_user.id, prayer["id"])
 
     if user and user.last_prayer_date == local_today(user.timezone):
-        # Уже молились сегодня — показываем благодарность с тем же стриком
-        streak_result = PrayerStreakService.synthetic_same_day(
+        # Уже молились сегодня — показываем благодарность с тем же счётчиком
+        counter_result = PrayerCounterService.synthetic_same_day(
             user.current_prayer_streak,
-            user.longest_prayer_streak,
         )
         await callback.message.edit_text(
-            _build_after_amen_text(prayer, lang, streak_result, bot_username),
+            _build_after_amen_text(prayer, lang, counter_result, bot_username),
             reply_markup=pray_after_amen_keyboard(lang, prayer["id"], is_fav),
             disable_web_page_preview=True,
         )
@@ -269,7 +244,7 @@ async def show_pray(callback: CallbackQuery):
 
 @router.callback_query(F.data == "pray:amen")
 async def amen(callback: CallbackQuery):
-    """Засчитать «Аминь» в молитвенный стрик и показать благодарность."""
+    """Засчитать «Аминь» в молитвенный счётчик и показать благодарность."""
     user = await UserService.get(callback.from_user.id)
     if not user:
         await callback.answer()
@@ -278,7 +253,7 @@ async def amen(callback: CallbackQuery):
     lang = user.lang
     translation = user.translation
 
-    streak_result = await PrayerStreakService.touch(callback.from_user.id)
+    counter_result = await PrayerCounterService.touch(callback.from_user.id)
     prayer = PrayerService.get_prayer_of_day(lang, translation)
     if not prayer:
         await callback.answer()
@@ -287,14 +262,14 @@ async def amen(callback: CallbackQuery):
     bot_username = await get_bot_username(callback.bot)
     is_fav = await PrayerFavoriteService.is_favorite(callback.from_user.id, prayer["id"])
     await callback.message.edit_text(
-        _build_after_amen_text(prayer, lang, streak_result, bot_username),
+        _build_after_amen_text(prayer, lang, counter_result, bot_username),
         reply_markup=pray_after_amen_keyboard(lang, prayer["id"], is_fav),
         disable_web_page_preview=True,
     )
     await callback.answer()
 
-    # Onboarding (первый раз) и милстоуны — отдельными сообщениями ниже карточки
-    await _send_prayer_extras(callback.message, streak_result, lang)
+    # Онбординг (первый раз) и вехи — отдельными сообщениями ниже карточки
+    await _send_prayer_extras(callback.message, counter_result, lang)
 
 
 @router.callback_query(F.data == "pray:repentance")

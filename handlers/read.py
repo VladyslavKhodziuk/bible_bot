@@ -3,7 +3,7 @@ from aiogram.types import CallbackQuery
 
 from services.user_service import UserService
 from services.bible_service import BibleService
-from services.streak_service import StreakService
+from services.counter_service import CounterService
 from services.i18n import t
 from keyboards.read import (
     testament_keyboard,
@@ -116,8 +116,8 @@ async def show_chapters(callback: CallbackQuery):
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
     translation = user.translation if user else "ru_synodal"
-    # Засчитываем чтение главы в серию
-    streak_result = await StreakService.touch(callback.from_user.id)
+    # Засчитываем чтение главы в счётчик дней со Словом
+    counter_result = await CounterService.touch(callback.from_user.id)
 
     parts = callback.data.split(":")
     abbrev = parts[2]
@@ -131,9 +131,9 @@ async def show_chapters(callback: CallbackQuery):
     )
     await callback.answer()
 
-    # Дополнительные сообщения (onboarding, милстоуны)
-    from handlers.verse import _send_streak_extras
-    await _send_streak_extras(callback.message, callback.from_user.id, streak_result, lang)
+    # Дополнительные сообщения (онбординг, вехи)
+    from handlers.verse import _send_counter_extras
+    await _send_counter_extras(callback.message, callback.from_user.id, counter_result, lang)
 
 
 # ============ Экран 4: Текст главы ============

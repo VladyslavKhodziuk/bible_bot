@@ -16,14 +16,10 @@ from models import User, PlanProgress
 from services.bible_service import BibleService
 from services.plan_service import PlanService
 from services.prayer_service import PrayerService
-from services.streak_service import StreakService
-from services.streak_display import (
-    format_streak_indicator,
-    get_milestone_message,
-    get_daily_progress_message,
-    build_dismiss_keyboard,
-    build_milestone_keyboard,
-    with_donate_addendum,
+from services.counter_service import CounterService
+from services.counter_display import (
+    format_counter_indicator,
+    build_counter_extra,
 )
 from services.analytics_service import AnalyticsService
 from services.alert_service import AlertService
@@ -79,13 +75,13 @@ def _get_time_of_day(time_str: str) -> str:
 # ============ Отправка стиха дня ============
 
 async def _send_verse_to_user(bot: Bot, user: User) -> None:
-    """Отправить стих дня одному юзеру. Также засчитывает день серии."""
+    """Отправить стих дня одному юзеру. Также засчитывает день со Словом."""
     verse = BibleService.get_verse_of_day(user.translation)
     if not verse:
         return
 
-    # Засчитываем день серии
-    streak_result = await StreakService.touch(user.tg_id)
+    # Засчитываем день со Словом
+    counter_result = await CounterService.touch(user.tg_id)
 
     book_name = BibleService.get_book_name(verse["abbrev"], user.lang)
     reference = t(
@@ -98,39 +94,14 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
 
     name = html.escape(user.first_name or "друг")
 
-    # === Особые сообщения: ободрение или заморозка ===
-    if streak_result.returned_after_loss:
-        try:
-            await bot.send_message(
-                chat_id=user.tg_id,
-                text=t("streak.encouragement", user.lang, name=name),
-                parse_mode="HTML",
-            )
-        except Exception as e:
-            logger.warning(f"Не удалось отправить ободрение юзеру {user.tg_id}: {e}")
-    elif streak_result.freeze_used:
-        try:
-            await bot.send_message(
-                chat_id=user.tg_id,
-                text=t(
-                    "streak.freeze_used", user.lang,
-                    name=name,
-                    streak=streak_result.current_streak,
-                    freezes=streak_result.freezes_available,
-                ),
-                parse_mode="HTML",
-            )
-        except Exception as e:
-            logger.warning(f"Не удалось отправить уведомление о заморозке юзеру {user.tg_id}: {e}")
-
     # === Основное сообщение со стихом ===
     time_of_day = _get_time_of_day(user.notification_time)
     greeting = t(f"greetings.{time_of_day}", user.lang, name=name)
-    streak_line = format_streak_indicator(streak_result.current_streak, user.lang)
+    counter_line = format_counter_indicator(counter_result.count, user.lang)
 
     parts = [greeting]
-    if streak_line:
-        parts.append(streak_line)
+    if counter_line:
+        parts.append(counter_line)
     parts.append("")
     parts.append(reference)
     parts.append("")
@@ -162,35 +133,24 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
         AnalyticsService.record(user.tg_id, "notif_verse", "error")
         await _alert_if_infra(e, "рассылка стиха дня")
 
-    # === Поздравление с милстоуном (отдельным сообщением) ===
-    # На milestone-днях к тексту добавляется блок поддержки проекта + кнопка.
-    if streak_result.milestone_reached:
-        msg = get_milestone_message(streak_result.milestone_reached, user.lang)
-        if msg:
-            try:
-                await bot.send_message(
-                    chat_id=user.tg_id,
-                    text=with_donate_addendum(msg, user.lang),
-                    reply_markup=build_milestone_keyboard(
-                        user.lang, dismiss_key="streak.onboarding_button"
-                    ),
-                    parse_mode="HTML",
-                )
-            except Exception as e:
-                logger.warning(f"Не удалось отправить милстоун юзеру {user.tg_id}: {e}")
-    # === Daily-progress в обычные дни роста серии ===
-    elif streak_result.streak_grew and not streak_result.is_first_time:
+    # === Доп. сообщение (онбординг / веха / день роста) ===
+    # Та же логика, что в интерактиве (handlers.verse._send_counter_extras) —
+    # через общий билдер, чтобы ветки не расходились. Онбординг здесь тоже
+    # показывается (если ещё не показывали) и гасится mark_explained.
+    extra = build_counter_extra(counter_result, user.lang)
+    if extra:
+        text, keyboard, is_onboarding = extra
         try:
             await bot.send_message(
                 chat_id=user.tg_id,
-                text=get_daily_progress_message(streak_result.current_streak, user.lang),
-                reply_markup=build_dismiss_keyboard(
-                    user.lang, dismiss_key="streak.onboarding_button"
-                ),
+                text=text,
+                reply_markup=keyboard,
                 parse_mode="HTML",
             )
+            if is_onboarding:
+                await CounterService.mark_explained(user.tg_id)
         except Exception as e:
-            logger.warning(f"Не удалось отправить daily-progress юзеру {user.tg_id}: {e}")
+            logger.warning(f"Не удалось отправить доп. сообщение счётчика юзеру {user.tg_id}: {e}")
 
 
 # ============ Отправка молитвы дня ============

@@ -12,9 +12,6 @@ from keyboards.cabinet import cabinet_keyboard
 
 router = Router()
 
-# Должно совпадать с MAX_FREEZES из streak_service.py
-MAX_FREEZES = 2
-
 
 def _format_day_count(days: int, lang: str) -> str:
     """«1 день» / «{N} дн.» — общий формат счётчиков дней в кабинете."""
@@ -23,21 +20,14 @@ def _format_day_count(days: int, lang: str) -> str:
     return t("cabinet.day_count", lang, days=days)
 
 
-def _format_streak_line(current: int, longest: int, lang: str) -> str:
-    """Одна строка серии: «🔥 Серия пока не начата» либо «🔥 Серия: X · …».
+def _format_counter_line(count: int, lang: str) -> str:
+    """Одна нейтральная строка накопительного счётчика дней.
 
-    Если текущая = лучшая (и > 0), подчёркиваем «твой рекорд» — мотивация
-    превзойти. Иначе показываем оба значения, чтобы было видно, к чему стремиться.
+    «пока нет» при 0, иначе «N дней» через общий формат.
     """
-    if current <= 0:
-        return t("cabinet.streak_none", lang)
-
-    current_str = _format_day_count(current, lang)
-    if current >= longest:
-        return t("cabinet.streak_record_match", lang, current=current_str)
-
-    longest_str = _format_day_count(longest, lang)
-    return t("cabinet.streak_with_record", lang, current=current_str, longest=longest_str)
+    if count <= 0:
+        return t("cabinet.counter_zero", lang)
+    return t("cabinet.counter", lang, count=_format_day_count(count, lang))
 
 
 async def _build_cabinet_text(user, lang: str) -> str:
@@ -59,19 +49,16 @@ async def _build_cabinet_text(user, lang: str) -> str:
     # Блок «Со Словом»: чтение Библии + закладки + завершённые планы
     word_lines = [
         t("cabinet.word_section", lang),
-        _format_streak_line(user.current_streak, user.longest_streak, lang),
-        t("cabinet.freezes", lang, count=user.freezes_available, max=MAX_FREEZES),
+        _format_counter_line(user.current_streak, lang),
         t("cabinet.bookmarks", lang, count=bookmarks_count),
         t("cabinet.plans_completed", lang, count=completed_plans_count),
     ]
     word_card = "<blockquote>" + "\n".join(word_lines) + "</blockquote>"
 
-    # Блок «В молитве»: молитвенный стрик
+    # Блок «В молитве»: молитвенный счётчик
     prayer_lines = [
         t("cabinet.prayer_section", lang),
-        _format_streak_line(
-            user.current_prayer_streak, user.longest_prayer_streak, lang
-        ),
+        _format_counter_line(user.current_prayer_streak, lang),
     ]
     prayer_card = "<blockquote>" + "\n".join(prayer_lines) + "</blockquote>"
 
