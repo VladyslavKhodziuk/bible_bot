@@ -41,6 +41,9 @@ logger = logging.getLogger(__name__)
 # бота» — то нормально и алерта не требует). Только эти классы дают алерт.
 _INFRA_TG_ERRORS = (TelegramNetworkError, TelegramServerError, TelegramRetryAfter)
 
+# Сколько дней простоя в плане до мягкого напоминания в ежедневном пуше.
+_PLAN_NUDGE_AFTER_DAYS = 3
+
 
 async def _alert_if_infra(exc: Exception, context: str) -> None:
     """Шлёт алерт, только если сбой отправки относится к инфраструктуре."""
@@ -288,6 +291,17 @@ async def _send_plan_to_user(bot: Bot, user: User, progress: PlanProgress) -> No
         greeting,
         "",
         t("plan.push_title", user.lang, name=plan_name),
+    ]
+
+    # Мягкий nudge при простое: если последняя отметка была давно (в зоне юзера),
+    # бережно напоминаем, не упрекая. Не показываем тем, кто ещё ни дня не отмечал.
+    if progress.last_completion_date is not None:
+        days_idle = (local_today(user.timezone) - progress.last_completion_date).days
+        if days_idle >= _PLAN_NUDGE_AFTER_DAYS:
+            parts.append("")
+            parts.append(t("plan.nudge", user.lang, days=days_idle))
+
+    parts += [
         "",
         t("plan.push_today", user.lang, day=progress.current_day),
     ]

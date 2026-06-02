@@ -1,4 +1,5 @@
 import logging
+from datetime import timedelta
 
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
@@ -8,7 +9,10 @@ from services.user_service import UserService
 from services.plan_service import PlanService, render_progress_bar
 from services.bible_service import BibleService
 from services.streak_service import StreakService
-from services.streak_display import format_streak_indicator
+from services.streak_display import format_streak_indicator, get_plan_milestone_message
+from services.timezones import local_today
+from services.bot_meta import get_bot_username
+from services.share import build_share_url
 from services.i18n import t
 from keyboards.plan import (
     plan_list_keyboard,
@@ -84,10 +88,16 @@ async def preview_plan(callback: CallbackQuery):
         first_day_lines.append(f"  • {book_name} {r['chapter']}")
     first_day_text = "\n".join(first_day_lines)
 
+    # Прогноз даты завершения, если начать сегодня (темп — день в сутки)
+    tz = user.timezone if user else "UTC"
+    finish_date = local_today(tz) + timedelta(days=duration)
+    eta_str = finish_date.strftime("%d.%m.%Y")
+
     parts = [
         t("plan.preview_title", lang, emoji=emoji, name=name),
         "",
         t("plan.preview_duration", lang, days=duration),
+        t("plan.preview_eta", lang, date=eta_str),
         "",
         t("plan.preview_description", lang, description=description),
         "",
@@ -148,10 +158,18 @@ async def _show_active_plan(callback: CallbackQuery, progress, lang: str):
             book_names_map[r["abbrev"]] = BibleService.get_book_name(r["abbrev"], lang)
 
     user = await UserService.get(callback.from_user.id)
+    tz = user.timezone if user else "UTC"
     streak_line = format_streak_indicator(user.current_streak, lang) if user else ""
 
-    # Прогресс-бар
+    # День уже отмечен сегодня? Тогда экран в состоянии «на сегодня всё»,
+    # а чтения current_day относятся уже к следующему дню — их не показываем.
+    completed_today = not await PlanService.can_complete_today(
+        callback.from_user.id, today=local_today(tz)
+    )
+
+    # Прогресс-бар + прогноз даты завершения
     progress_bar = render_progress_bar(progress_data["percent"])
+    finish_str = PlanService.estimate_finish_date(progress, tz).strftime("%d.%m.%Y")
 
     parts = [
         t("plan.active_title", lang, emoji=emoji, name=name),
@@ -163,24 +181,32 @@ async def _show_active_plan(callback: CallbackQuery, progress, lang: str):
             percent=progress_data["percent"],
         ),
         f"<code>{progress_bar}</code>",
+        t("plan.active_eta", lang, date=finish_str),
     ]
     if streak_line:
         parts.append(streak_line)
 
     parts.append("")
-    parts.append(t("plan.active_today_title", lang, day=progress.current_day))
 
-    for r in today_readings:
-        book_name = book_names_map[r["abbrev"]]
-        parts.append(
-            t("plan.active_today_reading", lang, book=book_name, chapter=r["chapter"])
-        )
+    if completed_today:
+        # Сегодня всё прочитано — ждём следующего дня
+        parts.append(t("plan.active_done_today", lang))
+        parts.append(t("plan.active_done_next", lang, day=progress.current_day))
+    else:
+        parts.append(t("plan.active_today_title", lang, day=progress.current_day))
+        for r in today_readings:
+            book_name = book_names_map[r["abbrev"]]
+            parts.append(
+                t("plan.active_today_reading", lang, book=book_name, chapter=r["chapter"])
+            )
 
     text = "\n".join(parts)
 
     await callback.message.edit_text(
         text,
-        reply_markup=active_plan_keyboard(today_readings, lang, book_names_map)
+        reply_markup=active_plan_keyboard(
+            today_readings, lang, book_names_map, completed_today=completed_today
+        )
     )
     await callback.answer()
 
@@ -191,15 +217,23 @@ async def _show_active_plan(callback: CallbackQuery, progress, lang: str):
 async def read_in_plan_mode(callback: CallbackQuery):
     """
     Открыть главу плана в изолированном режиме.
-    callback_data: plan:read:N (N — индекс чтения)
+    callback_data: plan:read:N или plan:read:N:pP (N — индекс чтения, P — страница)
     """
+    parts = callback.data.split(":")
     try:
-        reading_idx = int(callback.data.split(":")[2])
+        reading_idx = int(parts[2])
     except (ValueError, IndexError):
         await callback.answer("⚠️", show_alert=True)
         return
 
-    await _show_reading(callback, reading_idx)
+    page = 1
+    if len(parts) >= 4 and parts[3].startswith("p"):
+        try:
+            page = int(parts[3][1:])
+        except ValueError:
+            page = 1
+
+    await _show_reading(callback, reading_idx, page)
 
 
 @router.callback_query(F.data == "plan:next_reading")
@@ -225,12 +259,16 @@ async def next_reading(callback: CallbackQuery):
     await _show_reading(callback, next_idx)
 
 
-async def _show_reading(callback: CallbackQuery, reading_idx: int):
+async def _show_reading(callback: CallbackQuery, reading_idx: int, page: int = 1):
     """
     Внутренняя функция показа главы плана. Используется и при прямом клике
     на главу, и при переходе "следующая глава".
 
-    Защита: если день уже отмечен сегодня — не пускаем, показываем toast.
+    Чтение доступно всегда (в т.ч. по кнопке из старого пуша). Повторную
+    *отметку* дня сдерживает mark_done, а не вход в текст.
+
+    Длинные главы (напр. Псалом 119) листаются страницами через
+    BibleService.paginate_chapter — так текст не обрезается и не рвёт HTML.
     """
     user = await UserService.get(callback.from_user.id)
     if not user:
@@ -241,15 +279,6 @@ async def _show_reading(callback: CallbackQuery, reading_idx: int):
     progress = await PlanService.get_active(callback.from_user.id)
     if not progress:
         await callback.answer("⚠️", show_alert=True)
-        return
-
-    # Защита: день уже отмечен сегодня
-    can_read = await PlanService.can_complete_today(callback.from_user.id)
-    if not can_read:
-        await callback.answer(
-            t("plan.already_today_alert", lang),
-            show_alert=True,
-        )
         return
 
     today_readings = PlanService.get_day_readings(progress.plan_id, progress.current_day)
@@ -265,27 +294,19 @@ async def _show_reading(callback: CallbackQuery, reading_idx: int):
     abbrev = reading["abbrev"]
     chapter = reading["chapter"]
 
-    # Обновляем индекс в БД
-    if progress.current_reading_idx != reading_idx:
-        from sqlalchemy import select
-        from database import async_session
-        from models import PlanProgress
-        async with async_session() as session:
-            result = await session.execute(
-                select(PlanProgress).where(
-                    PlanProgress.user_id == callback.from_user.id,
-                    PlanProgress.status == "active",
-                    )
-            )
-            p = result.scalar_one_or_none()
-            if p:
-                p.current_reading_idx = reading_idx
-                await session.commit()
+    # Запоминаем позицию чтения внутри дня
+    await PlanService.set_reading_index(callback.from_user.id, reading_idx)
 
     chapter_data = BibleService.get_chapter(abbrev, chapter, user.translation)
     if not chapter_data:
         await callback.answer("⚠️", show_alert=True)
         return
+
+    # Разбиваем главу на страницы под лимит Telegram
+    pages = BibleService.paginate_chapter(chapter_data)
+    if page < 1 or page > len(pages):
+        page = 1
+    start_v, end_v = pages[page - 1]
 
     plan = PlanService.get_plan(progress.plan_id)
     plan_name = PlanService.get_plan_name(progress.plan_id, lang)
@@ -294,12 +315,17 @@ async def _show_reading(callback: CallbackQuery, reading_idx: int):
 
     separator = t("plan.read_separator", lang)
     header = t("plan.read_header", lang, day=progress.current_day, total=total_days, plan_name=plan_name)
-    chapter_title = f"<b>{book_name} {chapter}</b>"
     progress_line = t("plan.read_reading_progress", lang,
                       current=reading_idx + 1, total_readings=len(today_readings))
 
+    chapter_title = f"<b>{book_name} {chapter}</b>"
+    if len(pages) > 1:
+        chapter_title += (
+            f"\n<i>{t('read.verses_range', lang, start=start_v, end=end_v)}</i>"
+        )
+
     verses_text = "\n".join(
-        f"<b>{i + 1}.</b> {v}" for i, v in enumerate(chapter_data)
+        f"<b>{i}.</b> {chapter_data[i - 1]}" for i in range(start_v, end_v + 1)
     )
 
     parts = [
@@ -315,14 +341,14 @@ async def _show_reading(callback: CallbackQuery, reading_idx: int):
     ]
     text = "\n".join(parts)
 
-    if len(text) > 4000:
-        text = text[:3997] + "..."
-
     is_last = (reading_idx == len(today_readings) - 1)
 
     await callback.message.edit_text(
         text,
-        reply_markup=reading_mode_keyboard(reading_idx, len(today_readings), is_last, lang)
+        reply_markup=reading_mode_keyboard(
+            reading_idx, len(today_readings), is_last, lang,
+            page=page, total_pages=len(pages),
+        )
     )
     await callback.answer()
 
@@ -338,44 +364,29 @@ async def mark_done(callback: CallbackQuery):
         return
     lang = user.lang
 
-    # Засчитываем серию
-    await StreakService.touch(callback.from_user.id)
-
-    # Отмечаем день в плане
-    result, current_day, total_days = await PlanService.mark_day_complete(callback.from_user.id)
+    # Отмечаем день в плане (день считаем в зоне пользователя — как и стрик)
+    result, current_day, total_days, milestone = await PlanService.mark_day_complete(
+        callback.from_user.id, today=local_today(user.timezone)
+    )
 
     if result == "no_active":
         await callback.answer("⚠️", show_alert=True)
         return
 
     if result == "already_today":
-        # Уже отмечал сегодня — toast и остаёмся на месте
+        # Уже отмечал сегодня — toast и остаёмся на месте (стрик не трогаем)
         await callback.answer(
             t("plan.already_today_alert", lang),
             show_alert=True,
         )
         return
 
+    # День реально засчитан — теперь засчитываем серию
+    await StreakService.touch(callback.from_user.id)
+
     if result == "plan_finished":
         # Поздравление с завершением плана
-        active = await PlanService.get_active(callback.from_user.id)
-        # active уже None, потому что статус completed
-        # Берём имя из последней записи
-        from sqlalchemy import select
-        from database import async_session
-        from models import PlanProgress
-        async with async_session() as session:
-            res = await session.execute(
-                select(PlanProgress)
-                .where(
-                    PlanProgress.user_id == callback.from_user.id,
-                    PlanProgress.status == "completed",
-                )
-                .order_by(PlanProgress.completed_at.desc())
-                .limit(1)
-            )
-            finished = res.scalar_one_or_none()
-
+        finished = await PlanService.get_last_completed(callback.from_user.id)
         plan_id = finished.plan_id if finished else ""
         plan = PlanService.get_plan(plan_id)
         name = PlanService.get_plan_name(plan_id, lang)
@@ -385,9 +396,17 @@ async def mark_done(callback: CallbackQuery):
             f"{t('plan.completed_title', lang)}\n\n"
             f"{t('plan.completed_text', lang, name=name, days=days)}"
         )
+
+        # Декоративная кнопка «Поделиться» (если username бота доступен)
+        bot_username = await get_bot_username(callback.bot)
+        share_url = None
+        if bot_username:
+            share_text = t("plan.completed_share_text", lang, name=name)
+            share_url = build_share_url(share_text, f"https://t.me/{bot_username}")
+
         await callback.message.edit_text(
             text,
-            reply_markup=completed_keyboard(lang)
+            reply_markup=completed_keyboard(lang, share_url=share_url)
         )
         await callback.answer()
         return
@@ -406,6 +425,16 @@ async def mark_done(callback: CallbackQuery):
         t("plan.day_done_title", lang),
         "",
         t("plan.day_done_today", lang, day=current_day),
+    ]
+
+    # Поздравление с прохождением вехи 25/50/75 %
+    if milestone:
+        milestone_msg = get_plan_milestone_message(milestone, lang)
+        if milestone_msg:
+            parts.append("")
+            parts.append(milestone_msg)
+
+    parts += [
         "",
         t(
             "plan.day_done_progress", lang,
@@ -700,41 +729,12 @@ async def resume_plan(callback: CallbackQuery):
     if not user:
         await callback.answer("⚠️", show_alert=True)
         return
-    lang = user.lang
 
-    # Проверяем — действительно ли это план юзера и в статусе abandoned
-    from sqlalchemy import select
-    from database import async_session
-    from models import PlanProgress
-
-    async with async_session() as session:
-        result = await session.execute(
-            select(PlanProgress).where(
-                PlanProgress.id == progress_id,
-                PlanProgress.user_id == callback.from_user.id,
-                PlanProgress.status == "abandoned",
-            )
-        )
-        progress = result.scalar_one_or_none()
-        if not progress:
-            await callback.answer("⚠️", show_alert=True)
-            return
-
-        # Перед возобновлением убедимся, что нет активного плана
-        active_check = await session.execute(
-            select(PlanProgress).where(
-                PlanProgress.user_id == callback.from_user.id,
-                PlanProgress.status == "active",
-            )
-        )
-        if active_check.scalar_one_or_none():
-            # У юзера уже есть активный — отказ
-            await callback.answer("⚠️", show_alert=True)
-            return
-
-        # Возобновляем
-        progress.status = "active"
-        await session.commit()
+    # Возобновляем (проверки внутри: план юзера, статус abandoned, нет активного)
+    ok = await PlanService.resume(callback.from_user.id, progress_id)
+    if not ok:
+        await callback.answer("⚠️", show_alert=True)
+        return
 
     logger.info(f"Юзер {callback.from_user.id} возобновил план id={progress_id}")
 

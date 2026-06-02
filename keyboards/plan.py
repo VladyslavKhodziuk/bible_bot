@@ -59,16 +59,18 @@ def active_plan_keyboard(
     builder = InlineKeyboardBuilder()
     layout = []
 
-    # Кнопки чтения каждой главы — ведут в изолированный режим (plan:read:N)
-    for idx, reading in enumerate(readings):
-        abbrev = reading["abbrev"]
-        chapter = reading["chapter"]
-        book_name = book_names_map.get(abbrev, abbrev)
-        builder.button(
-            text=t("plan.active_open_chapter", lang, book=book_name, chapter=chapter),
-            callback_data=f"plan:read:{idx}"
-        )
-        layout.append(1)
+    # Кнопки чтения главы показываем, только если день ещё не отмечен сегодня.
+    # Иначе экран в состоянии «на сегодня всё» — главы вели бы на следующий день.
+    if not completed_today:
+        for idx, reading in enumerate(readings):
+            abbrev = reading["abbrev"]
+            chapter = reading["chapter"]
+            book_name = book_names_map.get(abbrev, abbrev)
+            builder.button(
+                text=t("plan.active_open_chapter", lang, book=book_name, chapter=chapter),
+                callback_data=f"plan:read:{idx}"
+            )
+            layout.append(1)
 
     # Действия (нет "Отметить" — это теперь только в режиме чтения)
     builder.button(
@@ -108,9 +110,14 @@ def change_confirm_keyboard(lang: str) -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def completed_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """После завершения плана."""
+def completed_keyboard(lang: str, share_url: str | None = None) -> InlineKeyboardMarkup:
+    """После завершения плана. ``share_url`` — ссылка t.me/share/url (если есть)."""
     builder = InlineKeyboardBuilder()
+    if share_url:
+        builder.button(
+            text=t("plan.completed_share", lang),
+            url=share_url,
+        )
     builder.button(
         text=t("plan.completed_choose_new", lang),
         callback_data="plan"  # снова открываем выбор
@@ -182,31 +189,59 @@ def reading_mode_keyboard(
     total_readings: int,
     is_last: bool,
     lang: str,
+    page: int = 1,
+    total_pages: int = 1,
 ) -> InlineKeyboardMarkup:
     """
     Клавиатура изолированного режима чтения.
 
     is_last: True если это последняя глава дня — тогда кнопка "Прочитал на сегодня всё"
              False — кнопка "Прочитано — следующая глава"
+    page/total_pages: для длинных глав (напр. Псалом 119) текст листается
+             страницами. Кнопка завершения/следующей главы — только на последней.
     """
     builder = InlineKeyboardBuilder()
+    layout = []
 
-    if is_last:
-        builder.button(
-            text=t("plan.read_complete_day", lang),
-            callback_data="plan:mark_done"
-        )
-    else:
-        builder.button(
-            text=t("plan.read_next_chapter", lang),
-            callback_data="plan:next_reading"
-        )
+    # Навигация по страницам длинной главы
+    if total_pages > 1:
+        nav = 0
+        if page > 1:
+            builder.button(
+                text=t("plan.read_prev_page", lang),
+                callback_data=f"plan:read:{reading_idx}:p{page - 1}"
+            )
+            nav += 1
+        if page < total_pages:
+            builder.button(
+                text=t("plan.read_next_page", lang),
+                callback_data=f"plan:read:{reading_idx}:p{page + 1}"
+            )
+            nav += 1
+        if nav:
+            layout.append(nav)
+
+    # Кнопка завершения дня / следующей главы — только дочитав главу до конца
+    if page >= total_pages:
+        if is_last:
+            builder.button(
+                text=t("plan.read_complete_day", lang),
+                callback_data="plan:mark_done"
+            )
+        else:
+            builder.button(
+                text=t("plan.read_next_chapter", lang),
+                callback_data="plan:next_reading"
+            )
+        layout.append(1)
 
     builder.button(
         text=t("plan.read_back_to_plan", lang),
         callback_data="plan"
     )
-    builder.adjust(1)
+    layout.append(1)
+
+    builder.adjust(*layout)
     return builder.as_markup()
 
 

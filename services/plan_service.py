@@ -1,5 +1,6 @@
 import json
 import logging
+from datetime import date, timedelta
 from pathlib import Path
 
 import yaml
@@ -7,6 +8,7 @@ from sqlalchemy import select, delete
 
 from database import async_session
 from models import PlanProgress
+from services.timezones import local_today
 from timeutils import utcnow
 
 logger = logging.getLogger(__name__)
@@ -167,21 +169,32 @@ class PlanService:
         logger.info(f"План отменён: user={user_id}")
         return True
 
+    # Пороги вех прогресса (в процентах), о которых поздравляем при пересечении.
+    _MILESTONES = (25, 50, 75)
+
     @staticmethod
-    async def mark_day_complete(user_id: int) -> tuple[str, int, int]:
+    async def mark_day_complete(
+        user_id: int, today: date | None = None
+    ) -> tuple[str, int, int, int | None]:
         """
         Отметить текущий день плана как прочитанный.
 
-        Возвращает: (result, current_day, total_days)
+        ``today`` — «сегодня» в часовом поясе пользователя. Если не передан,
+        берётся серверная дата (fallback); вызывающий код в хендлерах должен
+        передавать ``local_today(user.timezone)``, чтобы день плана и стрик
+        считались в одной зоне.
+
+        Возвращает: (result, current_day, total_days, milestone)
             result: "completed" — день засчитан, план не закончен
                     "plan_finished" — день засчитан, план завершён
                     "already_today" — уже отмечал сегодня, отказ
                     "no_active" — нет активного плана
             current_day: текущий день (для UI)
             total_days: общее количество дней в плане
+            milestone: пройденный порог 25/50/75 (%), если пересечён, иначе None
         """
-        from datetime import date as date_cls
-        today = date_cls.today()
+        if today is None:
+            today = date.today()
 
         async with async_session() as session:
             result = await session.execute(
@@ -192,13 +205,13 @@ class PlanService:
             )
             progress = result.scalar_one_or_none()
             if not progress:
-                return "no_active", 0, 0
+                return "no_active", 0, 0, None
 
             # Защита от мультикликов: один день = один клик
             if progress.last_completion_date == today:
                 plan = PlanService.get_plan(progress.plan_id)
                 total = plan.get("duration_days", 0) if plan else 0
-                return "already_today", progress.current_day, total
+                return "already_today", progress.current_day, total, None
 
             # Парсим список завершённых дней
             try:
@@ -221,17 +234,37 @@ class PlanService:
             plan = PlanService.get_plan(progress.plan_id)
             total_days = plan.get("duration_days", 0) if plan else 0
 
+            # Веха: пересекли ли мы порог 25/50/75 % этим днём
+            milestone = PlanService._crossed_milestone(current_day, total_days)
+
             if current_day >= total_days:
                 progress.status = "completed"
                 progress.completed_at = utcnow()
                 await session.commit()
                 logger.info(f"План завершён: user={user_id}, plan={progress.plan_id}")
-                return "plan_finished", current_day, total_days
+                return "plan_finished", current_day, total_days, milestone
 
                 # Идём на следующий день
             progress.current_day = current_day + 1
             await session.commit()
-            return "completed", current_day, total_days  # возвращаем завершённый день, не следующий
+            # возвращаем завершённый день, не следующий
+            return "completed", current_day, total_days, milestone
+
+    @classmethod
+    def _crossed_milestone(cls, completed_count: int, total_days: int) -> int | None:
+        """Наибольший порог из _MILESTONES, пересечённый при отметке дня.
+
+        Был < M % до отметки, стал ≥ M % после — значит порог пройден сегодня.
+        """
+        if total_days <= 0:
+            return None
+        percent_before = (completed_count - 1) / total_days * 100
+        percent_after = completed_count / total_days * 100
+        crossed = [
+            m for m in cls._MILESTONES
+            if percent_before < m <= percent_after
+        ]
+        return max(crossed) if crossed else None
 
     @staticmethod
     async def get_completed_days(user_id: int) -> list[int]:
@@ -351,13 +384,92 @@ class PlanService:
             await session.commit()
 
     @staticmethod
-    async def can_complete_today(user_id: int) -> bool:
-        """Проверка — можно ли отметить день сегодня (не отмечал ли уже)."""
-        from datetime import date as date_cls
+    async def can_complete_today(user_id: int, today: date | None = None) -> bool:
+        """Можно ли отметить день сегодня (не отмечал ли уже).
+
+        ``today`` — дата в зоне пользователя; см. ``mark_day_complete``.
+        """
+        if today is None:
+            today = date.today()
         progress = await PlanService.get_active(user_id)
         if not progress:
             return False
-        return progress.last_completion_date != date_cls.today()
+        return progress.last_completion_date != today
+
+    @staticmethod
+    async def set_reading_index(user_id: int, idx: int) -> None:
+        """Установить позицию чтения внутри дня (для активного плана)."""
+        async with async_session() as session:
+            result = await session.execute(
+                select(PlanProgress).where(
+                    PlanProgress.user_id == user_id,
+                    PlanProgress.status == "active",
+                )
+            )
+            progress = result.scalar_one_or_none()
+            if not progress or progress.current_reading_idx == idx:
+                return
+            progress.current_reading_idx = idx
+            await session.commit()
+
+    @staticmethod
+    async def get_last_completed(user_id: int) -> PlanProgress | None:
+        """Последний завершённый план пользователя (для экрана поздравления)."""
+        async with async_session() as session:
+            result = await session.execute(
+                select(PlanProgress)
+                .where(
+                    PlanProgress.user_id == user_id,
+                    PlanProgress.status == "completed",
+                )
+                .order_by(PlanProgress.completed_at.desc())
+                .limit(1)
+            )
+            return result.scalar_one_or_none()
+
+    @staticmethod
+    async def resume(user_id: int, progress_id: int) -> bool:
+        """Возобновить отложенный план. True — успешно.
+
+        Отказ, если план не принадлежит юзеру / не в статусе abandoned, либо
+        уже есть активный план (одновременно активен только один).
+        """
+        async with async_session() as session:
+            result = await session.execute(
+                select(PlanProgress).where(
+                    PlanProgress.id == progress_id,
+                    PlanProgress.user_id == user_id,
+                    PlanProgress.status == "abandoned",
+                )
+            )
+            progress = result.scalar_one_or_none()
+            if not progress:
+                return False
+
+            active_check = await session.execute(
+                select(PlanProgress).where(
+                    PlanProgress.user_id == user_id,
+                    PlanProgress.status == "active",
+                )
+            )
+            if active_check.scalar_one_or_none():
+                return False
+
+            progress.status = "active"
+            await session.commit()
+        logger.info(f"План возобновлён: user={user_id}, id={progress_id}")
+        return True
+
+    @classmethod
+    def estimate_finish_date(cls, progress: PlanProgress, tz: str) -> date:
+        """Прогноз даты завершения при темпе «один день в сутки».
+
+        Осталось дней = total - completed; финиш = сегодня (в зоне юзера) +
+        столько суток. Если план уже фактически пройден — вернёт сегодня.
+        """
+        data = cls.calculate_progress(progress)
+        remaining = max(data["total_days"] - data["completed_count"], 0)
+        return local_today(tz) + timedelta(days=remaining)
 
     @staticmethod
     async def get_history(user_id: int) -> list[PlanProgress]:

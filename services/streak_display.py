@@ -49,6 +49,14 @@ def get_prayer_daily_progress_message(streak: int, lang: str) -> str:
     return t("pray.streak.daily_progress", lang, streak=streak)
 
 
+def get_plan_milestone_message(percent: int, lang: str) -> str | None:
+    """Поздравление с прохождением вехи плана (25/50/75 %), или None."""
+    msg = t(f"plan.milestone_{percent}", lang)
+    if msg.startswith("[") and msg.endswith("]"):
+        return None
+    return msg
+
+
 def build_dismiss_keyboard(lang: str, *, dismiss_key: str) -> InlineKeyboardMarkup:
     """Клавиатура с одной кнопкой «Понятно 🙌», удаляющей сообщение.
 
