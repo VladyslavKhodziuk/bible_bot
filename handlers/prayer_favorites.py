@@ -55,7 +55,9 @@ async def _show_favorites_page(callback: CallbackQuery, page: int):
     items = []
     for fav in favorites:
         prayer = PrayerService.get_prayer_by_id(fav.prayer_id, lang, translation)
-        title = prayer["title"] if prayer else fav.prayer_id
+        # Молитва могла исчезнуть из пула (например, после обновления подборки) —
+        # показываем нейтральный заголовок-заглушку вместо сырого id.
+        title = prayer["title"] if prayer else t("pray.fav_unavailable", lang)
         items.append((fav.prayer_id, title))
 
     await callback.message.edit_text(

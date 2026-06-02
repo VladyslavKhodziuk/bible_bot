@@ -133,7 +133,7 @@ def _prayer_card_block(prayer: dict, lang: str, header: str) -> list[str]:
 
 def _build_card_text(prayer: dict, lang: str, bot_username: str) -> str:
     """Карточка «Молитва на сегодня» с заголовком раздела и share-ссылкой."""
-    parts = [t("pray.title", lang), ""]
+    parts = [t("pray.title", lang), "", t("pray.year_headline", lang), ""]
     parts.extend(_prayer_card_block(prayer, lang, _daily_header(lang)))
     share = _share_link_html(prayer, lang, bot_username)
     if share:
@@ -174,6 +174,8 @@ def _build_after_amen_text(
     if streak_line:
         parts.append(streak_line)
 
+    parts.append("")
+    parts.append(t("pray.year_headline", lang))
     parts.append("")
     parts.extend(_prayer_card_block(prayer, lang, _daily_header(lang)))
     share = _share_link_html(prayer, lang, bot_username)

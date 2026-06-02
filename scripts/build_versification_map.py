@@ -194,6 +194,20 @@ def collect_refs() -> list[tuple[str, int, int]]:
     for t in yaml.safe_load((d / "topics.yaml").read_text("utf-8")).values():
         for r in t.get("verses", []):
             ab, c, v = r.split(":"); refs.add((ab, int(c), int(v)))
+    # Prayer pools render their verse via BibleService.resolve_shared too, so their
+    # references need the same alignment coverage (esp. the Psalm refs).
+    def add_colon(ref: str) -> None:
+        ab, c, v = ref.split(":"); refs.add((ab, int(c), int(v)))
+    for p in yaml.safe_load((d / "prayers_of_day.yaml").read_text("utf-8")) or []:
+        if p.get("ref"):
+            add_colon(p["ref"])
+    for sec in (yaml.safe_load((d / "prayer_topics.yaml").read_text("utf-8")) or {}).get("sections", []):
+        for topic in sec.get("topics", []):
+            if (topic.get("prayer") or {}).get("ref"):
+                add_colon(topic["prayer"]["ref"])
+            for pr in topic.get("prayers") or []:
+                if pr.get("ref"):
+                    add_colon(pr["ref"])
     return sorted(refs)
 
 

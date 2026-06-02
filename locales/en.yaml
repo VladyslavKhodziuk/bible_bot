@@ -247,6 +247,7 @@ topics:
 pray:
   title: "<b>🙏 Pray</b>"
   card_title: "PRAYER FOR TODAY · {date}"
+  year_headline: "📿 <b>366 prayers for every day of the year</b>"
   verse_line: "📖 {book} {chapter}:{verse} · «{verse_text}»"
   amen_btn: "🙏 Amen"
   amen_title: "🕊️ <b>God hears your prayers!</b>"
@@ -312,6 +313,7 @@ pray:
   fav_removed: "💔 Removed from “My prayers”"
   fav_limit_reached: "Limit reached: 10 of 10. Remove a prayer to save a new one."
   fav_card_title: "SAVED PRAYER"
+  fav_unavailable: "Prayer unavailable"
   my_title: "<b>📌 My prayers</b>\n\nSaved: {count} of 10."
   my_empty: "<b>📌 My prayers</b>\n\nYou don't have any saved prayers yet.\n\nWhen a prayer touches you — tap <b>⭐ Add to favorites</b>, and it'll appear here.\n\nYou can save up to 10 prayers."
   my_delete: "🗑 Delete"

@@ -28,7 +28,7 @@ from services.streak_display import (
 from services.analytics_service import AnalyticsService
 from services.alert_service import AlertService
 from services.ai_pastor_service import AIPastorService
-from services.timezones import local_hhmm
+from services.timezones import local_hhmm, local_today
 from services.i18n import t
 from config import (
     REPORT_CHAT_ID, REPORT_TIME, ADMIN_IDS, MONTHLY_REPORT_DAY, CLEANUP_DAY,
@@ -199,7 +199,11 @@ async def _send_prayer_to_user(bot: Bot, user: User) -> None:
     from handlers.pray import _share_link_html
     from services.bot_meta import get_bot_username
 
-    prayer = PrayerService.get_prayer_of_day(user.lang, user.translation)
+    # Привязка к дню года считается по ЛОКАЛЬНОЙ дате пользователя, чтобы у границы
+    # суток разные часовые пояса получали молитву своего дня (не серверного).
+    prayer = PrayerService.get_prayer_of_day(
+        user.lang, user.translation, target_date=local_today(user.timezone)
+    )
     if not prayer:
         return
 

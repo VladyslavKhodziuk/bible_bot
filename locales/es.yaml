@@ -250,6 +250,7 @@ topics:
 pray:
   title: "<b>🙏 Orar</b>"
   card_title: "ORACIÓN PARA HOY · {date}"
+  year_headline: "📿 <b>366 oraciones para cada día del año</b>"
   verse_line: "📖 {book} {chapter}:{verse} · «{verse_text}»"
   amen_btn: "🙏 Amén"
   amen_title: "🕊️ <b>¡Dios escucha tus oraciones!</b>"
@@ -315,6 +316,7 @@ pray:
   fav_removed: "💔 Eliminada de «Mis oraciones»"
   fav_limit_reached: "Límite alcanzado: 10 de 10. Elimina una oración para guardar otra."
   fav_card_title: "ORACIÓN GUARDADA"
+  fav_unavailable: "Oración no disponible"
   my_title: "<b>📌 Mis oraciones</b>\n\nGuardadas: {count} de 10."
   my_empty: "<b>📌 Mis oraciones</b>\n\nAún no tienes oraciones guardadas.\n\nCuando una oración te toque — pulsa <b>⭐ A favoritos</b>, y aparecerá aquí.\n\nPuedes guardar hasta 10 oraciones."
   my_delete: "🗑 Eliminar"

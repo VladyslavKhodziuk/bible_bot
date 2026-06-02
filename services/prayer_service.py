@@ -37,8 +37,8 @@ class PrayerService:
             with open(PRAYERS_FILE, "r", encoding="utf-8") as f:
                 data = yaml.safe_load(f) or []
             cls._prayers = [p for p in data if isinstance(p, dict)]
-            # Фиксированное перемешивание — соседние дни не идут подряд по списку.
-            random.Random(20240303).shuffle(cls._prayers)
+            # Порядок в файле = порядок дней года (day_001..day_366). Молитва дня
+            # выбирается по номеру дня в году, поэтому НЕ перемешиваем (см. get_prayer_of_day).
             logger.info(f"Молитвы дня загружены: {len(cls._prayers)} молитв")
 
         cls._load_topics()
@@ -99,7 +99,12 @@ class PrayerService:
                 abbrev, chapter_s, verse_s = ref_str.split(":")
                 chapter = int(chapter_s)
                 verse = int(verse_s)
-                verse_text = BibleService.get_verse(abbrev, chapter, verse, translation)
+                # resolve_shared применяет карту версификации: канонический (масоретский)
+                # номер -> фактический в переводе пользователя (нужно для псалмов в
+                # Септуагинта-переводах вроде ru_synodal/ru_nrt/uk_turkoniak).
+                chapter, verse, verse_text = BibleService.resolve_shared(
+                    abbrev, chapter, verse, translation
+                )
                 if verse_text:
                     ref_data = {
                         "abbrev": abbrev,
@@ -125,13 +130,19 @@ class PrayerService:
         translation: str,
         target_date: date | None = None,
     ) -> dict | None:
-        """Возвращает молитву на сегодня для указанного языка (детерминирована по дате)."""
+        """Молитва на сегодня: привязана к номеру дня в году (day_001..day_366).
+
+        Индекс — день года (1..366). В невисокосный год tm_yday не превышает 365,
+        поэтому 366-я молитва показывается только в високосные годы.
+        """
         if not cls._prayers:
             return None
 
         d = target_date or date.today()
-        rnd = random.Random(d.toordinal())
-        prayer = rnd.choice(cls._prayers)
+        idx = d.timetuple().tm_yday  # 1..366
+        if idx > len(cls._prayers):
+            idx = len(cls._prayers)
+        prayer = cls._prayers[idx - 1]
         return cls._build_prayer_dict(prayer, lang, translation)
 
     @classmethod
