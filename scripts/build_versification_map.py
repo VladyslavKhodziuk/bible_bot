@@ -42,7 +42,7 @@ BIBLES = ROOT / "data" / "bibles"
 OUT = ROOT / "data" / "versification_map.json"
 
 TRANSLATIONS = {
-    "ru_synodal": "ru", "ru_nrt": "ru",
+    "ru_synodal": "ru", "ru_nrt": "ru", "ru_erv": "ru", "ru_bti": "ru", "ru_desp": "ru",
     "en_kjv": "en", "en_asv": "en", "en_web": "en",
     "es_rvr": "es", "es_rvr1865": "es", "es_torres": "es", "es_sagradas": "es",
     "uk_ogienko": "uk", "uk_kulish": "uk", "uk_turkoniak": "uk", "uk_khomenko": "uk",

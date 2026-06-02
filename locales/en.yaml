@@ -188,6 +188,9 @@ settings:
     en_kjv: "King James Version (KJV)"
     en_asv: "American Standard Version (ASV)"
     en_web: "World English Bible (WEB)"
+    ru_erv: "Современный перевод (ERV)"
+    ru_bti: "Перевод Кулакова"
+    ru_desp: "Десницкий (Новый Завет)"
 read:
   choose_testament: "<b>📖 Read the Bible</b>\n\n<i>Open the Word — it knows what you need today.</i>\n\nWhere shall we begin?"
   btn_search: "🔍 Search by word"

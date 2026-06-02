@@ -22,6 +22,12 @@ VERSIFICATION_MAP_MANUAL_FILE = DATA_DIR / "versification_map_manual.json"
 TRANSLATIONS = {
     "ru_synodal":   {"file": "ru_synodal.json",   "lang": "ru"},
     "ru_nrt":       {"file": "ru_nrt.json",        "lang": "ru"},
+    "ru_erv":       {"file": "ru_erv.json",        "lang": "ru"},
+    "ru_bti":       {"file": "ru_bti.json",        "lang": "ru"},
+    # Десницкий — только Новый Завет. Книги Ветхого Завета подмешиваются из
+    # fallback-перевода при загрузке (см. load), а «стих/мудрость дня» под этим
+    # переводом берутся целиком из fallback.
+    "ru_desp":      {"file": "ru_desp.json",       "lang": "ru", "fallback": "ru_synodal"},
     "en_kjv":       {"file": "en_kjv.json",       "lang": "en"},
     "en_asv":       {"file": "en_asv.json",       "lang": "en"},
     "en_web":       {"file": "en_web.json",       "lang": "en"},
@@ -92,12 +98,42 @@ class BibleService:
             }
             logger.info(f"  {code}: {len(cls._bibles[code])} книг")
 
+        cls._apply_fallbacks()
+
         cls._load_daily_pool()
         cls._load_wisdom_pool()
         cls._load_versification_map()
 
         cls._loaded = True
         logger.info("Библии загружены")
+
+    @classmethod
+    def _apply_fallbacks(cls) -> None:
+        """Подмешивает недостающие книги из fallback-перевода (по ссылке).
+
+        Перевод с ключом `fallback` (например, ru_desp — только НЗ) получает
+        отсутствующие у него книги из fallback-перевода (ru_synodal), чтобы при
+        чтении/навигации/поиске Ветхий Завет показывался из Синодального.
+        Выравнивание уже по abbrev, поэтому достаточно дополнить `_book_lookup`
+        и перестроить `_bibles[code]` в каноническом порядке. Текст не копируется
+        (книги делятся по ссылке). «Дневной» контент трактует fallback отдельно —
+        см. get_verse_of_day / get_wisdom_of_day.
+        """
+        for code, meta in TRANSLATIONS.items():
+            fb = meta.get("fallback")
+            if not fb or code not in cls._book_lookup or fb not in cls._book_lookup:
+                continue
+            own = cls._book_lookup[code]
+            donor = cls._book_lookup[fb]
+            for abbrev, book in donor.items():
+                own.setdefault(abbrev, book)  # свои книги имеют приоритет
+            # Перестраиваем список книг в каноническом порядке.
+            cls._bibles[code] = [
+                own[ab] for ab in cls._book_order if ab in own
+            ]
+            logger.info(
+                f"  {code}: подмешан fallback {fb} -> {len(cls._bibles[code])} книг"
+            )
 
     @classmethod
     def _load_daily_pool(cls) -> None:
@@ -341,6 +377,10 @@ class BibleService:
         if target_date is None:
             target_date = date.today()
 
+        # Под переводом с fallback (ru_desp — только НЗ) стих дня берётся целиком
+        # из fallback (Синодального), чтобы не зависеть от состава НЗ-перевода.
+        translation = TRANSLATIONS.get(translation, {}).get("fallback", translation)
+
         if not cls._bibles.get(translation):
             return None
 
@@ -375,6 +415,10 @@ class BibleService:
         """
         if target_date is None:
             target_date = date.today()
+
+        # Под переводом с fallback (ru_desp) мудрость дня берётся из fallback
+        # (Синодального) — книги премудрости (Притчи/Екклесиаст/Иов) ветхозаветные.
+        translation = TRANSLATIONS.get(translation, {}).get("fallback", translation)
 
         if not cls._bibles.get(translation):
             return None
@@ -562,6 +606,9 @@ class BibleService:
 TRANSLATION_ALPHABETS = {
     "ru_synodal":  "cyrillic",
     "ru_nrt":      "cyrillic",
+    "ru_erv":      "cyrillic",
+    "ru_bti":      "cyrillic",
+    "ru_desp":     "cyrillic",
     "uk_ogienko":  "cyrillic",
     "uk_kulish":   "cyrillic",
     "uk_turkoniak":"cyrillic",

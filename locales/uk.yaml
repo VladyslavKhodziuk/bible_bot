@@ -403,6 +403,9 @@ settings:
     uk_kulish: "Куліш"
     uk_turkoniak: "Турконяк"
     uk_khomenko: "Хоменко"
+    ru_erv: "Современный перевод (ERV)"
+    ru_bti: "Перевод Кулакова"
+    ru_desp: "Десницкий (Новый Завет)"
 
 notifications:
   title: "<b>🔔 Сповіщення</b>\n\n{status}\n\n📅 Вірш дня надходитиме щодня в обраний час."

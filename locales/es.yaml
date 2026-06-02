@@ -190,6 +190,9 @@ settings:
     es_rvr1865: "Reina-Valera (1865)"
     es_torres: "Biblia Torres Amat (1825)"
     es_sagradas: "Sagradas Escrituras 1569"
+    ru_erv: "Современный перевод (ERV)"
+    ru_bti: "Перевод Кулакова"
+    ru_desp: "Десницкий (Новый Завет)"
 
 read:
   choose_testament: "<b>📖 Leer la Biblia</b>\n\n<i>Abre la Palabra — ella sabe lo que necesitas hoy.</i>\n\n¿Por dónde empezamos?"
