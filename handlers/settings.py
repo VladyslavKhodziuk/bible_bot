@@ -5,6 +5,7 @@ from aiogram.types import CallbackQuery, Message
 from services.user_service import UserService
 from services.i18n import t
 from keyboards.language import language_keyboard
+from keyboards.reply import main_reply_keyboard
 from keyboards.settings import (
     settings_keyboard,
     language_settings_keyboard,
@@ -101,4 +102,10 @@ async def apply_new_language(callback: CallbackQuery):
     await callback.message.edit_text(
         _build_settings_text(user, new_lang),
         reply_markup=settings_keyboard(user, new_lang)
+    )
+    # Постоянную reply-клавиатуру нельзя обновить через edit_text — пересылаем её
+    # новым сообщением, чтобы нижние кнопки сменили язык вместе с интерфейсом.
+    await callback.message.answer(
+        t("reply.intro", new_lang),
+        reply_markup=main_reply_keyboard(new_lang),
     )

@@ -159,25 +159,27 @@ def _build_after_amen_text(
     counter_result: PrayerCounterResult,
     bot_username: str,
 ) -> str:
-    """Экран после «Аминь»: благодарность + счётчик + та же карточка + share.
+    """Экран после «Аминь»: карточка + share + счётчик с UX-подсказкой + тизер.
 
+    Заголовок-благодарность не показываем; счётчик «N дней в молитве» вынесен
+    под карточку и сопровождается курсивной подсказкой про ежедневный «Аминь».
     Онбординг и вехи идут отдельными сообщениями (см. _send_prayer_extras),
     чтобы не дублировать их в основной карточке.
     """
-    parts = [t("pray.amen_title", lang)]
-
-    counter_line = format_prayer_counter_indicator(counter_result.count, lang)
-    if counter_line:
-        parts.append(counter_line)
-
-    parts.append("")
-    parts.append(t("pray.year_headline", lang))
-    parts.append("")
+    parts = [t("pray.year_headline", lang), ""]
     parts.extend(_prayer_card_block(prayer, lang, _daily_header(lang)))
     share = _share_link_html(prayer, lang, bot_username)
     if share:
         parts.append("")
         parts.append(share)
+
+    # Счётчик и подсказка — под карточкой, перед тизером покаяния.
+    counter_line = format_prayer_counter_indicator(counter_result.count, lang)
+    if counter_line:
+        parts.append("")
+        parts.append(counter_line)
+        parts.append(t("pray.counter.activity_hint", lang))
+
     parts.append("")
     parts.append(t("pray.repentance.teaser", lang))
     return "\n".join(parts)

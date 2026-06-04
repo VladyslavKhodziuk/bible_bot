@@ -43,7 +43,7 @@ welcome_back: "🕊️ ¡Bienvenido de nuevo, {name}!"
 menu:
   greeting: "LA PAZ SEA CONTIGO 🕊️"
   subtitle: "¿Qué buscas hoy en la Palabra?"
-  verse_card_title: "Versículo del día · {date}"
+  verse_card_title: "La Palabra de Dios para hoy · {date}"
   share_verse: "📤 Compartir"
   share_header: "📖 Versículo del día"
   progress:
@@ -54,6 +54,7 @@ menu:
     prayer_zero: "🙏 En oración — 0 días"
     prayer_single: "🙏 En oración — 1 día"
     prayer_multi: "🙏 En oración — {days} días"
+    note: "<i>Registramos tu progreso no para competir, sino para recordarte tu camino con Dios.</i>"
   date_format: "{day} de {month}"
   months:
     - enero
@@ -234,6 +235,89 @@ help:
     💡 Sabiduría del día
     ⚙️ Ajustes: idioma, traducción, zona horaria y notificaciones
 
+reply:
+  main_menu: "🏠 Menú principal"
+  settings: "⚙️ Ajustes"
+  faq: "❓ Preguntas frecuentes"
+  support: "❤️ Apoyar el proyecto"
+  intro: "👇 Los botones de abajo siempre están a mano — abre el menú, lee las preguntas frecuentes o apoya el proyecto cuando quieras."
+
+faq:
+  title: |-
+    ❓ <b>Preguntas frecuentes</b>
+
+    Elige una pregunta — te cuento en qué puedo ayudarte:
+  back: "← A las preguntas"
+  q:
+    can_do: "¿Qué puede hacer este bot?"
+    help_me: "¿En qué puede ayudarme?"
+    what_here: "¿Qué puedo hacer aquí?"
+    progress: "¿Qué muestra «Mi progreso»?"
+    free: "¿Es gratis?"
+    start: "¿Por dónde empiezo?"
+  a:
+    can_do: |-
+      📖 <b>Soy tu compañero en la Palabra.</b>
+
+      Esto es lo que sé hacer:
+      • 📖 Leer la Biblia en 7 traducciones
+      • 🔍 Buscar versículos por palabras
+      • 💭 Elegir la Palabra según tu ánimo
+      • 📚 Llevar planes de lectura con recordatorios
+      • 🕊️ Compañero espiritual (IA) — te escucha y busca un versículo
+      • 🙏 Oraciones para cada día
+      • 🎲 Versículo del día y versículo al azar
+      • ⭐ Guardar tus pasajes favoritos
+      • 💡 Sabiduría del día
+
+      Todo dentro de Telegram y gratis.
+    help_me: |-
+      🤍 <b>Te ayudo a estar más cerca de Dios cada día.</b>
+
+      • Con ansiedad, tristeza o alegría — busco un versículo para tu ánimo (💭 Según el ánimo)
+      • Tienes una pregunta sobre la fe o la vida — te escucha el 🕊️ compañero espiritual (IA)
+      • Quieres leer con constancia — un plan de lectura con recordatorios te acompaña
+      • Necesitas palabras para orar — encontrarás oraciones listas para cada día
+
+      Estoy aquí cuando me necesites.
+    what_here: |-
+      ✨ <b>Aquí puedes:</b>
+
+      • Abrir cualquier libro y capítulo de la Biblia
+      • Encontrar un versículo por palabra o tema
+      • Recibir el versículo del día y compartirlo con los tuyos
+      • Empezar un plan de lectura y seguirlo día a día
+      • Hablar con el compañero espiritual
+      • Orar y marcar un día en oración
+      • Guardar tus versículos favoritos
+
+      Solo usa los botones del menú — todo a mano.
+    progress: |-
+      📊 <b>«Mi progreso» son dos contadores de tu camino con Dios.</b>
+
+      📖 <b>Con la Palabra</b> — cuántos días en total has pasado con la Palabra. Un día cuenta cuando lees un capítulo de la Biblia, abres el versículo del día, un versículo al azar o completas un día de un plan de lectura.
+
+      🙏 <b>En oración</b> — cuántos días en total has orado. Un día cuenta cuando pulsas «Amén» bajo la oración del día.
+
+      Ambos contadores <b>solo crecen</b>: si te saltas un día, una semana o más, nada se reinicia ni se pierde. Como máximo +1 por día, sin importar cuántas veces entres.
+
+      No es una carrera ni una competición con nadie — solo un recordatorio amable de tu camino con Dios 🌱
+    free: |-
+      💚 <b>Sí, totalmente gratis.</b>
+
+      Lectura, búsqueda, planes, oraciones, el compañero espiritual — todo disponible sin pago y sin anuncios.
+
+      El proyecto se mantiene con donaciones voluntarias. Si te ayuda, puedes apoyarlo con el botón «❤️ Apoyar el proyecto» — pero siempre es opcional.
+    start: |-
+      🌱 <b>Empezar es sencillo:</b>
+
+      1️⃣ Abre «🏠 Menú principal»
+      2️⃣ Pulsa «📖 Leer la Biblia» o recibe el 🎲 versículo del día
+      3️⃣ Activa un plan de lectura para leer con constancia
+      4️⃣ Pásate por el 🕊️ compañero espiritual si tienes una pregunta
+
+      Consejo: en ⚙️ Ajustes elige tu traducción, idioma y la hora del versículo del día.
+
 verse:
   of_day_title: "📅 <b>Versículo del día</b>"
   random_title: "🎲 <b>Versículo al azar</b>"
@@ -263,7 +347,7 @@ pray:
   btn_my: "📌 Mis oraciones"
   btn_remind: "🔔 Recordar"
   repentance:
-    teaser: "🕊️ <b>La oración de arrepentimiento</b> es el primer paso sincero hacia Dios, en el que la persona reconoce sus pecados y recibe a Jesucristo como Señor y Salvador. Si quieres comenzar una nueva vida con Dios, ve a la oración de arrepentimiento y vuélvete a Él ahora mismo."
+    teaser: "🕊️ ¿Es tu primera vez acercándote a Dios?\nEmpieza con una oración de arrepentimiento."
     button: "🙏 Oración de arrepentimiento"
     done_button: "🙏 Ya oré"
     card: |-
@@ -327,6 +411,7 @@ pray:
   counter:
     indicator: "🙏 {days} días en oración"
     indicator_single: "🙏 1 día en oración"
+    activity_hint: "<i>Vuelve cada día y pulsa «Amén» — así se registra tu actividad.</i>"
     onboarding: |
       🙏 <b>¡Tu primer día en oración está contado!</b>
 

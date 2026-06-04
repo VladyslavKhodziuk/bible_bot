@@ -48,7 +48,7 @@ _CALLBACK_CATEGORY = {
     "notif": "settings", "settings": "settings", "setlang": "settings",
     "changelang": "settings", "changetrans": "settings",
     "counter": "counter",
-    "cabinet": "menu", "open_menu": "menu", "menu": "menu",
+    "cabinet": "menu", "open_menu": "menu", "menu": "menu", "faq": "menu",
 }
 
 # Человекочитаемые подписи категорий для отчёта.
