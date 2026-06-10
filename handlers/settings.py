@@ -1,33 +1,17 @@
-import asyncio
-
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.user_service import UserService
 from services.i18n import t
 from keyboards.language import language_keyboard
-from keyboards.reply import main_reply_keyboard
 from keyboards.settings import (
     settings_keyboard,
     language_settings_keyboard,
 )
 
 router = Router()
-
-# Ссылки на фоновые задачи авто-удаления, чтобы их не собрал GC до завершения.
-_bg_tasks: set = set()
-
-
-async def _delete_after(msg, delay: float = 5.0) -> None:
-    """Удалить сообщение через delay секунд (молча игнорируя ошибки)."""
-    await asyncio.sleep(delay)
-    try:
-        await msg.delete()
-    except Exception:
-        pass  # уже удалено / слишком старое — не критично
-
-
 def _build_settings_text(user, lang: str) -> str:
     """Текст главного экрана настроек."""
     language_name = t(f"settings.language_names.{lang}", lang)
@@ -107,21 +91,20 @@ async def apply_new_language(callback: CallbackQuery):
     new_lang = callback.data.split(":")[1]
     await UserService.set_language(callback.from_user.id, new_lang)
 
-    user = await UserService.get(callback.from_user.id)
-    # Экран настроек обновляем на месте (inline-клавиатура).
-    await callback.message.edit_text(
-        _build_settings_text(user, new_lang),
-        reply_markup=settings_keyboard(user, new_lang)
-    )
-    # Постоянную (нижнюю) reply-клавиатуру через edit_text обновить нельзя —
-    # шлём короткое подтверждение новым сообщением, заодно меняя нижние кнопки
-    # на новый язык. Само сообщение через 5 секунд удаляем, чтобы не засорять чат
-    # (reply-клавиатура остаётся — удаление сообщения её не сбрасывает).
-    sent = await callback.message.answer(
+    # Удаляем предыдущий экран (выбор языка), чтобы внимание было только на
+    # новом сообщении о смене языка.
+    try:
+        await callback.message.delete()
+    except Exception:
+        pass  # уже удалено / слишком старое — не критично
+
+    # Подтверждение смены языка с inline-кнопкой «В меню».
+    # (Одно сообщение не может нести и inline-кнопку, и нижнюю reply-клавиатуру;
+    # подписи нижней клавиатуры сменят язык при следующем /start.)
+    builder = InlineKeyboardBuilder()
+    builder.button(text=t("common.back_to_menu", new_lang), callback_data="open_menu")
+    await callback.message.answer(
         t("language.changed", new_lang),
-        reply_markup=main_reply_keyboard(new_lang),
+        reply_markup=builder.as_markup(),
     )
-    task = asyncio.create_task(_delete_after(sent, 5.0))
-    _bg_tasks.add(task)
-    task.add_done_callback(_bg_tasks.discard)
     await callback.answer()
