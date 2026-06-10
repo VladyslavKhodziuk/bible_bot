@@ -715,7 +715,7 @@ donate:
   monobank_button: "🏦 Monobank"
   bizum_button: "📱 Bizum"
   bizum_copy: "📋 Copiar número"
-  revolut_button: "💳 Tarjetas Revolut"
+  revolut_button: "💳 Revolut"
   crypto_button: "🪙 Criptomoneda"
   paypal_button: "💳 PayPal"
   where_button: "📊 A dónde van los fondos"

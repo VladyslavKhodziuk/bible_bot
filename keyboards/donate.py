@@ -1,4 +1,4 @@
-from aiogram.types import InlineKeyboardMarkup, CopyTextButton
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CopyTextButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from config import (
@@ -17,65 +17,64 @@ def donate_main_keyboard(lang: str, in_spain: bool = False) -> InlineKeyboardMar
     builder = InlineKeyboardBuilder()
 
     # Основная кнопка — Telegram Stars
-    builder.button(
+    builder.row(InlineKeyboardButton(
         text=t("donate.stars_button", lang),
-        callback_data="donate:stars"
-    )
+        callback_data="donate:stars",
+    ))
 
     # Monobank — для украино/русскоязычной аудитории
     if lang in ("uk", "ru") and DONATE_MONOBANK_URL:
-        builder.button(
+        builder.row(InlineKeyboardButton(
             text=t("donate.monobank_button", lang),
-            callback_data="donate:monobank"
-        )
+            callback_data="donate:monobank",
+        ))
 
-    # Bizum — всем, кто в испанской таймзоне (Мадрид/Канары)
+    # Bizum (испанская таймзона) + Revolut — в одном ряду
+    pay_row = []
     if in_spain and DONATE_BIZUM_PHONE:
-        builder.button(
+        pay_row.append(InlineKeyboardButton(
             text=t("donate.bizum_button", lang),
-            callback_data="donate:bizum"
-        )
-
-    # Revolut — для всех (как "Карты Revolut")
+            callback_data="donate:bizum",
+        ))
     if DONATE_REVOLUT_URL:
-        builder.button(
+        pay_row.append(InlineKeyboardButton(
             text=t("donate.revolut_button", lang),
-            url=DONATE_REVOLUT_URL
-        )
+            url=DONATE_REVOLUT_URL,
+        ))
+    if pay_row:
+        builder.row(*pay_row)
 
     # PayPal — для всех (если URL задан)
     if DONATE_PAYPAL_URL:
-        builder.button(
+        builder.row(InlineKeyboardButton(
             text=t("donate.paypal_button", lang),
-            url=DONATE_PAYPAL_URL
-        )
+            url=DONATE_PAYPAL_URL,
+        ))
 
     # Крипто — для всех (если URL задан)
     if DONATE_CRYPTO_URL:
-        builder.button(
+        builder.row(InlineKeyboardButton(
             text=t("donate.crypto_button", lang),
-            url=DONATE_CRYPTO_URL
-        )
+            url=DONATE_CRYPTO_URL,
+        ))
 
     # Информационная кнопка
-    builder.button(
+    builder.row(InlineKeyboardButton(
         text=t("donate.where_button", lang),
-        callback_data="donate:where"
-    )
+        callback_data="donate:where",
+    ))
 
     # Проблема с оплатой — ведёт в поток репорта о проблеме
-    builder.button(
+    builder.row(InlineKeyboardButton(
         text=t("donate.problem_button", lang),
-        callback_data="fb:start:bug"
-    )
+        callback_data="fb:start:bug",
+    ))
 
-    builder.button(
+    builder.row(InlineKeyboardButton(
         text=t("common.back_to_menu", lang),
-        callback_data="open_menu"
-    )
+        callback_data="open_menu",
+    ))
 
-    # Раскладка: все кнопки по одной в ряд
-    builder.adjust(1)
     return builder.as_markup()
 
 
