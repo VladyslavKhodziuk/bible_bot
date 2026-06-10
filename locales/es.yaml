@@ -710,20 +710,12 @@ donate:
 
     ⚠️ Si tienes un problema con el pago — pulsa «Problema con el pago» y te ayudaremos.
 
-  # Pantalla de selección de región
-  region_title: |
-    ❤️ <b>Apoyar el proyecto</b>
-
-    Elige tu región para ver los métodos de pago disponibles:
-  region_ua: "🇺🇦 Ucrania"
-  region_other: "🌍 Otro país"
-
   # Botones de la pantalla principal
   stars_button: "⭐ Apoyar con Estrellas de Telegram"
   monobank_button: "🏦 Monobank"
   bizum_button: "📱 Bizum"
   bizum_copy: "📋 Copiar número"
-  revolut_button: "💳 Apoyar con cualquier tarjeta"
+  revolut_button: "💳 Tarjetas Revolut"
   crypto_button: "🪙 Criptomoneda"
   paypal_button: "💳 PayPal"
   where_button: "📊 A dónde van los fondos"

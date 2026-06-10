@@ -12,31 +12,8 @@ from config import (
 from services.i18n import t
 
 
-def donate_region_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Выбор региона перед показом способов оплаты (только uk/ru)."""
-    builder = InlineKeyboardBuilder()
-
-    builder.button(
-        text=t("donate.region_ua", lang),
-        callback_data="donate:region:ua"
-    )
-    builder.button(
-        text=t("donate.region_other", lang),
-        callback_data="donate:region:other"
-    )
-
-    # Навигация
-    builder.button(
-        text=t("common.back_to_menu", lang),
-        callback_data="open_menu"
-    )
-
-    builder.adjust(1)
-    return builder.as_markup()
-
-
-def donate_main_keyboard(lang: str, region: str = "other") -> InlineKeyboardMarkup:
-    """Главный экран доната: Stars + региональные ссылки + инфо."""
+def donate_main_keyboard(lang: str, in_spain: bool = False) -> InlineKeyboardMarkup:
+    """Главный экран доната: Stars + способы оплаты по языку/таймзоне + инфо."""
     builder = InlineKeyboardBuilder()
 
     # Основная кнопка — Telegram Stars
@@ -45,29 +22,29 @@ def donate_main_keyboard(lang: str, region: str = "other") -> InlineKeyboardMark
         callback_data="donate:stars"
     )
 
-    # Monobank — только для региона "ua"
-    if region == "ua" and DONATE_MONOBANK_URL:
+    # Monobank — для украино/русскоязычной аудитории
+    if lang in ("uk", "ru") and DONATE_MONOBANK_URL:
         builder.button(
             text=t("donate.monobank_button", lang),
             callback_data="donate:monobank"
         )
 
-    # Bizum — только для региона "spain" (испанские юзеры / Испания)
-    if region == "spain" and DONATE_BIZUM_PHONE:
+    # Bizum — всем, кто в испанской таймзоне (Мадрид/Канары)
+    if in_spain and DONATE_BIZUM_PHONE:
         builder.button(
             text=t("donate.bizum_button", lang),
             callback_data="donate:bizum"
         )
 
-    # Revolut — для всех (как "Поддержка любой картой")
+    # Revolut — для всех (как "Карты Revolut")
     if DONATE_REVOLUT_URL:
         builder.button(
             text=t("donate.revolut_button", lang),
             url=DONATE_REVOLUT_URL
         )
 
-    # PayPal — для регионов "other" и "spain"
-    if region in ("other", "spain") and DONATE_PAYPAL_URL:
+    # PayPal — для всех (если URL задан)
+    if DONATE_PAYPAL_URL:
         builder.button(
             text=t("donate.paypal_button", lang),
             url=DONATE_PAYPAL_URL
@@ -112,7 +89,7 @@ def donate_monobank_keyboard(lang: str) -> InlineKeyboardMarkup:
     )
     builder.button(
         text=t("donate.back", lang),
-        callback_data="donate:region:ua"
+        callback_data="donate:back_to_main"
     )
 
     builder.adjust(1)

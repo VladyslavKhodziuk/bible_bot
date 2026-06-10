@@ -710,20 +710,12 @@ donate:
 
     ⚠️ Якщо виникне проблема з оплатою — натисніть «Проблема з оплатою», і ми допоможемо.
 
-  # Екран вибору регіону
-  region_title: |
-    ❤️ <b>Підтримати проєкт</b>
-
-    Оберіть ваш регіон, щоб побачити зручні способи оплати:
-  region_ua: "🇺🇦 Україна"
-  region_other: "🌍 Інша країна"
-
   # Кнопки головного екрана
   stars_button: "⭐ Підтримати зірками Telegram"
   monobank_button: "🏦 Monobank (Банка)"
   bizum_button: "📱 Bizum"
   bizum_copy: "📋 Скопіювати номер"
-  revolut_button: "💳 Підтримка будь-якою карткою"
+  revolut_button: "💳 Карти Revolut"
   crypto_button: "🪙 Криптовалютою"
   paypal_button: "💳 PayPal"
   where_button: "📊 Куди йдуть кошти"

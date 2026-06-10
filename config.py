@@ -43,9 +43,9 @@ FEEDBACK_CHAT_IDS = {
 
 # ── Донаты ──────────────────────────────────────────────
 # Внешние ссылки: кнопка показывается только если URL задан
-DONATE_MONOBANK_URL = os.getenv("DONATE_MONOBANK_URL", "https://send.monobank.ua/jar/8ELwuMGBLh")
-DONATE_MONOBANK_CARD = os.getenv("DONATE_MONOBANK_CARD", "4874 1000 3813 2323")
-DONATE_REVOLUT_URL = os.getenv("DONATE_REVOLUT_URL", "https://revolut.me/vladysqu8c")
+DONATE_MONOBANK_URL = os.getenv("DONATE_MONOBANK_URL", "")
+DONATE_MONOBANK_CARD = os.getenv("DONATE_MONOBANK_CARD", "")
+DONATE_REVOLUT_URL = os.getenv("DONATE_REVOLUT_URL", "")
 DONATE_PAYPAL_URL = os.getenv("DONATE_PAYPAL_URL", "")
 DONATE_CRYPTO_URL = os.getenv("DONATE_CRYPTO_URL", "")
 # Bizum (Испания) — номер телефона получателя. Кнопка показывается только

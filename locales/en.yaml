@@ -707,20 +707,12 @@ donate:
 
     ⚠️ If you have a problem with payment — tap "Payment problem" and we'll help.
 
-  # Region selection screen
-  region_title: |
-    ❤️ <b>Support the project</b>
-
-    Choose your region to see convenient payment methods:
-  region_ua: "🇺🇦 Ukraine"
-  region_other: "🌍 Other country"
-
   # Main screen buttons
   stars_button: "⭐ Support with Telegram Stars"
   monobank_button: "🏦 Monobank"
   bizum_button: "📱 Bizum"
   bizum_copy: "📋 Copy number"
-  revolut_button: "💳 Support with any card"
+  revolut_button: "💳 Revolut cards"
   crypto_button: "🪙 Cryptocurrency"
   paypal_button: "💳 PayPal"
   where_button: "📊 Where funds go"

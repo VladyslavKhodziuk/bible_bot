@@ -11,7 +11,6 @@ from services.user_service import UserService
 from services.donate_service import DonateService
 from services.i18n import t
 from keyboards.donate import (
-    donate_region_keyboard,
     donate_main_keyboard,
     donate_monobank_keyboard,
     donate_bizum_keyboard,
@@ -33,60 +32,21 @@ class DonateState(StatesGroup):
     waiting_for_amount = State()
 
 
-def resolve_donate_region(user, lang: str) -> str | None:
-    """Регион для прямого показа способов оплаты, либо None — нужен экран выбора
-    региона (uk/ru). Испанцев (по UI-языку или таймзоне) ведём в 'spain'."""
-    if lang in ("uk", "ru"):
-        return None
-    if lang == "es" or (user and user.timezone in SPAIN_ZONES):
-        return "spain"
-    return "other"
-
-
-# ============ Главный экран — выбор региона (uk/ru) или сразу способы (en/es) ============
+# ============ Главный экран — сразу способы оплаты ============
 
 @router.callback_query(F.data == "donate")
 async def show_donate(callback: CallbackQuery, state: FSMContext):
-    """Показать экран доната: для uk/ru — выбор региона, для остальных — сразу способы."""
+    """Показать экран доната со способами оплаты (без промежуточного выбора региона)."""
     # Сбрасываем FSM если юзер вернулся назад из ввода суммы
     await state.clear()
 
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
-
-    region = resolve_donate_region(user, lang)
-    if region is None:
-        # uk/ru — показываем выбор региона
-        await callback.message.edit_text(
-            t("donate.region_title", lang),
-            reply_markup=donate_region_keyboard(lang)
-        )
-    else:
-        # es/Испания → "spain" (с Bizum), остальные → "other". Без экрана выбора.
-        await state.update_data(donate_region=region)
-        await callback.message.edit_text(
-            t("donate.title", lang),
-            reply_markup=donate_main_keyboard(lang, region=region)
-        )
-    await callback.answer()
-
-
-# ============ Выбор региона → показ способов оплаты ============
-
-@router.callback_query(F.data.startswith("donate:region:"))
-async def show_donate_region(callback: CallbackQuery, state: FSMContext):
-    """Показать способы оплаты для выбранного региона."""
-    region = callback.data.split(":")[2]  # "ua" или "other"
-
-    user = await UserService.get(callback.from_user.id)
-    lang = user.lang if user else "ru"
-
-    # Сохраняем регион в FSM для навигации "назад"
-    await state.update_data(donate_region=region)
+    in_spain = bool(user and user.timezone in SPAIN_ZONES)
 
     await callback.message.edit_text(
         t("donate.title", lang),
-        reply_markup=donate_main_keyboard(lang, region=region)
+        reply_markup=donate_main_keyboard(lang, in_spain=in_spain)
     )
     await callback.answer()
 
@@ -127,19 +87,16 @@ async def show_bizum(callback: CallbackQuery):
 
 @router.callback_query(F.data == "donate:back_to_main")
 async def back_to_donate_main(callback: CallbackQuery, state: FSMContext):
-    """Вернуться к главному экрану доната с учётом выбранного региона."""
+    """Вернуться к главному экрану доната (способы зависят от языка/таймзоны)."""
     await state.set_state(None)  # Сбрасываем FSM состояние, но сохраняем data
 
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
-
-    # Получаем регион из FSM data
-    data = await state.get_data()
-    region = data.get("donate_region", "other")
+    in_spain = bool(user and user.timezone in SPAIN_ZONES)
 
     await callback.message.edit_text(
         t("donate.title", lang),
-        reply_markup=donate_main_keyboard(lang, region=region)
+        reply_markup=donate_main_keyboard(lang, in_spain=in_spain)
     )
     await callback.answer()
 
