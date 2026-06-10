@@ -20,6 +20,7 @@ from keyboards.reply import faq_menu_keyboard, faq_answer_keyboard
 from keyboards.donate import donate_region_keyboard, donate_main_keyboard
 from keyboards.settings import settings_keyboard
 from keyboards.language import language_keyboard
+from handlers.donate import resolve_donate_region
 from handlers.freetext import reset_strikes
 from handlers.settings import _build_settings_text
 
@@ -76,16 +77,17 @@ async def reply_support(message: Message, state: FSMContext):
     user = await UserService.get(message.from_user.id)
     lang = user.lang if user else "ru"
 
-    if lang in ("uk", "ru"):
+    region = resolve_donate_region(user, lang)
+    if region is None:
         await message.answer(
             t("donate.region_title", lang),
             reply_markup=donate_region_keyboard(lang),
         )
     else:
-        await state.update_data(donate_region="other")
+        await state.update_data(donate_region=region)
         await message.answer(
             t("donate.title", lang),
-            reply_markup=donate_main_keyboard(lang, region="other"),
+            reply_markup=donate_main_keyboard(lang, region=region),
         )
 
 

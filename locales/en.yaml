@@ -13,22 +13,21 @@ welcome:
   text: |
     Peace to you, {name}! 🕊️
 
-    I'm <b>Bible Way</b>, your companion in reading the Holy Scripture.
+    I'm <b>Bible Way</b>. I'll help you grow closer to God and His Word every day.
 
     {verse_line}
 
     Here's what I can do:
 
-    🙋 Listen and support you with the Word — your spiritual companion
+    🕊️ Listen and support you with the Word — your spiritual companion
     📖 Read the Bible in different translations
-    🙏 Send you a prayer for every day — with an «Amen» button
-    🔔 Remind you to pray at your chosen time
+    🙏 A prayer for every day — with an «Amen» button
     🔍 Search verses by words and topics
     💭 Find the Word for any life situation
-    🎲 Show you a random verse and the wisdom of the day
+    🎲 Random verse and daily Wisdom
     ⭐ Save your favorite passages
-    📚 Guide you through a reading plan
-    📖 Count your days in the Word and in prayer
+    📚 Guide you through a reading plan with reminders
+    🔥 Count your days in the Word and in prayer
 
     <i>"Your word is a lamp for my feet, a light on my path" (Psalm 119:105)</i>
 
@@ -77,7 +76,7 @@ menu:
   plan: "📚 Reading plan"
   ai_pastor: "🕊️ Spiritual companion"
   pray: "🙏 Pray"
-  wisdom: "💡 Wisdom of the day"
+  wisdom: "💡 Wisdom"
   cabinet: "👤 My account"
 
 search:
@@ -219,18 +218,19 @@ help:
     /settings — settings
     /help — this screen
 
-    <b>What the bot can do:</b>
-    📖 Read the Bible in different translations
-    🔍 Search verses by words
-    💭 Find the Word for how you feel
-    🎲 Random verse and verse of the day
-    📚 Reading plans with reminders
-    📖 Day counter with the Word
-    ⭐ Bookmark favorite passages
+    <b>What I can do:</b>
     🕊️ Spiritual companion (AI) — listens and finds a verse
-    🙏 Prayers
-    💡 Wisdom of the day
+    📖 Read the Bible in different translations
+    🙏 A prayer for every day with reminders
+    🔍 Search verses by words and topics
+    💭 Find the Word for how you feel
+    🎲 Random verse, verse of the day and Wisdom
+    📚 Reading plans with reminders
+    🔥 Day counters for the Word and prayer
+    ⭐ Bookmark favorite passages
     ⚙️ Settings: language, translation, timezone and notifications
+
+    Need help or have an idea? Open «❓ FAQ» or write to us via «👤 My account».
 
 reply:
   main_menu: "🏠 Main menu"
@@ -265,7 +265,7 @@ faq:
       • 🙏 Prayers for every day
       • 🎲 Verse of the day and a random verse
       • ⭐ Bookmark favorite passages
-      • 💡 Wisdom of the day
+      • 💡 Wisdom
 
       All right inside Telegram, and free.
     help_me: |-
@@ -317,6 +317,7 @@ faq:
 
 verse:
   of_day_title: "📅 <b>Verse of the day</b>"
+  daily_push_intro: "📖 God's Word for today:"
   random_title: "🎲 <b>Random verse</b>"
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Another one"
@@ -409,6 +410,7 @@ pray:
     indicator: "🙏 {days} days in prayer"
     indicator_single: "🙏 1 day in prayer"
     activity_hint: "<i>Come back each day and tap “Amen” — that's how your activity is marked.</i>"
+    activity_cta: "<i>👇 Pray, then tap «Amen» — that's how your activity is marked.</i>"
     onboarding: |
       🙏 <b>Your first day in prayer is counted!</b>
 
@@ -437,7 +439,7 @@ pray:
     btn_enable: "🔔 Enable"
     btn_disable: "🔕 Disable"
     btn_time: "🕐 Time: {time}"
-    push_greeting: "🙏 <b>Prayer for today</b>"
+    push_greeting: "🙏 <b>Prayer for today</b>\nTake a quiet minute before God."
     push_open: "📖 Open in the bot"
   months:
     short:
@@ -455,7 +457,7 @@ pray:
       - "Dec"
 
 wisdom:
-  title: "💡 <b>Wisdom of the Day</b>"
+  title: "💡 <b>Wisdom</b>"
   theme_line: "<i>Theme: {theme}</i>"
   theme:
     speech: "The power of words"
@@ -716,6 +718,7 @@ donate:
   # Main screen buttons
   stars_button: "⭐ Support with Telegram Stars"
   monobank_button: "🏦 Monobank"
+  bizum_button: "📱 Bizum"
   revolut_button: "💳 Support with any card"
   crypto_button: "🪙 Cryptocurrency"
   paypal_button: "💳 PayPal"
@@ -731,6 +734,15 @@ donate:
 
     🎯 Goal: 10,000 ₴
   monobank_open: "🔗 Open jar"
+
+  # Bizum screen
+  bizum_info: |
+    📱 <b>Bizum — support the project</b>
+
+    Send your donation via Bizum to the number:
+    <b>{phone}</b>
+
+    🙏 The funds go to hosting and technical support of the free "Bible Way" bot. Thank you for your generosity!
 
   # Stars amount selection screen
   choose_amount: "⭐ <b>Choose support amount:</b>"

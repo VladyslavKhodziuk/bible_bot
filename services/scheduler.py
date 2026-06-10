@@ -103,6 +103,7 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
     if counter_line:
         parts.append(counter_line)
     parts.append("")
+    parts.append(t("verse.daily_push_intro", user.lang))
     parts.append(reference)
     parts.append("")
     parts.append(f"<i>{verse['text']}</i>")
@@ -191,6 +192,8 @@ async def _send_prayer_to_user(bot: Bot, user: User) -> None:
             verse=ref["verse"],
             verse_text=ref["text"],
         ))
+    parts.append("")
+    parts.append(t("pray.counter.activity_cta", user.lang))
     share = _share_link_html(prayer, user.lang, bot_username)
     if share:
         parts.append("")

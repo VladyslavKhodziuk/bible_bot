@@ -65,7 +65,7 @@ def _format_verse(verse: dict, lang: str) -> str:
         chapter=verse["chapter"],
         verse=verse["verse"],
     )
-    return f"{reference}\n\n<i>{verse['text']}</i>"
+    return f"<blockquote><i>{verse['text']}</i></blockquote>\n📖 {reference}"
 
 
 def _build_verse_keyboard(

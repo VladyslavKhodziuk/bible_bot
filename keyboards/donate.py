@@ -6,6 +6,7 @@ from config import (
     DONATE_REVOLUT_URL,
     DONATE_PAYPAL_URL,
     DONATE_CRYPTO_URL,
+    DONATE_BIZUM_PHONE,
     DONATE_STAR_PRESETS,
 )
 from services.i18n import t
@@ -51,6 +52,13 @@ def donate_main_keyboard(lang: str, region: str = "other") -> InlineKeyboardMark
             callback_data="donate:monobank"
         )
 
+    # Bizum — только для региона "spain" (испанские юзеры / Испания)
+    if region == "spain" and DONATE_BIZUM_PHONE:
+        builder.button(
+            text=t("donate.bizum_button", lang),
+            callback_data="donate:bizum"
+        )
+
     # Revolut — для всех (как "Поддержка любой картой")
     if DONATE_REVOLUT_URL:
         builder.button(
@@ -58,8 +66,8 @@ def donate_main_keyboard(lang: str, region: str = "other") -> InlineKeyboardMark
             url=DONATE_REVOLUT_URL
         )
 
-    # PayPal — только для региона "other"
-    if region == "other" and DONATE_PAYPAL_URL:
+    # PayPal — для регионов "other" и "spain"
+    if region in ("other", "spain") and DONATE_PAYPAL_URL:
         builder.button(
             text=t("donate.paypal_button", lang),
             url=DONATE_PAYPAL_URL
@@ -108,6 +116,16 @@ def donate_monobank_keyboard(lang: str) -> InlineKeyboardMarkup:
     )
 
     builder.adjust(1)
+    return builder.as_markup()
+
+
+def donate_bizum_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Кнопка 'Назад' под экраном с реквизитами Bizum."""
+    builder = InlineKeyboardBuilder()
+    builder.button(
+        text=t("donate.back", lang),
+        callback_data="donate:back_to_main"
+    )
     return builder.as_markup()
 
 

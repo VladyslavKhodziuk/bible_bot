@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import CallbackQuery, Message, PreCheckoutQuery, LabeledPrice
 
-from config import ADMIN_IDS, DONATE_STARS_MIN, DONATE_STARS_MAX
+from config import ADMIN_IDS, DONATE_STARS_MIN, DONATE_STARS_MAX, DONATE_BIZUM_PHONE
 from services.user_service import UserService
 from services.donate_service import DonateService
 from services.i18n import t
@@ -14,10 +14,14 @@ from keyboards.donate import (
     donate_region_keyboard,
     donate_main_keyboard,
     donate_monobank_keyboard,
+    donate_bizum_keyboard,
     donate_stars_keyboard,
     donate_where_keyboard,
     donate_cancel_keyboard,
 )
+
+# Испанские таймзоны — для показа Bizum «всем, кто в Испании», а не только es-UI.
+SPAIN_ZONES = ("Europe/Madrid", "Atlantic/Canary")
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -27,6 +31,16 @@ router = Router()
 
 class DonateState(StatesGroup):
     waiting_for_amount = State()
+
+
+def resolve_donate_region(user, lang: str) -> str | None:
+    """Регион для прямого показа способов оплаты, либо None — нужен экран выбора
+    региона (uk/ru). Испанцев (по UI-языку или таймзоне) ведём в 'spain'."""
+    if lang in ("uk", "ru"):
+        return None
+    if lang == "es" or (user and user.timezone in SPAIN_ZONES):
+        return "spain"
+    return "other"
 
 
 # ============ Главный экран — выбор региона (uk/ru) или сразу способы (en/es) ============
@@ -40,18 +54,19 @@ async def show_donate(callback: CallbackQuery, state: FSMContext):
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
 
-    if lang in ("uk", "ru"):
-        # Показываем выбор региона
+    region = resolve_donate_region(user, lang)
+    if region is None:
+        # uk/ru — показываем выбор региона
         await callback.message.edit_text(
             t("donate.region_title", lang),
             reply_markup=donate_region_keyboard(lang)
         )
     else:
-        # Для en/es — сразу показываем способы для "other" региона
-        await state.update_data(donate_region="other")
+        # es/Испания → "spain" (с Bizum), остальные → "other". Без экрана выбора.
+        await state.update_data(donate_region=region)
         await callback.message.edit_text(
             t("donate.title", lang),
-            reply_markup=donate_main_keyboard(lang, region="other")
+            reply_markup=donate_main_keyboard(lang, region=region)
         )
     await callback.answer()
 
@@ -87,6 +102,22 @@ async def show_monobank(callback: CallbackQuery):
     await callback.message.edit_text(
         t("donate.monobank_info", lang),
         reply_markup=donate_monobank_keyboard(lang),
+        parse_mode="HTML"
+    )
+    await callback.answer()
+
+
+# ============ Экран Bizum — реквизиты ============
+
+@router.callback_query(F.data == "donate:bizum")
+async def show_bizum(callback: CallbackQuery):
+    """Показать реквизиты Bizum (номер телефона)."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "es"
+
+    await callback.message.edit_text(
+        t("donate.bizum_info", lang, phone=DONATE_BIZUM_PHONE),
+        reply_markup=donate_bizum_keyboard(lang),
         parse_mode="HTML"
     )
     await callback.answer()

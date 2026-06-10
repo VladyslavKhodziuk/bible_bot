@@ -609,6 +609,18 @@ async def show_history(callback: CallbackQuery):
 
     history = await PlanService.get_history(callback.from_user.id)
 
+    # Один план может иметь несколько записей (старт → отказ → рестарт и т.п.),
+    # поэтому раньше он дублировался на экране. Схлопываем по plan_id, оставляя
+    # одну запись с приоритетом статуса: активный > завершённый > отложенный.
+    # Внутри статуса берём самую свежую — get_history отсортирован по started_at ↓.
+    _status_priority = {"active": 0, "completed": 1, "abandoned": 2}
+    _best_by_plan: dict = {}
+    for p in history:
+        cur = _best_by_plan.get(p.plan_id)
+        if cur is None or _status_priority.get(p.status, 9) < _status_priority.get(cur.status, 9):
+            _best_by_plan[p.plan_id] = p
+    history = list(_best_by_plan.values())
+
     # Если пусто
     if not history:
         text = (

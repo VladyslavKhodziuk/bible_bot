@@ -1,3 +1,5 @@
+import asyncio
+
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message
@@ -12,6 +14,18 @@ from keyboards.settings import (
 )
 
 router = Router()
+
+# Ссылки на фоновые задачи авто-удаления, чтобы их не собрал GC до завершения.
+_bg_tasks: set = set()
+
+
+async def _delete_after(msg, delay: float = 5.0) -> None:
+    """Удалить сообщение через delay секунд (молча игнорируя ошибки)."""
+    await asyncio.sleep(delay)
+    try:
+        await msg.delete()
+    except Exception:
+        pass  # уже удалено / слишком старое — не критично
 
 
 def _build_settings_text(user, lang: str) -> str:
@@ -93,19 +107,21 @@ async def apply_new_language(callback: CallbackQuery):
     new_lang = callback.data.split(":")[1]
     await UserService.set_language(callback.from_user.id, new_lang)
 
-    await callback.answer(
-        t("language.changed", new_lang),
-        show_alert=True
-    )
-
     user = await UserService.get(callback.from_user.id)
+    # Экран настроек обновляем на месте (inline-клавиатура).
     await callback.message.edit_text(
         _build_settings_text(user, new_lang),
         reply_markup=settings_keyboard(user, new_lang)
     )
-    # Постоянную reply-клавиатуру нельзя обновить через edit_text — пересылаем её
-    # новым сообщением, чтобы нижние кнопки сменили язык вместе с интерфейсом.
-    await callback.message.answer(
-        t("reply.intro", new_lang),
+    # Постоянную (нижнюю) reply-клавиатуру через edit_text обновить нельзя —
+    # шлём короткое подтверждение новым сообщением, заодно меняя нижние кнопки
+    # на новый язык. Само сообщение через 5 секунд удаляем, чтобы не засорять чат
+    # (reply-клавиатура остаётся — удаление сообщения её не сбрасывает).
+    sent = await callback.message.answer(
+        t("language.changed", new_lang),
         reply_markup=main_reply_keyboard(new_lang),
     )
+    task = asyncio.create_task(_delete_after(sent, 5.0))
+    _bg_tasks.add(task)
+    task.add_done_callback(_bg_tasks.discard)
+    await callback.answer()

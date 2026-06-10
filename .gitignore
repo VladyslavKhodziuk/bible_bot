@@ -12,3 +12,6 @@ venv/
 data/*.log
 scripts/_cache/
 
+# Ad-hoc backups (e.g. from scripts/clean_bible_brackets.py)
+data/bibles/*.bak
+

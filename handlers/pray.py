@@ -131,6 +131,8 @@ def _build_card_text(prayer: dict, lang: str, bot_username: str) -> str:
     """Карточка «Молитва на сегодня» с заголовком раздела и share-ссылкой."""
     parts = [t("pray.title", lang), "", t("pray.year_headline", lang), ""]
     parts.extend(_prayer_card_block(prayer, lang, _daily_header(lang)))
+    parts.append("")
+    parts.append(t("pray.counter.activity_cta", lang))
     share = _share_link_html(prayer, lang, bot_username)
     if share:
         parts.append("")

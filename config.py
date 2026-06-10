@@ -48,6 +48,9 @@ DONATE_MONOBANK_CARD = os.getenv("DONATE_MONOBANK_CARD", "4874 1000 3813 2323")
 DONATE_REVOLUT_URL = os.getenv("DONATE_REVOLUT_URL", "https://revolut.me/vladysqu8c")
 DONATE_PAYPAL_URL = os.getenv("DONATE_PAYPAL_URL", "")
 DONATE_CRYPTO_URL = os.getenv("DONATE_CRYPTO_URL", "")
+# Bizum (Испания) — номер телефона получателя. Кнопка показывается только
+# испанским юзерам / тем, кто в испанской таймзоне, и только если номер задан.
+DONATE_BIZUM_PHONE = os.getenv("DONATE_BIZUM_PHONE", "")
 
 # Пресеты для Telegram Stars (сумма → примерный USD)
 DONATE_STAR_PRESETS = [

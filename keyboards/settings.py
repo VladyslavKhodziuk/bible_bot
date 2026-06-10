@@ -54,7 +54,7 @@ def language_settings_keyboard(lang: str) -> InlineKeyboardMarkup:
     builder.button(text="🇪🇸 Español", callback_data="changelang:es")
     builder.button(text="🇺🇸 English", callback_data="changelang:en")
     builder.button(text="🇺🇦 Українська", callback_data="changelang:uk")
-    builder.button(text="🇷🇺 Русский", callback_data="changelang:ru")
+    builder.button(text="🌍 Русский", callback_data="changelang:ru")
     builder.button(
         text=t("common.back", lang),
         callback_data="settings:open"

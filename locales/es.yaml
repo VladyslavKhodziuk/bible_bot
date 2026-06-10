@@ -13,22 +13,21 @@ welcome:
   text: |
     ¡La paz sea contigo, {name}! 🕊️
 
-    Soy <b>Bible Way</b>, tu compañero en la lectura de las Sagradas Escrituras.
+    Soy <b>Bible Way</b>. Te ayudaré a acercarte a Dios y a su Palabra cada día.
 
     {verse_line}
 
     Esto es lo que puedo hacer:
 
-    🙋 Escucharte y apoyarte con la Palabra — tu compañero espiritual
+    🕊️ Escucharte y apoyarte con la Palabra — tu compañero espiritual
     📖 Leer la Biblia en diferentes traducciones
-    🙏 Enviarte una oración para cada día — con el botón «Amén»
-    🔔 Recordarte la oración a tu hora elegida
+    🙏 Una oración para cada día — con el botón «Amén»
     🔍 Buscar versículos por palabras y temas
     💭 Encontrar la Palabra para cualquier situación de la vida
-    🎲 Mostrarte un versículo al azar y la sabiduría del día
+    🎲 Versículo al azar y Sabiduría diaria
     ⭐ Guardar tus pasajes favoritos
-    📚 Guiarte por un plan de lectura
-    📖 Contar tus días con la Palabra y en la oración
+    📚 Guiarte por un plan de lectura con recordatorios
+    🔥 Contar tus días con la Palabra y en la oración
 
     <i>«Lámpara es a mis pies tu palabra, y lumbrera a mi camino» (Salmo 119:105)</i>
 
@@ -77,7 +76,7 @@ menu:
   plan: "📚 Plan de lectura"
   ai_pastor: "🕊️ Compañero espiritual"
   pray: "🙏 Orar"
-  wisdom: "💡 Sabiduría del día"
+  wisdom: "💡 Sabiduría"
   cabinet: "👤 Mi cuenta"
 
 search:
@@ -222,18 +221,19 @@ help:
     /settings — ajustes
     /help — esta pantalla
 
-    <b>Qué puede hacer el bot:</b>
-    📖 Leer la Biblia en distintas traducciones
-    🔍 Buscar versículos por palabras
-    💭 Encontrar la Palabra según cómo te sientes
-    🎲 Versículo al azar y versículo del día
-    📚 Planes de lectura con recordatorios
-    📖 Contador de días con la Palabra
-    ⭐ Guardar pasajes favoritos
+    <b>Qué puedo hacer:</b>
     🕊️ Compañero espiritual (IA) — escucha y busca un versículo
-    🙏 Oraciones
-    💡 Sabiduría del día
+    📖 Leer la Biblia en distintas traducciones
+    🙏 Una oración para cada día con recordatorios
+    🔍 Buscar versículos por palabras y temas
+    💭 Encontrar la Palabra según cómo te sientes
+    🎲 Versículo al azar, versículo del día y Sabiduría
+    📚 Planes de lectura con recordatorios
+    🔥 Contadores de días con la Palabra y en la oración
+    ⭐ Guardar pasajes favoritos
     ⚙️ Ajustes: idioma, traducción, zona horaria y notificaciones
+
+    ¿Necesitas ayuda o tienes una idea? Abre «❓ Preguntas frecuentes» o escríbenos desde «👤 Mi cuenta».
 
 reply:
   main_menu: "🏠 Menú principal"
@@ -268,7 +268,7 @@ faq:
       • 🙏 Oraciones para cada día
       • 🎲 Versículo del día y versículo al azar
       • ⭐ Guardar tus pasajes favoritos
-      • 💡 Sabiduría del día
+      • 💡 Sabiduría
 
       Todo dentro de Telegram y gratis.
     help_me: |-
@@ -320,6 +320,7 @@ faq:
 
 verse:
   of_day_title: "📅 <b>Versículo del día</b>"
+  daily_push_intro: "📖 La Palabra de Dios para hoy:"
   random_title: "🎲 <b>Versículo al azar</b>"
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Otro"
@@ -412,6 +413,7 @@ pray:
     indicator: "🙏 {days} días en oración"
     indicator_single: "🙏 1 día en oración"
     activity_hint: "<i>Vuelve cada día y pulsa «Amén» — así se registra tu actividad.</i>"
+    activity_cta: "<i>👇 Ora y pulsa «Amén» — así se registra tu actividad.</i>"
     onboarding: |
       🙏 <b>¡Tu primer día en oración está contado!</b>
 
@@ -440,7 +442,7 @@ pray:
     btn_enable: "🔔 Activar"
     btn_disable: "🔕 Desactivar"
     btn_time: "🕐 Hora: {time}"
-    push_greeting: "🙏 <b>Oración para hoy</b>"
+    push_greeting: "🙏 <b>Oración para hoy</b>\nTómate un minuto en silencio ante Dios."
     push_open: "📖 Abrir en el bot"
   months:
     short:
@@ -458,7 +460,7 @@ pray:
       - "dic"
 
 wisdom:
-  title: "💡 <b>Sabiduría del día</b>"
+  title: "💡 <b>Sabiduría</b>"
   theme_line: "<i>Tema: {theme}</i>"
   theme:
     speech: "El poder de las palabras"
@@ -719,6 +721,7 @@ donate:
   # Botones de la pantalla principal
   stars_button: "⭐ Apoyar con Estrellas de Telegram"
   monobank_button: "🏦 Monobank"
+  bizum_button: "📱 Bizum"
   revolut_button: "💳 Apoyar con cualquier tarjeta"
   crypto_button: "🪙 Criptomoneda"
   paypal_button: "💳 PayPal"
@@ -734,6 +737,15 @@ donate:
 
     🎯 Meta: 10,000 ₴
   monobank_open: "🔗 Abrir alcancía"
+
+  # Pantalla de Bizum
+  bizum_info: |
+    📱 <b>Bizum — Apoyar el proyecto</b>
+
+    Envía tu donativo por Bizum al número:
+    <b>{phone}</b>
+
+    🙏 Los fondos van al hosting y soporte técnico del bot gratuito "Bible Way". ¡Gracias por tu generosidad!
 
   # Pantalla de selección de cantidad de Stars
   choose_amount: "⭐ <b>Elige la cantidad de apoyo:</b>"
