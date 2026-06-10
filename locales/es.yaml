@@ -735,8 +735,8 @@ donate:
   bizum_info: |
     📱 <b>Bizum — Apoyar el proyecto</b>
 
-    Envía tu donativo por Bizum al número:
-    <b>{phone}</b>
+    Envía tu donativo por Bizum al número (toca para copiar):
+    <code>{phone}</code>
 
     🙏 Los fondos van al hosting y soporte técnico del bot gratuito "Bible Way". ¡Gracias por tu generosidad!
 
