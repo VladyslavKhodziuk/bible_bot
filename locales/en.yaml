@@ -719,6 +719,7 @@ donate:
   stars_button: "⭐ Support with Telegram Stars"
   monobank_button: "🏦 Monobank"
   bizum_button: "📱 Bizum"
+  bizum_copy: "📋 Copy number"
   revolut_button: "💳 Support with any card"
   crypto_button: "🪙 Cryptocurrency"
   paypal_button: "💳 PayPal"

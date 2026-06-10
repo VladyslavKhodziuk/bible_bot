@@ -1,4 +1,4 @@
-from aiogram.types import InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardMarkup, CopyTextButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from config import (
@@ -120,12 +120,17 @@ def donate_monobank_keyboard(lang: str) -> InlineKeyboardMarkup:
 
 
 def donate_bizum_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Кнопка 'Назад' под экраном с реквизитами Bizum."""
+    """Кнопки под реквизитами Bizum: копировать номер (нативный copy_text) + назад."""
     builder = InlineKeyboardBuilder()
+    builder.button(
+        text=t("donate.bizum_copy", lang),
+        copy_text=CopyTextButton(text=DONATE_BIZUM_PHONE),
+    )
     builder.button(
         text=t("donate.back", lang),
         callback_data="donate:back_to_main"
     )
+    builder.adjust(1)
     return builder.as_markup()
 
 
