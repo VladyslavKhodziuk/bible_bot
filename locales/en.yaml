@@ -154,6 +154,7 @@ cabinet:
 
 settings:
   title: "<b>⚙️ Settings</b>"
+  subtitle: "Make the bot yours."
   current_language: "🌐 Language: <b>{language}</b>"
   current_translation: "📖 Translation: <b>{translation}</b>"
   change_language: "🌐 Change language"
@@ -172,11 +173,14 @@ settings:
   notifications: "🔔 Notifications: <b>{status}</b>"
   notifications_on: "on, {time}"
   notifications_off: "off"
+  timezone: "🌍 Time zone: <b>{timezone}</b>"
   change_notifications: "🔔 Notification settings"
   btn_language: "🌐 {language}"
   btn_notif_on: "🔔 On · {time}"
   btn_notif_off: "🔕 Off"
-  feedback_section: "💬 Help make the bot better:"
+  btn_notif_hub: "🔔 Notifications"
+  btn_timezone: "🌍 {timezone}"
+  feedback_section: "💬 Ideas and feedback always welcome:"
   language_names:
     ru: "Русский"
     en: "English"
@@ -317,7 +321,7 @@ faq:
 
 verse:
   of_day_title: "📅 <b>Verse of the day</b>"
-  daily_push_intro: "📖 God's Word for today:"
+  daily_push_intro: "God's Word for today:"
   random_title: "🎲 <b>Random verse</b>"
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Another one"
@@ -329,6 +333,7 @@ topics:
   title: "<b>💭 How do you feel right now?</b>\n\nChoose, and I'll find words from Scripture for you:"
   reference: "<b>{book} {chapter}:{verse}</b>"
   back_to_topics: "← To topics"
+  another_verse: "🎲 Another verse"
 
 pray:
   title: "<b>🙏 Pray</b>"
@@ -489,6 +494,30 @@ bookmarks:
   open_chapter: "📖 Open chapter"
   delete: "🗑 Delete"
 
+notif:
+  hub:
+    title: "<b>🔔 Notifications</b>\n\nChoose what and when to send."
+    verse_on: "📖 Verse of the day · on · {time}"
+    verse_off: "📖 Verse of the day · off"
+    prayer_on: "🙏 Prayer · on · {time}"
+    prayer_off: "🙏 Prayer · off"
+    plan_on: "📚 Reading plan · on · {time}"
+    plan_off: "📚 Reading plan · off"
+    plan_none: "📚 Reading plan · none active"
+    plan_none_alert: "You don't have an active reading plan. Start one in the «Plans» section to get reminders."
+
+faq:
+  ask:
+    button: "✍️ Ask the author"
+    prompt: |-
+      <b>✍️ Ask your question</b>
+
+      Write what you'd like to ask — I'll forward it to the author. He'll do his best to reply to you here.
+    sent: "✅ Thanks! Your question was sent to the author. If he replies, you'll see his message right here."
+    reply_prefix: "💌 <b>Author's reply:</b>"
+    delivery_ok: "✅ Delivered to user."
+    delivery_failed: "⚠️ Failed to deliver: user closed DMs or blocked the bot."
+
 notifications:
   title: "<b>🔔 Notifications</b>\n\n{status}\n\n📅 The verse of the day will arrive every day at your chosen time."
   status_enabled: "✅ Notifications on\n🕐 Time: <b>{time}</b>"
@@ -500,9 +529,7 @@ notifications:
   time_changed: "✅ Time changed to {time}"
   enabled_message: "✅ Notifications enabled"
   disabled_message: "🔕 Notifications disabled"
-  change_timezone: "🌍 Time zone"
   choose_timezone: "<b>🌍 Time zone</b>\n\nChoose your time zone — notification times are interpreted in it."
-  timezone_line: "🌍 Time zone: <b>{timezone}</b>"
   timezone_changed: "✅ Time zone: {timezone}"
 
 counter:

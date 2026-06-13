@@ -32,16 +32,30 @@ def topics_keyboard(lang: str) -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def topic_view_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Клавиатура под подборкой стихов."""
+def topic_view_keyboard(
+    lang: str,
+    topic_id: str,
+    current_idx: int,
+    abbrev: str,
+    chapter: int,
+) -> InlineKeyboardMarkup:
+    """Клавиатура под одиночным стихом темы: другой стих + открыть главу + назад."""
     builder = InlineKeyboardBuilder()
     builder.button(
+        text=t("topics.another_verse", lang),
+        callback_data=f"topic:{topic_id}:r:{current_idx}",
+    )
+    builder.button(
+        text=t("verse.open_chapter", lang),
+        callback_data=f"read:ch:{abbrev}:{chapter}",
+    )
+    builder.button(
         text=t("topics.back_to_topics", lang),
-        callback_data="topics"
+        callback_data="topics",
     )
     builder.button(
         text=t("common.back_to_menu", lang),
-        callback_data="open_menu"
+        callback_data="open_menu",
     )
     builder.adjust(1)
     return builder.as_markup()

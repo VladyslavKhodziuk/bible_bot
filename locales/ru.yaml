@@ -158,6 +158,7 @@ cabinet:
 
 settings:
   title: "<b>⚙️ Настройки</b>"
+  subtitle: "Подстрой бота под себя."
   current_language: "🌐 Язык: <b>{language}</b>"
   current_translation: "📖 Перевод: <b>{translation}</b>"
   change_language: "🌐 Изменить язык"
@@ -178,11 +179,14 @@ settings:
   notifications: "🔔 Уведомления: <b>{status}</b>"
   notifications_on: "вкл, {time}"
   notifications_off: "выкл"
+  timezone: "🌍 Часовой пояс: <b>{timezone}</b>"
   change_notifications: "🔔 Настройки уведомлений"
   btn_language: "🌐 {language}"
   btn_notif_on: "🔔 Вкл · {time}"
   btn_notif_off: "🔕 Выкл"
-  feedback_section: "💬 Помоги сделать бот лучше:"
+  btn_notif_hub: "🔔 Уведомления"
+  btn_timezone: "🌍 {timezone}"
+  feedback_section: "💬 Идеи и замечания всегда ждём:"
   language_names:
     ru: "Русский"
     en: "English"
@@ -323,7 +327,7 @@ faq:
 
 verse:
   of_day_title: "📅 <b>Стих дня</b>"
-  daily_push_intro: "📖 Слово Божье на сегодня:"
+  daily_push_intro: "Слово Божье на сегодня:"
   random_title: "🎲 <b>Случайный стих</b>"
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Ещё один"
@@ -335,6 +339,7 @@ topics:
   title: "<b>💭 Как ты сейчас себя чувствуешь?</b>\n\nВыбери, и я подберу для тебя слова из Писания:"
   reference: "<b>{book} {chapter}:{verse}</b>"
   back_to_topics: "← К темам"
+  another_verse: "🎲 Другой стих"
 
 pray:
   title: "<b>🙏 Помолиться</b>"
@@ -495,6 +500,30 @@ bookmarks:
   open_chapter: "📖 Открыть главу"
   delete: "🗑 Удалить"
 
+notif:
+  hub:
+    title: "<b>🔔 Уведомления</b>\n\nНастрой, что и когда тебе присылать."
+    verse_on: "📖 Стих дня · вкл · {time}"
+    verse_off: "📖 Стих дня · выкл"
+    prayer_on: "🙏 Молитва · вкл · {time}"
+    prayer_off: "🙏 Молитва · выкл"
+    plan_on: "📚 План чтения · вкл · {time}"
+    plan_off: "📚 План чтения · выкл"
+    plan_none: "📚 План чтения · нет активного"
+    plan_none_alert: "У тебя нет активного плана чтения. Заведи его в разделе «Планы», чтобы получать напоминания."
+
+faq:
+  ask:
+    button: "✍️ Задать вопрос автору"
+    prompt: |-
+      <b>✍️ Задай свой вопрос</b>
+
+      Напиши, что хочешь спросить — я передам автору. Он постарается ответить тебе лично в этом чате.
+    sent: "✅ Спасибо! Вопрос отправлен автору. Если он ответит — увидишь сообщение прямо здесь."
+    reply_prefix: "💌 <b>Ответ автора:</b>"
+    delivery_ok: "✅ Доставлено пользователю."
+    delivery_failed: "⚠️ Не удалось доставить: пользователь закрыл ЛС или заблокировал бота."
+
 notifications:
   title: "<b>🔔 Уведомления</b>\n\n{status}\n\n📅 Стих дня будет приходить каждый день в выбранное время."
   status_enabled: "✅ Уведомления включены\n🕐 Время: <b>{time}</b>"
@@ -506,9 +535,7 @@ notifications:
   time_changed: "✅ Время изменено на {time}"
   enabled_message: "✅ Уведомления включены"
   disabled_message: "🔕 Уведомления выключены"
-  change_timezone: "🌍 Часовой пояс"
   choose_timezone: "<b>🌍 Часовой пояс</b>\n\nВыбери свой часовой пояс — в нём будет трактоваться время уведомлений."
-  timezone_line: "🌍 Часовой пояс: <b>{timezone}</b>"
   timezone_changed: "✅ Часовой пояс: {timezone}"
 
 counter:

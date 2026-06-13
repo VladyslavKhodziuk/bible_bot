@@ -1,3 +1,5 @@
+import random
+
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
@@ -25,41 +27,57 @@ async def show_topics(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("topic:"))
 async def show_topic(callback: CallbackQuery):
-    """Показать подборку стихов по выбранной теме."""
+    """Показать один случайный стих темы.
+
+    Callback может быть:
+      topic:<id>            — первый вход (любой случайный стих).
+      topic:<id>:r:<idx>    — «другой стих» (random.choice с исключением idx).
+    """
     user = await UserService.get(callback.from_user.id)
     lang = user.lang if user else "ru"
     translation = user.translation if user else "ru_synodal"
 
-    topic_id = callback.data.split(":", 1)[1]
-    topic = TopicService.get_topic(topic_id, lang, translation)
+    parts = callback.data.split(":")
+    topic_id = parts[1]
+    exclude_idx: int | None = None
+    if len(parts) >= 4 and parts[2] == "r":
+        try:
+            exclude_idx = int(parts[3])
+        except ValueError:
+            exclude_idx = None
 
-    if not topic:
+    topic = TopicService.get_topic(topic_id, lang, translation)
+    if not topic or not topic["verses"]:
         await callback.answer("⚠️", show_alert=True)
         return
 
-    # Формируем сообщение: эмодзи + название темы + вступление + стихи
-    parts = [
+    indices = list(range(len(topic["verses"])))
+    if exclude_idx is not None and len(indices) > 1:
+        indices = [i for i in indices if i != exclude_idx]
+
+    chosen_idx = random.choice(indices)
+    v = topic["verses"][chosen_idx]
+
+    book_name = BibleService.get_book_name(v["abbrev"], lang)
+    reference = t(
+        "topics.reference",
+        lang,
+        book=book_name,
+        chapter=v["chapter"],
+        verse=v["verse"],
+    )
+
+    text = "\n".join([
         f"{topic['emoji']} <b>{topic['name']}</b>",
         "",
         f"<i>{topic['intro']}</i>",
         "",
-    ]
-
-    for v in topic["verses"]:
-        book_name = BibleService.get_book_name(v["abbrev"], lang)
-        reference = t(
-            "topics.reference",
-            lang,
-            book=book_name,
-            chapter=v["chapter"],
-            verse=v["verse"]
-        )
-        parts.append(f"{reference}\n{v['text']}\n")
-
-    text = "\n".join(parts)
+        reference,
+        v["text"],
+    ])
 
     await callback.message.edit_text(
         text,
-        reply_markup=topic_view_keyboard(lang)
+        reply_markup=topic_view_keyboard(lang, topic_id, chosen_idx, v["abbrev"], v["chapter"]),
     )
     await callback.answer()

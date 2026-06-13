@@ -27,11 +27,45 @@ def notifications_keyboard(enabled: bool, lang: str) -> InlineKeyboardMarkup:
             callback_data="notif:toggle:on"
         )
 
-    # Часовой пояс доступен всегда — от него зависит, когда придут уведомления.
     builder.button(
-        text=t("notifications.change_timezone", lang),
-        callback_data="notif:tz"
+        text=t("common.back", lang),
+        callback_data="notif:hub"
     )
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+def notifications_hub_keyboard(user, lang: str, has_active_plan: bool, plan_progress=None) -> InlineKeyboardMarkup:
+    """Экран-хаб уведомлений с тремя секциями: стих / молитва / план."""
+    builder = InlineKeyboardBuilder()
+
+    # === Стих дня ===
+    if user.notifications_enabled:
+        verse_row = t("notif.hub.verse_on", lang, time=user.notification_time)
+    else:
+        verse_row = t("notif.hub.verse_off", lang)
+    builder.button(text=verse_row, callback_data="notif:open")
+
+    # === Молитва ===
+    if user.prayer_notifications_enabled:
+        prayer_row = t("notif.hub.prayer_on", lang, time=user.prayer_notification_time)
+    else:
+        prayer_row = t("notif.hub.prayer_off", lang)
+    builder.button(text=prayer_row, callback_data="notif:prayer")
+
+    # === План чтения ===
+    if has_active_plan and plan_progress is not None:
+        if plan_progress.notification_enabled:
+            plan_row = t("notif.hub.plan_on", lang, time=plan_progress.notification_time)
+        else:
+            plan_row = t("notif.hub.plan_off", lang)
+        builder.button(text=plan_row, callback_data="notif:plan")
+    else:
+        builder.button(
+            text=t("notif.hub.plan_none", lang),
+            callback_data="notif:plan:none"
+        )
+
     builder.button(
         text=t("common.back", lang),
         callback_data="settings:open"
@@ -51,10 +85,10 @@ def timezone_picker_keyboard(lang: str, current_tz: str | None = None) -> Inline
     Активный пояс юзера помечается галочкой."""
     builder = InlineKeyboardBuilder()
     for tz in SUPPORTED_TIMEZONES:
-        builder.button(text=_tz_button_text(tz, lang, current_tz), callback_data=f"notif:settz:{tz}")
+        builder.button(text=_tz_button_text(tz, lang, current_tz), callback_data=f"settings:settz:{tz}")
     builder.button(
         text=t("common.back", lang),
-        callback_data="notif:open"
+        callback_data="settings:open"
     )
     builder.adjust(1)
     return builder.as_markup()

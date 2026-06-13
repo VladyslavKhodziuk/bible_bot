@@ -51,27 +51,6 @@ async def _alert_if_infra(exc: Exception, context: str) -> None:
         )
 
 
-# ============ Утилиты ============
-
-def _get_time_of_day(time_str: str) -> str:
-    """Возвращает категорию времени суток по строке HH:MM.
-
-    Категории: morning / day / evening / night
-    """
-    try:
-        hour = int(time_str.split(":")[0])
-    except (ValueError, IndexError):
-        return "day"
-
-    if 5 <= hour < 12:
-        return "morning"
-    elif 12 <= hour < 18:
-        return "day"
-    elif 18 <= hour < 23:
-        return "evening"
-    return "night"
-
-
 # ============ Отправка стиха дня ============
 
 async def _send_verse_to_user(bot: Bot, user: User) -> None:
@@ -92,17 +71,13 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
         verse=verse["verse"],
     )
 
-    name = html.escape(user.first_name or "друг")
-
     # === Основное сообщение со стихом ===
-    time_of_day = _get_time_of_day(user.notification_time)
-    greeting = t(f"greetings.{time_of_day}", user.lang, name=name)
     counter_line = format_counter_indicator(counter_result.count, user.lang)
 
-    parts = [greeting]
+    parts = []
     if counter_line:
         parts.append(counter_line)
-    parts.append("")
+        parts.append("")
     parts.append(t("verse.daily_push_intro", user.lang))
     parts.append(reference)
     parts.append("")
@@ -243,16 +218,9 @@ async def _send_plan_to_user(bot: Bot, user: User, progress: PlanProgress) -> No
     if not readings:
         return
 
-    name = html.escape(user.first_name or "друг")
     plan_name = PlanService.get_plan_name(progress.plan_id, user.lang)
 
-    # Приветствие по времени плана
-    time_of_day = _get_time_of_day(progress.notification_time)
-    greeting = t(f"greetings.{time_of_day}", user.lang, name=name)
-
     parts = [
-        greeting,
-        "",
         t("plan.push_title", user.lang, name=plan_name),
     ]
 

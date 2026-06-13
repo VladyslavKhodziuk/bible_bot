@@ -280,7 +280,7 @@ faq:
 
 verse:
   of_day_title: "📅 <b>Вірш дня</b>"
-  daily_push_intro: "📖 Боже Слово на сьогодні:"
+  daily_push_intro: "Боже Слово на сьогодні:"
   random_title: "🎲 <b>Випадковий вірш</b>"
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Ще один"
@@ -292,6 +292,7 @@ topics:
   title: "<b>💭 Як ти зараз почуваєшся?</b>\n\nОбери, і я підберу для тебе слова зі Святого Письма:"
   reference: "<b>{book} {chapter}:{verse}</b>"
   back_to_topics: "← До тем"
+  another_verse: "🎲 Інший вірш"
 
 pray:
   title: "<b>🙏 Помолитися</b>"
@@ -454,6 +455,7 @@ bookmarks:
 
 settings:
   title: "<b>⚙️ Налаштування</b>"
+  subtitle: "Налаштуй бота під себе."
   current_language: "🌐 Мова: <b>{language}</b>"
   current_translation: "📖 Переклад: <b>{translation}</b>"
   change_language: "🌐 Змінити мову"
@@ -473,11 +475,14 @@ settings:
   notifications: "🔔 Сповіщення: <b>{status}</b>"
   notifications_on: "увімк., {time}"
   notifications_off: "вимк."
+  timezone: "🌍 Часовий пояс: <b>{timezone}</b>"
   change_notifications: "🔔 Налаштування сповіщень"
   btn_language: "🌐 {language}"
   btn_notif_on: "🔔 Увімк. · {time}"
   btn_notif_off: "🔕 Вимк."
-  feedback_section: "💬 Допоможи зробити бот кращим:"
+  btn_notif_hub: "🔔 Сповіщення"
+  btn_timezone: "🌍 {timezone}"
+  feedback_section: "💬 Ідеї та зауваження завжди чекаємо:"
   language_names:
     ru: "Русский"
     en: "English"
@@ -492,6 +497,30 @@ settings:
     ru_bti: "Перевод Кулакова"
     ru_desp: "Десницкий (Новый Завет)"
 
+notif:
+  hub:
+    title: "<b>🔔 Сповіщення</b>\n\nОбери, що і коли тобі надсилати."
+    verse_on: "📖 Вірш дня · увімк. · {time}"
+    verse_off: "📖 Вірш дня · вимк."
+    prayer_on: "🙏 Молитва · увімк. · {time}"
+    prayer_off: "🙏 Молитва · вимк."
+    plan_on: "📚 План читання · увімк. · {time}"
+    plan_off: "📚 План читання · вимк."
+    plan_none: "📚 План читання · немає активного"
+    plan_none_alert: "У тебе немає активного плану читання. Заведи його в розділі «Плани», щоб отримувати нагадування."
+
+faq:
+  ask:
+    button: "✍️ Задати питання автору"
+    prompt: |-
+      <b>✍️ Запитай автора</b>
+
+      Напиши, що хочеш запитати — я передам автору. Він постарається відповісти тобі особисто тут.
+    sent: "✅ Дякую! Питання надіслано автору. Якщо він відповість — побачиш повідомлення прямо тут."
+    reply_prefix: "💌 <b>Відповідь автора:</b>"
+    delivery_ok: "✅ Доставлено користувачу."
+    delivery_failed: "⚠️ Не вдалося доставити: користувач закрив ЛС або заблокував бота."
+
 notifications:
   title: "<b>🔔 Сповіщення</b>\n\n{status}\n\n📅 Вірш дня надходитиме щодня в обраний час."
   status_enabled: "✅ Сповіщення увімкнено\n🕐 Час: <b>{time}</b>"
@@ -503,9 +532,7 @@ notifications:
   time_changed: "✅ Час змінено на {time}"
   enabled_message: "✅ Сповіщення увімкнено"
   disabled_message: "🔕 Сповіщення вимкнено"
-  change_timezone: "🌍 Часовий пояс"
   choose_timezone: "<b>🌍 Часовий пояс</b>\n\nОбери свій часовий пояс — у ньому тлумачиться час сповіщень."
-  timezone_line: "🌍 Часовий пояс: <b>{timezone}</b>"
   timezone_changed: "✅ Часовий пояс: {timezone}"
 
 counter:

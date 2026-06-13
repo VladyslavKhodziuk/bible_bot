@@ -2,6 +2,7 @@
 bot.db
 bot.db-wal
 bot.db-shm
+migrations_applied.txt
 __pycache__/
 *.pyc
 venv/

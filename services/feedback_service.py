@@ -3,7 +3,7 @@ import logging
 from sqlalchemy import select, func
 
 from database import async_session
-from models import Feedback
+from models import Feedback, FeedbackRelay
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 KIND_IDEA = "idea"
 KIND_BUG = "bug"
 KIND_REVIEW = "review"
-ALL_KINDS = {KIND_IDEA, KIND_BUG, KIND_REVIEW}
+KIND_QUESTION = "question"
+ALL_KINDS = {KIND_IDEA, KIND_BUG, KIND_REVIEW, KIND_QUESTION}
 
 
 class FeedbackService:
@@ -56,3 +57,32 @@ class FeedbackService:
                 select(func.count(Feedback.id)).where(Feedback.kind == kind)
             )
             return result.scalar_one()
+
+    @staticmethod
+    async def save_relay(
+        group_chat_id: int,
+        group_message_id: int,
+        user_tg_id: int,
+        kind: str,
+    ) -> None:
+        """Сохранить маппинг сообщения в группе → юзер, чтобы reply админа долетел до автора."""
+        async with async_session() as session:
+            session.add(FeedbackRelay(
+                group_chat_id=group_chat_id,
+                group_message_id=group_message_id,
+                user_tg_id=user_tg_id,
+                kind=kind,
+            ))
+            await session.commit()
+
+    @staticmethod
+    async def find_relay(group_chat_id: int, group_message_id: int) -> FeedbackRelay | None:
+        """Найти запись relay по координатам сообщения в группе."""
+        async with async_session() as session:
+            result = await session.execute(
+                select(FeedbackRelay).where(
+                    FeedbackRelay.group_chat_id == group_chat_id,
+                    FeedbackRelay.group_message_id == group_message_id,
+                )
+            )
+            return result.scalar_one_or_none()

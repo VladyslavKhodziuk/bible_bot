@@ -1,11 +1,13 @@
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.user_service import UserService
 from services.i18n import t
+from services.timezones import is_valid, label as tz_label
 from keyboards.language import language_keyboard
+from keyboards.notifications import timezone_picker_keyboard
+from keyboards.reply import main_reply_keyboard
 from keyboards.settings import (
     settings_keyboard,
     language_settings_keyboard,
@@ -16,22 +18,21 @@ def _build_settings_text(user, lang: str) -> str:
     """Текст главного экрана настроек."""
     language_name = t(f"settings.language_names.{lang}", lang)
 
-    lines = [
-        t("settings.title", lang),
-        "",
-        t("settings.current_language", lang, language=language_name),
-    ]
-
-    # Уведомления
     if user.notifications_enabled:
         notif_status = t("settings.notifications_on", lang, time=user.notification_time)
     else:
         notif_status = t("settings.notifications_off", lang)
-    lines.append(t("settings.notifications", lang, status=notif_status))
 
-    # Разделитель + подсказка о фидбеке
-    lines.append("")
-    lines.append(t("settings.feedback_section", lang))
+    lines = [
+        t("settings.title", lang),
+        t("settings.subtitle", lang),
+        "",
+        t("settings.current_language", lang, language=language_name),
+        t("settings.notifications", lang, status=notif_status),
+        t("settings.timezone", lang, timezone=tz_label(user.timezone, lang)),
+        "",
+        t("settings.feedback_section", lang),
+    ]
 
     return "\n".join(lines)
 
@@ -98,13 +99,50 @@ async def apply_new_language(callback: CallbackQuery):
     except Exception:
         pass  # уже удалено / слишком старое — не критично
 
-    # Подтверждение смены языка с inline-кнопкой «В меню».
-    # (Одно сообщение не может нести и inline-кнопку, и нижнюю reply-клавиатуру;
-    # подписи нижней клавиатуры сменят язык при следующем /start.)
-    builder = InlineKeyboardBuilder()
-    builder.button(text=t("common.back_to_menu", new_lang), callback_data="open_menu")
+    # Подтверждение + сразу обновляем нижнюю reply-клавиатуру на новый язык.
+    # Возврат в меню — через постоянную «🏠 Главное меню» внизу.
     await callback.message.answer(
         t("language.changed", new_lang),
-        reply_markup=builder.as_markup(),
+        reply_markup=main_reply_keyboard(new_lang),
     )
     await callback.answer()
+
+
+# ============ Смена часового пояса ============
+
+@router.callback_query(F.data == "settings:tz")
+async def choose_timezone(callback: CallbackQuery):
+    """Экран выбора часового пояса (из настроек)."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    await callback.message.edit_text(
+        t("notifications.choose_timezone", lang),
+        reply_markup=timezone_picker_keyboard(lang, current_tz=user.timezone if user else None),
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data.startswith("settings:settz:"))
+async def set_timezone(callback: CallbackQuery):
+    """Сохранить пояс и вернуть на экран настроек."""
+    tz_name = callback.data.split(":", 2)[2]  # IANA-имя (может содержать '/')
+
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    if not is_valid(tz_name):
+        await callback.answer("⚠️", show_alert=True)
+        return
+
+    await UserService.set_timezone(callback.from_user.id, tz_name)
+    user = await UserService.get(callback.from_user.id)
+
+    await callback.answer(
+        t("notifications.timezone_changed", lang, timezone=tz_label(tz_name, lang)),
+        show_alert=False,
+    )
+    await callback.message.edit_text(
+        _build_settings_text(user, lang),
+        reply_markup=settings_keyboard(user, lang),
+    )

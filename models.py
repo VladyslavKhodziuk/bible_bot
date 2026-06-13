@@ -18,10 +18,10 @@ class User(Base):
     translation: Mapped[str] = mapped_column(String(20), default="ru_synodal")
     notifications_enabled: Mapped[bool] = mapped_column(default=True)  # стих дня вкл по умолчанию
     notification_time: Mapped[str] = mapped_column(String(5), default="09:00")  # формат "HH:MM"
-    # Напоминание о «молитве на сегодня» — отдельное от стиха дня. Опт-ин:
-    # по умолчанию выключено, юзер сам включает с карточки «Помолиться».
-    prayer_notifications_enabled: Mapped[bool] = mapped_column(default=False)
-    prayer_notification_time: Mapped[str] = mapped_column(String(5), default="08:00")
+    # Напоминание о «молитве на сегодня» — отдельное от стиха дня. Включено
+    # по умолчанию; юзер может выключить в настройках уведомлений.
+    prayer_notifications_enabled: Mapped[bool] = mapped_column(default=True)
+    prayer_notification_time: Mapped[str] = mapped_column(String(5), default="10:00")
     timezone: Mapped[str] = mapped_column(String(64), default=DEFAULT_TZ)  # IANA-зона юзера
     # Накопительный счётчик «дней со Словом» — только растёт, без сброса
     current_streak: Mapped[int] = mapped_column(Integer, default=0)
@@ -104,7 +104,7 @@ class PlanProgress(Base):
 
     # Уведомления
     notification_enabled: Mapped[bool] = mapped_column(default=True)
-    notification_time: Mapped[str] = mapped_column(String(5), default="19:00")
+    notification_time: Mapped[str] = mapped_column(String(5), default="20:00")
 
     def __repr__(self) -> str:
         return f"<PlanProgress user={self.user_id} plan={self.plan_id} day={self.current_day}>"
@@ -150,6 +150,22 @@ class AIConsent(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
     accepted_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+
+class FeedbackRelay(Base):
+    """Маппинг сообщения в фидбэк-группе на юзера, чтобы ответ админа (reply
+    на бот-сообщение) ушёл нужному человеку в ЛС."""
+    __tablename__ = "feedback_relay"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    group_chat_id: Mapped[int] = mapped_column(BigInteger, index=True)
+    group_message_id: Mapped[int] = mapped_column(BigInteger, index=True)
+    user_tg_id: Mapped[int] = mapped_column(BigInteger)
+    kind: Mapped[str] = mapped_column(String(20))  # question / idea / bug / review
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    def __repr__(self) -> str:
+        return f"<FeedbackRelay chat={self.group_chat_id} msg={self.group_message_id} → user={self.user_tg_id}>"
 
 
 class ActivityHourly(Base):

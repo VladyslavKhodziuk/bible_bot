@@ -2,13 +2,18 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
 from services.user_service import UserService
+from services.plan_service import PlanService
 from services.i18n import t
-from services.timezones import is_valid, label as tz_label
 from keyboards.notifications import (
     notifications_keyboard,
+    notifications_hub_keyboard,
     time_picker_keyboard,
-    timezone_picker_keyboard,
 )
+from keyboards.prayer_notifications import (
+    prayer_notifications_keyboard,
+    prayer_time_picker_keyboard,
+)
+from keyboards.plan import notification_settings_keyboard as plan_notif_keyboard
 
 router = Router()
 
@@ -23,10 +28,90 @@ def _build_notifications_text(user, lang: str) -> str:
         )
     else:
         status = t("notifications.status_disabled", lang)
-    # Показываем текущий часовой пояс — чтобы было понятно, в каком времени
-    # трактуется выбранный час уведомления.
-    tz_line = t("notifications.timezone_line", lang, timezone=tz_label(user.timezone, lang))
-    return t("notifications.title", lang, status=status) + "\n\n" + tz_line
+    return t("notifications.title", lang, status=status)
+
+
+@router.callback_query(F.data == "notif:hub")
+async def open_notifications_hub(callback: CallbackQuery):
+    """Экран-хаб уведомлений: стих, молитва, план — в одном месте."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    active_plan = await PlanService.get_active(callback.from_user.id)
+    has_plan = active_plan is not None
+
+    await callback.message.edit_text(
+        t("notif.hub.title", lang),
+        reply_markup=notifications_hub_keyboard(user, lang, has_plan, active_plan),
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data == "notif:plan:none")
+async def plan_none_hint(callback: CallbackQuery):
+    """Подсказка, когда у юзера нет активного плана."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+    await callback.answer(t("notif.hub.plan_none_alert", lang), show_alert=True)
+
+
+@router.callback_query(F.data == "notif:prayer")
+async def open_prayer_from_hub(callback: CallbackQuery):
+    """Экран уведомлений молитвы из хаба — кнопка «Назад» ведёт в хаб."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    if user.prayer_notifications_enabled:
+        status = t("pray.notif.status_enabled", lang, time=user.prayer_notification_time)
+    else:
+        status = t("pray.notif.status_disabled", lang)
+
+    await callback.message.edit_text(
+        t("pray.notif.title", lang, status=status),
+        reply_markup=prayer_notifications_keyboard(
+            user.prayer_notifications_enabled,
+            user.prayer_notification_time,
+            lang,
+            back_callback="notif:hub",
+            back_label_key="common.back",
+        ),
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data == "notif:plan")
+async def open_plan_from_hub(callback: CallbackQuery):
+    """Экран уведомлений плана из хаба — кнопка «Назад» ведёт в хаб."""
+    user = await UserService.get(callback.from_user.id)
+    lang = user.lang if user else "ru"
+
+    active = await PlanService.get_active(callback.from_user.id)
+    if not active:
+        await callback.answer(t("notif.hub.plan_none_alert", lang), show_alert=True)
+        return
+
+    parts = [
+        t("plan.notif_title", lang),
+        "",
+        t("plan.notif_intro", lang),
+        "",
+        t("plan.notif_current", lang, time=active.notification_time),
+    ]
+    if active.notification_enabled:
+        parts.append(t("plan.notif_status_on", lang))
+    else:
+        parts.append(t("plan.notif_status_off", lang))
+
+    await callback.message.edit_text(
+        "\n".join(parts),
+        reply_markup=plan_notif_keyboard(
+            active.notification_enabled,
+            lang,
+            back_callback="notif:hub",
+            back_label=t("common.back", lang),
+        ),
+    )
+    await callback.answer()
 
 
 @router.callback_query(F.data == "notif:open")
@@ -89,44 +174,6 @@ async def choose_time(callback: CallbackQuery):
         reply_markup=time_picker_keyboard(lang)
     )
     await callback.answer()
-
-
-@router.callback_query(F.data == "notif:tz")
-async def choose_timezone(callback: CallbackQuery):
-    """Экран выбора часового пояса."""
-    user = await UserService.get(callback.from_user.id)
-    lang = user.lang if user else "ru"
-
-    await callback.message.edit_text(
-        t("notifications.choose_timezone", lang),
-        reply_markup=timezone_picker_keyboard(lang, current_tz=user.timezone if user else None)
-    )
-    await callback.answer()
-
-
-@router.callback_query(F.data.startswith("notif:settz:"))
-async def set_timezone(callback: CallbackQuery):
-    """Установить часовой пояс пользователя."""
-    tz_name = callback.data.split(":", 2)[2]  # IANA-имя (может содержать '/')
-
-    user = await UserService.get(callback.from_user.id)
-    lang = user.lang if user else "ru"
-
-    if not is_valid(tz_name):
-        await callback.answer("⚠️", show_alert=True)
-        return
-
-    await UserService.set_timezone(callback.from_user.id, tz_name)
-    user = await UserService.get(callback.from_user.id)
-
-    await callback.answer(
-        t("notifications.timezone_changed", lang, timezone=tz_label(tz_name, lang)),
-        show_alert=False
-    )
-    await callback.message.edit_text(
-        _build_notifications_text(user, lang),
-        reply_markup=notifications_keyboard(user.notifications_enabled, lang)
-    )
 
 
 @router.callback_query(F.data.startswith("notif:settime:"))

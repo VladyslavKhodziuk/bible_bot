@@ -7,7 +7,7 @@ from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 
 from config import BOT_TOKEN
-from database import init_db
+from database import init_db, run_migrations
 from handlers import start, menu, settings, read, verse, topics, pray, prayer_notifications, prayer_favorites, bookmarks, notifications, cabinet, feedback, search, plan, donate, ai_pastor, chatid, freetext, reply_menu
 from handlers import help as help_cmd
 from services.plan_service import PlanService
@@ -41,6 +41,7 @@ async def set_bot_commands(bot: Bot):
 
 async def main():
     await init_db()
+    await run_migrations()
     logger.info("База данных готова")
 
     BibleService.load()
