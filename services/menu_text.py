@@ -114,4 +114,8 @@ def _build_progress_block(user: User, lang: str) -> list[str]:
     else:
         lines.append(t("menu.progress.prayer_multi", lang, days=prayer))
 
+    # Мягкая подпись под счётчиками: смысл счёта — не соревнование, а путь с Богом.
+    lines.append("")
+    lines.append(t("menu.progress.note", lang))
+
     return lines

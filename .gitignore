@@ -2,6 +2,7 @@
 bot.db
 bot.db-wal
 bot.db-shm
+migrations_applied.txt
 __pycache__/
 *.pyc
 venv/
@@ -11,4 +12,7 @@ venv/
 .claude/
 data/*.log
 scripts/_cache/
+
+# Ad-hoc backups (e.g. from scripts/clean_bible_brackets.py)
+data/bibles/*.bak
 

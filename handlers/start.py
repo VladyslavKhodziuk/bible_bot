@@ -9,6 +9,7 @@ from services.menu_text import build_menu_text
 from services.i18n import t
 from keyboards.language import language_keyboard
 from keyboards.menu import welcome_keyboard, main_menu_keyboard
+from keyboards.reply import main_reply_keyboard
 from keyboards.notifications import onboarding_timezone_keyboard
 from services.timezones import is_valid, label as tz_label
 
@@ -51,10 +52,13 @@ async def cmd_start(message: Message):
         )
         return
 
-    # Вернувшийся пользователь — короткое приветствие и сразу меню
+    # Вернувшийся пользователь — короткое приветствие и сразу меню.
+    # К приветствию прикрепляем постоянную reply-клавиатуру (раньше была без
+    # разметки) — дальше она держится весь сеанс, меню остаётся inline.
     name = html.escape(user.first_name or "друг")
     await message.answer(
-        t("welcome_back", user.lang, name=name)
+        t("welcome_back", user.lang, name=name),
+        reply_markup=main_reply_keyboard(user.lang),
     )
     await message.answer(
         await build_menu_text(user, user.lang, message.bot),
@@ -90,6 +94,13 @@ async def set_language(callback: CallbackQuery):
     await callback.message.answer(
         _welcome_text(user, lang),
         reply_markup=welcome_keyboard(lang),
+    )
+    # Отдельным коротким сообщением активируем постоянную reply-клавиатуру.
+    # Приветствие выше оставляем с inline-кнопками (выбор часового пояса), а на
+    # одном сообщении reply- и inline-разметка вместе невозможны.
+    await callback.message.answer(
+        t("reply.intro", lang),
+        reply_markup=main_reply_keyboard(lang),
     )
     await callback.answer()
 

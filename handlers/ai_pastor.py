@@ -44,6 +44,7 @@ def _after_answer_keyboard(lang: str, remaining: int):
     builder = InlineKeyboardBuilder()
     if remaining > 0:
         builder.button(text=t("ai_pastor.ask_more", lang), callback_data="ai_pastor:ask_more")
+    builder.button(text=t("feedback.cabinet_bug", lang), callback_data="fb:start:bug")
     builder.button(text=t("feedback.support_button", lang), callback_data="donate")
     builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
     builder.adjust(1)

@@ -5,8 +5,18 @@ from services.i18n import t
 from keyboards.notifications import TIME_SLOTS
 
 
-def prayer_notifications_keyboard(enabled: bool, time: str, lang: str) -> InlineKeyboardMarkup:
-    """Экран настроек напоминания о молитве — вкл/выкл и время."""
+def prayer_notifications_keyboard(
+    enabled: bool,
+    time: str,
+    lang: str,
+    back_callback: str = "pray",
+    back_label_key: str = "pray.back_to_card",
+) -> InlineKeyboardMarkup:
+    """Экран настроек напоминания о молитве — вкл/выкл и время.
+
+    back_callback/back_label_key позволяют входить с разных мест:
+    из карточки молитвы возврат идёт на pray, из хаба уведомлений — на notif:hub.
+    """
     builder = InlineKeyboardBuilder()
 
     if enabled:
@@ -25,8 +35,8 @@ def prayer_notifications_keyboard(enabled: bool, time: str, lang: str) -> Inline
         )
 
     builder.button(
-        text=t("pray.back_to_card", lang),
-        callback_data="pray",
+        text=t(back_label_key, lang),
+        callback_data=back_callback,
     )
     builder.adjust(1)
     return builder.as_markup()

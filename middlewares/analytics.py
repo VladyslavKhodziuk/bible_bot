@@ -7,6 +7,12 @@ import logging
 from typing import Any, Awaitable, Callable
 
 from aiogram import BaseMiddleware
+from aiogram.exceptions import (
+    TelegramBadRequest,
+    TelegramNetworkError,
+    TelegramServerError,
+    TelegramRetryAfter,
+)
 from aiogram.types import Update
 
 from services.analytics_service import AnalyticsService
@@ -14,6 +20,11 @@ from services.alert_service import AlertService
 from handlers.freetext import reset_strikes
 
 logger = logging.getLogger(__name__)
+
+# Кратковременные инфраструктурные сбои Telegram: не код-баги, а потеря связи /
+# 5xx / rate-limit. Их не алертим по каждому нажатию (как и планировщик в
+# services/scheduler.py), иначе сетевой обрыв завалит админа сообщениями.
+_TRANSIENT_TG_ERRORS = (TelegramNetworkError, TelegramServerError, TelegramRetryAfter)
 
 
 class AnalyticsMiddleware(BaseMiddleware):
@@ -62,15 +73,45 @@ class AnalyticsMiddleware(BaseMiddleware):
 
         AnalyticsService.record(tg_id, event_type, kind)
 
-        try:
-            return await handler(event, data)
-        except Exception as e:
+        async def report_and_raise(exc: Exception):
             AnalyticsService.record(tg_id, event_type, "error")
             # Срочный алерт админу. Ключ по категории — троттлит шквал
             # одинаковых ошибок до одного сообщения в ALERT_COOLDOWN_SEC.
             await AlertService.alert_error(
                 key=f"handler_error:{event_type}",
                 title=f"Ошибка в обработчике ({event_type})",
-                detail=f"{type(e).__name__}: {e} | tg_id={tg_id}, kind={kind}",
+                detail=f"{type(exc).__name__}: {exc} | tg_id={tg_id}, kind={kind}",
             )
-            raise  # пробрасываем, чтобы стандартное логирование сработало
+            raise exc  # пробрасываем, чтобы стандартное логирование сработало
+
+        async def clear_spinner():
+            # Гасим «часики» на кнопке, чтобы у юзера не висел спиннер.
+            if callback is not None:
+                try:
+                    await callback.answer()
+                except Exception:
+                    pass
+
+        try:
+            return await handler(event, data)
+        except TelegramBadRequest as e:
+            # «message is not modified» — не ошибка: юзер повторно нажал кнопку и
+            # Telegram отклонил правку идентичным контентом. Экран уже верный —
+            # тихо выходим, не записывая ошибку и не алертя.
+            if "message is not modified" in str(e):
+                await clear_spinner()
+                return None
+            # Прочие BadRequest — реальные баги, обрабатываем штатно.
+            await report_and_raise(e)
+        except _TRANSIENT_TG_ERRORS as e:
+            # Кратковременный сетевой/инфраструктурный сбой при ответе Telegram.
+            # Не код-баг: не шлём алерт по каждому нажатию и не сыплем трейсбэком,
+            # фиксируем как blip для ops и даём юзеру повторить нажатие.
+            AnalyticsService.record(tg_id, event_type, "error")
+            logger.warning(
+                f"Сетевой сбой при обработке {event_type}: {type(e).__name__}: {e}"
+            )
+            await clear_spinner()
+            return None
+        except Exception as e:
+            await report_and_raise(e)

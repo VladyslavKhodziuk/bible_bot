@@ -2,10 +2,11 @@ from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.i18n import t
+from services.timezones import label as tz_label
 
 
 def settings_keyboard(user, lang: str) -> InlineKeyboardMarkup:
-    """Главный экран настроек. Сетка 2 в ряд: язык | уведомления, идея | баг, назад."""
+    """Главный экран настроек. Ряды: язык | уведомления / пояс / идея | баг / назад."""
     builder = InlineKeyboardBuilder()
     layout = []
 
@@ -16,17 +17,20 @@ def settings_keyboard(user, lang: str) -> InlineKeyboardMarkup:
         callback_data="settings:change_lang"
     )
 
-    if user.notifications_enabled:
-        notif_text = t("settings.btn_notif_on", lang, time=user.notification_time)
-    else:
-        notif_text = t("settings.btn_notif_off", lang)
     builder.button(
-        text=notif_text,
-        callback_data="notif:open"
+        text=t("settings.btn_notif_hub", lang),
+        callback_data="notif:hub"
     )
     layout.append(2)
 
-    # === Ряд 2: обратная связь ===
+    # === Ряд 2: часовой пояс (full-width) ===
+    builder.button(
+        text=t("settings.btn_timezone", lang, timezone=tz_label(user.timezone, lang)),
+        callback_data="settings:tz"
+    )
+    layout.append(1)
+
+    # === Ряд 3: обратная связь ===
     builder.button(
         text=t("feedback.cabinet_idea", lang),
         callback_data="fb:start:idea"
@@ -54,7 +58,7 @@ def language_settings_keyboard(lang: str) -> InlineKeyboardMarkup:
     builder.button(text="🇪🇸 Español", callback_data="changelang:es")
     builder.button(text="🇺🇸 English", callback_data="changelang:en")
     builder.button(text="🇺🇦 Українська", callback_data="changelang:uk")
-    builder.button(text="🇷🇺 Русский", callback_data="changelang:ru")
+    builder.button(text="🌍 Русский", callback_data="changelang:ru")
     builder.button(
         text=t("common.back", lang),
         callback_data="settings:open"

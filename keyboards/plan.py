@@ -133,8 +133,14 @@ def completed_keyboard(lang: str, share_url: str | None = None) -> InlineKeyboar
 def notification_settings_keyboard(
     enabled: bool,
     lang: str,
+    back_callback: str = "plan",
+    back_label: str | None = None,
 ) -> InlineKeyboardMarkup:
-    """Экран настройки уведомлений плана."""
+    """Экран настройки уведомлений плана.
+
+    back_callback/back_label позволяют входить с разных мест:
+    из меню плана возврат идёт на plan, из хаба уведомлений — на notif:hub.
+    """
     builder = InlineKeyboardBuilder()
 
     builder.button(
@@ -154,8 +160,8 @@ def notification_settings_keyboard(
         )
 
     builder.button(
-        text="← " + t("plan.menu_button", lang),
-        callback_data="plan"
+        text=back_label if back_label is not None else "← " + t("plan.menu_button", lang),
+        callback_data=back_callback,
     )
 
     builder.adjust(1)

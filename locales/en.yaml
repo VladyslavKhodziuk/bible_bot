@@ -13,22 +13,21 @@ welcome:
   text: |
     Peace to you, {name}! 🕊️
 
-    I'm <b>Bible Way</b>, your companion in reading the Holy Scripture.
+    I'm <b>Bible Way</b>. I'll help you grow closer to God and His Word every day.
 
     {verse_line}
 
     Here's what I can do:
 
-    🙋 Listen and support you with the Word — your spiritual companion
+    🕊️ Listen and support you with the Word — your spiritual companion
     📖 Read the Bible in different translations
-    🙏 Send you a prayer for every day — with an «Amen» button
-    🔔 Remind you to pray at your chosen time
+    🙏 A prayer for every day — with an «Amen» button
     🔍 Search verses by words and topics
     💭 Find the Word for any life situation
-    🎲 Show you a random verse and the wisdom of the day
+    🎲 Random verse and daily Wisdom
     ⭐ Save your favorite passages
-    📚 Guide you through a reading plan
-    📖 Count your days in the Word and in prayer
+    📚 Guide you through a reading plan with reminders
+    🔥 Count your days in the Word and in prayer
 
     <i>"Your word is a lamp for my feet, a light on my path" (Psalm 119:105)</i>
 
@@ -43,7 +42,7 @@ welcome_back: "🕊️ Welcome back, {name}!"
 menu:
   greeting: "PEACE BE WITH YOU 🕊️"
   subtitle: "What are you seeking in the Word today?"
-  verse_card_title: "Verse of the day · {date}"
+  verse_card_title: "God's Word for today · {date}"
   share_verse: "📤 Share"
   share_header: "📖 Verse of the day"
   progress:
@@ -54,6 +53,7 @@ menu:
     prayer_zero: "🙏 In prayer — 0 days"
     prayer_single: "🙏 In prayer — 1 day"
     prayer_multi: "🙏 In prayer — {days} days"
+    note: "<i>We track your progress not to compete, but to remind you of your journey with God.</i>"
   date_format: "{month} {day}"
   months:
     - January
@@ -76,7 +76,7 @@ menu:
   plan: "📚 Reading plan"
   ai_pastor: "🕊️ Spiritual companion"
   pray: "🙏 Pray"
-  wisdom: "💡 Wisdom of the day"
+  wisdom: "💡 Wisdom"
   cabinet: "👤 My account"
 
 search:
@@ -154,6 +154,7 @@ cabinet:
 
 settings:
   title: "<b>⚙️ Settings</b>"
+  subtitle: "Make the bot yours."
   current_language: "🌐 Language: <b>{language}</b>"
   current_translation: "📖 Translation: <b>{translation}</b>"
   change_language: "🌐 Change language"
@@ -172,11 +173,14 @@ settings:
   notifications: "🔔 Notifications: <b>{status}</b>"
   notifications_on: "on, {time}"
   notifications_off: "off"
+  timezone: "🌍 Time zone: <b>{timezone}</b>"
   change_notifications: "🔔 Notification settings"
   btn_language: "🌐 {language}"
   btn_notif_on: "🔔 On · {time}"
   btn_notif_off: "🔕 Off"
-  feedback_section: "💬 Help make the bot better:"
+  btn_notif_hub: "🔔 Notifications"
+  btn_timezone: "🌍 {timezone}"
+  feedback_section: "💬 Ideas and feedback always welcome:"
   language_names:
     ru: "Русский"
     en: "English"
@@ -218,21 +222,106 @@ help:
     /settings — settings
     /help — this screen
 
-    <b>What the bot can do:</b>
-    📖 Read the Bible in different translations
-    🔍 Search verses by words
-    💭 Find the Word for how you feel
-    🎲 Random verse and verse of the day
-    📚 Reading plans with reminders
-    📖 Day counter with the Word
-    ⭐ Bookmark favorite passages
+    <b>What I can do:</b>
     🕊️ Spiritual companion (AI) — listens and finds a verse
-    🙏 Prayers
-    💡 Wisdom of the day
+    📖 Read the Bible in different translations
+    🙏 A prayer for every day with reminders
+    🔍 Search verses by words and topics
+    💭 Find the Word for how you feel
+    🎲 Random verse, verse of the day and Wisdom
+    📚 Reading plans with reminders
+    🔥 Day counters for the Word and prayer
+    ⭐ Bookmark favorite passages
     ⚙️ Settings: language, translation, timezone and notifications
+
+    Need help or have an idea? Open «❓ FAQ» or write to us via «👤 My account».
+
+reply:
+  main_menu: "🏠 Main menu"
+  settings: "⚙️ Settings"
+  faq: "❓ FAQ"
+  support: "❤️ Support the project"
+  intro: "👇 The buttons below are always at hand — open the menu, read the FAQ or support the project anytime."
+
+faq:
+  title: |-
+    ❓ <b>Frequently asked questions</b>
+
+    Pick a question — I'll tell you how I can help:
+  back: "← To questions"
+  q:
+    can_do: "What can this bot do?"
+    help_me: "How can it help me?"
+    what_here: "What can I do here?"
+    progress: "What does “My progress” show?"
+    free: "Is it free?"
+    start: "Where do I start?"
+  a:
+    can_do: |-
+      📖 <b>I'm your companion in the Word.</b>
+
+      Here's what I can do:
+      • 📖 Read the Bible in 7 translations
+      • 🔍 Search verses by words
+      • 💭 Find the Word for how you feel
+      • 📚 Keep reading plans with reminders
+      • 🕊️ Spiritual companion (AI) — listens and finds a verse
+      • 🙏 Prayers for every day
+      • 🎲 Verse of the day and a random verse
+      • ⭐ Bookmark favorite passages
+      • 💡 Wisdom
+
+      All right inside Telegram, and free.
+    help_me: |-
+      🤍 <b>I'll help you stay close to God every day.</b>
+
+      • Anxious, sad or joyful — I'll find a verse for how you feel (💭 By mood)
+      • Have a question about faith or life — the 🕊️ spiritual companion (AI) will listen
+      • Want to read regularly — a reading plan with reminders keeps you on track
+      • Need words to pray — you'll find ready prayers for every day
+
+      I'm here when you need me.
+    what_here: |-
+      ✨ <b>Here you can:</b>
+
+      • Open any book and chapter of the Bible
+      • Find a verse by word or topic
+      • Get the verse of the day and share it with loved ones
+      • Start a reading plan and follow it day by day
+      • Talk with the spiritual companion
+      • Pray and mark a day in prayer
+      • Save favorite verses to bookmarks
+
+      Just use the menu buttons — everything's at hand.
+    progress: |-
+      📊 <b>“My progress” is two counters of your journey with God.</b>
+
+      📖 <b>In the Word</b> — how many days in total you've spent with the Word. A day counts when you read a Bible chapter, open the verse of the day, a random verse, or complete a day of a reading plan.
+
+      🙏 <b>In prayer</b> — how many days in total you've prayed. A day counts when you tap “Amen” under the prayer of the day.
+
+      Both counters <b>only grow</b>: miss a day, a week or more — nothing resets or burns out. At most +1 per day, no matter how many times you come in.
+
+      It's not a race or a competition with anyone — just a gentle reminder of your journey with God 🌱
+    free: |-
+      💚 <b>Yes, completely free.</b>
+
+      Reading, search, plans, prayers, the spiritual companion — all available with no payment and no ads.
+
+      The project runs on voluntary donations. If it helps you, you can support it with the “❤️ Support the project” button — but that's always optional.
+    start: |-
+      🌱 <b>Getting started is simple:</b>
+
+      1️⃣ Open “🏠 Main menu”
+      2️⃣ Tap “📖 Read the Bible” or get the 🎲 verse of the day
+      3️⃣ Turn on a reading plan to read regularly
+      4️⃣ Drop by the 🕊️ spiritual companion if you have a question
+
+      Tip: in ⚙️ Settings pick your translation, language and the time for the verse of the day.
 
 verse:
   of_day_title: "📅 <b>Verse of the day</b>"
+  daily_push_intro: "God's Word for today:"
   random_title: "🎲 <b>Random verse</b>"
   reference: "<b>{book} {chapter}:{verse}</b>"
   another: "🔄 Another one"
@@ -244,6 +333,7 @@ topics:
   title: "<b>💭 How do you feel right now?</b>\n\nChoose, and I'll find words from Scripture for you:"
   reference: "<b>{book} {chapter}:{verse}</b>"
   back_to_topics: "← To topics"
+  another_verse: "🎲 Another verse"
 
 pray:
   title: "<b>🙏 Pray</b>"
@@ -260,7 +350,7 @@ pray:
   btn_my: "📌 My prayers"
   btn_remind: "🔔 Remind me"
   repentance:
-    teaser: "🕊️ <b>The Prayer of Repentance</b> is the first sincere step toward God, in which a person admits their sins and receives Jesus Christ as Lord and Savior. If you want to begin a new life with God, go to the prayer of repentance and turn to Him right now."
+    teaser: "🕊️ First time turning to God?\nStart with a prayer of repentance."
     button: "🙏 Prayer of repentance"
     done_button: "🙏 I have prayed"
     card: |-
@@ -324,6 +414,8 @@ pray:
   counter:
     indicator: "🙏 {days} days in prayer"
     indicator_single: "🙏 1 day in prayer"
+    activity_hint: "<i>Come back each day and tap “Amen” — that's how your activity is marked.</i>"
+    activity_cta: "<i>👇 Pray, then tap «Amen» — that's how your activity is marked.</i>"
     onboarding: |
       🙏 <b>Your first day in prayer is counted!</b>
 
@@ -352,7 +444,7 @@ pray:
     btn_enable: "🔔 Enable"
     btn_disable: "🔕 Disable"
     btn_time: "🕐 Time: {time}"
-    push_greeting: "🙏 <b>Prayer for today</b>"
+    push_greeting: "🙏 <b>Prayer for today</b>\nTake a quiet minute before God."
     push_open: "📖 Open in the bot"
   months:
     short:
@@ -370,7 +462,7 @@ pray:
       - "Dec"
 
 wisdom:
-  title: "💡 <b>Wisdom of the Day</b>"
+  title: "💡 <b>Wisdom</b>"
   theme_line: "<i>Theme: {theme}</i>"
   theme:
     speech: "The power of words"
@@ -402,6 +494,30 @@ bookmarks:
   open_chapter: "📖 Open chapter"
   delete: "🗑 Delete"
 
+notif:
+  hub:
+    title: "<b>🔔 Notifications</b>\n\nChoose what and when to send."
+    verse_on: "📖 Verse of the day · on · {time}"
+    verse_off: "📖 Verse of the day · off"
+    prayer_on: "🙏 Prayer · on · {time}"
+    prayer_off: "🙏 Prayer · off"
+    plan_on: "📚 Reading plan · on · {time}"
+    plan_off: "📚 Reading plan · off"
+    plan_none: "📚 Reading plan · none active"
+    plan_none_alert: "You don't have an active reading plan. Start one in the «Plans» section to get reminders."
+
+faq:
+  ask:
+    button: "✍️ Ask the author"
+    prompt: |-
+      <b>✍️ Ask your question</b>
+
+      Write what you'd like to ask — I'll forward it to the author. He'll do his best to reply to you here.
+    sent: "✅ Thanks! Your question was sent to the author. If he replies, you'll see his message right here."
+    reply_prefix: "💌 <b>Author's reply:</b>"
+    delivery_ok: "✅ Delivered to user."
+    delivery_failed: "⚠️ Failed to deliver: user closed DMs or blocked the bot."
+
 notifications:
   title: "<b>🔔 Notifications</b>\n\n{status}\n\n📅 The verse of the day will arrive every day at your chosen time."
   status_enabled: "✅ Notifications on\n🕐 Time: <b>{time}</b>"
@@ -413,9 +529,7 @@ notifications:
   time_changed: "✅ Time changed to {time}"
   enabled_message: "✅ Notifications enabled"
   disabled_message: "🔕 Notifications disabled"
-  change_timezone: "🌍 Time zone"
   choose_timezone: "<b>🌍 Time zone</b>\n\nChoose your time zone — notification times are interpreted in it."
-  timezone_line: "🌍 Time zone: <b>{timezone}</b>"
   timezone_changed: "✅ Time zone: {timezone}"
 
 counter:
@@ -620,18 +734,12 @@ donate:
 
     ⚠️ If you have a problem with payment — tap "Payment problem" and we'll help.
 
-  # Region selection screen
-  region_title: |
-    ❤️ <b>Support the project</b>
-
-    Choose your region to see convenient payment methods:
-  region_ua: "🇺🇦 Ukraine"
-  region_other: "🌍 Other country"
-
   # Main screen buttons
   stars_button: "⭐ Support with Telegram Stars"
   monobank_button: "🏦 Monobank"
-  revolut_button: "💳 Support with any card"
+  bizum_button: "📱 Bizum"
+  bizum_copy: "📋 Copy number"
+  revolut_button: "💳 Revolut"
   crypto_button: "🪙 Cryptocurrency"
   paypal_button: "💳 PayPal"
   where_button: "📊 Where funds go"
@@ -646,6 +754,15 @@ donate:
 
     🎯 Goal: 10,000 ₴
   monobank_open: "🔗 Open jar"
+
+  # Bizum screen
+  bizum_info: |
+    📱 <b>Bizum — support the project</b>
+
+    Send your donation via Bizum to the number (tap to copy):
+    <code>{phone}</code>
+
+    🙏 The funds go to hosting and technical support of the free "Bible Way" bot. Thank you for your generosity!
 
   # Stars amount selection screen
   choose_amount: "⭐ <b>Choose support amount:</b>"

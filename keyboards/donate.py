@@ -1,4 +1,4 @@
-from aiogram.types import InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CopyTextButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from config import (
@@ -6,91 +6,75 @@ from config import (
     DONATE_REVOLUT_URL,
     DONATE_PAYPAL_URL,
     DONATE_CRYPTO_URL,
+    DONATE_BIZUM_PHONE,
     DONATE_STAR_PRESETS,
 )
 from services.i18n import t
 
 
-def donate_region_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Выбор региона перед показом способов оплаты (только uk/ru)."""
-    builder = InlineKeyboardBuilder()
-
-    builder.button(
-        text=t("donate.region_ua", lang),
-        callback_data="donate:region:ua"
-    )
-    builder.button(
-        text=t("donate.region_other", lang),
-        callback_data="donate:region:other"
-    )
-
-    # Навигация
-    builder.button(
-        text=t("common.back_to_menu", lang),
-        callback_data="open_menu"
-    )
-
-    builder.adjust(1)
-    return builder.as_markup()
-
-
-def donate_main_keyboard(lang: str, region: str = "other") -> InlineKeyboardMarkup:
-    """Главный экран доната: Stars + региональные ссылки + инфо."""
+def donate_main_keyboard(lang: str, in_spain: bool = False) -> InlineKeyboardMarkup:
+    """Главный экран доната: Stars + способы оплаты по языку/таймзоне + инфо."""
     builder = InlineKeyboardBuilder()
 
     # Основная кнопка — Telegram Stars
-    builder.button(
+    builder.row(InlineKeyboardButton(
         text=t("donate.stars_button", lang),
-        callback_data="donate:stars"
-    )
+        callback_data="donate:stars",
+    ))
 
-    # Monobank — только для региона "ua"
-    if region == "ua" and DONATE_MONOBANK_URL:
-        builder.button(
+    # Monobank — для украино/русскоязычной аудитории
+    if lang in ("uk", "ru") and DONATE_MONOBANK_URL:
+        builder.row(InlineKeyboardButton(
             text=t("donate.monobank_button", lang),
-            callback_data="donate:monobank"
-        )
+            callback_data="donate:monobank",
+        ))
 
-    # Revolut — для всех (как "Поддержка любой картой")
+    # Bizum (испанская таймзона) + Revolut — в одном ряду
+    pay_row = []
+    if in_spain and DONATE_BIZUM_PHONE:
+        pay_row.append(InlineKeyboardButton(
+            text=t("donate.bizum_button", lang),
+            callback_data="donate:bizum",
+        ))
     if DONATE_REVOLUT_URL:
-        builder.button(
+        pay_row.append(InlineKeyboardButton(
             text=t("donate.revolut_button", lang),
-            url=DONATE_REVOLUT_URL
-        )
+            url=DONATE_REVOLUT_URL,
+        ))
+    if pay_row:
+        builder.row(*pay_row)
 
-    # PayPal — только для региона "other"
-    if region == "other" and DONATE_PAYPAL_URL:
-        builder.button(
+    # PayPal — для всех (если URL задан)
+    if DONATE_PAYPAL_URL:
+        builder.row(InlineKeyboardButton(
             text=t("donate.paypal_button", lang),
-            url=DONATE_PAYPAL_URL
-        )
+            url=DONATE_PAYPAL_URL,
+        ))
 
     # Крипто — для всех (если URL задан)
     if DONATE_CRYPTO_URL:
-        builder.button(
+        builder.row(InlineKeyboardButton(
             text=t("donate.crypto_button", lang),
-            url=DONATE_CRYPTO_URL
-        )
+            url=DONATE_CRYPTO_URL,
+        ))
 
     # Информационная кнопка
-    builder.button(
+    builder.row(InlineKeyboardButton(
         text=t("donate.where_button", lang),
-        callback_data="donate:where"
-    )
+        callback_data="donate:where",
+    ))
 
     # Проблема с оплатой — ведёт в поток репорта о проблеме
-    builder.button(
+    builder.row(InlineKeyboardButton(
         text=t("donate.problem_button", lang),
-        callback_data="fb:start:bug"
-    )
+        callback_data="fb:start:bug",
+    ))
 
-    builder.button(
+    builder.row(InlineKeyboardButton(
         text=t("common.back_to_menu", lang),
-        callback_data="open_menu"
-    )
+        callback_data="open_menu",
+    ))
 
-    # Раскладка: все кнопки по одной в ряд
-    builder.adjust(1)
     return builder.as_markup()
 
 
@@ -104,9 +88,24 @@ def donate_monobank_keyboard(lang: str) -> InlineKeyboardMarkup:
     )
     builder.button(
         text=t("donate.back", lang),
-        callback_data="donate:region:ua"
+        callback_data="donate:back_to_main"
     )
 
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+def donate_bizum_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """Кнопки под реквизитами Bizum: копировать номер (нативный copy_text) + назад."""
+    builder = InlineKeyboardBuilder()
+    builder.button(
+        text=t("donate.bizum_copy", lang),
+        copy_text=CopyTextButton(text=DONATE_BIZUM_PHONE),
+    )
+    builder.button(
+        text=t("donate.back", lang),
+        callback_data="donate:back_to_main"
+    )
     builder.adjust(1)
     return builder.as_markup()
 
