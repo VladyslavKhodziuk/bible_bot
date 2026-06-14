@@ -321,6 +321,16 @@ faq:
       4️⃣ Pásate por el 🕊️ compañero espiritual si tienes una pregunta
 
       Consejo: en ⚙️ Ajustes elige tu traducción, idioma y la hora del versículo del día.
+  ask:
+    button: "✍️ Preguntar al autor"
+    prompt: |-
+      <b>✍️ Haz tu pregunta</b>
+
+      Escribe lo que quieras preguntar — se lo enviaré al autor. Él intentará responderte directamente aquí.
+    sent: "✅ ¡Gracias! Tu pregunta fue enviada al autor. Si responde, verás su mensaje aquí mismo."
+    reply_prefix: "💌 <b>Respuesta del autor:</b>"
+    delivery_ok: "✅ Entregado al usuario."
+    delivery_failed: "⚠️ No se pudo entregar: el usuario cerró los DMs o bloqueó al bot."
 
 verse:
   of_day_title: "📅 <b>Versículo del día</b>"
@@ -508,18 +518,6 @@ notif:
     plan_off: "📚 Plan de lectura · desact"
     plan_none: "📚 Plan de lectura · ninguno activo"
     plan_none_alert: "No tienes un plan de lectura activo. Inicia uno en la sección «Planes» para recibir recordatorios."
-
-faq:
-  ask:
-    button: "✍️ Preguntar al autor"
-    prompt: |-
-      <b>✍️ Haz tu pregunta</b>
-
-      Escribe lo que quieras preguntar — se lo enviaré al autor. Él intentará responderte directamente aquí.
-    sent: "✅ ¡Gracias! Tu pregunta fue enviada al autor. Si responde, verás su mensaje aquí mismo."
-    reply_prefix: "💌 <b>Respuesta del autor:</b>"
-    delivery_ok: "✅ Entregado al usuario."
-    delivery_failed: "⚠️ No se pudo entregar: el usuario cerró los DMs o bloqueó al bot."
 
 notifications:
   title: "<b>🔔 Notificaciones</b>\n\n{status}\n\n📅 El versículo del día llegará cada día a la hora que elijas."

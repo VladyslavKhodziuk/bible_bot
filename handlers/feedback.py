@@ -170,7 +170,7 @@ async def _receive_feedback(message: Message, state: FSMContext, bot: Bot, kind:
     await _notify_admin(bot, message.from_user, lang, kind, text)
 
 
-# ============ Ответ админа пользователю через reply в группе ============
+# ============ Ответ админа пользователю через reply ============
 
 # Множество chat_id фидбэк-групп — для быстрого фильтра входящих сообщений.
 _FEEDBACK_GROUP_IDS = {cid for cid in FEEDBACK_CHAT_IDS.values() if cid}
@@ -178,19 +178,24 @@ _FEEDBACK_GROUP_IDS = {cid for cid in FEEDBACK_CHAT_IDS.values() if cid}
 
 @router.message(F.reply_to_message)
 async def relay_admin_reply(message: Message, bot: Bot):
-    """Reply админа в фидбэк-группе → пересылка автору в ЛС.
+    """Reply админа на бот-уведомление о фидбеке → пересылка автору в ЛС.
 
     Срабатывает только при выполнении ВСЕХ условий:
-      - сообщение из чата, числящегося в FEEDBACK_CHAT_IDS;
+      - сообщение либо из фидбэк-группы (FEEDBACK_CHAT_IDS), либо из ЛС админа
+        (когда группа не задана и уведомление пришло в DM администратору);
       - это reply на сообщение бота;
       - отправитель — администратор (ADMIN_IDS);
       - в БД есть FeedbackRelay для (chat_id, reply_to.message_id).
 
     Иначе пропускаем дальше — обычный чат в группе не должен ломаться.
     """
-    if not _FEEDBACK_GROUP_IDS or message.chat.id not in _FEEDBACK_GROUP_IDS:
-        return
+    chat_id = message.chat.id
     if not message.from_user or message.from_user.id not in ADMIN_IDS:
+        return
+    # В ЛС админа chat.id == tg_id админа; в группе chat.id — фидбек-группа.
+    is_feedback_group = chat_id in _FEEDBACK_GROUP_IDS
+    is_admin_dm = message.chat.type == "private" and chat_id in ADMIN_IDS
+    if not (is_feedback_group or is_admin_dm):
         return
     reply_to = message.reply_to_message
     if not reply_to or not reply_to.from_user or not reply_to.from_user.is_bot:
@@ -293,15 +298,14 @@ async def _notify_admin(bot: Bot, tg_user, lang: str, kind: str, text: str):
             logger.warning(f"Не удалось отправить уведомление ({kind}) в {target}: {e}")
             continue
 
-        # Сохраняем relay только для отправок в ГРУППУ (target == group_chat_id),
-        # т.к. ответ в ЛС админу не имеет смысла «передавать» через бота.
-        if group_chat_id and target == group_chat_id:
-            try:
-                await FeedbackService.save_relay(
-                    group_chat_id=target,
-                    group_message_id=sent.message_id,
-                    user_tg_id=tg_user.id,
-                    kind=kind,
-                )
-            except Exception as e:
-                logger.warning(f"Не удалось сохранить FeedbackRelay ({kind}) {target}/{sent.message_id}: {e}")
+        # Сохраняем relay и для группы, и для ЛС админа — чтобы reply админа
+        # долетел до автора в обоих случаях. Для DM `group_chat_id` поля = tg_id админа.
+        try:
+            await FeedbackService.save_relay(
+                group_chat_id=target,
+                group_message_id=sent.message_id,
+                user_tg_id=tg_user.id,
+                kind=kind,
+            )
+        except Exception as e:
+            logger.warning(f"Не удалось сохранить FeedbackRelay ({kind}) {target}/{sent.message_id}: {e}")

@@ -318,6 +318,16 @@ faq:
       4️⃣ Drop by the 🕊️ spiritual companion if you have a question
 
       Tip: in ⚙️ Settings pick your translation, language and the time for the verse of the day.
+  ask:
+    button: "✍️ Ask the author"
+    prompt: |-
+      <b>✍️ Ask your question</b>
+
+      Write what you'd like to ask — I'll forward it to the author. He'll do his best to reply to you here.
+    sent: "✅ Thanks! Your question was sent to the author. If he replies, you'll see his message right here."
+    reply_prefix: "💌 <b>Author's reply:</b>"
+    delivery_ok: "✅ Delivered to user."
+    delivery_failed: "⚠️ Failed to deliver: user closed DMs or blocked the bot."
 
 verse:
   of_day_title: "📅 <b>Verse of the day</b>"
@@ -505,18 +515,6 @@ notif:
     plan_off: "📚 Reading plan · off"
     plan_none: "📚 Reading plan · none active"
     plan_none_alert: "You don't have an active reading plan. Start one in the «Plans» section to get reminders."
-
-faq:
-  ask:
-    button: "✍️ Ask the author"
-    prompt: |-
-      <b>✍️ Ask your question</b>
-
-      Write what you'd like to ask — I'll forward it to the author. He'll do his best to reply to you here.
-    sent: "✅ Thanks! Your question was sent to the author. If he replies, you'll see his message right here."
-    reply_prefix: "💌 <b>Author's reply:</b>"
-    delivery_ok: "✅ Delivered to user."
-    delivery_failed: "⚠️ Failed to deliver: user closed DMs or blocked the bot."
 
 notifications:
   title: "<b>🔔 Notifications</b>\n\n{status}\n\n📅 The verse of the day will arrive every day at your chosen time."
