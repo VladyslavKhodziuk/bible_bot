@@ -4,6 +4,7 @@ from database import async_session
 from models import User
 from services.bible_service import BibleService
 from services.i18n import resolve_user_lang
+from services.timezones import resolve_user_timezone
 
 
 class UserService:
@@ -23,18 +24,25 @@ class UserService:
         tg_id: int,
         username: str | None,
         first_name: str | None,
-        lang: str = "ru"
+        lang: str = "en",
+        timezone: str | None = None,
     ) -> User:
-        """Создать нового пользователя. Перевод Библии подбирается под язык."""
+        """Создать нового пользователя. Перевод Библии подбирается под язык.
+
+        timezone=None → берётся default колонки (DEFAULT_TZ из config.py).
+        """
         translation = BibleService.get_translation_for_lang(lang)
         async with async_session() as session:
-            user = User(
-                tg_id=tg_id,
-                username=username,
-                first_name=first_name,
-                lang=lang,
-                translation=translation,
-            )
+            kwargs = {
+                "tg_id": tg_id,
+                "username": username,
+                "first_name": first_name,
+                "lang": lang,
+                "translation": translation,
+            }
+            if timezone is not None:
+                kwargs["timezone"] = timezone
+            user = User(**kwargs)
             session.add(user)
             await session.commit()
             await session.refresh(user)
@@ -57,11 +65,13 @@ class UserService:
         if user is not None:
             return user, False
         lang = resolve_user_lang(language_code)
+        timezone = resolve_user_timezone(language_code)
         user = await UserService.create(
             tg_id=tg_id,
             username=username,
             first_name=first_name,
             lang=lang,
+            timezone=timezone,
         )
         return user, True
 

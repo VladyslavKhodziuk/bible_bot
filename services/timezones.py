@@ -46,6 +46,30 @@ _CITY_LABEL: dict[str, dict[str, str]] = {
 }
 
 
+# Эвристика «язык Telegram → основной часовой пояс носителей».
+# Используется при создании юзера в /start: даём разумный дефолт без
+# дополнительного клика. Кнопка «Изменить часовой пояс» на welcome остаётся
+# как ручной override, если эвристика угадала неверно.
+_LANG_TO_TZ: dict[str, str] = {
+    "uk": "Europe/Kyiv",
+    "ru": "Europe/Berlin",
+    "en": "Europe/London",
+    "es": "Europe/Madrid",
+}
+
+
+def resolve_user_timezone(language_code: str | None) -> str:
+    """Угадать IANA-зону по Telegram language_code.
+
+    Берём первый сегмент BCP-47 ("es-419" → "es") и матчим против
+    _LANG_TO_TZ. Незнакомые языки → DEFAULT_TZ.
+    """
+    if not language_code:
+        return DEFAULT_TZ
+    primary = language_code.split("-", 1)[0].lower()
+    return _LANG_TO_TZ.get(primary, DEFAULT_TZ)
+
+
 def _zone(tz_name: str) -> ZoneInfo:
     """ZoneInfo по имени; при неизвестном/битом — DEFAULT_TZ."""
     try:
