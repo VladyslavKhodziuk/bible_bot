@@ -1,5 +1,4 @@
 from aiogram import Router, F
-from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message
 
 from services.user_service import UserService
@@ -34,25 +33,6 @@ def _build_settings_text(user, lang: str) -> str:
     ]
 
     return "\n".join(lines)
-
-
-@router.message(Command("settings"))
-async def cmd_settings(message: Message):
-    """Команда /settings — открыть настройки откуда угодно.
-
-    Если юзер ещё не зарегистрирован (зашёл сразу в /settings, минуя /start) —
-    создаём запись с языком из Telegram language_code и сразу показываем настройки.
-    """
-    user, _ = await UserService.get_or_create(
-        message.from_user.id,
-        username=message.from_user.username,
-        first_name=message.from_user.first_name,
-        language_code=message.from_user.language_code,
-    )
-    await message.answer(
-        _build_settings_text(user, user.lang),
-        reply_markup=settings_keyboard(user, user.lang),
-    )
 
 
 @router.callback_query(F.data == "settings")

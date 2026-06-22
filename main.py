@@ -32,8 +32,6 @@ async def set_bot_commands(bot: Bot):
     commands = [
         BotCommand(command="start", description="Iniciar / Почати / Начать"),
         BotCommand(command="menu", description="Menú / Меню / Меню"),
-        BotCommand(command="verse", description="Versículo del día / Вірш дня / Стих дня"),
-        BotCommand(command="settings", description="Ajustes / Налаштування / Настройки"),
         BotCommand(command="help", description="Ayuda / Допомога / Помощь"),
     ]
     await bot.set_my_commands(commands)

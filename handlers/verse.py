@@ -2,7 +2,6 @@ import re
 import urllib.parse
 
 from aiogram import Router, F
-from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -134,7 +133,7 @@ async def _render_verse_of_day(tg_id: int, lang: str, translation: str, bot):
     """Готовит стих дня: засчитывает серию и собирает текст + клавиатуру.
 
     Возвращает ``(text, keyboard, counter_result)`` либо ``None``, если стих
-    получить не удалось. Общий рендер для callback-кнопки и команды /verse.
+    получить не удалось. Используется callback-кнопкой «стих дня» в меню.
     """
     verse = BibleService.get_verse_of_day(translation)
     if not verse:
@@ -190,25 +189,6 @@ async def show_verse_of_day(callback: CallbackQuery):
     await callback.answer()
 
     await _send_counter_extras(callback.message, callback.from_user.id, counter_result, lang)
-
-
-@router.message(Command("verse"))
-async def cmd_verse(message: Message):
-    """Команда /verse — стих дня откуда угодно."""
-    user = await UserService.get(message.from_user.id)
-    lang = user.lang if user else "ru"
-    translation = user.translation if user else "ru_synodal"
-
-    rendered = await _render_verse_of_day(
-        message.from_user.id, lang, translation, message.bot
-    )
-    if rendered is None:
-        await message.answer("⚠️")
-        return
-    text, keyboard, counter_result = rendered
-
-    await message.answer(text, reply_markup=keyboard)
-    await _send_counter_extras(message, message.from_user.id, counter_result, lang)
 
 
 @router.callback_query(F.data == "random")

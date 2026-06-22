@@ -46,7 +46,7 @@ async def reply_main_menu(message: Message):
 
 @router.message(F.text.in_(_labels("reply.settings")))
 async def reply_settings(message: Message):
-    """Кнопка «Настройки» — открываем экран настроек новым сообщением (как /settings).
+    """Кнопка «Настройки» — открываем экран настроек новым сообщением.
 
     Если юзер не зарегистрирован — auto-create с языком из Telegram language_code.
     """
