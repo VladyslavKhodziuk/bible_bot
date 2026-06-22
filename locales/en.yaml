@@ -179,7 +179,7 @@ settings:
   btn_notif_on: "🔔 On · {time}"
   btn_notif_off: "🔕 Off"
   btn_notif_hub: "🔔 Notifications"
-  btn_timezone: "🌍 {timezone}"
+  btn_timezone: "🌍 Change timezone"
   feedback_section: "💬 Ideas and feedback always welcome:"
   language_names:
     ru: "Русский"

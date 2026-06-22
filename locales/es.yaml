@@ -180,7 +180,7 @@ settings:
   btn_notif_on: "🔔 Act. · {time}"
   btn_notif_off: "🔕 Desact."
   btn_notif_hub: "🔔 Notificaciones"
-  btn_timezone: "🌍 {timezone}"
+  btn_timezone: "🌍 Cambiar zona horaria"
   feedback_section: "💬 Tus ideas y comentarios son bienvenidos:"
   language_names:
     ru: "Русский"

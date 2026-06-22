@@ -2,7 +2,6 @@ from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from services.i18n import t
-from services.timezones import label as tz_label
 
 
 def settings_keyboard(user, lang: str) -> InlineKeyboardMarkup:
@@ -24,7 +23,7 @@ def settings_keyboard(user, lang: str) -> InlineKeyboardMarkup:
 
     # === Ряд 2: часовой пояс (full-width) ===
     builder.button(
-        text=t("settings.btn_timezone", lang, timezone=tz_label(user.timezone, lang)),
+        text=t("settings.btn_timezone", lang),
         callback_data="settings:tz"
     )
     layout.append(1)

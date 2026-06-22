@@ -491,7 +491,7 @@ settings:
   btn_notif_on: "🔔 Увімк. · {time}"
   btn_notif_off: "🔕 Вимк."
   btn_notif_hub: "🔔 Сповіщення"
-  btn_timezone: "🌍 {timezone}"
+  btn_timezone: "🌍 Змінити часовий пояс"
   feedback_section: "💬 Ідеї та зауваження завжди чекаємо:"
   language_names:
     ru: "Русский"

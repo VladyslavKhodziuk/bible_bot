@@ -185,7 +185,7 @@ settings:
   btn_notif_on: "🔔 Вкл · {time}"
   btn_notif_off: "🔕 Выкл"
   btn_notif_hub: "🔔 Уведомления"
-  btn_timezone: "🌍 {timezone}"
+  btn_timezone: "🌍 Сменить часовой пояс"
   feedback_section: "💬 Идеи и замечания всегда ждём:"
   language_names:
     ru: "Русский"
