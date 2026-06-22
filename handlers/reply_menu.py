@@ -19,7 +19,6 @@ from keyboards.menu import main_menu_keyboard
 from keyboards.reply import faq_menu_keyboard, faq_answer_keyboard
 from keyboards.donate import donate_main_keyboard
 from keyboards.settings import settings_keyboard
-from keyboards.language import language_keyboard
 from handlers.donate import SPAIN_ZONES
 from handlers.freetext import reset_strikes
 from handlers.settings import _build_settings_text
@@ -47,13 +46,17 @@ async def reply_main_menu(message: Message):
 
 @router.message(F.text.in_(_labels("reply.settings")))
 async def reply_settings(message: Message):
-    """Кнопка «Настройки» — открываем экран настроек новым сообщением (как /settings)."""
+    """Кнопка «Настройки» — открываем экран настроек новым сообщением (как /settings).
+
+    Если юзер не зарегистрирован — auto-create с языком из Telegram language_code.
+    """
     reset_strikes(message.from_user.id)
-    user = await UserService.get(message.from_user.id)
-    if user is None:
-        # Не делал /start — отправляем на онбординг (выбор языка)
-        await message.answer(t("language.choose"), reply_markup=language_keyboard())
-        return
+    user, _ = await UserService.get_or_create(
+        message.from_user.id,
+        username=message.from_user.username,
+        first_name=message.from_user.first_name,
+        language_code=message.from_user.language_code,
+    )
     await message.answer(
         _build_settings_text(user, user.lang),
         reply_markup=settings_keyboard(user, user.lang),

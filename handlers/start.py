@@ -7,7 +7,6 @@ from aiogram.types import Message, CallbackQuery
 from services.user_service import UserService
 from services.menu_text import build_menu_text
 from services.i18n import t
-from keyboards.language import language_keyboard
 from keyboards.menu import welcome_keyboard, main_menu_keyboard
 from keyboards.reply import main_reply_keyboard
 from keyboards.notifications import onboarding_timezone_keyboard
@@ -40,15 +39,26 @@ def _welcome_text(user, lang: str) -> str:
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
-    """Обработка /start: новому юзеру — выбор языка, старому — приветствие."""
-    user = await UserService.get(message.from_user.id)
+    """Обработка /start: новому юзеру — приветствие на языке Telegram, старому — welcome_back."""
+    user, is_new = await UserService.get_or_create(
+        message.from_user.id,
+        username=message.from_user.username,
+        first_name=message.from_user.first_name,
+        language_code=message.from_user.language_code,
+    )
+    lang = user.lang
 
-    if user is None:
-        # Новый пользователь — показываем выбор языка
-        # Юзера создадим ТОЛЬКО после выбора языка
+    if is_new:
+        # Приветствие нового юзера с inline-кнопками (часовой пояс / открыть меню).
         await message.answer(
-            t("language.choose"),
-            reply_markup=language_keyboard()
+            _welcome_text(user, lang),
+            reply_markup=welcome_keyboard(lang),
+        )
+        # Отдельным сообщением активируем постоянную reply-клавиатуру: на одном
+        # сообщении inline + reply разметки одновременно не уживаются.
+        await message.answer(
+            t("reply.intro", lang),
+            reply_markup=main_reply_keyboard(lang),
         )
         return
 
@@ -57,52 +67,13 @@ async def cmd_start(message: Message):
     # разметки) — дальше она держится весь сеанс, меню остаётся inline.
     name = html.escape(user.first_name or "друг")
     await message.answer(
-        t("welcome_back", user.lang, name=name),
-        reply_markup=main_reply_keyboard(user.lang),
-    )
-    await message.answer(
-        await build_menu_text(user, user.lang, message.bot),
-        reply_markup=main_menu_keyboard(user.lang),
-    )
-
-
-@router.callback_query(F.data.startswith("setlang:"))
-async def set_language(callback: CallbackQuery):
-    """Обработка выбора языка → сразу приветствие.
-
-    Часовой пояс при онбординге не спрашиваем: новый юзер получает дефолтный
-    (Europe/Madrid). Поправить его можно кнопкой прямо на экране приветствия.
-    """
-    lang = callback.data.split(":")[1]
-
-    user = await UserService.get(callback.from_user.id)
-
-    # Удаляем сообщение с выбором языка
-    await callback.message.delete()
-
-    if user is None:
-        await UserService.create(
-            tg_id=callback.from_user.id,
-            username=callback.from_user.username,
-            first_name=callback.from_user.first_name,
-            lang=lang
-        )
-    else:
-        await UserService.set_language(callback.from_user.id, lang)
-
-    user = await UserService.get(callback.from_user.id)
-    await callback.message.answer(
-        _welcome_text(user, lang),
-        reply_markup=welcome_keyboard(lang),
-    )
-    # Отдельным коротким сообщением активируем постоянную reply-клавиатуру.
-    # Приветствие выше оставляем с inline-кнопками (выбор часового пояса), а на
-    # одном сообщении reply- и inline-разметка вместе невозможны.
-    await callback.message.answer(
-        t("reply.intro", lang),
+        t("welcome_back", lang, name=name),
         reply_markup=main_reply_keyboard(lang),
     )
-    await callback.answer()
+    await message.answer(
+        await build_menu_text(user, lang, message.bot),
+        reply_markup=main_menu_keyboard(lang),
+    )
 
 
 @router.callback_query(F.data == "onboard:tz")

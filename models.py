@@ -14,7 +14,7 @@ class User(Base):
     tg_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
     username: Mapped[str | None] = mapped_column(String(64), nullable=True)
     first_name: Mapped[str | None] = mapped_column(String(64), nullable=True)
-    lang: Mapped[str] = mapped_column(String(5), default="ru")
+    lang: Mapped[str] = mapped_column(String(5), default="en")
     translation: Mapped[str] = mapped_column(String(20), default="ru_synodal")
     notifications_enabled: Mapped[bool] = mapped_column(default=True)  # стих дня вкл по умолчанию
     notification_time: Mapped[str] = mapped_column(String(5), default="09:00")  # формат "HH:MM"

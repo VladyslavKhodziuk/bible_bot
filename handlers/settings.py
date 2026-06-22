@@ -5,7 +5,6 @@ from aiogram.types import CallbackQuery, Message
 from services.user_service import UserService
 from services.i18n import t
 from services.timezones import is_valid, label as tz_label
-from keyboards.language import language_keyboard
 from keyboards.notifications import timezone_picker_keyboard
 from keyboards.reply import main_reply_keyboard
 from keyboards.settings import (
@@ -39,13 +38,17 @@ def _build_settings_text(user, lang: str) -> str:
 
 @router.message(Command("settings"))
 async def cmd_settings(message: Message):
-    """Команда /settings — открыть настройки откуда угодно."""
-    user = await UserService.get(message.from_user.id)
-    if user is None:
-        # Не делал /start — отправляем на онбординг (выбор языка)
-        await message.answer(t("language.choose"), reply_markup=language_keyboard())
-        return
+    """Команда /settings — открыть настройки откуда угодно.
 
+    Если юзер ещё не зарегистрирован (зашёл сразу в /settings, минуя /start) —
+    создаём запись с языком из Telegram language_code и сразу показываем настройки.
+    """
+    user, _ = await UserService.get_or_create(
+        message.from_user.id,
+        username=message.from_user.username,
+        first_name=message.from_user.first_name,
+        language_code=message.from_user.language_code,
+    )
     await message.answer(
         _build_settings_text(user, user.lang),
         reply_markup=settings_keyboard(user, user.lang),

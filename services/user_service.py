@@ -3,6 +3,7 @@ from sqlalchemy import select
 from database import async_session
 from models import User
 from services.bible_service import BibleService
+from services.i18n import resolve_user_lang
 
 
 class UserService:
@@ -38,6 +39,31 @@ class UserService:
             await session.commit()
             await session.refresh(user)
             return user
+
+    @staticmethod
+    async def get_or_create(
+        tg_id: int,
+        *,
+        username: str | None,
+        first_name: str | None,
+        language_code: str | None,
+    ) -> tuple[User, bool]:
+        """Вернуть юзера; если нет — создать с языком из Telegram language_code.
+
+        Возвращает (user, is_new). is_new=True означает, что юзер был создан
+        прямо сейчас — вызывающий может показать приветствие для нового юзера.
+        """
+        user = await UserService.get(tg_id)
+        if user is not None:
+            return user, False
+        lang = resolve_user_lang(language_code)
+        user = await UserService.create(
+            tg_id=tg_id,
+            username=username,
+            first_name=first_name,
+            lang=lang,
+        )
+        return user, True
 
     @staticmethod
     async def set_language(tg_id: int, lang: str) -> None:

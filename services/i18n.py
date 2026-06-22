@@ -53,6 +53,20 @@ def t(key: str, lang: str = DEFAULT_LANG, **kwargs) -> str:
     return data
 
 
+def resolve_user_lang(language_code: str | None) -> str:
+    """Маппинг Telegram language_code (IETF BCP-47) в SUPPORTED_LANGS.
+
+    Примеры: "en" → "en", "ru" → "ru", "es-419" → "es", "pt-BR" → "en",
+    "DE" → "en", None → "en". Fallback "en" — универсальнее для иностранцев.
+    """
+    if not language_code:
+        return "en"
+    primary = language_code.split("-", 1)[0].lower()
+    if primary in SUPPORTED_LANGS:
+        return primary
+    return "en"
+
+
 def t_list(key: str, lang: str = DEFAULT_LANG) -> list:
     """Получить локализованный список по ключу с точечной нотацией.
 
