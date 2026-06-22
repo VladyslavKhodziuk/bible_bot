@@ -1,0 +1,40 @@
+[Unit]
+Description=Bible Way Telegram Bot
+Documentation=https://github.com/VladyslavKhodziuk/bible_bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bible
+Group=bible
+WorkingDirectory=/home/bible/bible_bot
+ExecStart=/home/bible/bible_bot/venv/bin/python main.py
+
+# Перезапуск при падении (но не при штатном systemctl stop).
+Restart=on-failure
+RestartSec=5s
+# При краш-цикле: не больше 5 рестартов за 60 сек, иначе фейлим юнит.
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+# Логи в journald (читать: journalctl -u bible-bot -f)
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=bible-bot
+
+# Ограничения и безопасность
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/bible/bible_bot
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+
+# Graceful shutdown: дать боту до 30 сек на flush аналитики и закрытие сессии.
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
