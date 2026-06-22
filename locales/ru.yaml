@@ -181,7 +181,7 @@ settings:
   notifications_off: "выкл"
   timezone: "🌍 Часовой пояс: <b>{timezone}</b>"
   change_notifications: "🔔 Настройки уведомлений"
-  btn_language: "🌐 {language}"
+  btn_language: "🌐 Изменить язык"
   btn_notif_on: "🔔 Вкл · {time}"
   btn_notif_off: "🔕 Выкл"
   btn_notif_hub: "🔔 Уведомления"

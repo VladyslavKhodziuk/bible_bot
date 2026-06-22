@@ -5,7 +5,11 @@ from services.i18n import t
 
 
 def cabinet_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Клавиатура личного кабинета."""
+    """Клавиатура личного кабинета.
+
+    Настройки и поддержка проекта здесь не дублируются — они доступны
+    через постоянную reply-клавиатуру и главное меню.
+    """
     builder = InlineKeyboardBuilder()
     builder.button(
         text=t("cabinet.bookmarks_button", lang),
@@ -16,21 +20,13 @@ def cabinet_keyboard(lang: str) -> InlineKeyboardMarkup:
         callback_data="plan:history"
     )
     builder.button(
-        text=t("cabinet.settings_button", lang),
-        callback_data="settings"
-    )
-    builder.button(
         text=t("feedback.cabinet_review", lang),
         callback_data="fb:start:review"
-    )
-    builder.button(
-        text=t("feedback.support_button", lang),
-        callback_data="donate"
     )
     builder.button(
         text=t("common.back_to_menu", lang),
         callback_data="open_menu"
     )
-    # Сетка 2 в ряд: закладки | планы, настройки | отзыв, поддержать, в меню
-    builder.adjust(2, 2, 1, 1)
+    # Сетка: закладки | планы, отзыв (full), в меню (full)
+    builder.adjust(2, 1, 1)
     return builder.as_markup()

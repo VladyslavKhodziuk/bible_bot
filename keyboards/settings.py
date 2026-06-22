@@ -11,9 +11,8 @@ def settings_keyboard(user, lang: str) -> InlineKeyboardMarkup:
     layout = []
 
     # === Ряд 1: язык + уведомления ===
-    language_name = t(f"settings.language_names.{lang}", lang)
     builder.button(
-        text=t("settings.btn_language", lang, language=language_name),
+        text=t("settings.btn_language", lang),
         callback_data="settings:change_lang"
     )
 

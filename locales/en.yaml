@@ -175,7 +175,7 @@ settings:
   notifications_off: "off"
   timezone: "🌍 Time zone: <b>{timezone}</b>"
   change_notifications: "🔔 Notification settings"
-  btn_language: "🌐 {language}"
+  btn_language: "🌐 Change language"
   btn_notif_on: "🔔 On · {time}"
   btn_notif_off: "🔕 Off"
   btn_notif_hub: "🔔 Notifications"
