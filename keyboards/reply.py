@@ -25,11 +25,16 @@ def main_reply_keyboard(lang: str) -> ReplyKeyboardMarkup:
 
 
 def faq_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """Список вопросов FAQ + кнопка «задать вопрос автору» + возврат в меню."""
+    """Список вопросов FAQ + возврат в меню.
+
+    Кнопка «задать вопрос автору» временно скрыта — фича дорабатывается.
+    Когда будет готова, расскомментировать строку faq.ask.button ниже;
+    обработчик `faq:ask` в handlers/feedback.py уже на месте.
+    """
     builder = InlineKeyboardBuilder()
     for qid in FAQ_IDS:
         builder.button(text=t(f"faq.q.{qid}", lang), callback_data=f"faq:q:{qid}")
-    builder.button(text=t("faq.ask.button", lang), callback_data="faq:ask")
+    # builder.button(text=t("faq.ask.button", lang), callback_data="faq:ask")
     builder.button(text=t("common.back_to_menu", lang), callback_data="open_menu")
     builder.adjust(1)
     return builder.as_markup()
