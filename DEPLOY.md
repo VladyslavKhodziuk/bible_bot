@@ -1,47 +1,235 @@
 # Деплой и поддержка
 
-Прод-сетап: Hetzner Cloud VPS + Ubuntu 24.04 + systemd. Бот работает на
-long-polling, поэтому **публичный IP/домен/HTTPS не нужны** — достаточно
-исходящего интернета.
+Бот работает на **long-polling**, поэтому публичный IP / домен / порт / HTTPS
+**не нужны** — достаточно исходящего интернета. Это обычный фоновый worker.
+
+Состояние целиком в одном файле **`bot.db`** (SQLite). Единственное жёсткое
+требование к хостингу: этот файл должен переживать рестарты/редеплои.
+
+Сейчас деплоим на **Railway** (часть A). На будущее, при росте или желании
+фиксированной цены — переезд на **Hetzner VPS** (часть B), инструкция сохранена.
 
 ---
 
-## 0. Pre-flight чек-лист
+# Часть A. Railway (текущий прод)
 
-Сделай это **до** того, как пойдёшь на сервер:
+## A0. Pre-flight чек-лист
 
-- [ ] **Новый прод-бот в @BotFather**: `/newbot` → имя → username → токен.
-      Менять токен у dev-бота нельзя — long-polling от двух процессов с одним
-      токеном даст 409 Conflict.
-- [ ] **Записан токен** (`BOT_TOKEN`) и список своих admin user_id (`ADMIN_IDS`,
-      узнать у @userinfobot).
+Сделай **до** деплоя:
+
+- [ ] **Отдельный прод-бот в @BotFather**: `/newbot` → имя → username → токен.
+      Нельзя переиспользовать токен dev-бота: два long-polling процесса с одним
+      токеном дают **409 Conflict**.
+- [ ] Записан `BOT_TOKEN` и свои admin `user_id` (`ADMIN_IDS`, узнать у
+      @userinfobot).
 - [ ] **Gemini API key**: https://aistudio.google.com/apikey → `GEMINI_API_KEY`.
-- [ ] **Фидбэк-группы** (опционально, можно позже): 1–3 группы в Telegram,
-      бот добавлен админом. `chat_id` получишь через бота: ЛС → переслать
-      сообщение из группы → `/chatid`.
-- [ ] **Hetzner аккаунт** + SSH-ключ в Hetzner Cloud Console.
+- [ ] Код запушен в GitHub (`main`). Railway деплоит из репозитория.
+- [ ] Аккаунт на Railway (вход через GitHub) + подключённый платёжный метод
+      (Hobby-план — $5/мес).
+
+## A1. Создание проекта
+
+В Railway Dashboard:
+
+1. **New Project** → **Deploy from GitHub repo** → выбрать `bible_bot`,
+   ветку `main`. (Если репозитория нет в списке — «Configure GitHub App» и
+   дать Railway доступ к нему.)
+2. Railway соберёт по **Nixpacks** (Python определится по `requirements.txt`).
+   Версия Python берётся из `.python-version` (3.12). Start-команда
+   (`python main.py`) и restart-policy заданы в `railway.json` — трогать в UI
+   не нужно.
+
+> Первый билд **упадёт/закрашится** — это нормально: ещё нет переменных
+> окружения (`BOT_TOKEN`/`GEMINI_API_KEY` обязательны, без них `config.py`
+> бросает исключение). Доведём в A2–A3, потом передеплоим.
+
+## A2. Volume для базы (КРИТИЧНО — иначе потеря данных)
+
+ФС контейнера на Railway **эфемерная**: при каждом редеплое/рестарте она
+обнуляется. Без Volume `bot.db` и `migrations_applied.txt` сотрутся — это
+**потеря всех юзеров** и повторный прогон миграций.
+
+1. Открыть сервис → вкладка **Variables** (env зададим в A3) и **Settings**.
+2. В сервисе: **+ Volume** (или Settings → Volumes → New Volume).
+   - **Mount path:** `/data`
+   - Размер: дефолт (стартовать можно с 1 GB; легко увеличить позже).
+3. В Variables добавить **`BOT_DATA_DIR=/data`** — код положит `bot.db`,
+   WAL/SHM и `migrations_applied.txt` в примонтированный Volume
+   (см. `config.py` / `database.py`).
+
+Проверка после старта (см. A5): в логах путь к БД должен быть `/data/bot.db`.
+
+## A3. Переменные окружения
+
+Сервис → **Variables** → добавить (Raw editor удобнее для пачки):
+
+```
+# Обязательные
+BOT_TOKEN=<токен прод-бота>
+GEMINI_API_KEY=<ключ Gemini>
+BOT_DATA_DIR=/data
+TZ=Europe/Madrid
+
+# Админы/поддержка
+ADMIN_IDS=<твой tg id[,ещё]>
+DEFAULT_TZ=Europe/Madrid
+
+# Опционально — фидбек-группы (можно позже; пусто → фидбек в ЛС админам)
+FEEDBACK_REVIEW_CHAT_ID=
+FEEDBACK_BUG_CHAT_ID=
+FEEDBACK_IDEA_CHAT_ID=
+
+# Опционально — отчёты/аналитика (дефолты ок)
+REPORT_CHAT_ID=
+REPORT_TIME=22:00
+
+# Опционально — донаты (кнопка рендерится только если переменная непуста)
+DONATE_MONOBANK_URL=
+DONATE_MONOBANK_CARD=
+DONATE_REVOLUT_URL=
+DONATE_PAYPAL_URL=
+DONATE_CRYPTO_URL=
+DONATE_BIZUM_PHONE=
+```
+
+Полный список и значения по умолчанию — в `.env.example` и `config.py`.
+
+> **`TZ`** важна: дневной/месячный отчёты и cleanup сверяются с **локальным
+> временем контейнера** (`scheduler.py` → `datetime.now()`), а оно по умолчанию
+> UTC. Личные часовые пояса юзеров на это не влияют — они считаются отдельно.
+> Если отчёт приходит не в то время — образ контейнера без системной tzdata;
+> тогда задавай `REPORT_TIME` прямо в UTC.
+
+## A4. Деплой
+
+После A2–A3 — **Deploy** (кнопка Deploy / или пуш в `main` триггерит сам).
+Дождаться зелёного статуса.
+
+## A5. Проверка
+
+- **Logs** сервиса должны показать:
+  `База данных готова → Библии загружены → Планировщик запущен →
+  Run polling for bot @<твой_прод_бот>`.
+- В Telegram: `/start` прод-боту → должен ответить.
+- **Metrics** (RAM/CPU) — записать фактический RAM (см. «Стоимость» ниже):
+  это главный драйвер цены на Railway.
+
+## A6. Выкатка обновлений
+
+Railway деплоит автоматически на каждый пуш в `main`:
+
+```bash
+git push origin main
+```
+
+`drop_pending_updates=True` уже стоит в `main.py` — пара секунд простоя на
+редеплое не приведёт к лавине накопившихся апдейтов. Зависимости
+переустанавливаются автоматически, если менялся `requirements.txt`.
+
+## A7. Откат
+
+Railway хранит историю деплоев: сервис → **Deployments** → у нужного
+(прошлого рабочего) → **⋮ → Redeploy**. Volume с `bot.db` при этом
+сохраняется. Для отката кода в репозитории — обычный `git revert` + пуш.
+
+## A8. Бэкапы
+
+Volume переживает редеплои, но **сам по себе это не бэкап** (потеря/сбой тома =
+потеря базы). Снимай дамп наружу периодически (минимум раз в неделю):
+
+```bash
+# Установить Railway CLI один раз: npm i -g @railway/cli ; railway login
+railway link                      # выбрать проект/сервис (один раз в папке)
+
+# WAL-safe онлайн-дамп прямо на работающем сервисе и скачивание к себе:
+railway ssh "sqlite3 /data/bot.db \".backup '/data/backup.db'\""
+railway ssh "cat /data/backup.db" > "bot-$(date +%F).db"   # сохранить локально
+```
+
+(Если `railway ssh` недоступен на плане — альтернатива: периодический
+GitHub Actions с `railway run`, либо переезд на Hetzner, где бэкапы — простой
+cron + `scp`, см. часть B шаг 5.)
+
+## A9. Мониторинг
+
+| Что | Где |
+|---|---|
+| Алерты о сбоях бота | приходят в ЛС `ADMIN_IDS` автоматически |
+| Daily / monthly report | `REPORT_CHAT_ID` или ЛС админам |
+| RAM / CPU | Railway → сервис → **Metrics** |
+| Логи / ошибки | Railway → сервис → **Logs** |
+| Расход бюджета | Railway → **Usage** (следить, чтобы укладывался в $5) |
 
 ---
 
-## 1. Создание сервера
+## Стоимость на Railway ($5 Hobby) — на сколько хватит
+
+**Тариф Hobby — $5/мес, и в него уже включено $5 потребления ресурсов.**
+Railway тарифицирует по факту, посекундно:
+
+- RAM: **$10 / GB / мес**
+- vCPU: **$20 / vCPU / мес**
+- Volume: **$0.15 / GB / мес**
+- Egress: **$0.05 / GB**
+
+Для этого бота расход определяет **в основном RAM** (постоянный), а не число
+юзеров. Замеренный футпринт: библейские данные (все 16 переводов грузятся в
+память при старте) — **~120 MB**; вместе с aiogram/SQLAlchemy/google-genai и
+рантаймом ожидаемо **~250–350 MB** на Linux.
+
+Прикидка месячного счёта при ~300 MB RAM:
+
+| Ресурс | Расход | $/мес |
+|---|---|---|
+| RAM | ~0.30 GB | ~$3.0 |
+| vCPU | long-poll почти простаивает, ~0.01–0.03 vCPU | ~$0.2–0.6 |
+| Volume | ~1 GB | ~$0.15 |
+| Egress | текстовые сообщения, ~единицы GB | <$0.30 |
+| **Итого** | | **≈ $3.5–4.5 → влезает в $5** ✅ |
+
+**На сколько хватит / рост.** Стоимость почти не зависит от числа юзеров:
+у текстового бота предельная цена на юзера микроскопическая — килобайты egress
+и миллисекунды CPU на сообщение, пара КБ в SQLite на юзера. Поэтому **$5 хватит
+практически на любой реалистичный рост — десятки тысяч активных юзеров** — пока
+не растёт постоянный RAM. AI-пастырь Railway не нагружает (Gemini — внешний).
+
+**Что может выбить из $5:**
+- RAM уползёт к ~480 MB+ → одна память уже $4.8/мес, плюс CPU/egress = перерасход
+  (доплата сверху, не отключение). После деплоя **сверь реальный RAM в Metrics**.
+- Добавишь тяжёлую фичу (генерация картинок, большие кэши) или второй сервис
+  (например, отдельный Postgres).
+
+**Когда переезжать на Hetzner:** если перерасход на Railway стабильно превышает
+~€4.5/мес, либо нужна предсказуемая фиксированная цена / больше RAM / несколько
+сервисов. CX22 — €4.50/мес за 4 GB / 2 vCPU без метеринга (часть B).
+
+---
+
+# Часть B. Hetzner VPS (альтернатива / на будущее)
+
+Прод-сетап: Hetzner Cloud VPS + Ubuntu 24.04 + systemd. Те же требования
+(long-polling, исходящий интернет). Здесь `bot.db` лежит прямо в папке проекта
+(`BOT_DATA_DIR` не нужен — дефолт «рядом с кодом» подходит).
+
+## B0. Pre-flight
+
+Как A0, плюс: **Hetzner аккаунт** + SSH-ключ в Hetzner Cloud Console.
+
+## B1. Создание сервера
 
 В Hetzner Cloud Console:
 
-- **Project** → New project (например, `bible-bot`).
+- **Project** → New project (`bible-bot`).
 - **Add Server**:
   - Location: ближайший (Falkenstein/Nuremberg/Helsinki).
   - Image: **Ubuntu 24.04**.
-  - Type: **CX22** (€4.50/мес, 2 vCPU / 4 GB RAM) — с запасом. CX11 уже снят.
+  - Type: **CX22** (€4.50/мес, 2 vCPU / 4 GB RAM) — с запасом. CX11 снят.
   - Networking: IPv4 + IPv6.
   - SSH keys: выбрать свой.
   - Name: `bible-bot-prod`.
 - Создать → запомнить **IPv4**.
 
----
-
-## 2. Первичная настройка сервера
-
-С локальной машины:
+## B2. Первичная настройка сервера
 
 ```bash
 ssh root@<IP>
@@ -50,21 +238,15 @@ ssh root@<IP>
 На сервере (под root):
 
 ```bash
-# Обновляем систему
 apt update && apt upgrade -y
-
-# Базовые пакеты
 apt install -y python3.12 python3.12-venv python3-pip git sqlite3 ufw
 
-# Файервол: только SSH наружу открыт
+# Файервол: наружу открыт только SSH
 ufw allow OpenSSH
 ufw enable
-ufw status
 
 # Юзер для бота (без sudo)
 useradd -m -s /bin/bash bible
-
-# Перекинуть свой SSH-ключ юзеру bible, чтобы заходить напрямую
 mkdir -p /home/bible/.ssh
 cp /root/.ssh/authorized_keys /home/bible/.ssh/
 chown -R bible:bible /home/bible/.ssh
@@ -72,48 +254,36 @@ chmod 700 /home/bible/.ssh
 chmod 600 /home/bible/.ssh/authorized_keys
 ```
 
-Выходим и заходим уже юзером `bible`:
+Заходим уже юзером `bible`:
 
 ```bash
 exit
 ssh bible@<IP>
 ```
 
----
+## B3. Клонирование и установка
 
-## 3. Клонирование и установка
-
-Под юзером `bible`:
+Под `bible`:
 
 ```bash
 cd ~
 git clone https://github.com/VladyslavKhodziuk/bible_bot.git
 cd bible_bot
 
-# Виртуальное окружение
 python3.12 -m venv venv
 ./venv/bin/pip install --upgrade pip
 ./venv/bin/pip install -r requirements.txt
 
-# Создаём .env из шаблона
 cp .env.example .env
 nano .env   # заполнить BOT_TOKEN, GEMINI_API_KEY, ADMIN_IDS, остальное по вкусу
-chmod 600 .env   # никто кроме bible не должен читать
+chmod 600 .env
 ```
 
-Быстрый тест запуска (Ctrl+C через 5 сек):
+Быстрый тест (Ctrl+C через 5 сек): `./venv/bin/python main.py` — должно вывести
+`База данных готова → Библии загружены → Планировщик запущен → Run polling…`.
+`bot.db` создастся сам.
 
-```bash
-./venv/bin/python main.py
-```
-
-Должно вывести `База данных готова → Библии загружены → Планировщик запущен → Run polling for bot @<your_prod_bot>`. Базы (`bot.db`) создастся сама.
-
----
-
-## 4. systemd-сервис
-
-Под `bible`:
+## B4. systemd-сервис
 
 ```bash
 sudo cp ~/bible_bot/deploy/bible-bot.service /etc/systemd/system/bible-bot.service
@@ -122,168 +292,69 @@ sudo systemctl enable --now bible-bot
 sudo systemctl status bible-bot
 ```
 
-(Установить sudo для `bible` отдельно или делать `sudo` под root'ом — на твой
-выбор. Минимально: разреши `bible` только `systemctl start/stop/restart/status
-bible-bot` через `/etc/sudoers.d/bible-bot`.)
+Логи: `journalctl -u bible-bot -f` (live), `-p err` (ошибки),
+`--since "1 hour ago"`.
 
-Логи:
-
-```bash
-journalctl -u bible-bot -f          # live tail
-journalctl -u bible-bot --since "1 hour ago"
-journalctl -u bible-bot -p err      # только ошибки
-```
-
-Проверка в Telegram: пиши `/start` своему прод-боту → должен ответить.
-
----
-
-## 5. Бэкапы
-
-Под `bible`:
+## B5. Бэкапы
 
 ```bash
 mkdir -p ~/backups
 chmod +x ~/bible_bot/deploy/backup.sh
-# Прогон вручную для проверки
-~/bible_bot/deploy/backup.sh
-ls -lh ~/backups/
+~/bible_bot/deploy/backup.sh && ls -lh ~/backups/
 
-# Ставим в cron: каждый день в 03:00
+# Cron: каждый день в 03:00
 ( crontab -l 2>/dev/null; echo "0 3 * * * /home/bible/bible_bot/deploy/backup.sh >> /home/bible/backups/backup.log 2>&1" ) | crontab -
-crontab -l
 ```
 
-**Дополнительно (рекомендую):** копировать бэкапы наружу — иначе при потере
-сервера потеряешь и базу. Варианты: Hetzner Storage Box, rclone в любой S3,
-scp на свою машину. Минимум — раз в неделю.
+Рекомендую копировать бэкапы наружу (Storage Box / rclone в S3 / scp на свою
+машину) — минимум раз в неделю.
 
----
-
-## 6. Выкатка обновлений
-
-С локальной машины:
+## B6. Обновления / откат
 
 ```bash
-git push origin main
-```
-
-На сервере под `bible`:
-
-```bash
-cd ~/bible_bot
-git pull origin main
-# Если в этом релизе менялись зависимости:
-./venv/bin/pip install -r requirements.txt
+# Обновление
+cd ~/bible_bot && git pull origin main
+./venv/bin/pip install -r requirements.txt   # если менялись зависимости
 sudo systemctl restart bible-bot
-journalctl -u bible-bot -n 50
-```
 
-`drop_pending_updates=True` уже стоит в `main.py` — пара секунд простоя на
-рестарте не приведут к «лавине» накопившихся апдейтов.
+# Откат кода
+git reset --hard <HASH> && sudo systemctl restart bible-bot
 
-### Когда нужен `pip install`
-
-Только если изменились версии в `requirements.txt`. Можно проверить заранее:
-
-```bash
-git diff HEAD@{1} HEAD -- requirements.txt
-```
-
----
-
-## 7. Откат
-
-Если новый релиз сломал прод:
-
-```bash
-cd ~/bible_bot
-git log --oneline -10            # найти хэш предыдущего рабочего коммита
-git reset --hard <HASH>          # откатить локально (на сервере)
-./venv/bin/pip install -r requirements.txt   # если меняли deps
-sudo systemctl restart bible-bot
-```
-
-Если сломалась БД — восстановить из бэкапа:
-
-```bash
+# Откат БД из бэкапа
 sudo systemctl stop bible-bot
 gunzip -c ~/backups/bot-2026-06-22_0300.db.gz > ~/bible_bot/bot.db
-# Удалить WAL/SHM от старого процесса (если есть)
 rm -f ~/bible_bot/bot.db-wal ~/bible_bot/bot.db-shm
 sudo systemctl start bible-bot
 ```
 
----
-
-## 8. Обновление зависимостей
-
-Когда хочешь обновить версию пакета:
+## B7. Полезные команды
 
 ```bash
-# Локально, в dev-окружении:
-.\venv\Scripts\Activate.ps1            # Windows; на Linux: source venv/bin/activate
-pip install -U aiogram                 # пример: обновляем aiogram
-pip freeze > /tmp/freeze.txt
-# Обновить прямую версию в requirements.txt вручную, потом пересобрать lock-секцию
-# по /tmp/freeze.txt. Запустить бота, прогнать сценарии.
-git commit + git push
-# На сервере — обычный pull + pip install + restart (шаг 6).
-```
-
----
-
-## 9. Поддержка — что мониторить
-
-| Что | Где | Действие |
-|---|---|---|
-| Алерты о сбоях | ЛС у `ADMIN_IDS` | приходят автоматически |
-| Daily report | `REPORT_CHAT_ID` или ЛС | в `REPORT_TIME` каждый день |
-| Monthly report | то же | `MONTHLY_REPORT_DAY` |
-| Резкое падение трафика | daily report | проверить `journalctl -u bible-bot -p err` |
-| Размер `bot.db` | `du -h ~/bible_bot/bot.db` | SQLite спокойно держит сотни тыс. юзеров |
-| Свободное место | `df -h /` | алерт сработает при ≥90% |
-| Бэкапы | `ls -lh ~/backups/` | свежий за сегодня должен быть |
-
----
-
-## 10. Полезные команды
-
-```bash
-# Статус и управление
-sudo systemctl status bible-bot
-sudo systemctl restart bible-bot
-sudo systemctl stop bible-bot
-
-# Логи
+sudo systemctl status|restart|stop bible-bot
 journalctl -u bible-bot -f
-journalctl -u bible-bot --since today
-journalctl -u bible-bot -p warning..err
-
-# Быстрый SQL-просмотр
 sqlite3 ~/bible_bot/bot.db "SELECT COUNT(*) FROM users;"
-sqlite3 ~/bible_bot/bot.db "SELECT date_hour, total_events FROM activity_hourly ORDER BY id DESC LIMIT 24;"
-
-# Использование ресурсов
-htop
-free -h
-df -h
+du -h ~/bible_bot/bot.db ; df -h / ; free -h
 ```
 
 ---
 
 ## FAQ
 
-**Я случайно запустил dev-бота и прод одновременно — что будет?**
-У них разные токены — ничего страшного, оба работают независимо. Один токен
-запускать дважды нельзя (409 Conflict).
+**Запустил dev-бота и прод одновременно — что будет?**
+У них разные токены — оба работают независимо. Один токен дважды запускать
+нельзя (409 Conflict).
 
-**Можно ли мигрировать `bot.db` с dev на prod?**
-Технически да (`scp`), но не рекомендую: dev-БД содержит твоих тестовых
-юзеров, фейковую статистику и тестовые подписки на уведомления. Чище
-стартовать прод с пустой базой — `init_db()` создаст схему сама.
+**Можно мигрировать `bot.db` с dev на prod?**
+Технически да, но не рекомендую: dev-база содержит тестовых юзеров и фейковую
+статистику. Чище стартовать прод с пустой базой — `init_db()` создаст схему сам.
 
-**Что делать со сломанной миграцией?**
-Миграции в `database.py::run_migrations()` идемпотентны и записывают ключ в
-`migrations_applied.txt`. Если новая миграция упала на проде: исправить блок,
-запушить, на сервере удалить её ключ из `migrations_applied.txt`, рестарт.
+**Сломалась миграция?**
+Миграции в `database.py::run_migrations()` идемпотентны, ключ пишется в
+`migrations_applied.txt` (на Railway — в `/data`, на Hetzner — рядом с `bot.db`).
+Если новая миграция упала: исправить блок, задеплоить, удалить её ключ из
+`migrations_applied.txt`, рестарт.
+
+**Перенос Railway → Hetzner.**
+Останови приём на Railway (можно не останавливать — 409 разрулится), скачай
+`bot.db` (A8), положи в `~/bible_bot/bot.db` на Hetzner, убери WAL/SHM, запусти
+systemd-сервис. `BOT_DATA_DIR` на Hetzner не задавай (дефолт «рядом с кодом»).

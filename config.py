@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -7,7 +8,14 @@ BOT_TOKEN: str = os.getenv("BOT_TOKEN", "")
 if not BOT_TOKEN:
     raise ValueError("BOT_TOKEN не задан в .env")
 
-DATABASE_URL = "sqlite+aiosqlite:///bot.db"
+# Каталог изменяемых данных: bot.db (+ WAL/SHM) и migrations_applied.txt.
+# По умолчанию — рабочая папка (локально/Hetzner: bot.db рядом с кодом).
+# На Railway и в любом контейнере с эфемерной ФС укажи примонтированный Volume
+# через BOT_DATA_DIR (напр. /data), иначе БД и sentinel миграций сотрутся при
+# каждом редеплое (= потеря всех юзеров + повторный прогон миграций).
+DATA_DIR = Path(os.getenv("BOT_DATA_DIR", ".")).resolve()
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+DATABASE_URL = f"sqlite+aiosqlite:///{(DATA_DIR / 'bot.db').as_posix()}"
 
 DEFAULT_LANG = "uk"
 SUPPORTED_LANGS = ["ru", "en", "es", "uk"]

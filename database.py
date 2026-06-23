@@ -1,11 +1,10 @@
 import logging
-from pathlib import Path
 
 from sqlalchemy import event, text
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 
-from config import DATABASE_URL
+from config import DATABASE_URL, DATA_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -44,9 +43,10 @@ async def init_db():
         await conn.run_sync(Base.metadata.create_all)
 
 
-# Sentinel-файл рядом с bot.db. Каждая запись — выполненная миграция (одна на строку).
-# Так миграции идемпотентны: при следующем старте уже выполненные пропускаются.
-_MIGRATIONS_SENTINEL = Path("migrations_applied.txt")
+# Sentinel-файл рядом с bot.db (в DATA_DIR — на Railway это Volume, иначе CWD).
+# Каждая запись — выполненная миграция (одна на строку). Так миграции
+# идемпотентны: при следующем старте уже выполненные пропускаются.
+_MIGRATIONS_SENTINEL = DATA_DIR / "migrations_applied.txt"
 
 
 def _applied_migrations() -> set[str]:
