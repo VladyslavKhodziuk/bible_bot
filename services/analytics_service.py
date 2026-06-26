@@ -36,7 +36,7 @@ INBOUND_KINDS = {"message", "callback", "throttled"}
 
 # Префикс callback-data → понятная категория действия.
 _CALLBACK_CATEGORY = {
-    "read": "reading", "verse_of_day": "reading", "random": "reading",
+    "read": "reading", "verse_of_day": "reading", "verse": "reading", "random": "reading",
     "search": "search",
     "ai_pastor": "ai",
     "plan": "plan",

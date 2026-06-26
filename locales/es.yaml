@@ -339,6 +339,10 @@ verse:
   open_chapter: "📖 Abrir capítulo"
   share: "📤 Compartir"
   share_footer: "📖 Bible Way — lee la Palabra cada día"
+  read_btn: "✅ Lo leí"
+  read_toast: "Contado ✓"
+  counter:
+    activity_cta: "<i>👇 Lee el versículo y pulsa «Lo leí» — así se cuenta tu día con la Palabra.</i>"
 
 topics:
   title: "<b>💭 ¿Cómo te sientes ahora?</b>\n\nElige, y te buscaré palabras de la Escritura:"

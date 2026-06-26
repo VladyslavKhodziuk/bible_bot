@@ -4,6 +4,7 @@ import urllib.parse
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.exceptions import TelegramBadRequest
 
 from services.user_service import UserService
 from services.bible_service import BibleService
@@ -294,6 +295,75 @@ async def show_wisdom_of_day(callback: CallbackQuery):
     await callback.answer()
 
     await _send_counter_extras(callback.message, callback.from_user.id, counter_result, lang)
+
+
+def _build_push_text_after_read(verse: dict, lang: str, count: int) -> str:
+    """Текст пуша после тапа «Прочитал»: обновлённый счётчик, без CTA-подсказки."""
+    book_name = BibleService.get_book_name(verse["abbrev"], lang)
+    reference = t(
+        "verse.reference",
+        lang,
+        book=book_name,
+        chapter=verse["chapter"],
+        verse=verse["verse"],
+    )
+    parts = []
+    counter_line = format_counter_indicator(count, lang)
+    if counter_line:
+        parts.append(counter_line)
+        parts.append("")
+    parts.append(t("verse.daily_push_intro", lang))
+    parts.append(reference)
+    parts.append("")
+    parts.append(f"<i>{verse['text']}</i>")
+    return "\n".join(parts)
+
+
+def _push_keyboard_after_read(verse: dict, lang: str) -> InlineKeyboardMarkup:
+    """Клавиатура пуша после тапа «Прочитал» — без кнопки «Прочитал»."""
+    builder = InlineKeyboardBuilder()
+    builder.button(
+        text=t("verse.open_chapter", lang),
+        callback_data=f"read:ch:{verse['abbrev']}:{verse['chapter']}",
+    )
+    builder.button(
+        text=t("common.back_to_menu", lang),
+        callback_data="open_menu",
+    )
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+@router.callback_query(F.data == "verse:read")
+async def mark_verse_read(callback: CallbackQuery):
+    """«Прочитал» под пушем стиха дня — засчитывает день со Словом."""
+    user = await UserService.get(callback.from_user.id)
+    if not user:
+        await callback.answer()
+        return
+
+    counter_result = await CounterService.touch(callback.from_user.id)
+
+    # Стих дня детерминирован для даты+перевода — пересобираем тот же стих,
+    # чтобы перерисовать пуш с обновлённым счётчиком и без кнопки «Прочитал».
+    verse = BibleService.get_verse_of_day(user.translation)
+    if verse:
+        try:
+            await callback.message.edit_text(
+                _build_push_text_after_read(verse, user.lang, counter_result.count),
+                reply_markup=_push_keyboard_after_read(verse, user.lang),
+                parse_mode="HTML",
+            )
+        except TelegramBadRequest as e:
+            # «message is not modified» — юзер тапнул повторно (same_day),
+            # содержимое идентично. Не ошибка.
+            if "message is not modified" not in str(e):
+                raise
+
+    await callback.answer(t("verse.read_toast", user.lang))
+
+    # Онбординг / веха / день роста — отдельным сообщением.
+    await _send_counter_extras(callback.message, callback.from_user.id, counter_result, user.lang)
 
 
 @router.callback_query(F.data == "counter:onboarding_done")

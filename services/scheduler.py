@@ -9,7 +9,7 @@ from aiogram import Bot
 from aiogram.exceptions import TelegramNetworkError, TelegramServerError, TelegramRetryAfter
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from sqlalchemy import select
+from sqlalchemy import select, or_
 
 from database import async_session
 from models import User, PlanProgress
@@ -19,7 +19,6 @@ from services.prayer_service import PrayerService
 from services.counter_service import CounterService
 from services.counter_display import (
     format_counter_indicator,
-    build_counter_extra,
 )
 from services.analytics_service import AnalyticsService
 from services.alert_service import AlertService
@@ -54,13 +53,20 @@ async def _alert_if_infra(exc: Exception, context: str) -> None:
 # ============ Отправка стиха дня ============
 
 async def _send_verse_to_user(bot: Bot, user: User) -> None:
-    """Отправить стих дня одному юзеру. Также засчитывает день со Словом."""
+    """Отправить стих дня одному юзеру.
+
+    День со Словом НЕ засчитывается на отправке — это сделает явный тап
+    кнопки «Прочитал» (callback verse:read в handlers/verse.py), иначе пуш
+    инкрементил бы счётчик даже когда юзер сообщение не открывал.
+    """
     verse = BibleService.get_verse_of_day(user.translation)
     if not verse:
         return
 
-    # Засчитываем день со Словом
-    counter_result = await CounterService.touch(user.tg_id)
+    # Текущее значение счётчика — без инкремента, только для отображения.
+    # Чтобы юзер видел, частью какой серии станет этот стих, если он его засчитает.
+    stats = await CounterService.get_stats(user.tg_id)
+    current_count = stats["count"] if stats else 0
 
     book_name = BibleService.get_book_name(verse["abbrev"], user.lang)
     reference = t(
@@ -71,8 +77,7 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
         verse=verse["verse"],
     )
 
-    # === Основное сообщение со стихом ===
-    counter_line = format_counter_indicator(counter_result.count, user.lang)
+    counter_line = format_counter_indicator(current_count, user.lang)
 
     parts = []
     if counter_line:
@@ -82,9 +87,15 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
     parts.append(reference)
     parts.append("")
     parts.append(f"<i>{verse['text']}</i>")
+    parts.append("")
+    parts.append(t("verse.counter.activity_cta", user.lang))
     text = "\n".join(parts)
 
     builder = InlineKeyboardBuilder()
+    builder.button(
+        text=t("verse.read_btn", user.lang),
+        callback_data="verse:read",
+    )
     builder.button(
         text=t("verse.open_chapter", user.lang),
         callback_data=f"read:ch:{verse['abbrev']}:{verse['chapter']}"
@@ -108,25 +119,6 @@ async def _send_verse_to_user(bot: Bot, user: User) -> None:
         logger.warning(f"Не удалось отправить стих дня юзеру {user.tg_id}: {e}")
         AnalyticsService.record(user.tg_id, "notif_verse", "error")
         await _alert_if_infra(e, "рассылка стиха дня")
-
-    # === Доп. сообщение (онбординг / веха / день роста) ===
-    # Та же логика, что в интерактиве (handlers.verse._send_counter_extras) —
-    # через общий билдер, чтобы ветки не расходились. Онбординг здесь тоже
-    # показывается (если ещё не показывали) и гасится mark_explained.
-    extra = build_counter_extra(counter_result, user.lang)
-    if extra:
-        text, keyboard, is_onboarding = extra
-        try:
-            await bot.send_message(
-                chat_id=user.tg_id,
-                text=text,
-                reply_markup=keyboard,
-                parse_mode="HTML",
-            )
-            if is_onboarding:
-                await CounterService.mark_explained(user.tg_id)
-        except Exception as e:
-            logger.warning(f"Не удалось отправить доп. сообщение счётчика юзеру {user.tg_id}: {e}")
 
 
 # ============ Отправка молитвы дня ============
@@ -358,6 +350,10 @@ async def send_daily_verses(bot: Bot):
         )).scalars().all()
         for tz in tzs:
             local_time = local_hhmm(tz)
+            today_local = local_today(tz)
+            # Идемпотентность: если день плана уже отмечен пройденным сегодня
+            # (в локальной TZ юзера) — пуш не шлём. Иначе после утреннего
+            # прохождения дня вечером прилетал бы пуш на следующий день.
             rows = (await session.execute(
                 select(PlanProgress, User)
                 .join(User, User.tg_id == PlanProgress.user_id)
@@ -366,6 +362,10 @@ async def send_daily_verses(bot: Bot):
                     PlanProgress.notification_enabled == True,
                     PlanProgress.notification_time == local_time,
                     User.timezone == tz,
+                    or_(
+                        PlanProgress.last_completion_date.is_(None),
+                        PlanProgress.last_completion_date != today_local,
+                    ),
                 )
             )).all()
             plan_rows.extend(rows)
@@ -386,11 +386,18 @@ async def send_daily_verses(bot: Bot):
         )).scalars().all()
         for tz in tzs:
             local_time = local_hhmm(tz)
+            today_local = local_today(tz)
+            # Идемпотентность: если «Аминь» уже нажат сегодня (в локальной TZ
+            # юзера) — пуш молитвы не шлём. Зеркало проверки в handlers.pray.
             rows = (await session.execute(
                 select(User).where(
                     User.prayer_notifications_enabled == True,
                     User.timezone == tz,
                     User.prayer_notification_time == local_time,
+                    or_(
+                        User.last_prayer_date.is_(None),
+                        User.last_prayer_date != today_local,
+                    ),
                 )
             )).scalars().all()
             prayer_users.extend(rows)

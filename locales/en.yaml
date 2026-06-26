@@ -336,6 +336,10 @@ verse:
   open_chapter: "📖 Open chapter"
   share: "📤 Share"
   share_footer: "📖 Bible Way — read the Word every day"
+  read_btn: "✅ I read it"
+  read_toast: "Counted ✓"
+  counter:
+    activity_cta: "<i>👇 Read the verse and tap «I read it» — that's how your day with the Word is counted.</i>"
 
 topics:
   title: "<b>💭 How do you feel right now?</b>\n\nChoose, and I'll find words from Scripture for you:"
