@@ -1,4 +1,6 @@
+import json
 import logging
+from datetime import datetime, timezone
 
 from sqlalchemy import event, text
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
@@ -77,3 +79,97 @@ async def run_migrations():
             ))
         _mark_migration(key)
         logger.info("Миграция '%s' применена: дефолты уведомлений выставлены всем существующим юзерам/планам", key)
+
+
+# ── Persistence sentinel ────────────────────────────────────
+# Защита от тихой потери БД: после инцидента 2026-06-26 (на Railway отвалился
+# Volume, бот стартовал с пустой bot.db и никто этого не заметил) — храним
+# рядом с БД sentinel-файл с последним известным числом юзеров. На каждом
+# старте сравниваем: если было N>0 юзеров, а стало 0 — кричим алертом.
+_PERSISTENCE_SENTINEL = DATA_DIR / "persistence_sentinel.json"
+
+
+def _read_persistence_sentinel() -> dict | None:
+    """Читает sentinel с прошлого старта. None — если файла нет или он битый."""
+    if not _PERSISTENCE_SENTINEL.exists():
+        return None
+    try:
+        return json.loads(_PERSISTENCE_SENTINEL.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as e:
+        logger.warning("persistence_sentinel.json повреждён, игнорируем: %s", e)
+        return None
+
+
+def _write_persistence_sentinel(user_count: int, boot_count: int) -> None:
+    payload = {
+        "last_user_count": user_count,
+        "last_boot_at": datetime.now(timezone.utc).isoformat(),
+        "boot_count": boot_count,
+    }
+    _PERSISTENCE_SENTINEL.write_text(
+        json.dumps(payload, indent=2), encoding="utf-8"
+    )
+
+
+async def verify_persistence() -> None:
+    """Сверка состояния БД с прошлым стартом. Алерт админам, если данные пропали.
+
+    Идея: персистентность определяется тем, что sentinel-файл (на том же
+    Volume, что bot.db) пережил рестарт. Если файл показывает «было N юзеров,
+    стало 0» — почти наверняка Volume отвалился / не примонтирован, и бот
+    стартует с эфемерной ФС. Это уже произошло один раз (2026-06-26).
+
+    Гард в config.py (BOT_DATA_DIR обязателен на Railway) ловит самый частый
+    случай — пустую env var. Этот sentinel ловит остальное: detach Volume,
+    смену mount path, пересоздание Volume.
+
+    Вызывается из main.py после AlertService.init(bot) — чтобы alert умел
+    отправиться. Никогда не бросает: ошибка проверки не должна валить старт.
+    """
+    # Локальный импорт — иначе циклический (alert_service → config → database
+    # на уровне модулей у нас нет, но конвенция как в scheduler.py).
+    from services.alert_service import AlertService
+
+    try:
+        async with async_session() as session:
+            row = await session.execute(text("SELECT COUNT(*) FROM users"))
+            current_users = int(row.scalar() or 0)
+    except Exception as e:
+        logger.warning("verify_persistence: не смог посчитать users: %s", e)
+        return
+
+    prior = _read_persistence_sentinel()
+    boot_count = (prior.get("boot_count", 0) if prior else 0) + 1
+
+    if prior and prior.get("last_user_count", 0) > 0 and current_users == 0:
+        # КРИТИЧНО: были юзеры, стали 0 — потеря персистентности.
+        last_n = prior.get("last_user_count")
+        last_at = prior.get("last_boot_at", "?")
+        logger.critical(
+            "DB persistence lost: было %s юзеров (sentinel от %s), сейчас 0. "
+            "DATA_DIR=%s. Volume не примонтирован?",
+            last_n, last_at, DATA_DIR,
+        )
+        await AlertService.alert_error(
+            key="db_persistence_lost",
+            title="БД пуста после рестарта — Volume отвалился?",
+            detail=(
+                f"Было {last_n} юзеров (sentinel от {last_at}), сейчас 0. "
+                f"DATA_DIR={DATA_DIR}. НЕ пушь обновления — потеряешь и "
+                f"свежую БД. Проверь Railway → Settings → Volumes."
+            ),
+        )
+        # Sentinel НЕ перезаписываем — оставляем старый, чтобы повторный
+        # рестарт с тем же симптомом не «забил» исходные значения нулями
+        # и алерт можно было повторить (с учётом cooldown в AlertService).
+        return
+
+    # Обычный путь: всё ок, либо первый старт ever, либо легитимный 0→0.
+    try:
+        _write_persistence_sentinel(current_users, boot_count)
+    except OSError as e:
+        logger.warning("verify_persistence: не смог записать sentinel: %s", e)
+    logger.info(
+        "Persistence OK: users=%d, boot=%d, DATA_DIR=%s",
+        current_users, boot_count, DATA_DIR,
+    )

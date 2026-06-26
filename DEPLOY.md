@@ -54,10 +54,20 @@
    - **Mount path:** `/data`
    - Размер: дефолт (стартовать можно с 1 GB; легко увеличить позже).
 3. В Variables добавить **`BOT_DATA_DIR=/data`** — код положит `bot.db`,
-   WAL/SHM и `migrations_applied.txt` в примонтированный Volume
-   (см. `config.py` / `database.py`).
+   WAL/SHM, `migrations_applied.txt` и `persistence_sentinel.json` в
+   примонтированный Volume (см. `config.py` / `database.py`).
 
-Проверка после старта (см. A5): в логах путь к БД должен быть `/data/bot.db`.
+> ⚠️ **С 2026-06-26 (после инцидента) бот отказывается стартовать на Railway
+> без `BOT_DATA_DIR`** — `config.py` бросает `ValueError`. Проверка идёт по
+> авто-переменной `RAILWAY_ENVIRONMENT` (её Railway выставляет сам). Локально
+> и на Hetzner поведение прежнее.
+>
+> Дополнительно при каждом старте `database.verify_persistence()` сверяется
+> с `persistence_sentinel.json` (последнее число юзеров). Если было N>0,
+> стало 0 — в админ-чат прилетает 🚨 алерт «БД пуста после рестарта — Volume
+> отвалился?». Не игнорируй: **не пушь обновления, пока не починишь Volume**.
+
+Проверка после старта (см. A5): в логах первой строкой `DATA_DIR=/data`.
 
 ## A3. Переменные окружения
 
@@ -125,6 +135,36 @@ git push origin main
 `drop_pending_updates=True` уже стоит в `main.py` — пара секунд простоя на
 редеплое не приведёт к лавине накопившихся апдейтов. Зависимости
 переустанавливаются автоматически, если менялся `requirements.txt`.
+
+## A6.5. Что делать, если бот стартовал с пустой БД
+
+Симптом: в админ-чат прилетел алерт «БД пуста после рестарта — Volume
+отвалился?», или ты сам заметил, что `/start` ведёт себя как для нового
+юзера. **Сначала диагностика, потом восстановление. Ничего не пушь в `main`
+до починки** — иначе сотрётся и текущая (пусть пустая) БД.
+
+**1. Где сейчас лежит БД** — Railway → сервис → **⋮ → Open Shell**:
+
+```bash
+echo "BOT_DATA_DIR=$BOT_DATA_DIR  RAILWAY_ENVIRONMENT=$RAILWAY_ENVIRONMENT"
+ls -la /data 2>/dev/null && echo "/data ok" || echo "/data НЕТ"
+find / -name "bot.db" -type f 2>/dev/null
+cat /data/persistence_sentinel.json 2>/dev/null
+```
+
+**2. Settings → Volumes** — есть ли Volume и куда смонтирован? Есть ли
+**отвязанные** Volumes (Railway хранит их отдельно после удаления сервиса)?
+
+**3. Восстановление:**
+- Если нашёлся отвязанный Volume со старой `bot.db` → Attach to `bible_bot`,
+  Mount path `/data`, выставить `BOT_DATA_DIR=/data` в Variables.
+- Если ничего нет → A2 заново (новый Volume + env var). Старые юзеры утеряны
+  безвозвратно. Сразу после первого старта на проде проверь, что `/data/bot.db`
+  и `/data/persistence_sentinel.json` появились — следующий редеплой уже будет
+  безопасным.
+
+**4. Бэкап.** Если есть локальный `bot-YYYY-MM-DD.db` (A8) — `railway ssh`
+залить обратно в `/data/bot.db`, рестартнуть сервис.
 
 ## A7. Откат
 

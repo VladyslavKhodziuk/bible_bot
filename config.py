@@ -13,7 +13,16 @@ if not BOT_TOKEN:
 # На Railway и в любом контейнере с эфемерной ФС укажи примонтированный Volume
 # через BOT_DATA_DIR (напр. /data), иначе БД и sentinel миграций сотрутся при
 # каждом редеплое (= потеря всех юзеров + повторный прогон миграций).
-DATA_DIR = Path(os.getenv("BOT_DATA_DIR", ".")).resolve()
+_DATA_DIR_RAW = os.getenv("BOT_DATA_DIR", "")
+# Hard-fail на Railway без BOT_DATA_DIR: RAILWAY_ENVIRONMENT выставляется
+# платформой автоматически. Лучше отказаться стартовать, чем тихо потерять
+# юзеров (был инцидент 2026-06-26). См. DEPLOY.md, разделы A2-A3.
+if os.getenv("RAILWAY_ENVIRONMENT") and not _DATA_DIR_RAW:
+    raise ValueError(
+        "BOT_DATA_DIR не задан на Railway. Создай Volume с mount path /data "
+        "и выставь BOT_DATA_DIR=/data в Variables. См. DEPLOY.md разделы A2-A3."
+    )
+DATA_DIR = Path(_DATA_DIR_RAW or ".").resolve()
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 DATABASE_URL = f"sqlite+aiosqlite:///{(DATA_DIR / 'bot.db').as_posix()}"
 
